@@ -61,12 +61,12 @@ public:
     Animation(Texture const* const t, const Vector& frameDims) :
         texture_ {t}, frameDimensions_(frameDims) {}
 
-    void add(char const* name,
+    void add(const std::string& name,
              const std::vector<unsigned int>& frames,
              unsigned int frameTime);
-    void remove(std::string name);
+    void remove(const std::string& name);
 
-    void play(std::string name, bool loop = true, void (*callback)() = NULL);
+    void play(const std::string& name, bool loop = true, void (*callback)() = nullptr);
     void update();
     void draw(IRender* const, Vector const& pos);
 
@@ -104,7 +104,7 @@ private:
     Timer animTimer_;
     bool loop_ {false};
     Vector frameDimensions_ {0,0};
-    std::function<void()> callback_;
+    std::function<void()> callback_ = []{};
     Rect clip_ {0,0,0,0};
     std::vector<AnimationInfo>  animations_;
 };

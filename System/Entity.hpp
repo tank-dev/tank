@@ -99,7 +99,7 @@ protected:
     int                _layer;     //0
     Vector             _pos;
     Rect               _hitBox;    //(_pos.x,_pos.y,0,0)
-    Texture     const* _texture;   //NULL
+    Texture     const* _texture;   //nullptr
     std::string        _type;      //""
     bool               _solid;     //false
     bool               _visible;   //true

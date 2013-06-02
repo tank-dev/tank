@@ -3,8 +3,7 @@
 #include <algorithm>
 
 //{{{void Animation::add( char const* name,
-void Animation::add(std::string name,
-                    std::vector<unsigned int> const& frames,
+void Animation::add(const std::string& name, std::vector<unsigned int> const& frames,
                     unsigned int time)
 {
     //Push back a POD-initialized AnimationInfo(name, numframes, time)
@@ -13,7 +12,7 @@ void Animation::add(std::string name,
 //}}}
 
 //{{{void Animation::remove(char const* name)
-void Animation::remove(std::string name)
+void Animation::remove(const std::string& name)
 {
     // Find the animation by name
     auto iter = std::find_if_not(animations_.begin(), animations_.end(),
@@ -31,26 +30,20 @@ void Animation::remove(std::string name)
 //}}}
 
 //{{{void Animation::play( char const* name, bool loop, void (*callback)() )
-void Animation::play(std::string name, bool loop, void (*callback)())
+void Animation::play(const std::string& name, bool loop, void (*callback)())
 {
     //Check that the requested animation is not already playing
-    if(!currentAnimation_ || currentAnimation_->name == name != 0)
+    if(!currentAnimation_ || currentAnimation_->name != name)
     {
-        //Find the requested animation
-        for(auto iter = animations_.begin(); iter != animations_.end(); ++iter)
+        for(auto animation : animations_)
         {
-            if((iter->name == name) == 0)
+            if (animation.name == name)
             {
-                //Select the animation
-                currentAnimation_ = &(*iter);
+                currentAnimation_ = animation;
                 animTimer_.start();
-
                 currentFrame_ = 0;
-                //Save play settings
                 loop_ = loop;
-                callback_ = callback;
-
-                //Does an initial update to reflect changes immediately
+                callBack_ = callback;
                 update();
             }
         }
@@ -80,7 +73,7 @@ void Animation::stop()
 {
     animTimer_.stop(); //Set timer to 0
 
-    currentFrame_     = 0;
+    currentFrame_ = 0;
 
     //Change appearance to first frame
     //May not be a good idea?
@@ -88,7 +81,7 @@ void Animation::stop()
 
     //Unset member variables
     currentAnimation_ = nullptr;
-    callback_         = nullptr;
+    callback_ = nullptr;
 }
 //}}}
 
@@ -116,10 +109,7 @@ void Animation::update()
             {
                 currentFrame_ = 0;
 
-                if(callback_)
-                {
-                    callback_();
-                }
+                callback_();
 
                 //If the animation doesn't loop, stop it
                 if(!loop_)
@@ -147,14 +137,14 @@ void Animation::update()
 //}}}
 
 //{{{void Animation::draw(IRender *const render, Vector const& pos)
-void Animation::draw(IRender* const render, Vector const& pos)
+void Animation::draw(IRender* const render, const Vector& pos)
 {
     render->draw(texture_, pos, clip_);
 }
 //}}}
 
 //{{{void Animation::setTexture(Texture const*const texture)
-void Animation::setTexture(Texture const* const texture, Vector const& frameDims)
+void Animation::setTexture(const Texture* const texture, const Vector& frameDims)
 {
     frameDimensions_ = frameDims;
     texture_ = texture;

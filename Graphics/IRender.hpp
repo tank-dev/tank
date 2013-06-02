@@ -41,7 +41,7 @@ public:
                       Vector  const& position) {}
     virtual void draw(Texture const* texture,
                       Vector  const& position,
-                      Rect    const& clip)     {}
+                      Rect    const& clip) {}
 
     virtual void drawText(char const* text, Vector const& position) {}
 
@@ -49,7 +49,7 @@ public:
 
     virtual Texture const* getTexture(char const* name)
     {
-        return NULL;
+        return nullptr;
     }
     virtual bool           loadImage(char const* name, char const* fileName)
     {
