@@ -5,9 +5,9 @@
 TextObject::TextObject(Vector const& pos,
                        char const* cText,
                        Uint32 duration)
-:Entity    (pos),
- _duration (duration),
- _text     (NULL)
+    :Entity(pos),
+     _duration(duration),
+     _text(nullptr)
 {
     //std::string sText(cText);
     //_displayTimer.start();
@@ -21,12 +21,12 @@ TextObject::~TextObject()
 
 void TextObject::setText(char* cText)
 {
-	/*std::string sText(cText);
-	if (_text != NULL)
-	{
-		delete _text;
-	}
-	_text = new Text(_pos,sText);*/
+    /*std::string sText(cText);
+    if (_text != nullptr)
+    {
+    	delete _text;
+    }
+    _text = new Text(_pos,sText);*/
 }
 
 void TextObject::update()
@@ -37,7 +37,7 @@ void TextObject::update()
     }*/
 }
 
-void TextObject::draw(IRender *const render)
+void TextObject::draw(IRender* const render)
 {
     //_text->draw(render);
 }

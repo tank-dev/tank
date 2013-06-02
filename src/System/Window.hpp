@@ -8,11 +8,11 @@ class Window
 {
 public:
     bool Initialize();
-    
+
     static Window* Instance();
     ~Window();
 private:
     static Window* _instance;
     Window();
-}; 
+};
 #endif

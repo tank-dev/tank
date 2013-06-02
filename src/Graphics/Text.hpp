@@ -10,15 +10,15 @@ class Text : public Entity
 {
 public:
     void update();
-    void draw(IRender *const);
-    
+    void draw(IRender* const);
+
     void isInside(Entity*);
-    
-    Text(Vector const& pos, char const*const text, unsigned int duration);
+
+    Text(Vector const& pos, char const* const text, unsigned int duration);
     ~Text();
 private:
     std::string  _text;
     unsigned int _duration;
-    Timer        _displayTimer; 
-}; 
+    Timer        _displayTimer;
+};
 #endif

@@ -17,7 +17,7 @@
 /////////////////////////
 PCRender::PCRender()
 {
-    _screen = NULL;
+    _screen = nullptr;
 }
 
 /////////////////////////
@@ -27,8 +27,7 @@ PCRender::~PCRender()
 {
     std::cout << "PCRender engine shutting down" << std::endl;
 
-    for(auto iter = _images.begin(); iter != _images.end(); iter++)
-    {
+    for(auto iter = _images.begin(); iter != _images.end(); iter++) {
         SDL_FreeSurface(iter->second);
     }
 
@@ -45,8 +44,7 @@ PCRender::~PCRender()
 bool PCRender::initialize()
 {
     _screen = SDL_GetVideoSurface();
-    if (_screen == NULL)
-    {
+    if(_screen == nullptr) {
         std::cout << "Could not retrieve video surface: ";
         std::cout << SDL_GetError() << std::endl;
         return false;
@@ -60,18 +58,17 @@ void PCRender::draw(Texture const* texture, Vector const& pos)
     //Rect r = { 0, 0, texture.w, texture.h } ;
     //draw( texture, pos, r);
 
-    draw( texture, pos, { 0,  0,  texture->width, texture->height } );
+    draw(texture, pos, { 0,  0,  texture->width, texture->height });
 }
 
-void PCRender::draw( Texture const* texture, Vector const& pos, Rect const& clip )
+void PCRender::draw(Texture const* texture, Vector const& pos, Rect const& clip)
 {
     // Retrieve SDL_Surface from Resources
     std::string tName = texture->name;
 
     SDL_Surface* surface = _images[tName];
 
-    if(surface != NULL)
-    {
+    if(surface != nullptr) {
         // Convert position to SDL_Rect
         SDL_Rect offset;
 
@@ -86,9 +83,7 @@ void PCRender::draw( Texture const* texture, Vector const& pos, Rect const& clip
         sdlClip.h = clip.h;
 
         SDL_BlitSurface(surface, &sdlClip, _screen, &offset);
-    }
-    else
-    {
+    } else {
         std::cout << "Render Error: Texture does not exist (";
         std::cout << texture->name << ")" << std::endl;
     }
@@ -108,7 +103,9 @@ void PCRender::drawText(char const* text, Vector const& pos)
     int width = length*letterSize;
     //int height = ceil((float)width/maxWidth)*letterSize;
 
-    if(width > maxWidth) width = maxWidth;
+    if(width > maxWidth) {
+        width = maxWidth;
+    }
 
     /*
     SDL_Surface *surface = SDL_CreateRGBSurface(SDL_SWSURFACE,
@@ -136,8 +133,7 @@ void PCRender::drawText(char const* text, Vector const& pos)
     //SDL_SetAlpha(   font, 0,    font->format->alpha);
     //SDL_SetAlpha(surface, 0, surface->format->alpha);
 
-    for(int i = 0; i < length; ++i)
-    {
+    for(int i = 0; i < length; ++i) {
         c = toupper(text[i]);
 
         srcRect.x = ((int)c-32)*letterSize;
@@ -148,8 +144,7 @@ void PCRender::drawText(char const* text, Vector const& pos)
 
         destRect.x += letterSize;
 
-        if(destRect.x > maxWidth - letterSize)
-        {
+        if(destRect.x > maxWidth - letterSize) {
             destRect.x  = pos.x;
             destRect.y += letterSize;
         }
@@ -163,7 +158,7 @@ void PCRender::drawText(char const* text, Vector const& pos)
 void PCRender::flipDisplay()
 {
     SDL_Flip(_screen);
-    SDL_FillRect(_screen, NULL, SDL_MapRGBA(_screen->format,0x66,0xFF,0xFF,0xFF));
+    SDL_FillRect(_screen, nullptr, SDL_MapRGBA(_screen->format,0x66,0xFF,0xFF,0xFF));
 }
 
 ///////////////////////////////
@@ -190,7 +185,7 @@ void PCRender::flipDisplay()
 
     for (iter = _textures.begin(); iter != _textures.end(); iter++)
     {
-        if(iter->second == NULL)
+        if(iter->second == nullptr)
         {
             return 0;
         }
@@ -200,13 +195,12 @@ void PCRender::flipDisplay()
 
 bool PCRender::loadImage(char const* name, char const* fileName)
 {
-    SDL_Surface *temp = NULL;
-    SDL_Surface *optimized = NULL;
+    SDL_Surface* temp = nullptr;
+    SDL_Surface* optimized = nullptr;
 
     temp = IMG_Load(fileName);
 
-    if(temp == NULL)
-    {
+    if(temp == nullptr) {
         std::cout << SDL_GetError() << std::endl;
 
         return false;
@@ -216,18 +210,17 @@ bool PCRender::loadImage(char const* name, char const* fileName)
 
     SDL_FreeSurface(temp);
 
-    if( optimized  == NULL )
-    {
+    if(optimized  == nullptr) {
         std::cout << SDL_GetError() << std::endl;
 
         return false;
     }
 
-    _images.insert( std::pair<std::string, SDL_Surface*>(name, optimized) );
+    _images.insert(std::pair<std::string, SDL_Surface*>(name, optimized));
 
     Texture t = { name, optimized->w, optimized->h };
 
-    _textures.insert( std::pair<std::string, Texture>(name, t) );
+    _textures.insert(std::pair<std::string, Texture>(name, t));
 
     return true;
 }
@@ -237,4 +230,4 @@ Texture const* PCRender::getTexture(char const* name)
     std::string strName = name;
 
     return &_textures[strName];
-} 
+}

@@ -2,31 +2,27 @@
 
 #include <algorithm>
 
-Animation::Animation()
-: _texture ( NULL ),
-  _currentAnimation( NULL ),
-  _currentFrame( 0 ),
-  _loop( false ),
-  _frameDimensions( {0, 0} ),
-  _callback( NULL ),
-  _clip( { 0, 0, 0, 0 } ) {}
+Animation::Animation() : texture_{nullptr}, currentAnimation_{nullptr},
+    currentFrame_{0}, loop_{false}, frameDimensions_{0, 0}, callback_{nullptr},
+    clip_{ 0, 0, 0, 0 }
+{}
 
-Animation::Animation( Texture const* t, Vector const& frameDims )
-: _texture( t ),
-  _currentAnimation( NULL ),
-  _currentFrame( 0 ),
-  _loop( false ),
-  _frameDimensions( frameDims ),
-  _callback( NULL ),
-  _clip( { 0, 0, ( int )frameDims.x, ( int )frameDims.y } ) { }
+Animation::Animation(Texture const* t, Vector const& frameDims)
+    : texture_(t),
+      currentAnimation_(nullptr),
+      currentFrame_(0),
+      loop_(false),
+      frameDimensions_(frameDims),
+      callback_(nullptr),
+    clip_( { 0, 0, (int)frameDims.x, (int)frameDims.y }) { }
 
 //{{{void Animation::add( char const* name,
-void Animation::add( char const* name,
-                     std::vector<unsigned int> const& frames,
-                     unsigned int time )
+void Animation::add(char const* name,
+                    std::vector<unsigned int> const& frames,
+                    unsigned int time)
 {
     //Push back a POD-initialized AnimationInfo(name, numframes, time)
-    _animations.push_back( { std::string(name), frames, time } );
+    animations_.push_back( { std::string(name), frames, time });
 }
 //}}}
 
@@ -35,38 +31,34 @@ void Animation::remove(char const* name)
 {
     // Find the animation by name
     std::vector<AnimationInfo>::iterator iter =
-        std::find_if( _animations.begin(),
-                      _animations.end(),
-                      [name]( AnimationInfo anim )->bool
-                      { return !anim.name.compare(name); } );
+        std::find_if(animations_.begin(),
+                     animations_.end(),
+                     [name](AnimationInfo anim)->bool
+    { return !anim.name.compare(name); });
 
     //Remove the animation from the animations list
-    if(iter != _animations.end())
-    {
-        _animations.erase(iter);
+    if(iter != animations_.end()) {
+        animations_.erase(iter);
     }
 }
 //}}}
 
 //{{{void Animation::play( char const* name, bool loop, void (*callback)() )
-void Animation::play( char const* name, bool loop, void (*callback)() )
+void Animation::play(char const* name, bool loop, void (*callback)())
 {
     //Check that the requested animation is not already playing
-    if(!_currentAnimation || _currentAnimation->name.compare(name) != 0)
-    {
+    if(!currentAnimation_ || currentAnimation_->name.compare(name) != 0) {
         //Find the requested animation
-        for(auto iter = _animations.begin(); iter != _animations.end(); ++iter)
-        {
-            if((*iter).name.compare(name) == 0)
-            {
+        for(auto iter = animations_.begin(); iter != animations_.end(); ++iter) {
+            if((*iter).name.compare(name) == 0) {
                 //Select the animation
-                _currentAnimation = &(*iter); 
-                _animTimer.start();
+                currentAnimation_ = &(*iter);
+                animTimer_.start();
 
-                _currentFrame = 0;
+                currentFrame_ = 0;
                 //Save play settings
-                _loop = loop;
-                _callback = callback;
+                loop_ = loop;
+                callback_ = callback;
 
                 //Does an initial update to reflect changes immediately
                 update();
@@ -79,16 +71,15 @@ void Animation::play( char const* name, bool loop, void (*callback)() )
 //{{{void Animation::pause()
 void Animation::pause()
 {
-    _animTimer.pause();
+    animTimer_.pause();
 }
 //}}}
 
 //{{{void Animation::resume()
 void Animation::resume()
 {
-    if( _animTimer.isPaused() && _currentAnimation != NULL )
-    {
-        _animTimer.resume();
+    if(animTimer_.isPaused() && currentAnimation_ != nullptr) {
+        animTimer_.resume();
     }
 }
 //}}}
@@ -96,17 +87,17 @@ void Animation::resume()
 //{{{void Animation::stop()
 void Animation::stop()
 {
-    _animTimer.stop(); //Set timer to 0
+    animTimer_.stop(); //Set timer to 0
 
-    _currentFrame     = 0;
+    currentFrame_     = 0;
 
     //Change appearance to first frame
     //May not be a good idea?
-    update(); 
+    update();
 
-    //Unset member variables 
-    _currentAnimation = NULL;
-    _callback         = NULL;
+    //Unset member variables
+    currentAnimation_ = nullptr;
+    callback_         = nullptr;
 }
 //}}}
 
@@ -116,29 +107,27 @@ void Animation::stop()
 void Animation::update()
 {
     //Only update if there is an animation playing
-    if(_currentAnimation)
-    { 
+    if(currentAnimation_) {
         //Check if we need to change animation frame
-        const bool playNextFrame = _animTimer.getTicks() > _currentAnimation->time;
+        const bool playNextFrame = animTimer_.getTicks() > currentAnimation_->time;
 
-        if(playNextFrame)
-        {
-            ++_currentFrame;    //Change frame
+        if(playNextFrame) {
+            ++currentFrame_;    //Change frame
 
-            _animTimer.start(); //Reset timer
+            animTimer_.start(); //Reset timer
 
             //Check if we've finished the animation
-            unsigned const int lastFrame = _currentAnimation->frameList.size();
+            unsigned const int lastFrame = currentAnimation_->frameList.size();
 
-            if(_currentFrame >= lastFrame)
-            { 
-                _currentFrame = 0;
+            if(currentFrame_ >= lastFrame) {
+                currentFrame_ = 0;
 
-                if(_callback) _callback();
+                if(callback_) {
+                    callback_();
+                }
 
                 //If the animation doesn't loop, stop it
-                if (!_loop)
-                {
+                if(!loop_) {
                     //Reset all properties (callback, timer, currentFrame, etc)
                     stop();
                 }
@@ -146,32 +135,31 @@ void Animation::update()
         }
     }
 
-    if(_currentAnimation)
-    { 
+    if(currentAnimation_) {
         //Start at first frame
-        auto frameIter = _currentAnimation->frameList.begin();
+        auto frameIter = currentAnimation_->frameList.begin();
 
         //Move to current frame
-        frameIter += _currentFrame;
+        frameIter += currentFrame_;
 
         //Set clipping rectangle according to current frame
-        _clip.x = ( *frameIter ) * _frameDimensions.x;
-        _clip.w = _frameDimensions.x;
+        clip_.x = (*frameIter) * frameDimensions_.x;
+        clip_.w = frameDimensions_.x;
     }
 }
 //}}}
 
 //{{{void Animation::draw(IRender *const render, Vector const& pos)
-void Animation::draw(IRender *const render, Vector const& pos)
+void Animation::draw(IRender* const render, Vector const& pos)
 {
-    render->draw(_texture, pos, _clip);
+    render->draw(texture_, pos, clip_);
 }
 //}}}
 
 //{{{void Animation::setTexture(Texture const*const texture)
-void Animation::setTexture(Texture const*const texture, Vector const& frameDims)
+void Animation::setTexture(Texture const* const texture, Vector const& frameDims)
 {
-    _frameDimensions = frameDims;
-    _texture = texture;
-} 
+    frameDimensions_ = frameDims;
+    texture_ = texture;
+}
 //}}}

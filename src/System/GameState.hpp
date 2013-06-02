@@ -12,22 +12,22 @@ class Game;
 
 class GameState
 {
-public:    
-    void addEntity   (Entity*);
+public:
+    void addEntity(Entity*);
     void removeEntity(Entity*);
-    
+
     virtual bool initialize() = 0;
-    virtual void handleEvents(SDL_KeyboardEvent *const) = 0;
+    virtual void handleEvents(SDL_KeyboardEvent* const) = 0;
     virtual void update();
-    virtual void draw  ( IRender *const );
-    
+    virtual void draw(IRender* const);
+
     GameState();
     virtual ~GameState();
-protected: 
+protected:
     std::vector<Entity*> _entities;
     bool _initialized;
 private:
-    GameState           (GameState const&);
+    GameState(GameState const&);
     GameState& operator=(GameState const&);
-}; 
-#endif 
+};
+#endif

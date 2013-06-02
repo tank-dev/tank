@@ -1,4 +1,4 @@
-/* 
+/*
  * File:   TextObject.hpp
  * Author: jamie
  *
@@ -13,8 +13,7 @@
 #include "../Utility/Timer.hpp"
 #include "Text.hpp"
 
-enum TextBox
-{
+enum TextBox {
     NONE,
     MAIN,
     OTHER
@@ -26,7 +25,7 @@ class TextObject : public Entity
 {
 public:
     void update();
-    void draw(IRender *const);
+    void draw(IRender* const);
 
     void setText(char* cText);
 
@@ -35,10 +34,10 @@ public:
     TextObject(Vector const& pos, char const* cText, Uint32 duration = 0);
     ~TextObject();
 private:
-    Uint32  _duration;     
-    Timer   _displayTimer; 
-    TextBox _textBox;      
-    Text*   _text;         
+    Uint32  _duration;
+    Timer   _displayTimer;
+    TextBox _textBox;
+    Text*   _text;
 };
 
 

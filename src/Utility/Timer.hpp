@@ -1,4 +1,4 @@
-/* 
+/*
  * File:   Timer.hpp
  * Author: jamie
  *
@@ -10,19 +10,19 @@
 
 #include <SDL/SDL_timer.h>
 
-class Timer 
+class Timer
 {
 public:
     void start();
     void stop();
     void pause();
     void resume();
-    
+
     bool isStarted();
     bool isPaused();
-    
+
     Uint32 getTicks();
-    
+
     Timer();
     Timer(const Timer& orig);
     virtual ~Timer();

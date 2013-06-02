@@ -6,9 +6,9 @@
 
 class ServiceLocator
 {
-public: 
+public:
     static IRender* getRender();
-    static void provide( IRender* );
+    static void provide(IRender*);
 private:
     static IRender* _render;
     static NullRender _nullRender;

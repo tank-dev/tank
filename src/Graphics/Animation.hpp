@@ -4,6 +4,7 @@
 
 #include <string>
 #include <vector>
+#include <functional>
 #include "../Graphics/IRender.hpp"
 #include "../Graphics/Texture.hpp"
 #include "../Utility/Rect.hpp"
@@ -16,7 +17,7 @@
  *
  *      Based on FlashPunk's FP.graphics.Sprite class
  *
- *      Represents an image with multiple frames, and stores any number of named 
+ *      Represents an image with multiple frames, and stores any number of named
  *      animations for that image. To use, first create an [Animation], either
  *      constructing it with a [Texture] and the dimensions of a frame, or
  *      setting them later with *setTexture*.
@@ -56,47 +57,48 @@
 class Animation
 {
 public:
-    void add   (char const* name,
-                std::vector<unsigned int> const& frames,
-                unsigned int frameTime);
+    Animation();
+    Animation(Texture const* const t, Vector const& frameDims);
+
+    void add(char const* name,
+             std::vector<unsigned int> const& frames,
+             unsigned int frameTime);
     void remove(char const* name);
 
-    void play  (char const* name, bool loop = true, void (*callback)() = NULL);
+    void play(char const* name, bool loop = true, void (*callback)() = NULL);
     void update();
-    void draw  (IRender *const, Vector const& pos);
+    void draw(IRender* const, Vector const& pos);
 
     void resume();
-    void pause ();
-    void stop  ();
-    
-    bool playing() { return _currentAnimation; }
-    std::string currentAnimation() { return _currentAnimation->name; }
+    void pause();
+    void stop();
 
-    void setTexture(Texture const*, Vector const& frameDims );
+    bool playing() {
+        return currentAnimation_;
+    }
+    std::string currentAnimation() {
+        return currentAnimation_->name;
+    }
 
-    //Constructor and Destructor
-    Animation();
-    Animation( Texture const*const t, Vector const& frameDims );
-    ~Animation() {}
+    void setTexture(Texture const*, Vector const& frameDims);
+
+
 private:
     //{{{struct AnimationInfo
-    struct AnimationInfo
-    {
+    struct AnimationInfo {
         std::string               name;
         std::vector<unsigned int> frameList;
         unsigned int              time;
     }; //}}}
 
-    Texture       const * _texture;
-    AnimationInfo       * _currentAnimation;
-    unsigned int          _currentFrame;
-    Timer                 _animTimer;
-    bool                  _loop;
-    Vector                _frameDimensions;
-    void                  (*_callback)();
-
-    Rect                 _clip;
-
-    std::vector<AnimationInfo>  _animations;
+    Texture const* texture_;
+    AnimationInfo* currentAnimation_;
+    unsigned int currentFrame_;
+    Timer animTimer_;
+    bool loop_;
+    Vector frameDimensions_;
+    std::function<void()> callback_;
+    Rect                 clip_;
+    std::vector<AnimationInfo>  animations_;
 };
 #endif

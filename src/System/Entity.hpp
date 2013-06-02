@@ -17,8 +17,8 @@
  *
  *      Entities should be added to gamestates via GameState::addEntity(Entity)
  *
- *      All derived classes contain a [Vector] _position and a reference to a 
- *      _texture (loaded via [IRender]), as well as a [string] _type. 
+ *      All derived classes contain a [Vector] _position and a reference to a
+ *      _texture (loaded via [IRender]), as well as a [string] _type.
  *      _visible determines whether the entity will be drawn
  *      Every [Entity] has a unique _actorID
  *      Every [Entity[ added to a [GameState] will automatically have its _state
@@ -39,42 +39,56 @@ class GameState;
 
 class Entity
 {
-public: 
+public:
     //Game loop functions
     virtual void update() = 0;
-    virtual void draw( IRender *const );
+    virtual void draw(IRender* const);
 
     //TODO Replace with FP-style collide( "type" )
     virtual void isInside(Entity*) = 0;
-    
-    //{{{Getters
-    int                getLayer()   const { return _layer;   } 
-    Vector      const& getPos()     const { return _pos;     } 
-    Rect        const& getHitBox()  const { return _hitBox;  } 
-    bool               isSolid()    const { return _solid;   } 
 
-    int                getActorID() const { return _actorID; } 
-    static int         getNumEnts()       { return _numEnts; } 
-    std::string const& getType()    const { return _type;    }
+    //{{{Getters
+    int                getLayer()   const {
+        return _layer;
+    }
+    Vector      const& getPos()     const {
+        return _pos;
+    }
+    Rect        const& getHitBox()  const {
+        return _hitBox;
+    }
+    bool               isSolid()    const {
+        return _solid;
+    }
+
+    int                getActorID() const {
+        return _actorID;
+    }
+    static int         getNumEnts()       {
+        return _numEnts;
+    }
+    std::string const& getType()    const {
+        return _type;
+    }
     //}}}
 
     //{{{Setters
-    void setState( GameState *const  state );
-    void setPos  ( Vector     const& pos   );
+    void setState(GameState* const  state);
+    void setPos(Vector     const& pos);
     //}}}
 
     /* ------------------------------ *
      * Constructor and Destructor
      * ------------------------------ */
-    Entity( Vector const& pos );
+    Entity(Vector const& pos);
     virtual ~Entity();
     //Note: WANT shallow copy, default copy ctor works
 protected:
-    static int _numEnts; 
+    static int _numEnts;
     const  int _actorID;           //Unique ID
 
-    //{{{Member variables         
-                                   //DEFAULT VALUE
+    //{{{Member variables
+    //DEFAULT VALUE
     int                _layer;     //0
     Vector             _pos;
     Rect               _hitBox;    //(_pos.x,_pos.y,0,0)
@@ -83,7 +97,7 @@ protected:
     bool               _solid;     //false
     bool               _visible;   //true
 
-    GameState        * _state;     //Set by parent GameState
+    GameState*         _state;     //Set by parent GameState
     //}}}
-}; 
-#endif 
+};
+#endif

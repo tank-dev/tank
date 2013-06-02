@@ -1,7 +1,7 @@
-/* 
+/*
  * File:   Timer.cpp
  * Author: jamie
- * 
+ *
  * Created on 17 December 2011, 17:26
  */
 
@@ -15,7 +15,7 @@ Timer::Timer()
     _paused = false;
 }
 
-Timer::Timer(const Timer& orig) 
+Timer::Timer(const Timer& orig)
 {
     _startTick = orig._startTick;
     _pausedTick = orig._pausedTick;
@@ -28,7 +28,7 @@ Timer::~Timer() {}
 void Timer::start()
 {
     _startTick = SDL_GetTicks();
-    
+
     _started = true;
     _paused = false;
 }
@@ -41,8 +41,7 @@ void Timer::stop()
 
 void Timer::pause()
 {
-    if(_started && !_paused)
-    {
+    if(_started && !_paused) {
         _pausedTick = SDL_GetTicks() - _startTick;
         _paused = true;
     }
@@ -50,8 +49,9 @@ void Timer::pause()
 
 void Timer::resume()
 {
-    if(_started && _paused)
-    _paused = false;
+    if(_started && _paused) {
+        _paused = false;
+    }
     _startTick = SDL_GetTicks() - _pausedTick;
 }
 
@@ -67,8 +67,7 @@ bool Timer::isPaused()
 
 Uint32 Timer::getTicks()
 {
-    if(_paused)
-    {
+    if(_paused) {
         return _pausedTick;
     }
     return SDL_GetTicks() - _startTick;

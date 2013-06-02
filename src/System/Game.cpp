@@ -13,18 +13,17 @@
 
 //{{{Game::Game()
 Game::Game()
-: _initialized (false),
-  _run         (true),
-  _deleteState (false),
-  _render      (NULL),
-  _currentState(NULL) {}
-  //}}}
+    : _initialized(false),
+      _run(true),
+      _deleteState(false),
+      _render(nullptr),
+      _currentState(nullptr) {}
+//}}}
 
 //{{{Game::~Game()
 Game::~Game()
 {
-    while(!_states.empty())
-    {
+    while(!_states.empty()) {
         delete(_states.top());
         _states.pop();
     }
@@ -40,13 +39,11 @@ Game::~Game()
 //{{{bool Game::initialize()
 bool Game::initialize()
 {
-    if(!_initialized)
-    {
+    if(!_initialized) {
         _initialized = true;
 
         //Create window
-        if(Window::Instance()->Initialize() == 0)
-        {
+        if(Window::Instance()->Initialize() == 0) {
             _initialized = false;
         }
 
@@ -55,10 +52,9 @@ bool Game::initialize()
 
         _render = new PCRender();
 
-        ServiceLocator::provide (_render); //Make render available on request
+        ServiceLocator::provide(_render);  //Make render available on request
 
-        if(!_render->initialize())
-        {
+        if(!_render->initialize()) {
             _initialized = false;
         }
 
@@ -76,12 +72,10 @@ bool Game::initialize()
 void Game::run()
 {
     std::cout << "Entering main loop" << std::endl;
-    while(_run)
-    {
+    while(_run) {
         _frameTimer.start();
 
-        if(_states.empty())
-        {
+        if(_states.empty()) {
             std::cout << "No game state" << std::endl;
             _run = false;
             break;
@@ -96,15 +90,13 @@ void Game::run()
 
         draw();
 
-        if(_deleteState)
-        {
+        if(_deleteState) {
             delete _currentState;
             _deleteState = false;
         }
 
         //Wait to force constant framerate
-        while(_frameTimer.getTicks() < 1000/FRAMES_PER_SECOND && _run)
-        {
+        while(_frameTimer.getTicks() < 1000/FRAMES_PER_SECOND && _run) {
         }
     }
 }//}}}
@@ -114,33 +106,29 @@ void Game::handleEvents()
 {
     SDL_Event event;
     //TODO Make this independent of SDL
-    while(SDL_PollEvent(&event))
-    {
-        switch(event.type)
-        {
-            case SDL_KEYUP:
-            case SDL_KEYDOWN:
+    while(SDL_PollEvent(&event)) {
+        switch(event.type) {
+        case SDL_KEYUP:
+        case SDL_KEYDOWN:
 
-                if((event.key.keysym.sym == SDLK_F4 && event.key.keysym.mod & KMOD_ALT)
-                || (event.key.keysym.sym == SDLK_w  && event.key.keysym.mod & KMOD_CTRL))
-                {
-                        _run = false;
-                        break;
-                }
-                if(_currentState)
-                {
-                    _currentState->handleEvents(&event.key);
-                }
-
-                break;
-            case SDL_VIDEOEXPOSE:
-                draw();
-                break;
-            case SDL_QUIT:
+            if((event.key.keysym.sym == SDLK_F4 && event.key.keysym.mod & KMOD_ALT)
+                    || (event.key.keysym.sym == SDLK_w  && event.key.keysym.mod & KMOD_CTRL)) {
                 _run = false;
                 break;
-            default:
-                break;
+            }
+            if(_currentState) {
+                _currentState->handleEvents(&event.key);
+            }
+
+            break;
+        case SDL_VIDEOEXPOSE:
+            draw();
+            break;
+        case SDL_QUIT:
+            _run = false;
+            break;
+        default:
+            break;
         }
     }
 }//}}}
@@ -152,8 +140,7 @@ void Game::handleEvents()
 //{{{bool Game::pushState( GameState* state )
 bool Game::addState(GameState* state)
 {
-    if(state->initialize())
-    {
+    if(state->initialize()) {
         std::cout << "Loaded state successfully" << std::endl;
         _states.push(state);
 
@@ -181,11 +168,10 @@ void Game::popState()
  * ----------------------------------- */
 
 //{{{Singleton
-Game *Game::_instance = NULL;
-Game *Game::Instance()
+Game* Game::_instance = nullptr;
+Game* Game::Instance()
 {
-    if(_instance == NULL)
-    {
+    if(_instance == nullptr) {
         _instance = new Game;
     }
     return _instance;
