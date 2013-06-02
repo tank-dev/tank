@@ -39,11 +39,11 @@ void Animation::play(const std::string& name, bool loop, void (*callback)())
         {
             if (animation.name == name)
             {
-                currentAnimation_ = animation;
+                currentAnimation_ = &animation;
                 animTimer_.start();
                 currentFrame_ = 0;
                 loop_ = loop;
-                callBack_ = callback;
+                callback_ = callback;
                 update();
             }
         }
