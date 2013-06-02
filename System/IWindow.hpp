@@ -8,8 +8,8 @@
 class IWindow
 {
 public:
-    IWindow();
-    virtual ~IWindow();
+    IWindow() {}
+    virtual ~IWindow() {}
 
     virtual Vector const& getSize() = 0;
     virtual std::string const& getCaption() = 0;
