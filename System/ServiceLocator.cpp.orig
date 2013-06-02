@@ -1,0 +1,23 @@
+#include "ServiceLocator.hpp"
+
+IRender* ServiceLocator::_render;
+NullRender ServiceLocator::_nullRender;
+
+IRender* ServiceLocator::getRender()
+{
+    return _render;
+}
+
+void ServiceLocator::provide(IRender* r)
+{
+<<<<<<< HEAD:src/System/ServiceLocator.cpp
+    if(r) {
+=======
+    if(r)
+    {
+>>>>>>> 267cea85bb72ef624e0e0178a4fc49ab28d3d076:System/ServiceLocator.cpp
+        _render = r;
+    } else {
+        _render = &_nullRender;
+    }
+}

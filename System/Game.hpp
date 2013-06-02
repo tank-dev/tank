@@ -4,6 +4,7 @@
 
 #include <stack>
 #include "../Graphics/IRender.hpp"
+#include "../System/IWindow.hpp"
 #include "../Utility/Timer.hpp"
 #include "GameState.hpp"
 #include <SDL/SDL_events.h>
@@ -29,7 +30,8 @@ private:
     //Hacky hacky hacky
     bool _deleteState;
 
-    IRender*   _render;
+    IWindow* _window;
+    IRender* _render;
 
     GameState* _currentState;
     std::stack<GameState*> _states;

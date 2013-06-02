@@ -13,12 +13,12 @@
 
 //{{{Game::Game()
 Game::Game()
-    : _initialized(false),
-      _run(true),
-      _deleteState(false),
-      _render(nullptr),
-      _currentState(nullptr) {}
-//}}}
+: _initialized (false),
+  _run         (true),
+  _deleteState (false),
+  _render      (NULL),
+  _currentState(NULL) {}
+  //}}}
 
 //{{{Game::~Game()
 Game::~Game()
@@ -29,7 +29,7 @@ Game::~Game()
     }
 
     delete(_render);
-    delete(Window::Instance());
+    delete(_window);
 }//}}}
 
 /* ---------------------------- *
@@ -43,9 +43,7 @@ bool Game::initialize()
         _initialized = true;
 
         //Create window
-        if(Window::Instance()->Initialize() == 0) {
-            _initialized = false;
-        }
+        _window = new Window(640,480);
 
         //Select PCRender as the rendering engine
         std::cout << "Loading rendering engine" << std::endl;
@@ -111,24 +109,25 @@ void Game::handleEvents()
         case SDL_KEYUP:
         case SDL_KEYDOWN:
 
-            if((event.key.keysym.sym == SDLK_F4 && event.key.keysym.mod & KMOD_ALT)
+                if((event.key.keysym.sym == SDLK_F4 && event.key.keysym.mod & KMOD_ALT)
                     || (event.key.keysym.sym == SDLK_w  && event.key.keysym.mod & KMOD_CTRL)) {
+                        _run = false;
+                        break;
+                }
+                if(_currentState)
+                {
+                    _currentState->handleEvents(&event.key);
+                }
+
+                break;
+            case SDL_VIDEOEXPOSE:
+                draw();
+                break;
+            case SDL_QUIT:
                 _run = false;
                 break;
-            }
-            if(_currentState) {
-                _currentState->handleEvents(&event.key);
-            }
-
-            break;
-        case SDL_VIDEOEXPOSE:
-            draw();
-            break;
-        case SDL_QUIT:
-            _run = false;
-            break;
-        default:
-            break;
+            default:
+                break;
         }
     }
 }//}}}

@@ -2,6 +2,7 @@
 #ifndef SERVICELOCATOR_H
 #define SERVICELOCATOR_H
 
+#include <memory>
 #include "../Graphics/IRender.hpp"
 
 class ServiceLocator
