@@ -25,7 +25,8 @@ Entity::~Entity() {}
 //Default draw function
 void Entity::draw(IRender* const render)
 {
-    if(_texture) {
+    if(_texture)
+    {
         render->draw(_texture, _pos);
     }
 }

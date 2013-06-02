@@ -41,7 +41,8 @@ void Timer::stop()
 
 void Timer::pause()
 {
-    if(_started && !_paused) {
+    if(_started && !_paused)
+    {
         _pausedTick = SDL_GetTicks() - _startTick;
         _paused = true;
     }
@@ -49,7 +50,8 @@ void Timer::pause()
 
 void Timer::resume()
 {
-    if(_started && _paused) {
+    if(_started && _paused)
+    {
         _paused = false;
     }
     _startTick = SDL_GetTicks() - _pausedTick;
@@ -67,7 +69,8 @@ bool Timer::isPaused()
 
 Uint32 Timer::getTicks()
 {
-    if(_paused) {
+    if(_paused)
+    {
         return _pausedTick;
     }
     return SDL_GetTicks() - _startTick;

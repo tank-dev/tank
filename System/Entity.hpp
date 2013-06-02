@@ -48,26 +48,33 @@ public:
     virtual void isInside(Entity*) = 0;
 
     //{{{Getters
-    int                getLayer()   const {
+    int                getLayer()   const
+    {
         return _layer;
     }
-    Vector      const& getPos()     const {
+    Vector      const& getPos()     const
+    {
         return _pos;
     }
-    Rect        const& getHitBox()  const {
+    Rect        const& getHitBox()  const
+    {
         return _hitBox;
     }
-    bool               isSolid()    const {
+    bool               isSolid()    const
+    {
         return _solid;
     }
 
-    int                getActorID() const {
+    int                getActorID() const
+    {
         return _actorID;
     }
-    static int         getNumEnts()       {
+    static int         getNumEnts()
+    {
         return _numEnts;
     }
-    std::string const& getType()    const {
+    std::string const& getType()    const
+    {
         return _type;
     }
     //}}}

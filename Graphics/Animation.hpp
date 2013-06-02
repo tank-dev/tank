@@ -57,15 +57,16 @@
 class Animation
 {
 public:
-    Animation();
-    Animation(Texture const* const t, Vector const& frameDims);
+    Animation() = default;
+    Animation(Texture const* const t, const Vector& frameDims) :
+        texture_ {t}, frameDimensions_(frameDims) {}
 
     void add(char const* name,
-             std::vector<unsigned int> const& frames,
+             const std::vector<unsigned int>& frames,
              unsigned int frameTime);
-    void remove(char const* name);
+    void remove(std::string name);
 
-    void play(char const* name, bool loop = true, void (*callback)() = NULL);
+    void play(std::string name, bool loop = true, void (*callback)() = NULL);
     void update();
     void draw(IRender* const, Vector const& pos);
 
@@ -73,10 +74,12 @@ public:
     void pause();
     void stop();
 
-    bool playing() {
+    bool playing()
+    {
         return currentAnimation_;
     }
-    std::string currentAnimation() {
+    std::string currentAnimation()
+    {
         return currentAnimation_->name;
     }
 
@@ -85,20 +88,24 @@ public:
 
 private:
     //{{{struct AnimationInfo
-    struct AnimationInfo {
+    struct AnimationInfo
+    {
         std::string               name;
         std::vector<unsigned int> frameList;
         unsigned int              time;
     }; //}}}
 
-    Texture const* texture_;
-    AnimationInfo* currentAnimation_;
-    unsigned int currentFrame_;
+    Texture const* texture_
+    {
+        nullptr
+    };
+    AnimationInfo* currentAnimation_ {nullptr};
+    unsigned int currentFrame_ {0};
     Timer animTimer_;
-    bool loop_;
-    Vector frameDimensions_;
+    bool loop_ {false};
+    Vector frameDimensions_ {0,0};
     std::function<void()> callback_;
-    Rect                 clip_;
+    Rect clip_ {0,0,0,0};
     std::vector<AnimationInfo>  animations_;
 };
 #endif

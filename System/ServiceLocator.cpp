@@ -10,9 +10,12 @@ IRender* ServiceLocator::getRender()
 
 void ServiceLocator::provide(IRender* r)
 {
-    if(r) {
+    if(r)
+    {
         _render = r;
-    } else {
+    }
+    else
+    {
         _render = &_nullRender;
     }
 }

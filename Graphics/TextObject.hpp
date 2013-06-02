@@ -13,7 +13,8 @@
 #include "../Utility/Timer.hpp"
 #include "Text.hpp"
 
-enum TextBox {
+enum TextBox
+{
     NONE,
     MAIN,
     OTHER

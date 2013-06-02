@@ -27,7 +27,8 @@ PCRender::~PCRender()
 {
     std::cout << "PCRender engine shutting down" << std::endl;
 
-    for(auto iter = _images.begin(); iter != _images.end(); iter++) {
+    for(auto iter = _images.begin(); iter != _images.end(); iter++)
+    {
         SDL_FreeSurface(iter->second);
     }
 
@@ -44,7 +45,8 @@ PCRender::~PCRender()
 bool PCRender::initialize()
 {
     _screen = SDL_GetVideoSurface();
-    if(_screen == nullptr) {
+    if(_screen == nullptr)
+    {
         std::cout << "Could not retrieve video surface: ";
         std::cout << SDL_GetError() << std::endl;
         return false;
@@ -68,7 +70,8 @@ void PCRender::draw(Texture const* texture, Vector const& pos, Rect const& clip)
 
     SDL_Surface* surface = _images[tName];
 
-    if(surface != nullptr) {
+    if(surface != nullptr)
+    {
         // Convert position to SDL_Rect
         SDL_Rect offset;
 
@@ -83,7 +86,9 @@ void PCRender::draw(Texture const* texture, Vector const& pos, Rect const& clip)
         sdlClip.h = clip.h;
 
         SDL_BlitSurface(surface, &sdlClip, _screen, &offset);
-    } else {
+    }
+    else
+    {
         std::cout << "Render Error: Texture does not exist (";
         std::cout << texture->name << ")" << std::endl;
     }
@@ -103,7 +108,8 @@ void PCRender::drawText(char const* text, Vector const& pos)
     int width = length*letterSize;
     //int height = ceil((float)width/maxWidth)*letterSize;
 
-    if(width > maxWidth) {
+    if(width > maxWidth)
+    {
         width = maxWidth;
     }
 
@@ -133,7 +139,8 @@ void PCRender::drawText(char const* text, Vector const& pos)
     //SDL_SetAlpha(   font, 0,    font->format->alpha);
     //SDL_SetAlpha(surface, 0, surface->format->alpha);
 
-    for(int i = 0; i < length; ++i) {
+    for(int i = 0; i < length; ++i)
+    {
         c = toupper(text[i]);
 
         srcRect.x = ((int)c-32)*letterSize;
@@ -144,7 +151,8 @@ void PCRender::drawText(char const* text, Vector const& pos)
 
         destRect.x += letterSize;
 
-        if(destRect.x > maxWidth - letterSize) {
+        if(destRect.x > maxWidth - letterSize)
+        {
             destRect.x  = pos.x;
             destRect.y += letterSize;
         }
@@ -200,7 +208,8 @@ bool PCRender::loadImage(char const* name, char const* fileName)
 
     temp = IMG_Load(fileName);
 
-    if(temp == nullptr) {
+    if(temp == nullptr)
+    {
         std::cout << SDL_GetError() << std::endl;
 
         return false;
@@ -210,7 +219,8 @@ bool PCRender::loadImage(char const* name, char const* fileName)
 
     SDL_FreeSurface(temp);
 
-    if(optimized  == nullptr) {
+    if(optimized  == nullptr)
+    {
         std::cout << SDL_GetError() << std::endl;
 
         return false;

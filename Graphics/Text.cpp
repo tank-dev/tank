@@ -17,7 +17,8 @@ Text::~Text()
 
 void Text::update()
 {
-    if(_duration != 0 && _displayTimer.getTicks() >= _duration) {
+    if(_duration != 0 && _displayTimer.getTicks() >= _duration)
+    {
         _state->removeEntity(this);
     }
 }

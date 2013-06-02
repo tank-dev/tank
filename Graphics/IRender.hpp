@@ -32,7 +32,8 @@ public:
 class NullRender : public IRender
 {
 public:
-    virtual bool initialize() {
+    virtual bool initialize()
+    {
         return true;
     }
 
@@ -46,10 +47,12 @@ public:
 
     virtual void flipDisplay() {}
 
-    virtual Texture const* getTexture(char const* name) {
+    virtual Texture const* getTexture(char const* name)
+    {
         return NULL;
     }
-    virtual bool           loadImage(char const* name, char const* fileName) {
+    virtual bool           loadImage(char const* name, char const* fileName)
+    {
         return true;
     }
 };
