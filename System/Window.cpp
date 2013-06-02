@@ -47,7 +47,7 @@ Window::~Window()
     }
 }
 
-void setWidth(int width, int height)
+void Window::setWidth(int width, int height)
 {
     //Unfortunately SDL will create a new window, which is generally
     //undesired, so this function shouldn't do anything
@@ -65,4 +65,14 @@ void Window::setCaption(std::string&& caption)
     if(windowExists_ && valid_) {
         SDL_WM_SetCaption(caption.c_str(), NULL);
     }
+}
+
+Vector const& Window::getSize()
+{
+    return size_;
+}
+
+std::string const& Window::getCaption()
+{
+    return caption_;
 }
