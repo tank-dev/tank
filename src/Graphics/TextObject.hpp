@@ -8,9 +8,9 @@
 #ifndef TEXTOBJECT_H
 #define	TEXTOBJECT_H
 
-#include "Entity.hpp"
+#include "../System/Entity.hpp"
 
-#include "Timer.hpp"
+#include "../UtilityTimer.hpp"
 #include "Text.hpp"
 
 enum TextBox
@@ -42,4 +42,4 @@ private:
 };
 
 
-#endif	/* TEXTOBJECT_H */
+#endif /* TEXTOBJECT_H */

@@ -2,6 +2,13 @@
 #ifndef ENTITY_H
 #define	ENTITY_H
 
+//{{{Includes
+#include "../Graphics/IRender.hpp"
+#include "../Graphics/Texture.hpp"
+#include "../Utility/Vector.hpp"
+#include "../Utility/Rect.hpp"
+//}}}
+
 /* Entity class
  *
  * {{{Description:
@@ -27,13 +34,6 @@
  * }}}
  *
  */
-
-//{{{Includes
-#include "IRender.hpp"
-#include "Vector.hpp"
-#include "Texture.hpp"
-#include "Rect.hpp"
-//}}}
 
 class GameState;
 

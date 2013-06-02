@@ -5,8 +5,8 @@
 #include <SDL/SDL_image.h>
 #include <cstring>
 #include "Texture.hpp"
-#include "Vector.hpp"
-#include "Rect.hpp"
+#include "../Utility/Vector.hpp"
+#include "../Utility/Rect.hpp"
 
 /* --------------------------------------- *
  * Constructor and Destructor

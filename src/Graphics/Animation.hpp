@@ -4,11 +4,11 @@
 
 #include <string>
 #include <vector>
-#include "IRender.hpp"
-#include "Rect.hpp"
-#include "Vector.hpp"
-#include "Texture.hpp"
-#include "Timer.hpp"
+#include "../Graphics/IRender.hpp"
+#include "../Graphics/Texture.hpp"
+#include "../Utility/Rect.hpp"
+#include "../Utility/Vector.hpp"
+#include "../Utility/Timer.hpp"
 
 /* Animation class
  *

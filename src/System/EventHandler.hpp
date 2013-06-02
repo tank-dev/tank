@@ -2,6 +2,8 @@
 #ifndef EVENTHANDLER_H
 #define EVENTHANDLER_H
 
+/* Very much a work in progress, this one */
+
 class EventHandler
 {
 public:

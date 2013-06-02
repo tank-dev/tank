@@ -3,9 +3,9 @@
 #define	GAME_H
 
 #include <stack>
-#include "IRender.hpp"
+#include "../Graphics/IRender.hpp"
+#include "../Utility/Timer.hpp"
 #include "GameState.hpp"
-#include "Timer.hpp"
 #include <SDL/SDL_events.h>
 
 class Game

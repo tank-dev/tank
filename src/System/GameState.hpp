@@ -5,7 +5,7 @@
 #include <vector>
 #include <memory>
 #include <SDL/SDL_events.h>
-#include "IRender.hpp"
+#include "../Graphics/IRender.hpp"
 
 class Entity;
 class Game;

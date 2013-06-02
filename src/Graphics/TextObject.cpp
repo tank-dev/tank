@@ -1,6 +1,6 @@
 #include "TextObject.hpp"
 
-#include "Game.hpp"
+#include "../System/Game.hpp"
 
 TextObject::TextObject(Vector const& pos,
                        char const* cText,

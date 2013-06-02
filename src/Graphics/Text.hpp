@@ -1,8 +1,8 @@
 #ifndef TEXT_H
 #define	TEXT_H
 
-#include "Entity.hpp"
-#include "Timer.hpp"
+#include "../System/Entity.hpp"
+#include "../Utility/Timer.hpp"
 
 #include <string>
 

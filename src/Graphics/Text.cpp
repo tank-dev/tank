@@ -1,6 +1,6 @@
 #include "Text.hpp"
 
-#include "GameState.hpp"
+#include "../System/GameState.hpp"
 
 Text::Text(Vector const& pos, char const*const text, unsigned int duration)
 :Entity   (pos),

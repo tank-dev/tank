@@ -1,9 +1,8 @@
 #include "Game.hpp"
 
 #include <iostream>
+#include "../Graphics/PCRender.hpp"
 #include "ServiceLocator.hpp"
-#include "PCRender.hpp"
-
 #include "Window.hpp"
 
 #define FRAMES_PER_SECOND 60
