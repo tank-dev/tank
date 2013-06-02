@@ -18,7 +18,7 @@ Game::Game()
   _deleteState (false),
   _render      (NULL),
   _currentState(NULL) {}
-  //}}}
+//}}}
 
 //{{{Game::~Game()
 Game::~Game()
@@ -30,7 +30,7 @@ Game::~Game()
     }
 
     delete(_render);
-    delete(Window::Instance());
+    delete(_window);
 }//}}}
 
 /* ---------------------------- *
@@ -45,10 +45,7 @@ bool Game::initialize()
         _initialized = true;
 
         //Create window
-        if(Window::Instance()->Initialize() == 0)
-        {
-            _initialized = false;
-        }
+        _window = new Window(640,480);
 
         //Select PCRender as the rendering engine
         std::cout << "Loading rendering engine" << std::endl;

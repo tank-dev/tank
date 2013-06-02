@@ -71,7 +71,7 @@ public:
     //Note: WANT shallow copy, default copy ctor works
 protected:
     static int _numEnts; 
-    const  int _actorID;           //Unique ID
+    const  int _actorID; //Unique ID
 
     //{{{Member variables         
                                    //DEFAULT VALUE

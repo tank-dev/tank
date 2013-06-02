@@ -3,16 +3,32 @@
 
 #include <SDL/SDL.h>
 #include <SDL/SDL_image.h>
+#include "IWindow.hpp"
 
-class Window
+class Window : public IWindow
 {
 public:
-    bool Initialize();
-    
-    static Window* Instance();
-    ~Window();
+    Window(int width, int height, int flags = SDL_HWSURFACE); 
+    virtual ~Window();
+
+    virtual Vector const& getSize();
+    virtual std::string const& getCaption();
+
+    virtual void setWidth(int width, int height);   //Doesn't work
+    virtual void setCaption(std::string&& caption);
+    virtual void setIcon(std::string&& path);
 private:
-    static Window* _instance;
-    Window();
+    std::string caption_;
+    Vector size_;
+
+    //Is this window instance the current window?
+    bool valid_;
+
+    //Unfortunately we can only have one window to stop SDL from shitting itself
+    static bool windowExists_;
+
+    //Make SDL happen
+    static void initialize();
 }; 
-#endif
+
+#endif /* WINDOW_H */
