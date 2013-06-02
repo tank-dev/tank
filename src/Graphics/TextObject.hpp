@@ -10,7 +10,7 @@
 
 #include "../System/Entity.hpp"
 
-#include "../UtilityTimer.hpp"
+#include "../Utility/Timer.hpp"
 #include "Text.hpp"
 
 enum TextBox
