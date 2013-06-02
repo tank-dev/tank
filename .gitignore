@@ -17,3 +17,4 @@ build/
 
 # Temporary editor files
 *.swp
+*.orig
