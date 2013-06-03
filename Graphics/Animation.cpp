@@ -36,21 +36,17 @@ void Animation::select(const std::string& name, bool loop, std::function<void()>
     //Check that the requested animation is not already playing
     if(!currentAnimation_ || currentAnimation_->name != name)
     {
-        //for(auto animation : animations_) 
-
-        for(auto iter = animations_.begin(); iter != animations_.end(); ++iter)
+        for(auto& anim : animations_)
         {
-            AnimationInfo& anim = *iter;
             if (anim.name == name)
             {
-                //currentAnimation_ = &animation;
                 currentAnimation_ = &anim;
                 animTimer_.start();
                 currentFrame_ = 0;
                 loop_ = loop;
                 callback_ = callback;
 
-                //Change current graphic
+                //Update Animation to reflect changes immediately
                 play();
             }
         }
