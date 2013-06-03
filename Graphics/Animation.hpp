@@ -38,7 +38,7 @@
  *
  *
  *      NOTE: Currently, *draw* does not change an [Animation]'s state. Hence,
- *            when you want to draw an animation call *update* as well.
+ *            when you want to draw an animation call *play* as well.
  *
  *            This offers two benefits: efficiency when using [Animation] as a
  *            clipping tool (no actual animating) and separating actual animation
@@ -47,8 +47,8 @@
  *      You can also *pause*, *resume* and *stop* animations, and ask if it is
  *      *playing*.
  *
- *      NOTE: *stop* will set the state of the [Animation] to the first frame of the
- *            current animation.
+ *      NOTE: *stop* will set the state of the [Animation] to the first frame of
+ *      the current animation.
  *
  * }}}
  *
@@ -59,15 +59,16 @@ class Animation
 public:
     Animation() = default;
     Animation(Texture const* const t, const Vector& frameDims) :
-        texture_ {t}, frameDimensions_(frameDims) {}
+        texture_ {t}, frameDimensions_(frameDims), 
+        clip_({0,0,(int)frameDims.x, (int)frameDims.y}) {}
 
     void add(const std::string& name,
              const std::vector<unsigned int>& frames,
              unsigned int frameTime);
     void remove(const std::string& name);
 
-    void play(const std::string& name, bool loop = true, void (*callback)() = nullptr);
-    void update();
+    void select(const std::string& name, bool loop = true, std::function<void()> = []{});
+    void play();
     void draw(IRender* const, Vector const& pos);
 
     void resume();

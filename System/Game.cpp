@@ -45,7 +45,7 @@ bool Game::initialize()
         _initialized = true;
 
         //Create window
-        _window = new Window(640,480);
+        _window = new Window(640,640);
 
         //Select PCRender as the rendering engine
         std::cout << "Loading rendering engine" << std::endl;

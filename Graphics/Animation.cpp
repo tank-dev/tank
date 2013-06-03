@@ -2,8 +2,9 @@
 
 #include <algorithm>
 
-//{{{void Animation::add( char const* name,
-void Animation::add(const std::string& name, std::vector<unsigned int> const& frames,
+//{{{void Animation::add(const std::string& name, std::vector<unsigned int> const& frames,
+void Animation::add(const std::string& name, 
+                    std::vector<unsigned int> const& frames,
                     unsigned int time)
 {
     //Push back a POD-initialized AnimationInfo(name, numframes, time)
@@ -29,22 +30,28 @@ void Animation::remove(const std::string& name)
 }
 //}}}
 
-//{{{void Animation::play( char const* name, bool loop, void (*callback)() )
-void Animation::play(const std::string& name, bool loop, void (*callback)())
+//{{{void Animation::select(const std::string& name, bool loop, void (*callback)())
+void Animation::select(const std::string& name, bool loop, std::function<void()> callback)
 {
     //Check that the requested animation is not already playing
     if(!currentAnimation_ || currentAnimation_->name != name)
     {
-        for(auto animation : animations_)
+        //for(auto animation : animations_) 
+
+        for(auto iter = animations_.begin(); iter != animations_.end(); ++iter)
         {
-            if (animation.name == name)
+            AnimationInfo& anim = *iter;
+            if (anim.name == name)
             {
-                currentAnimation_ = &animation;
+                //currentAnimation_ = &animation;
+                currentAnimation_ = &anim;
                 animTimer_.start();
                 currentFrame_ = 0;
                 loop_ = loop;
                 callback_ = callback;
-                update();
+
+                //Change current graphic
+                play();
             }
         }
     }
@@ -77,24 +84,27 @@ void Animation::stop()
 
     //Change appearance to first frame
     //May not be a good idea?
-    update();
+    play();
 
     //Unset member variables
     currentAnimation_ = nullptr;
-    callback_ = nullptr;
+    callback_ = []{};
 }
 //}}}
 
-//{{{void Animation::update()
-//
 //This function could probably use a bit of TLC
-void Animation::update()
+//{{{void Animation::play()
+void Animation::play()
 {
-    //Only update if there is an animation playing
+    //Only play if there is a selected animation
     if(currentAnimation_)
-    {
+    { 
         //Check if we need to change animation frame
-        const bool playNextFrame = animTimer_.getTicks() > currentAnimation_->time;
+        //const unsigned int frameTime = currentAnimation_->time;
+
+        //bool playNextFrame = (frameTime != 0); // Don't animate if frametime is 0
+
+        bool playNextFrame = animTimer_.getTicks() > currentAnimation_->time;
 
         if(playNextFrame)
         {
@@ -121,6 +131,7 @@ void Animation::update()
         }
     }
 
+    //Animation may have ended now. If not, need to set clipping mask for image
     if(currentAnimation_)
     {
         //Start at first frame
