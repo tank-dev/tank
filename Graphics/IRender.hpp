@@ -29,7 +29,7 @@ public:
     virtual ~IRender() {}
 };
 
-class NullRender : public IRender
+class NullRender final : public IRender
 {
 public:
     virtual bool initialize()
@@ -38,22 +38,16 @@ public:
     }
 
     virtual void draw(Texture const* texture,
-                      Vector  const& position) {}
+                      Vector  const& position) override;
     virtual void draw(Texture const* texture,
                       Vector  const& position,
-                      Rect    const& clip) {}
+                      Rect    const& clip) override;
 
-    virtual void drawText(char const* text, Vector const& position) {}
+    virtual void drawText(char const* text, Vector const& position) override;
 
-    virtual void flipDisplay() {}
+    virtual void flipDisplay() override;
 
-    virtual Texture const* getTexture(char const* name)
-    {
-        return nullptr;
-    }
-    virtual bool           loadImage(char const* name, char const* fileName)
-    {
-        return true;
-    }
+    virtual Texture const* getTexture(char const* name) override;
+    virtual bool loadImage(char const* name, char const* fileName) override;
 };
 #endif
