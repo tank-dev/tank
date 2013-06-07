@@ -55,7 +55,7 @@ bool PCRender::initialize()
     return true;
 }
 
-void PCRender::draw(Texture const* texture, Vector const& pos)
+void PCRender::draw(Texture const* texture, Vectorf const& pos)
 {
     //Rect r = { 0, 0, texture.w, texture.h } ;
     //draw( texture, pos, r);
@@ -63,7 +63,7 @@ void PCRender::draw(Texture const* texture, Vector const& pos)
     draw(texture, pos, { 0,  0,  texture->width, texture->height });
 }
 
-void PCRender::draw(Texture const* texture, Vector const& pos, Rect const& clip)
+void PCRender::draw(Texture const* texture, Vectorf const& pos, Rect const& clip)
 {
     // Retrieve SDL_Surface from Resources
     std::string tName = texture->name;
@@ -95,7 +95,7 @@ void PCRender::draw(Texture const* texture, Vector const& pos, Rect const& clip)
 }
 
 //TODO Make this support multiple fonts
-void PCRender::drawText(char const* text, Vector const& pos)
+void PCRender::drawText(char const* text, Vectorf const& pos)
 {
     //TODO Get this from screen width or elsewhere
     const int maxWidth = 600;

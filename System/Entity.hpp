@@ -17,7 +17,7 @@
  *
  *      Entities should be added to gamestates via GameState::addEntity(Entity)
  *
- *      All derived classes contain a [Vector] _position and a reference to a
+ *      All derived classes contain a [Vectorf] _position and a reference to a
  *      _texture (loaded via [IRender]), as well as a [string] _type.
  *      _visible determines whether the entity will be drawn
  *      Every [Entity] has a unique _actorID
@@ -52,7 +52,7 @@ public:
     {
         return _layer;
     }
-    Vector      const& getPos()     const
+    Vectorf      const& getPos()     const
     {
         return _pos;
     }
@@ -80,14 +80,14 @@ public:
     //}}}
 
     //{{{Setters
-    void setState(GameState* const  state);
-    void setPos(Vector     const& pos);
+    void setState(GameState* const state);
+    void setPos(Vectorf const& pos);
     //}}}
 
     /* ------------------------------ *
      * Constructor and Destructor
      * ------------------------------ */
-    Entity(Vector const& pos);
+    Entity(Vectorf const& pos);
     virtual ~Entity();
     //Note: WANT shallow copy, default copy ctor works
 protected:
@@ -97,7 +97,7 @@ protected:
     //{{{Member variables
     //DEFAULT VALUE
     int                _layer;     //0
-    Vector             _pos;
+    Vectorf             _pos;
     Rect               _hitBox;    //(_pos.x,_pos.y,0,0)
     Texture     const* _texture;   //nullptr
     std::string        _type;      //""

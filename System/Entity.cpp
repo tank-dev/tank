@@ -5,18 +5,18 @@
 
 int Entity::_numEnts = 0;
 
-Entity::Entity(Vector const& pos)
+Entity::Entity(Vectorf const& pos)
     : _actorID(_numEnts++),
       _layer(0),
       _pos(pos),
     _hitBox({ static_cast<int>(round(_pos.x)),
-            static_cast<int>(round(_pos.y))
-}),
-_texture(nullptr),
-//_state (state),
-_type(""),
-_solid(false),
-_visible(true)
+              static_cast<int>(round(_pos.y))
+    }),
+    _texture(nullptr),
+    //_state (state),
+    _type(""),
+    _solid(false),
+    _visible(true)
 {
 }
 
@@ -36,9 +36,9 @@ void Entity::setState(GameState* const state)
     _state = state;
 }
 
-void Entity::setPos(Vector const& pos)
+void Entity::setPos(Vectorf const& pos)
 {
-    Vector dif = pos -_pos;
+    Vectorf dif = pos - _pos;
     _pos += dif;
     _hitBox.x += dif.x;
     _hitBox.y += dif.y;

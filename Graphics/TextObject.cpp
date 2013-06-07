@@ -2,12 +2,11 @@
 
 #include "../System/Game.hpp"
 
-TextObject::TextObject(Vector const& pos,
-                       char const* cText,
+TextObject::TextObject(Vectorf const& pos,
+                       std::string s,
                        Uint32 duration)
     :Entity(pos),
-     _duration(duration),
-     _text(nullptr)
+     _duration(duration)
 {
     //std::string sText(cText);
     //_displayTimer.start();
@@ -19,7 +18,7 @@ TextObject::~TextObject()
     //delete _text;
 }
 
-void TextObject::setText(char* cText)
+void TextObject::setText(std::string s)
 {
     /*std::string sText(cText);
     if (_text != nullptr)

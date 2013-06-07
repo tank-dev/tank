@@ -3,6 +3,7 @@
 
 #include "../System/Entity.hpp"
 #include "../Utility/Timer.hpp"
+#include "../Utility/Vector.hpp"
 
 #include <string>
 
@@ -14,7 +15,7 @@ public:
 
     void isInside(Entity*);
 
-    Text(Vector const& pos, char const* const text, unsigned int duration);
+    Text(Vectorf const& pos, std::string text, unsigned int duration);
     ~Text();
 private:
     std::string  _text;

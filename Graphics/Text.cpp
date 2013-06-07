@@ -2,7 +2,7 @@
 
 #include "../System/GameState.hpp"
 
-Text::Text(Vector const& pos, char const* const text, unsigned int duration)
+Text::Text(Vectorf const& pos, std::string text, unsigned int duration)
     :Entity(pos),
      _text(text),
      _duration(duration)

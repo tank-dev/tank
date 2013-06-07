@@ -143,15 +143,15 @@ void Animation::play()
 }
 //}}}
 
-//{{{void Animation::draw(IRender *const render, Vector const& pos)
-void Animation::draw(IRender* const render, const Vector& pos)
+//{{{void Animation::draw(IRender *const render, Vectorf const& pos)
+void Animation::draw(IRender* const render, const Vectorf& pos)
 {
     render->draw(texture_, pos, clip_);
 }
 //}}}
 
 //{{{void Animation::setTexture(Texture const*const texture)
-void Animation::setTexture(const Texture* const texture, const Vector& frameDims)
+void Animation::setTexture(const Texture* const texture, const Vectorf& frameDims)
 {
     frameDimensions_ = frameDims;
     texture_ = texture;

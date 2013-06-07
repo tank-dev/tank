@@ -7,7 +7,7 @@
 struct Texture
 {
 public:
-    std::string name;  /* Name to identify texture */
+    std::string name; /* Name to identify texture */
     int width, height;
 
     /*------------------------- *

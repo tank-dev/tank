@@ -3,6 +3,7 @@
 #define	GAME_H
 
 #include <stack>
+#include <memory>
 #include "../Graphics/IRender.hpp"
 #include "../System/IWindow.hpp"
 #include "../Utility/Timer.hpp"
@@ -15,26 +16,24 @@ public:
     static Game* Instance();
     ~Game();
 
-
     bool initialize();
     void run();
 
     bool addState(GameState*);
     void popState();
 
-    GameState* state();
+    GameState& state();
 private:
     bool _initialized;
     bool _run;
 
     //Hacky hacky hacky
-    bool _deleteState;
+    bool _popState;
 
     IWindow* _window;
     IRender* _render;
 
-    GameState* _currentState;
-    std::stack<GameState*> _states;
+    std::stack<std::unique_ptr<GameState>> _states;
     Timer _frameTimer;
 
     void handleEvents();

@@ -15,20 +15,14 @@
 Game::Game()
     : _initialized(false),
       _run(true),
-      _deleteState(false),
-      _render(NULL),
-      _currentState(NULL) {}
+      _popState(false),
+      _render(nullptr) {}
 //}}}
 
 //{{{Game::~Game()
 Game::~Game()
-{
-    while(!_states.empty())
-    {
-        delete(_states.top());
-        _states.pop();
-    }
-
+{ 
+    std::cout << "Closing window" << std::endl;
     delete(_render);
     delete(_window);
 }//}}}
@@ -38,6 +32,7 @@ Game::~Game()
  * ---------------------------- */
 
 //{{{bool Game::initialize()
+//TODO Handle errors with exceptions
 bool Game::initialize()
 {
     if(!_initialized)
@@ -56,10 +51,9 @@ bool Game::initialize()
 
         if(!_render->initialize())
         {
-            _initialized = false;
+            _initialized = false; 
+            std::cout << "Could not initialize rendering engine" << std::endl;
         }
-
-        std::cout << "Game initialized successfully" << std::endl;
     }
 
     return _initialized;
@@ -84,19 +78,17 @@ void Game::run()
             break;
         }
 
-        _currentState = _states.top();
-
         handleEvents();
 
         //Update current state
-        _currentState->update();
+        _states.top()->update();
 
         draw();
 
-        if(_deleteState)
+        if(_popState)
         {
-            delete _currentState;
-            _deleteState = false;
+            _states.pop();
+            _popState = false;
         }
 
         //Wait to force constant framerate
@@ -124,9 +116,9 @@ void Game::handleEvents()
                 _run = false;
                 break;
             }
-            if(_currentState)
+            if(!_states.empty())
             {
-                _currentState->handleEvents(&event.key);
+                _states.top()->handleEvents(&event.key);
             }
 
             break;
@@ -149,16 +141,14 @@ void Game::handleEvents()
 //{{{bool Game::pushState( GameState* state )
 bool Game::addState(GameState* state)
 {
+    std::unique_ptr<GameState> statePointer = std::unique_ptr<GameState>(state);
     if(state->initialize())
     {
         std::cout << "Loaded state successfully" << std::endl;
-        _states.push(state);
+        _states.push(std::move(statePointer));
 
         return true;
     }
-
-    //This is sort of evil, but makes sense in the grand scheme of things:
-    delete(state);
 
     std::cout << "Not pushing state" << std::endl;
 
@@ -168,8 +158,7 @@ bool Game::addState(GameState* state)
 //{{{void Game::popState()
 void Game::popState()
 {
-    _deleteState = true;
-    _states.pop();
+    _popState = true;
 }//}}}
 
 /* ----------------------------------- *
@@ -202,7 +191,7 @@ void Game::update()
 void Game::draw()
 {
     //Draw current state
-    _currentState->draw(_render);
+    _states.top()->draw(_render);
 
     //Update the screen
     _render->flipDisplay();

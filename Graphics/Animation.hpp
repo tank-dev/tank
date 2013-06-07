@@ -7,8 +7,8 @@
 #include <functional>
 #include "../Graphics/IRender.hpp"
 #include "../Graphics/Texture.hpp"
-#include "../Utility/Rect.hpp"
 #include "../Utility/Vector.hpp"
+#include "../Utility/Rect.hpp"
 #include "../Utility/Timer.hpp"
 
 /* Animation class
@@ -58,7 +58,7 @@ class Animation
 {
 public:
     Animation() = default;
-    Animation(Texture const* const t, const Vector& frameDims) :
+    Animation(Texture const* const t, const Vectorf& frameDims) :
         texture_ {t}, frameDimensions_(frameDims), 
         clip_({0,0,(int)frameDims.x, (int)frameDims.y}) {}
 
@@ -69,7 +69,7 @@ public:
 
     void select(const std::string& name, bool loop = true, std::function<void()> = []{});
     void play();
-    void draw(IRender* const, Vector const& pos);
+    void draw(IRender* const, Vectorf const& pos);
 
     void resume();
     void pause();
@@ -84,7 +84,7 @@ public:
         return currentAnimation_->name;
     }
 
-    void setTexture(Texture const*, Vector const& frameDims);
+    void setTexture(Texture const*, Vectorf const& frameDims);
 
 
 private:
@@ -104,7 +104,7 @@ private:
     unsigned int currentFrame_ {0};
     Timer animTimer_;
     bool loop_ {false};
-    Vector frameDimensions_ {0,0};
+    Vectorf frameDimensions_ {0,0};
     std::function<void()> callback_ = []{};
     Rect clip_ {0,0,0,0};
     std::vector<AnimationInfo>  animations_;

@@ -4,22 +4,28 @@
 
 #include <cmath>
 
+template <typename T>
 struct Vector
 {
-    double x, y;
+    T x, y;
 
-    double Magnitude()
+    inline T dot(Vector const& b) const
+    {
+        return x*b.x + y*b.y;
+    }
+
+    inline T magnitude() const
     {
         return sqrt(x*x+y*y);
     }
 
-    Vector Versor()
+    inline Vector unit() const
     {
-        const double mag = Magnitude();
+        const double mag = magnitude();
         return { x/mag,y/mag };
     }
 
-    Vector& operator*=(float f)
+    inline Vector& operator*=(float f)
     {
         x *= f;
         y *= f;
@@ -27,7 +33,7 @@ struct Vector
         return *this;
     }
 
-    Vector& operator+=(Vector& vect)
+    inline Vector& operator+=(Vector& vect)
     {
         x += vect.x;
         y += vect.y;
@@ -35,7 +41,7 @@ struct Vector
         return *this;
     }
 
-    Vector& operator+=(float f)
+    inline Vector& operator+=(float f)
     {
         x += f;
         y += f;
@@ -43,7 +49,7 @@ struct Vector
         return *this;
     }
 
-    Vector& operator-=(Vector& vect)
+    inline Vector& operator-=(Vector& vect)
     {
         x -= vect.x;
         y -= vect.y;
@@ -51,7 +57,7 @@ struct Vector
         return *this;
     }
 
-    Vector& operator-=(float f)
+    inline Vector& operator-=(T f)
     {
         x -= f;
         y -= f;
@@ -59,18 +65,34 @@ struct Vector
         return *this;
     }
 
-    bool operator==(const Vector& vect)
+    inline bool operator==(const Vector& vect) const
     {
         return x == vect.x && y == vect.y;
     }
 
-    friend float  operator*(Vector const& a, Vector const& b);
-    friend Vector operator*(Vector const& vect, float f);
-    friend Vector operator+(Vector const& a, Vector const& b);
-    friend Vector operator+(Vector const& vect, float f);
-    friend Vector operator+(float f, Vector const& vect);
-    friend Vector operator-(Vector const& a, Vector const& b);
-    friend Vector operator-(Vector const& vect, float f);
-    friend Vector operator-(float f, Vector const& vect);
+    inline Vector operator*(float f) const
+    {
+        return { x*f, y*f };
+    }
+    inline Vector operator+(Vector const& b) const
+    {
+        return {x+b.x, y+b.y};
+    }
+    inline Vector operator+(T s) const
+    {
+        return {x+s, y+s};
+    }
+    inline Vector operator-(Vector const& b) const
+    {
+        return {x-b.x,y-b.y};
+    }
+    inline Vector operator-(T f) const
+    {
+        return {x-f,y-f};
+    }
 };
+
+typedef Vector<float>  Vectorf; 
+typedef Vector<double> Vectord; 
+typedef Vector<int>    Vectori; 
 #endif

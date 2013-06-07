@@ -18,12 +18,12 @@ public:
 
     //Rendering
     virtual void draw(Texture const* texture,
-                      Vector  const& position);
+                      Vectorf  const& position);
     virtual void draw(Texture const* texture,
-                      Vector  const& position,
+                      Vectorf  const& position,
                       Rect    const& clip);
 
-    virtual void drawText(char const* text, Vector const& position);
+    virtual void drawText(char const* text, Vectorf const& position);
     virtual void flipDisplay();
 
     //Image loading/retrieval
