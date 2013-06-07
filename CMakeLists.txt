@@ -15,7 +15,7 @@ endif (APPLE)
 
 set(CMAKE_BUILD_TYPE Debug)
 
-option(Warn "Compile using all warnings" ON)
+option(Warn "Compile using all warnings" OFF)
 
 if(Warn)
     if (NOT MSVC)

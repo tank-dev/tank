@@ -11,7 +11,7 @@
  * Constructor and Destructor
  * ---------------------------- */
 
-//{{{Game::Game()
+//{{{ Game::Game()
 Game::Game()
     : _initialized(false),
       _run(true),
@@ -99,10 +99,13 @@ void Game::run()
             _deleteState = false;
         }
 
+		/* This is horrific, I added a delay function into the timer to avoid this
         //Wait to force constant framerate
         while(_frameTimer.getTicks() < 1000/FRAMES_PER_SECOND && _run)
         {
         }
+		*/
+		Timer::delay(1000 / FRAMES_PER_SECOND - _frameTimer.getTicks());
     }
 }//}}}
 

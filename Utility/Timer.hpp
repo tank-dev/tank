@@ -18,6 +18,8 @@ public:
     void pause();
     void resume();
 
+	static void delay(unsigned long ms);
+
     bool isStarted();
     bool isPaused();
 
