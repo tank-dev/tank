@@ -8,6 +8,7 @@
 #include "../Utility/Vector.hpp"
 #include "../Graphics/Texture.hpp"
 
+//TODO Implement 2D OpenGL to remove stupid dependencies
 class IRender
 {
 public:

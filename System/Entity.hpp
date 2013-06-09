@@ -2,16 +2,13 @@
 #ifndef ENTITY_H
 #define	ENTITY_H
 
-//{{{Includes
+#include <vector>
 #include "../Graphics/IRender.hpp"
 #include "../Graphics/Texture.hpp"
 #include "../Utility/Vector.hpp"
 #include "../Utility/Rect.hpp"
-//}}}
 
 /* Entity class
- *
- * {{{Description:
  *
  *      Virtual base class of all ingame entities.
  *
@@ -24,14 +21,12 @@
  *      Every [Entity[ added to a [GameState] will automatically have its _state
  *      set accordingly.
  *
- *      Derived classes must override update, to define the entitiy's per-frame
+ *      Derived classes must override update, to define the entity's per-frame
  *      behaviour
  *
  *      Draw may be overridden, but should work as-is for all non-animated
  *      entities.
  *      To make an animation, see [Animation]
- *
- * }}}
  *
  */
 
@@ -41,70 +36,69 @@ class Entity
 {
 public:
     //Game loop functions
-    virtual void update() = 0;
+    virtual void update() {}
     virtual void draw(IRender* const);
 
-    //TODO Replace with FP-style collide( "type" )
-    virtual void isInside(Entity*) = 0;
+    std::vector<Entity*> collide(std::string type = "");
 
-    //{{{Getters
-    int                getLayer()   const
+    /* ------------------------------ *
+     * Getters
+     * ------------------------------ */
+    int getLayer() const
     {
         return _layer;
     }
-    Vectorf      const& getPos()     const
+    Vectorf const& getPos() const
     {
         return _pos;
     }
-    Rect        const& getHitBox()  const
+    Rect const& getHitBox() const
     {
-        return _hitBox;
+        return _hitbox;
     }
-    bool               isSolid()    const
+    bool isSolid() const
     {
         return _solid;
     }
 
-    int                getActorID() const
+    int getActorID() const
     {
         return _actorID;
     }
-    static int         getNumEnts()
+    static int getNumEnts()
     {
         return _numEnts;
     }
-    std::string const& getType()    const
+    std::string getType() const
     {
         return _type;
     }
-    //}}}
-
-    //{{{Setters
-    void setState(GameState* const state);
-    void setPos(Vectorf const& pos);
-    //}}}
 
     /* ------------------------------ *
-     * Constructor and Destructor
+     * Setters
+     * ------------------------------ */
+    void setState(GameState* const state);
+    void setPos(Vectorf const& pos);
+
+    /* ------------------------------ *
+     * Ctors/Dtor
      * ------------------------------ */
     Entity(Vectorf const& pos);
     virtual ~Entity();
-    //Note: WANT shallow copy, default copy ctor works
+    //Note: want shallow copy, default copy ctor works
 protected:
     static int _numEnts;
     const  int _actorID;           //Unique ID
 
-    //{{{Member variables
-    //DEFAULT VALUE
+    //Member variables
     int                _layer;     //0
-    Vectorf             _pos;
-    Rect               _hitBox;    //(_pos.x,_pos.y,0,0)
+    Vectorf            _pos;
+    Rect               _hitbox;    //(_pos.x,_pos.y,0,0)
     Texture     const* _texture;   //nullptr
     std::string        _type;      //""
     bool               _solid;     //false
     bool               _visible;   //true
 
     GameState*         _state;     //Set by parent GameState
-    //}}}
 };
 #endif

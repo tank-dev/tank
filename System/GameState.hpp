@@ -21,6 +21,8 @@ public:
     virtual void update();
     virtual void draw(IRender* const);
 
+    virtual std::vector<Entity*>& getEntities() { return _entities; }
+
     GameState();
     virtual ~GameState();
 protected:

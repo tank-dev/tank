@@ -1,6 +1,5 @@
 #include "GameState.hpp"
 
-#include <iostream>
 #include "Entity.hpp"
 
 GameState::GameState()
@@ -14,7 +13,7 @@ void GameState::addEntity(Entity* entity)
     {
         if(entity == existingEnt)
         {
-            std::cout<< "Entity already added." << std::endl;
+            //TODO Log this in some way
             return;
         }
     }
