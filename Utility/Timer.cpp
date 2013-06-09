@@ -70,14 +70,14 @@ void Timer::resume()
 
 #if defined(__WIN32__) || defined(_WIN32) || defined(WIN32) || defined(__WINDOWS__) || defined(__TOS_WIN__)
 
-inline void Timer::delay( unsigned long ms )
+void Timer::delay( unsigned long ms )
 {
 	Sleep( ms );
 }
 
 #else  /* presume POSIX */
 
-inline void Timer::delay( unsigned long ms )
+void Timer::delay( unsigned long ms )
 {
 	usleep( ms * 1000 );
 }

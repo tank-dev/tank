@@ -6,10 +6,8 @@ bool Window::windowExists_ = false;
 
 Window::Window(int width, int height, int flags)
     :caption_(""),
-    size_({static_cast<double>(width),
-          static_cast<double>(height)
-}),
-valid_(false)
+    size_({width, height}),
+    valid_(false)
 {
     if(!windowExists_)
     {
@@ -74,7 +72,7 @@ void Window::setCaption(std::string&& caption)
     }
 }
 
-Vector const& Window::getSize()
+Vectori const& Window::getSize()
 {
     return size_;
 }

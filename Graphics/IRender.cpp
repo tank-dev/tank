@@ -1,12 +1,12 @@
 #include "IRender.hpp"
 
 void NullRender::draw(Texture const* texture,
-                  Vector  const& position) {}
+                  Vectorf  const& position) {}
 void NullRender::draw(Texture const* texture,
-                  Vector  const& position,
+                  Vectorf  const& position,
                   Rect    const& clip) {}
 
-void NullRender::drawText(char const* text, Vector const& position) {}
+void NullRender::drawText(char const* text, Vectorf const& position) {}
 
 void NullRender::flipDisplay() {}
 

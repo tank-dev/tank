@@ -11,7 +11,7 @@ public:
     IWindow() {}
     virtual ~IWindow() {}
 
-    virtual Vector const& getSize() = 0;
+    virtual Vectori const& getSize() = 0;
     virtual std::string const& getCaption() = 0;
 
     virtual void setWidth(int width, int height) = 0;

@@ -4,6 +4,7 @@
 #include <SDL/SDL.h>
 #include <SDL/SDL_image.h>
 #include "IWindow.hpp"
+#include "../Utility/Vector.hpp"
 
 class Window : public IWindow
 {
@@ -11,7 +12,7 @@ public:
     Window(int width, int height, int flags = SDL_HWSURFACE);
     virtual ~Window();
 
-    virtual Vector const& getSize();
+    virtual Vectori const& getSize();
     virtual std::string const& getCaption();
 
     virtual void setWidth(int width, int height);   //Doesn't work
@@ -19,7 +20,7 @@ public:
     virtual void setIcon(std::string&& path);
 private:
     std::string caption_;
-    Vector size_;
+    Vectori size_;
 
     //Is this window instance the current window?
     bool valid_;

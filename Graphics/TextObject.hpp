@@ -8,6 +8,7 @@
 #ifndef TEXTOBJECT_H
 #define	TEXTOBJECT_H
 
+#include <string>
 #include "../System/Entity.hpp"
 
 #include "../Utility/Timer.hpp"
@@ -28,11 +29,11 @@ public:
     void update();
     void draw(IRender* const);
 
-    void setText(char* cText);
+    void setText(std::string);
 
     void isInside(Entity*) {}
 
-    TextObject(Vector const& pos, char const* cText, Uint32 duration = 0);
+    TextObject(Vectorf const& pos, std::string, Uint32 duration = 0);
     ~TextObject();
 private:
     Uint32  _duration;
