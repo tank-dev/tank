@@ -91,15 +91,15 @@ void Game::run()
             _popState = false;
         }
 
-		/* This is horrific, I added a delay function into the timer to avoid this
+########/* This is horrific, I added a delay function into the timer to avoid this
         //Wait to force constant framerate
         while(_frameTimer.getTicks() < 1000/FRAMES_PER_SECOND && _run)
         {
         }
-		*/
-		if (1000 / FRAMES_PER_SECOND > _frameTimer.getTicks()) {
-			Timer::delay((unsigned long)(1000 / FRAMES_PER_SECOND - _frameTimer.getTicks()));
-		}
+########*/
+########if (1000 / FRAMES_PER_SECOND > _frameTimer.getTicks()) {
+############Timer::delay((unsigned long)(1000 / FRAMES_PER_SECOND - _frameTimer.getTicks()));
+########}
     }
 }//}}}
 
