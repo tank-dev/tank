@@ -72,14 +72,14 @@ void Timer::resume()
 
 void Timer::delay( unsigned long ms )
 {
-####Sleep( ms );
+    Sleep( ms );
 }
 
 #else  /* presume POSIX */
 
 void Timer::delay( unsigned long ms )
 {
-####usleep( ms * 1000 );
+    usleep( ms * 1000 );
 }
 
 #endif

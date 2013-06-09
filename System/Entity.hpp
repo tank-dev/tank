@@ -1,6 +1,6 @@
 #pragma once
 #ifndef ENTITY_H
-#define####ENTITY_H
+#define    ENTITY_H
 
 #include <vector>
 #include "../Graphics/IRender.hpp"
