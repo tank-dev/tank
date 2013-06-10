@@ -22,7 +22,12 @@ public:
 
     bool addState(GameState*);
     void popState();
-    void log(std::string logStr) { _log->log(logStr); }
+
+	template<typename... Tail>
+    void log(const std::string& logStr, Tail&&... tail)
+   	{
+        _log->log(logStr, std::forward<Tail>(tail)...);
+   	}
 
     GameState& state();
 private:

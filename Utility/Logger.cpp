@@ -48,7 +48,7 @@ Logger::~Logger()
 {
 }
 
-void Logger::log(std::string logStr)
+void Logger::log(const std::string& logStr)
 {
     std::ofstream log_file(_logFile + ".log", std::ios_base::out | std::ios_base::app);
     log_file << "["
@@ -67,5 +67,49 @@ void Logger::log(std::string logStr)
         << logStr
         << std::endl;
 #endif
+}
+
+template<typename... Tail>
+void Logger::log(const std::string& logStr, Tail&&... tail)
+{
+    std::ofstream log_file(_logFile + ".log", std::ios_base::out | std::ios_base::app);
+    log_file << "["
+        << _logFile
+        << ": "
+        << _timer.getTicks()
+        << "] ";
+#ifdef DEBUG
+    std::cout << "["
+        << _logFile
+        << ": "
+        << _timer.getTicks()
+        << "] ";
+#endif
+
+    _log(log_file, logStr, std::forward<Tail>(tail)...);
+
+	log_file << std::endl;
+#ifdef DEBUG
+    std::cout << std::endl;
+#endif
     log_file.close();
+}
+
+void Logger::_log(std::ofstream log_file, const std::string& logStr)
+{
+    log_file << logStr;
+#ifdef DEBUG
+    std::cout << logStr;
+#endif
+}
+
+template<typename... Tail>
+void Logger::_log(std::ofstream log_file, const std::string& logStr, Tail&&... tail)
+{
+    log_file << logStr;
+#ifdef DEBUG
+    std::cout << logStr;
+#endif
+    
+    _log(log_file, std::forward<Tail>(tail)...);
 }
