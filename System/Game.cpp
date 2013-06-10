@@ -39,8 +39,18 @@ bool Game::initialize()
 {
     if(!_initialized)
     {
-        _log = new Logger("main");
         _initialized = true;
+		
+		//Create the game log file
+        _log = new Logger("Game");
+		if (!_log->initialize())
+		{
+			std::cout << "Something is horribly wrong."
+				<< std::endl
+				<< "The log file has failed to be created."
+				<< std::endl;
+			return false;
+		}
 
         //Create window
         _window = new Window(640,640);
