@@ -6,7 +6,7 @@
  */
 
 #ifndef TIMER_H
-#define	TIMER_H
+#define    TIMER_H
 
 #include <SDL/SDL_timer.h>
 
@@ -17,6 +17,8 @@ public:
     void stop();
     void pause();
     void resume();
+
+    static void delay(unsigned long ms);
 
     bool isStarted();
     bool isPaused();
@@ -33,5 +35,5 @@ private:
     bool _paused;
 };
 
-#endif	/* TIMER_H */
+#endif    /* TIMER_H */
 

@@ -7,6 +7,16 @@
 
 #include "Timer.hpp"
 
+#if defined(__WIN32__) || defined(_WIN32) || defined(WIN32) || defined(__WINDOWS__) || defined(__TOS_WIN__)
+
+#include <windows.h>
+
+#else  /* presume POSIX */
+
+#include <unistd.h>
+
+#endif
+
 Timer::Timer()
 {
     _startTick = 0;
@@ -56,6 +66,23 @@ void Timer::resume()
     }
     _startTick = SDL_GetTicks() - _pausedTick;
 }
+
+
+#if defined(__WIN32__) || defined(_WIN32) || defined(WIN32) || defined(__WINDOWS__) || defined(__TOS_WIN__)
+
+void Timer::delay( unsigned long ms )
+{
+    Sleep( ms );
+}
+
+#else  /* presume POSIX */
+
+void Timer::delay( unsigned long ms )
+{
+    usleep( ms * 1000 );
+}
+
+#endif
 
 bool Timer::isStarted()
 {
