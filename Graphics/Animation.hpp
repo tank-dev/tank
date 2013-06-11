@@ -54,6 +54,9 @@
  *
  */
 
+/*!
+ * \brief Represents an image with multiple frames and stores animations for that image.
+ */
 class Animation
 {
 public:
@@ -84,7 +87,12 @@ public:
         return currentAnimation_->name;
     }
 
-    void setTexture(Texture const*, Vectorf const& frameDims);
+    /*!
+     * \brief setTexture
+     * \param texture
+     * \param frameDims
+     */
+    void setTexture(Texture const*const texture, Vectorf const& frameDims);
 
 
 private:

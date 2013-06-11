@@ -635,7 +635,7 @@ WARN_IF_DOC_ERROR      = YES
 # wrong or incomplete parameter documentation, but not about the absence of 
 # documentation.
 
-WARN_NO_PARAMDOC       = NO
+WARN_NO_PARAMDOC       = YES
 
 # The WARN_FORMAT tag determines the format of the warning messages that 
 # doxygen can produce. The string should contain the $file, $line, and $text 
@@ -953,7 +953,7 @@ HTML_STYLESHEET        =
 # robust against future updates. Doxygen will copy the style sheet file to 
 # the output directory.
 
-HTML_EXTRA_STYLESHEET  = 
+HTML_EXTRA_STYLESHEET  =
 
 # The HTML_EXTRA_FILES tag can be used to specify one or more extra images or 
 # other source files which should be copied to the HTML output directory. Note 
@@ -963,31 +963,6 @@ HTML_EXTRA_STYLESHEET  =
 # the files will be copied as-is; there are no commands or markers available.
 
 HTML_EXTRA_FILES       = 
-
-# The HTML_COLORSTYLE_HUE tag controls the color of the HTML output. 
-# Doxygen will adjust the colors in the style sheet and background images 
-# according to this color. Hue is specified as an angle on a colorwheel, 
-# see http://en.wikipedia.org/wiki/Hue for more information. 
-# For instance the value 0 represents red, 60 is yellow, 120 is green, 
-# 180 is cyan, 240 is blue, 300 purple, and 360 is red again. 
-# The allowed range is 0 to 359.
-
-HTML_COLORSTYLE_HUE    = 244
-
-# The HTML_COLORSTYLE_SAT tag controls the purity (or saturation) of 
-# the colors in the HTML output. For a value of 0 the output will use 
-# grayscales only. A value of 255 will produce the most vivid colors.
-
-HTML_COLORSTYLE_SAT    = 0
-
-# The HTML_COLORSTYLE_GAMMA tag controls the gamma correction applied to 
-# the luminance component of the colors in the HTML output. Values below 
-# 100 gradually make the output lighter, whereas values above 100 make 
-# the output darker. The value divided by 100 is the actual gamma applied, 
-# so 80 represents a gamma of 0.8, The value 220 represents a gamma of 2.2, 
-# and 100 does not change the gamma.
-
-HTML_COLORSTYLE_GAMMA  = 240
 
 # If the HTML_TIMESTAMP tag is set to YES then the footer of each generated HTML 
 # page will contain the date and time when the page was generated. Setting 
@@ -1104,13 +1079,13 @@ GENERATE_QHP           = YES
 # be used to specify the file name of the resulting .qch file. 
 # The path specified is relative to the HTML output folder.
 
-QCH_FILE               = 
+QCH_FILE               = Tank.qch
 
 # The QHP_NAMESPACE tag specifies the namespace to use when generating 
 # Qt Help Project output. For more information please see 
 # http://doc.trolltech.com/qthelpproject.html#namespace
 
-QHP_NAMESPACE          = org.doxygen.Project
+QHP_NAMESPACE          = org.cells.tank
 
 # The QHP_VIRTUAL_FOLDER tag specifies the namespace to use when generating 
 # Qt Help Project output. For more information please see 
