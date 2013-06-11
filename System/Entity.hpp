@@ -12,13 +12,13 @@
  *
  *      Virtual base class of all ingame entities.
  *
- *      Entities should be added to gamestates via GameState::addEntity(Entity)
+ *      Entities should be added to gamestates via State::addEntity(Entity)
  *
  *      All derived classes contain a [Vectorf] _position and a reference to a
  *      _texture (loaded via [IRender]), as well as a [string] _type.
  *      _visible determines whether the entity will be drawn
  *      Every [Entity] has a unique _actorID
- *      Every [Entity[ added to a [GameState] will automatically have its _state
+ *      Every [Entity[ added to a [State] will automatically have its _state
  *      set accordingly.
  *
  *      Derived classes must override update, to define the entity's per-frame
@@ -30,7 +30,7 @@
  *
  */
 
-class GameState;
+class State;
 
 class Entity
 {
@@ -77,7 +77,7 @@ public:
     /* ------------------------------ *
      * Setters
      * ------------------------------ */
-    void setState(GameState* const state);
+    void setState(State* const state);
     void setPos(Vectorf const& pos);
 
     /* ------------------------------ *
@@ -99,6 +99,6 @@ protected:
     bool               _solid;     //false
     bool               _visible;   //true
 
-    GameState*         _state;     //Set by parent GameState
+    State*         _state;     //Set by parent State
 };
 #endif

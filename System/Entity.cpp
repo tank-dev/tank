@@ -2,7 +2,7 @@
 
 #include <cmath>
 #include <algorithm>
-#include "GameState.hpp"
+#include "State.hpp"
 
 int Entity::_numEnts = 0;
 
@@ -30,7 +30,7 @@ void Entity::draw(IRender* const render)
     }
 }
 
-void Entity::setState(GameState* const state)
+void Entity::setState(State* const state)
 {
     _state = state;
 }

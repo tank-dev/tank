@@ -151,10 +151,10 @@ void Game::handleEvents()
  * State management
  * ----------------------------------- */
 
-//{{{bool Game::pushState( GameState* state )
-bool Game::addState(GameState* state)
+//{{{bool Game::pushState( State* state )
+bool Game::addState(State* state)
 {
-    std::unique_ptr<GameState> statePointer = std::unique_ptr<GameState>(state);
+    std::unique_ptr<State> statePointer = std::unique_ptr<State>(state);
     if(state->initialize())
     {
         log("Loaded state successfully");

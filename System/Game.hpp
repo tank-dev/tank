@@ -7,7 +7,7 @@
 #include "../Graphics/IRender.hpp"
 #include "../System/IWindow.hpp"
 #include "../Utility/Timer.hpp"
-#include "GameState.hpp"
+#include "State.hpp"
 #include <SDL/SDL_events.h>
 #include "../Utility/Logger.hpp"
 
@@ -20,7 +20,7 @@ public:
     bool initialize();
     void run();
 
-    bool addState(GameState*);
+    bool addState(State*);
     void popState();
 
 	/**
@@ -32,7 +32,7 @@ public:
 	template<typename... Args>
     void log(const std::string& logStr, Args&&... args);
 
-    GameState& state();
+    State& state();
 private:
     bool _initialized;
     bool _run;
@@ -44,7 +44,7 @@ private:
     IWindow* _window;
     IRender* _render;
 
-    std::stack<std::unique_ptr<GameState>> _states;
+    std::stack<std::unique_ptr<State>> _states;
     Timer _frameTimer;
 
     void handleEvents();

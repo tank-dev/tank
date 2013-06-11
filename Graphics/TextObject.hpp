@@ -21,7 +21,7 @@ enum TextBox
     OTHER
 };
 
-class GameState;
+class State;
 
 class TextObject : public Entity
 {
