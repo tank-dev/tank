@@ -68,6 +68,10 @@ bool Timer::isPaused()
 
 unsigned long Timer::getTicks()
 {
+	if (!_started)
+   	{
+		return 0;
+	}
     if(_paused)
     {
         return std::chrono::duration_cast<std::chrono::milliseconds> (_pausedTick).count();
@@ -77,6 +81,10 @@ unsigned long Timer::getTicks()
 
 unsigned long Timer::getMicrosecs()
 {
+	if (!_started)
+   	{
+		return 0;
+	}
     if(_paused)
     {
         return std::chrono::duration_cast<std::chrono::microseconds> (_pausedTick).count();
@@ -87,7 +95,7 @@ unsigned long Timer::getMicrosecs()
 std::string Timer::getHumanTime()
 {
 	long int microsecs = getMicrosecs();
-	// Returns time in HH:MM:SS.uuuuuu
+	// Returns time in H:M:S.uuuuuu
 	return std::to_string(microsecs/3600000000) + ":" + std::to_string(microsecs/60000000 % 60) + ":" + std::to_string((microsecs % 60000000)/1000000.0 );
 }
 
