@@ -9,6 +9,7 @@
 #include "../Utility/Timer.hpp"
 #include "GameState.hpp"
 #include <SDL/SDL_events.h>
+#include "../Utility/Logger.hpp"
 
 class Game
 {
@@ -22,6 +23,15 @@ public:
     bool addState(GameState*);
     void popState();
 
+	/**
+	 * @brief Log a message in the game logfile.
+	 *
+	 * @param logStr The first part of the message to be logged.
+	 * @param args The rest of the message.
+	 */
+	template<typename... Args>
+    void log(const std::string& logStr, Args&&... args);
+
     GameState& state();
 private:
     bool _initialized;
@@ -30,6 +40,7 @@ private:
     //Hacky hacky hacky
     bool _popState;
 
+    Logger* _log;
     IWindow* _window;
     IRender* _render;
 
@@ -43,4 +54,10 @@ private:
     static Game* _instance;
     Game();
 };
+
+template<typename... Args>
+void Game::log(const std::string& logStr, Args&&... args)
+{
+	_log->log(logStr, std::forward<Args>(args)...);
+}
 #endif

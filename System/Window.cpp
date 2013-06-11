@@ -1,6 +1,8 @@
 #include "Window.hpp"
 
 #include <iostream>
+#include "Game.hpp"
+
 
 bool Window::windowExists_ = false;
 
@@ -14,24 +16,23 @@ Window::Window(int width, int height, int flags)
         valid_ = true;
         bool success = true;
 
-        std::cout << "Opening Window" << std::endl;
+		Game::Instance()->log("Opening Window");
 
         if(SDL_Init(SDL_INIT_EVERYTHING) < 0)
         {
-            std::cout << "OH GOD, SDL REALLY COCKED UP PROPER: ";
-            std::cout << SDL_GetError() << std::endl;
+            Game::Instance()->log("OH GOD, SDL REALLY COCKED UP PROPER: ", SDL_GetError()); 
             success = false;
         }
 
         if(IMG_Init(IMG_INIT_PNG) == -1)
         {
-            std::cout << "Something went wrong: " << IMG_GetError() << std::endl;
+            Game::Instance()->log("Something went wrong: ", IMG_GetError());
             success = false;
         }
 
         if(SDL_SetVideoMode(width, height, 32, flags) == NULL)
         {
-            std::cout << "OH NOEZ: " << SDL_GetError() << std::endl;
+            Game::Instance()->log("OH NOEZ: ", SDL_GetError());
             success = false;
         }
 
@@ -43,7 +44,7 @@ Window::~Window()
 {
     if(windowExists_ && valid_)
     {
-        std::cout << "Closing Window" << std::endl;
+        Game::Instance()->log("Closing Window");
 
         IMG_Quit();
         SDL_Quit();
