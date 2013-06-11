@@ -30,10 +30,7 @@ public:
 	 * @param args The rest of the message.
 	 */
 	template<typename... Args>
-    void log(const std::string& logStr, Args&&... args)
-   	{
-        _log->log(logStr, std::forward<Args>(args)...);
-   	}
+    void log(const std::string& logStr, Args&&... args);
 
     GameState& state();
 private:
@@ -57,4 +54,10 @@ private:
     static Game* _instance;
     Game();
 };
+
+template<typename... Args>
+void Game::log(const std::string& logStr, Args&&... args)
+{
+	_log->log(logStr, std::forward<Args>(args)...);
+}
 #endif
