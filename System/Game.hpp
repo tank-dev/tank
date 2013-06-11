@@ -23,10 +23,16 @@ public:
     bool addState(GameState*);
     void popState();
 
-	template<typename... Tail>
-    void log(const std::string& logStr, Tail&&... tail)
+	/**
+	 * @brief Log a message in the game logfile.
+	 *
+	 * @param logStr The first part of the message to be logged.
+	 * @param args The rest of the message.
+	 */
+	template<typename... Args>
+    void log(const std::string& logStr, Args&&... args)
    	{
-        _log->log(logStr, std::forward<Tail>(tail)...);
+        _log->log(logStr, std::forward<Args>(args)...);
    	}
 
     GameState& state();

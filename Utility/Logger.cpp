@@ -1,13 +1,5 @@
 #include "Logger.hpp"
 
-// temp!!! 
-// This is so it will output to the command line. It should be done in CMake
-// but I'm to tired to work out how to do that right now.
-#define DEBUG
-
-#ifdef DEBUG
-#include <iostream>
-#endif
 
 Logger::Logger(std::string file)
     : _logFile(file),
@@ -17,11 +9,11 @@ Logger::Logger(std::string file)
 
 bool Logger::initialize()
 {
-    std::ofstream log_file(_logFile + ".log", std::ios_base::out | std::ios_base::trunc);
-    if (!log_file.fail())
+    std::ofstream logFile(_logFile + ".log", std::ios_base::out | std::ios_base::trunc);
+    if (!logFile.fail())
     {
         _timer.start();
-        log_file << "["
+        logFile << "["
             << _logFile
             << ": "
             << _timer.getTicks()
@@ -37,7 +29,7 @@ bool Logger::initialize()
             << "Log file created..."
             << std::endl;
 #endif
-        log_file.close();
+        logFile.close();
         return true;
     }
     // Something has gone wrong making this log file.
@@ -48,32 +40,12 @@ Logger::~Logger()
 {
 }
 
-void Logger::log(const std::string& logStr)
+/*
+template<typename... Args>
+void Logger::log(const std::string& logStr, Args&&... args)
 {
-    std::ofstream log_file(_logFile + ".log", std::ios_base::out | std::ios_base::app);
-    log_file << "["
-        << _logFile
-        << ": "
-        << _timer.getTicks()
-        << "] "
-        << logStr
-        << std::endl;
-#ifdef DEBUG
-    std::cout << "["
-        << _logFile
-        << ": "
-        << _timer.getTicks()
-        << "] "
-        << logStr
-        << std::endl;
-#endif
-}
-
-template<typename... Tail>
-void Logger::log(const std::string& logStr, Tail&&... tail)
-{
-    std::ofstream log_file(_logFile + ".log", std::ios_base::out | std::ios_base::app);
-    log_file << "["
+    std::ofstream logFile(_logFile + ".log", std::ios_base::out | std::ios_base::app);
+    logFile << "["
         << _logFile
         << ": "
         << _timer.getTicks()
@@ -86,30 +58,32 @@ void Logger::log(const std::string& logStr, Tail&&... tail)
         << "] ";
 #endif
 
-    _log(log_file, logStr, std::forward<Tail>(tail)...);
-
-	log_file << std::endl;
-#ifdef DEBUG
-    std::cout << std::endl;
-#endif
-    log_file.close();
+    _log(logFile, logStr, std::forward<Args>(args)...);
 }
+*/
 
-void Logger::_log(std::ofstream log_file, const std::string& logStr)
+/*
+void Logger::_log(std::ofstream& logFile)
 {
-    log_file << logStr;
+    logFile
+		<< std::endl;
 #ifdef DEBUG
-    std::cout << logStr;
+    std::cout
+		<< std::endl;
 #endif
+    logFile.close();
 }
+*/
 
-template<typename... Tail>
-void Logger::_log(std::ofstream log_file, const std::string& logStr, Tail&&... tail)
+/*
+template<typename... Args>
+void Logger::_log(std::ofstream& logFile, const std::string& logStr, Args&&... args)
 {
-    log_file << logStr;
+    logFile << logStr;
 #ifdef DEBUG
     std::cout << logStr;
 #endif
     
-    _log(log_file, std::forward<Tail>(tail)...);
+    _log(logFile, std::forward<Args>(args)...);
 }
+*/

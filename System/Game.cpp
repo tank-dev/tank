@@ -42,7 +42,7 @@ bool Game::initialize()
         _initialized = true;
 		
 		//Create the game log file
-        _log = new Logger("Game");
+        _log = new Logger("game");
 		if (!_log->initialize())
 		{
 			std::cout << "Something is horribly wrong."
