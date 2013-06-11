@@ -84,6 +84,13 @@ unsigned long Timer::getMicrosecs()
     return std::chrono::duration_cast<std::chrono::microseconds> (std::chrono::steady_clock::now() - _startTick).count();
 }
 
+std::string Timer::getHumanTime()
+{
+	long int microsecs = getMicrosecs();
+	// Returns time in HH:MM:SS.uuuuuu
+	return std::to_string(microsecs/3600000000) + ":" + std::to_string(microsecs/60000000 % 60) + ":" + std::to_string((microsecs % 60000000)/1000000.0 );
+}
+
 void Timer::delay(unsigned long microsecs)
 {
 	std::chrono::microseconds waitTime(microsecs);

@@ -10,6 +10,7 @@
 #define    TIMER_H
 
 #include <chrono>
+#include <cstring>
 
 class Timer
 {
@@ -26,6 +27,8 @@ public:
 
     unsigned long getTicks();
 	unsigned long getMicrosecs();
+
+	std::string getHumanTime();
 
     Timer();
     Timer(const Timer& orig);
