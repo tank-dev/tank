@@ -23,6 +23,7 @@ endif (APPLE)
 set(CMAKE_BUILD_TYPE Debug)
 
 option(Warn "Compile using all warnings" ON)
+option(Debug "Compile using all warnings" ON)
 
 if(Warn)
     if (NOT MSVC)
@@ -31,6 +32,10 @@ if(Warn)
         set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /Wall /WX")
     endif(NOT MSVC)
 endif(Warn)
+
+if(Debug)
+	set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DDEBUG")
+endif(Debug)
 
 add_subdirectory(System)
 add_subdirectory(Utility)
