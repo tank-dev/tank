@@ -16,7 +16,7 @@ Game::Game()
     : _initialized(false),
       _run(true),
       _popState(false),
-      _log(nullptr),
+      _log("Game"),
       _render(nullptr) {}
 //}}}
 
@@ -26,7 +26,6 @@ Game::~Game()
     log("Closing window");
     delete(_render);
     delete(_window);
-    delete(_log);
 }//}}}
 
 /* ---------------------------- *
@@ -42,8 +41,8 @@ bool Game::initialize()
         _initialized = true;
 		
 		//Create the game log file
-        _log = new Logger("game");
-		if (!_log->initialize())
+        //_log = new Logger("game");
+		if (!_log.initialize())
 		{
 			std::cout << "Something is horribly wrong."
 				<< std::endl

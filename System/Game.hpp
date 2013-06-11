@@ -40,7 +40,7 @@ private:
     //Hacky hacky hacky
     bool _popState;
 
-    Logger* _log;
+    Logger   _log;
     IWindow* _window;
     IRender* _render;
 
@@ -58,6 +58,6 @@ private:
 template<typename... Args>
 void Game::log(const std::string& logStr, Args&&... args)
 {
-	_log->log(logStr, std::forward<Args>(args)...);
+	_log.log(logStr, std::forward<Args>(args)...);
 }
 #endif
