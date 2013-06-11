@@ -1,14 +1,15 @@
 /*
  * File:   Timer.hpp
- * Author: jamie
+ * Author: jamie & David W
  *
  * Created on 17 December 2011, 17:26
  */
 
+#pragma once
 #ifndef TIMER_H
 #define    TIMER_H
 
-#include <SDL/SDL_timer.h>
+#include <chrono>
 
 class Timer
 {
@@ -23,14 +24,15 @@ public:
     bool isStarted();
     bool isPaused();
 
-    Uint32 getTicks();
+    unsigned long getTicks();
 
     Timer();
     Timer(const Timer& orig);
     virtual ~Timer();
 private:
-    Uint32 _startTick;
-    Uint32 _pausedTick;
+
+	std::chrono::steady_clock::time_point _startTick;
+	std::chrono::steady_clock::duration _pausedTick;
     bool _started;
     bool _paused;
 };
