@@ -16,7 +16,7 @@ bool Logger::initialize()
         logFile << "["
             << _logFile
             << ": "
-            << _timer.getTicks()
+            << _timer.getHumanTime()
             << "] "
             << "Log file created..."
             << std::endl;
@@ -24,7 +24,7 @@ bool Logger::initialize()
         std::cout << "["
             << _logFile
             << ": "
-            << _timer.getTicks()
+            << _timer.getHumanTime()
             << "] "
             << "Log file created..."
             << std::endl;
@@ -39,51 +39,3 @@ bool Logger::initialize()
 Logger::~Logger() 
 {
 }
-
-/*
-template<typename... Args>
-void Logger::log(const std::string& logStr, Args&&... args)
-{
-    std::ofstream logFile(_logFile + ".log", std::ios_base::out | std::ios_base::app);
-    logFile << "["
-        << _logFile
-        << ": "
-        << _timer.getTicks()
-        << "] ";
-#ifdef DEBUG
-    std::cout << "["
-        << _logFile
-        << ": "
-        << _timer.getTicks()
-        << "] ";
-#endif
-
-    _log(logFile, logStr, std::forward<Args>(args)...);
-}
-*/
-
-/*
-void Logger::_log(std::ofstream& logFile)
-{
-    logFile
-		<< std::endl;
-#ifdef DEBUG
-    std::cout
-		<< std::endl;
-#endif
-    logFile.close();
-}
-*/
-
-/*
-template<typename... Args>
-void Logger::_log(std::ofstream& logFile, const std::string& logStr, Args&&... args)
-{
-    logFile << logStr;
-#ifdef DEBUG
-    std::cout << logStr;
-#endif
-    
-    _log(logFile, std::forward<Args>(args)...);
-}
-*/

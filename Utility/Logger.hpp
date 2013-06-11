@@ -55,13 +55,13 @@ void Logger::log(const std::string& logStr, Args&&... args)
 	logFile << "["
 		<< _logFile
 		<< ": "
-		<< _timer.getTicks()
+		<< _timer.getHumanTime()
 		<< "] ";
 #ifdef DEBUG
 	std::cout << "["
 		<< _logFile
 		<< ": "
-		<< _timer.getTicks()
+		<< _timer.getHumanTime()
 		<< "] ";
 #endif
 
