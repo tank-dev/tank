@@ -1,6 +1,7 @@
 #include "State.hpp"
 
 #include "Entity.hpp"
+#include "Game.hpp"
 
 State::State()
     : _initialized(false) { }
@@ -19,7 +20,7 @@ bool State::addEntity(Entity* entity)
     {
         if(entity == existingEnt)
         {
-			Game::Instance()->log("Warning: Entity already added");`
+			Game::Instance()->log("Warning: Entity already added");
 			
             return false;
         }
