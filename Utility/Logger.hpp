@@ -6,11 +6,7 @@
 
 #include <fstream>
 
-// temp!!! 
-// This is so it will output to the command line. It should be done in CMake
-// but I'm to tired to work out how to do that right now.
-#define DEBUG
-
+// Outputs everything to the command line if debug is set
 #ifdef DEBUG
 #include <iostream>
 #endif

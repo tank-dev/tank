@@ -1,6 +1,7 @@
 #include "State.hpp"
 
 #include "Entity.hpp"
+#include "Game.hpp"
 
 State::State()
     : _initialized(false) { }
@@ -9,12 +10,18 @@ State::~State() { }
 
 bool State::addEntity(Entity* entity)
 {
+	if (!entity)
+	{
+		Game::Instance()->log("Warning: You can't add a null entity.");
+		return false;
+	}
 	// Stops an entity being added several times
     for(auto existingEnt : _entities)
     {
         if(entity == existingEnt)
         {
-            //TODO Log this in some way
+			Game::Instance()->log("Warning: Entity already added");
+			
             return false;
         }
     }
