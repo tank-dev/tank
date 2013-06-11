@@ -12,9 +12,12 @@
 *.la
 *.a
 
-# Build directory
+# Build directories
 build/
+build*
 
 # Temporary editor files
 *.swp
 *.orig
+*.autosave
+*.user
