@@ -19,12 +19,13 @@ public:
     void pause();
     void resume();
 
-    static void delay(unsigned long ms);
+    static void delay(unsigned long microsecs);
 
     bool isStarted();
     bool isPaused();
 
     unsigned long getTicks();
+	unsigned long getMicrosecs();
 
     Timer();
     Timer(const Timer& orig);

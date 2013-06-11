@@ -75,8 +75,17 @@ unsigned long Timer::getTicks()
     return std::chrono::duration_cast<std::chrono::milliseconds> (std::chrono::steady_clock::now() - _startTick).count();
 }
 
-void Timer::delay(unsigned long ms)
+unsigned long Timer::getMicrosecs()
 {
-	std::chrono::milliseconds waitTime(ms);
+    if(_paused)
+    {
+        return std::chrono::duration_cast<std::chrono::microseconds> (_pausedTick).count();
+    }
+    return std::chrono::duration_cast<std::chrono::microseconds> (std::chrono::steady_clock::now() - _startTick).count();
+}
+
+void Timer::delay(unsigned long microsecs)
+{
+	std::chrono::microseconds waitTime(microsecs);
 	std::this_thread::sleep_for(waitTime);
 }
