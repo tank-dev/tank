@@ -1,3 +1,4 @@
+#pragma once
 #ifndef LOGGER_HPP
 #define LOGGER_HPP
 
@@ -16,7 +17,7 @@ class Logger
     {
         Logger& enclosing_;
     public:
-        explicit LogHelper(Logger& enclosing) : enclosing_{enclosing} {}
+        explicit LogHelper(Logger& enclosing) : enclosing_(enclosing) {}
         template <typename T> LogHelper& operator<< (const T& t) {
             enclosing_.logFile_ << t;
 #ifdef DEBUG
@@ -72,4 +73,4 @@ Logger::LogHelper& Logger::operator<<(const T& t)
 }
 
 
-#endif
+#endif //LOGGER_HPP
