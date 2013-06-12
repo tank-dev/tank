@@ -1,90 +1,75 @@
-#pragma once
-#ifndef LOGGER_H
-#define LOGGER_H
+#ifndef LOGGER_HPP
+#define LOGGER_HPP
 
 #include "Timer.hpp"
-
-#include <fstream>
-
-// Outputs everything to the command line if debug is set
-#ifdef DEBUG
+#include <string>
 #include <iostream>
-#endif
+#include <fstream>
 
 class Logger
 {
+    std::string fileName_;
+    Timer timer_;
+    std::ofstream logFile_;
+
+    class LogHelper
+    {
+        Logger& enclosing_;
+    public:
+        explicit LogHelper(Logger& enclosing) : enclosing_{enclosing} {}
+        template <typename T> LogHelper& operator<< (const T& t) {
+            enclosing_.logFile_ << t;
+#ifdef DEBUG
+            std::clog << t;
+#endif
+            return *this;
+        }
+    } logHelper_{*this};
+
 public:
     Logger(std::string file);
     ~Logger();
 
-	/**
-	 * @brief Initializes the log file. This involves deleting any existing log
-	 * file of the same name and creating a new one. This also starts the log
-	 * timer. Be careful not to make 2 logs of the same name.
-	 *
-	 * @return True if the logfile was created successfully
-	 */
-    bool initialize();
-
-	/**
-	 * @brief Logs a message in a variable number of parts.
-	 *
-	 * @param logStr The first bit of the message.
-	 * @param args The rest of the message.
-	 */
-    template<typename... Args>
-    void log(const std::string& logStr, Args&&... args);
-
-private:
-    std::string _logFile;
-    Timer _timer;
-
-    template<typename... Args>
-    void _log(std::ofstream& logFile, const std::string& logStr, Args&&... args);
-    void _log(std::ofstream& logFile);
+    template <typename T>
+    LogHelper& operator<<(const T& t);
 };
 
-template<typename... Args>
-void Logger::log(const std::string& logStr, Args&&... args)
+Logger::Logger(std::string file) : fileName_{file}, logFile_{fileName_}
 {
-	std::ofstream logFile(_logFile + ".log", std::ios_base::out | std::ios_base::app);
-	logFile << "["
-		<< _logFile
-		<< ": "
-		<< _timer.getHumanTime()
-		<< "] ";
+    timer_.start();
+    logFile_ << "["
+        << file
+        << ": "
+        << timer_.getHumanTime()
+        << "] "
+        << "Log file created...";
 #ifdef DEBUG
-	std::cout << "["
-		<< _logFile
-		<< ": "
-		<< _timer.getHumanTime()
-		<< "] ";
+    std::clog << "["
+        << file
+        << ": "
+        << timer_.getHumanTime()
+        << "] "
+        << "Log file created...";
 #endif
-
-	_log(logFile, logStr, std::forward<Args>(args)...);
-
 }
 
-template<typename... Args>
-void Logger::_log(std::ofstream& logFile, const std::string& logStr, Args&&... args)
+Logger::~Logger()
 {
-	logFile << logStr;
-#ifdef DEBUG
-	std::cout << logStr;
-#endif
-	_log(logFile, std::forward<Args>(args)...);
+    logHelper_ << '\n';
 }
 
-inline
-void Logger::_log(std::ofstream& logFile) 
+template <typename T>
+Logger::LogHelper& Logger::operator<<(const T& t)
 {
-	logFile
-		<< std::endl;
-#ifdef DEBUG
-	std::cout
-		<< std::endl;
-#endif
-	logFile.close();
+    logHelper_ << '\n' << "["
+        << fileName_
+        << ": "
+        << timer_.getHumanTime()
+        << "] "
+        << t;
+
+    return logHelper_;
 }
+
 
 #endif
