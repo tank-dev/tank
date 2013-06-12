@@ -11,28 +11,24 @@
  * Constructor and Destructor
  * ---------------------------- */
 
-//{{{ Game::Game()
 Game::Game()
     : _initialized(false),
       _run(true),
       _popState(false),
       _log("Game"),
       _render(nullptr) {}
-//}}}
 
-//{{{Game::~Game()
 Game::~Game()
 { 
     log("Closing window");
     delete(_render);
     delete(_window);
-}//}}}
+}
 
 /* ---------------------------- *
  * Initialization
  * ---------------------------- */
 
-//{{{bool Game::initialize()
 //TODO Handle errors with exceptions
 bool Game::initialize()
 {
@@ -69,13 +65,12 @@ bool Game::initialize()
     }
 
     return _initialized;
-}//}}}
+}
 
 /* ----------------------------------- *
  * Main Game Loop
  * ----------------------------------- */
 
-//{{{void Game::run()
 void Game::run()
 {
     log("Entering main loop");
@@ -108,9 +103,8 @@ void Game::run()
             Timer::delay((unsigned long)(1000000 / FRAMES_PER_SECOND - _frameTimer.getTicks()));
         }
     }
-}//}}}
+}
 
-//{{{void Game::handleEvents()
 void Game::handleEvents()
 {
     SDL_Event event;
@@ -144,13 +138,12 @@ void Game::handleEvents()
             break;
         }
     }
-}//}}}
+}
 
 /* ----------------------------------- *
  * State management
  * ----------------------------------- */
 
-//{{{bool Game::pushState( State* state )
 bool Game::addState(State* state)
 {
     std::unique_ptr<State> statePointer = std::unique_ptr<State>(state);
@@ -165,20 +158,18 @@ bool Game::addState(State* state)
     log("Not pushing state");
 
     return false;
-}//}}}
+}
 
-//{{{void Game::popState()
 void Game::popState()
 {
     _popState = true;
-}//}}}
+}
 
 /* ----------------------------------- *
  * Singleton stuff
  * TODO Make this not a singleton
  * ----------------------------------- */
 
-//{{{Singleton
 Game* Game::_instance = nullptr;
 Game* Game::Instance()
 {
@@ -188,7 +179,6 @@ Game* Game::Instance()
     }
     return _instance;
 }
-//}}}
 
 /* --------------------------- *
  * Update and draw functions
@@ -199,7 +189,6 @@ void Game::update()
 {
 }
 
-//{{{void Game::draw()
 void Game::draw()
 {
     //Draw current state
@@ -208,4 +197,4 @@ void Game::draw()
     //Update the screen
     _render->flipDisplay();
 
-}//}}}
+}

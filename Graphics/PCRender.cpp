@@ -134,10 +134,6 @@ void PCRender::drawText(char const* text, Vectorf const& pos)
     destRect.x = pos.x;
     destRect.y = pos.y;
 
-    //Weird SDL Alpha settings
-    //SDL_SetAlpha(   font, 0,    font->format->alpha);
-    //SDL_SetAlpha(surface, 0, surface->format->alpha);
-
     for(int i = 0; i < length; ++i)
     {
         c = toupper(text[i]);
@@ -156,10 +152,6 @@ void PCRender::drawText(char const* text, Vectorf const& pos)
             destRect.y += letterSize;
         }
     }
-
-    //Seal the SDL Alpha deal
-    //SDL_SetAlpha(   font, SDL_SRCALPHA,    font->format->alpha);
-    //SDL_SetAlpha(surface, SDL_SRCALPHA, surface->format->alpha);
 }
 
 void PCRender::flipDisplay()
@@ -167,38 +159,6 @@ void PCRender::flipDisplay()
     SDL_Flip(_screen);
     SDL_FillRect(_screen, nullptr, SDL_MapRGBA(_screen->format,0x66,0xFF,0xFF,0xFF));
 }
-
-///////////////////////////////
-//// Things to move elsewhere
-///////////////////////////////
-/*int PCRender::LoadTextures()
-{
-    _textures[ENT_TEXT_BIG]    = LoadImage(   "Font.png"          );
-    _textures[ENT_TEXT_SMALL]  = LoadImage(   "FontSmall.png"     );
-    _textures[TILE_GRASS]      = LoadImage(   "GrassTiles.png"    );
-    _textures[TILE_SAND]       = LoadImage(   "SandTiles.png"     );
-    _textures[TILE_SAND_WATER] = LoadImage(   "SandWaterTiles.png");
-    _textures[TILE_WATER]      = LoadImage(   "WaterTiles.png"    );
-    _textures[ENT_PLAYER]      = LoadImage(   "Player.png"        );
-    _textures[ENT_TREE_SMALL]  = LoadImage(   "SmallTree.png"     );
-    _textures[ENT_TREE_LARGE]  = LoadImage(   "LargeTree.png"     );
-    _textures[ENT_OCEAN_ROCK]  = LoadImage(   "OceanRock.png"     );
-    _textures[ENT_BAMBOO]      = LoadImage(   "Bamboo.png"        );
-    _textures[ENT_TREE_PALM]   = LoadImage(   "PalmTree.png"      );
-    _textures[ENT_ROCK_SMALL]  = LoadImage(   "SmallRock.png"     );
-    _textures[ENT_ROCK_LARGE]  = LoadImage(   "LargeRock.png"     );
-
-    std::map<EntityType,SDL_Surface*>::iterator iter;
-
-    for (iter = _textures.begin(); iter != _textures.end(); iter++)
-    {
-        if(iter->second == nullptr)
-        {
-            return 0;
-        }
-    }
-    return 1;
-}*/
 
 bool PCRender::loadImage(char const* name, char const* fileName)
 {

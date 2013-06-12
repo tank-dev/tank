@@ -2,7 +2,6 @@
 
 #include <algorithm>
 
-//{{{void Animation::add(const std::string& name, std::vector<unsigned int> const& frames,
 void Animation::add(const std::string& name, 
                     std::vector<unsigned int> const& frames,
                     unsigned int time)
@@ -10,9 +9,7 @@ void Animation::add(const std::string& name,
     //Push back a POD-initialized AnimationInfo(name, numframes, time)
     animations_.push_back({name, frames, time });
 }
-//}}}
 
-//{{{void Animation::remove(char const* name)
 void Animation::remove(const std::string& name)
 {
     // Find the animation by name
@@ -28,9 +25,7 @@ void Animation::remove(const std::string& name)
         animations_.erase(iter);
     }
 }
-//}}}
 
-//{{{void Animation::select(const std::string& name, bool loop, void (*callback)())
 void Animation::select(const std::string& name, bool loop, std::function<void()> callback)
 {
     //Check that the requested animation is not already playing
@@ -52,16 +47,12 @@ void Animation::select(const std::string& name, bool loop, std::function<void()>
         }
     }
 }
-//}}}
 
-//{{{void Animation::pause()
 void Animation::pause()
 {
     animTimer_.pause();
 }
-//}}}
 
-//{{{void Animation::resume()
 void Animation::resume()
 {
     if(animTimer_.isPaused() && currentAnimation_ != nullptr)
@@ -69,9 +60,7 @@ void Animation::resume()
         animTimer_.resume();
     }
 }
-//}}}
 
-//{{{void Animation::stop()
 void Animation::stop()
 {
     animTimer_.stop(); //Set timer to 0
@@ -86,10 +75,8 @@ void Animation::stop()
     currentAnimation_ = nullptr;
     callback_ = []{};
 }
-//}}}
 
 //This function could probably use a bit of TLC
-//{{{void Animation::play()
 void Animation::play()
 {
     //Only play if there is a selected animation
@@ -141,19 +128,14 @@ void Animation::play()
         clip_.w = frameDimensions_.x;
     }
 }
-//}}}
 
-//{{{void Animation::draw(IRender *const render, Vectorf const& pos)
 void Animation::draw(IRender* const render, const Vectorf& pos)
 {
     render->draw(texture_, pos, clip_);
 }
-//}}}
 
-//{{{void Animation::setTexture(Texture const*const texture)
 void Animation::setTexture(const Texture* const texture, const Vectorf& frameDims)
 {
     frameDimensions_ = frameDims;
     texture_ = texture;
 }
-//}}}

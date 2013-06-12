@@ -13,7 +13,6 @@
 
 /* Animation class
  *
- * {{{Description:
  *
  *      Based on FlashPunk's FP.graphics.Sprite class
  *
@@ -50,7 +49,6 @@
  *      NOTE: *stop* will set the state of the [Animation] to the first frame of
  *      the current animation.
  *
- * }}}
  *
  */
 
