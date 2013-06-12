@@ -16,7 +16,7 @@ class Logger
     {
         Logger& enclosing_;
     public:
-        explicit LogHelper(Logger& enclosing) : enclosing_{enclosing} {}
+        explicit LogHelper(Logger& enclosing) : enclosing_(enclosing) {}
         template <typename T> LogHelper& operator<< (const T& t) {
             enclosing_.logFile_ << t;
 #ifdef DEBUG
