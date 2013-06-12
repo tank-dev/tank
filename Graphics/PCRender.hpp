@@ -34,10 +34,10 @@ public:
     PCRender();
     virtual ~PCRender();
 private:
-    std::map<std::string, Texture> _textures;
+    std::map<std::string, Texture> textures_;
 
     /* Implementation-specific private data */
-    SDL_Surface* _screen;
-    std::map<std::string, SDL_Surface*> _images;
+    SDL_Surface* screen_;
+    std::map<std::string, SDL_Surface*> images_;
 };
 #endif

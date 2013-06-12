@@ -14,11 +14,11 @@
  *
  *      Entities should be added to gamestates via State::addEntity(Entity)
  *
- *      All derived classes contain a [Vectorf] _position and a reference to a
- *      _texture (loaded via [IRender]), as well as a [string] _type.
- *      _visible determines whether the entity will be drawn
- *      Every [Entity] has a unique _actorID
- *      Every [Entity[ added to a [State] will automatically have its _state
+ *      All derived classes contain a [Vectorf] position_ and a reference to a
+ *      texture_ (loaded via [IRender]), as well as a [string] type_.
+ *      visible_ determines whether the entity will be drawn
+ *      Every [Entity] has a unique actorID_
+ *      Every [Entity[ added to a [State] will automatically have its state_
  *      set accordingly.
  *
  *      Derived classes must override update, to define the entity's per-frame
@@ -46,32 +46,32 @@ public:
      * ------------------------------ */
     int getLayer() const
     {
-        return _layer;
+        return layer_;
     }
     Vectorf const& getPos() const
     {
-        return _pos;
+        return pos_;
     }
     Rect const& getHitBox() const
     {
-        return _hitbox;
+        return hitbox_;
     }
     bool isSolid() const
     {
-        return _solid;
+        return solid_;
     }
 
     int getActorID() const
     {
-        return _actorID;
+        return actorID_;
     }
     static int getNumEnts()
     {
-        return _numEnts;
+        return numEnts_;
     }
     std::string getType() const
     {
-        return _type;
+        return type_;
     }
 
     /* ------------------------------ *
@@ -87,18 +87,18 @@ public:
     virtual ~Entity();
     //Note: want shallow copy, default copy ctor works
 protected:
-    static int _numEnts;
-    const  int _actorID;           //Unique ID
+    static int numEnts_;
+    const  int actorID_;           //Unique ID
 
     //Member variables
-    int                _layer;     //0
-    Vectorf            _pos;
-    Rect               _hitbox;    //(_pos.x,_pos.y,0,0)
-    Texture     const* _texture;   //nullptr
-    std::string        _type;      //""
-    bool               _solid;     //false
-    bool               _visible;   //true
+    int                layer_;     //0
+    Vectorf            pos_;
+    Rect               hitbox_;    //(pos_.x,pos_.y,0,0)
+    Texture     const* texture_;   //nullptr
+    std::string        type_;      //""
+    bool               solid_;     //false
+    bool               visible_;   //true
 
-    State*         _state;     //Set by parent State
+    State*         state_;     //Set by parent State
 };
 #endif

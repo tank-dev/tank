@@ -1,21 +1,21 @@
 #include "ServiceLocator.hpp"
 
-IRender* ServiceLocator::_render;
-NullRender ServiceLocator::_nullRender;
+IRender* ServiceLocator::render_;
+NullRender ServiceLocator::nullRender_;
 
 IRender* ServiceLocator::getRender()
 {
-    return _render;
+    return render_;
 }
 
 void ServiceLocator::provide(IRender* r)
 {
     if(r)
     {
-        _render = r;
+        render_ = r;
     }
     else
     {
-        _render = &_nullRender;
+        render_ = &nullRender_;
     }
 }

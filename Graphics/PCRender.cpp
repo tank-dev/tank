@@ -18,7 +18,7 @@
 /////////////////////////
 PCRender::PCRender()
 {
-    _screen = nullptr;
+    screen_ = nullptr;
 }
 
 /////////////////////////
@@ -26,14 +26,14 @@ PCRender::PCRender()
 /////////////////////////
 PCRender::~PCRender()
 {
-    Game::Instance()->log("PCRender engine shutting down");
+    Game::Instance()->log() << "PCRender engine shutting down";
 
-    for(auto iter = _images.begin(); iter != _images.end(); iter++)
+    for(auto iter = images_.begin(); iter != images_.end(); iter++)
     {
         SDL_FreeSurface(iter->second);
     }
 
-    _textures.clear();
+    textures_.clear();
 }
 
 /* --------------------------------------- *
@@ -45,10 +45,10 @@ PCRender::~PCRender()
 /////////////////////////
 bool PCRender::initialize()
 {
-    _screen = SDL_GetVideoSurface();
-    if(_screen == nullptr)
+    screen_ = SDL_GetVideoSurface();
+    if(screen_ == nullptr)
     {
-        Game::Instance()->log("Could not retrieve video surface: ", std::string(SDL_GetError()));
+        Game::Instance()->log() << "Could not retrieve video surface: " << std::string(SDL_GetError());
         return false;
     }
 
@@ -68,7 +68,7 @@ void PCRender::draw(Texture const* texture, Vectorf const& pos, Rect const& clip
     // Retrieve SDL_Surface from Resources
     std::string tName = texture->name;
 
-    SDL_Surface* surface = _images[tName];
+    SDL_Surface* surface = images_[tName];
 
     if(surface != nullptr)
     {
@@ -85,11 +85,11 @@ void PCRender::draw(Texture const* texture, Vectorf const& pos, Rect const& clip
         sdlClip.w = clip.w;
         sdlClip.h = clip.h;
 
-        SDL_BlitSurface(surface, &sdlClip, _screen, &offset);
+        SDL_BlitSurface(surface, &sdlClip, screen_, &offset);
     }
     else
     {
-        Game::Instance()->log("Render Error: Texture does not exist (", texture->name, ")");
+        Game::Instance()->log() << "Render Error: Texture does not exist (" << texture->name << ")";
     }
 }
 
@@ -99,7 +99,7 @@ void PCRender::drawText(char const* text, Vectorf const& pos)
     //TODO Get this from screen width or elsewhere
     const int maxWidth = 600;
 
-    SDL_Surface* font = _images["fontsmall"];
+    SDL_Surface* font = images_["fontsmall"];
 
     char c; // character buffer
     int length = strlen(text);
@@ -142,7 +142,7 @@ void PCRender::drawText(char const* text, Vectorf const& pos)
 
         //Blit directly to the screen
         //May not work
-        SDL_BlitSurface(font, &srcRect, _screen, &destRect);
+        SDL_BlitSurface(font, &srcRect, screen_, &destRect);
 
         destRect.x += letterSize;
 
@@ -156,8 +156,8 @@ void PCRender::drawText(char const* text, Vectorf const& pos)
 
 void PCRender::flipDisplay()
 {
-    SDL_Flip(_screen);
-    SDL_FillRect(_screen, nullptr, SDL_MapRGBA(_screen->format,0x66,0xFF,0xFF,0xFF));
+    SDL_Flip(screen_);
+    SDL_FillRect(screen_, nullptr, SDL_MapRGBA(screen_->format,0x66,0xFF,0xFF,0xFF));
 }
 
 bool PCRender::loadImage(char const* name, char const* fileName)
@@ -169,7 +169,7 @@ bool PCRender::loadImage(char const* name, char const* fileName)
 
     if(temp == nullptr)
     {
-        Game::Instance()->log(SDL_GetError());
+        Game::Instance()->log() << SDL_GetError();
 
         return false;
     }
@@ -180,16 +180,16 @@ bool PCRender::loadImage(char const* name, char const* fileName)
 
     if(optimized  == nullptr)
     {
-        Game::Instance()->log(SDL_GetError());
+        Game::Instance()->log() << SDL_GetError();
 
         return false;
     }
 
-    _images.insert(std::pair<std::string, SDL_Surface*>(name, optimized));
+    images_.insert(std::pair<std::string, SDL_Surface*>(name, optimized));
 
     Texture t = { name, optimized->w, optimized->h };
 
-    _textures.insert(std::pair<std::string, Texture>(name, t));
+    textures_.insert(std::pair<std::string, Texture>(name, t));
 
     return true;
 }
@@ -198,5 +198,5 @@ Texture const* PCRender::getTexture(char const* name)
 {
     std::string strName = name;
 
-    return &_textures[strName];
+    return &textures_[strName];
 }
