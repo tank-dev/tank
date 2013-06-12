@@ -38,7 +38,7 @@ public:
     {
         static_assert(std::is_base_of<State,T>::value, "Class must derive from State");
         T* state = new T(std::forward<Args>(args)...);
-        _states.emplace(state);
+        states_.emplace(state);
         return *state;
     }
 
