@@ -1,3 +1,4 @@
+#pragma once
 #ifndef LOGGER_HPP
 #define LOGGER_HPP
 
@@ -72,4 +73,4 @@ Logger::LogHelper& Logger::operator<<(const T& t)
 }
 
 
-#endif
+#endif //LOGGER_HPP
