@@ -19,7 +19,7 @@ Game::Game()
       _render(nullptr) {}
 
 Game::~Game()
-{ 
+{
     log("Closing window");
     delete(_render);
     delete(_window);
@@ -35,7 +35,7 @@ bool Game::initialize()
     if(!_initialized)
     {
         _initialized = true;
-		
+
 		//Create the game log file
         //_log = new Logger("game");
 		if (!_log.initialize())
@@ -59,7 +59,7 @@ bool Game::initialize()
 
         if(!_render->initialize())
         {
-            _initialized = false; 
+            _initialized = false;
             log("Could not initialize rendering engine");
         }
     }
@@ -144,7 +144,7 @@ void Game::handleEvents()
  * State management
  * ----------------------------------- */
 
-bool Game::addState(State* state)
+/* bool Game::addState(State* state)
 {
     std::unique_ptr<State> statePointer = std::unique_ptr<State>(state);
     if(state->initialize())
@@ -158,7 +158,7 @@ bool Game::addState(State* state)
     log("Not pushing state");
 
     return false;
-}
+}*/
 
 void Game::popState()
 {
@@ -196,5 +196,4 @@ void Game::draw()
 
     //Update the screen
     _render->flipDisplay();
-
 }

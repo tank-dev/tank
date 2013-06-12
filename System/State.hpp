@@ -24,7 +24,6 @@ public:
     bool addEntity(Entity*);
     void removeEntity(Entity*);
 
-    virtual bool initialize() = 0;
     virtual void handleEvents(SDL_KeyboardEvent* const) = 0;
     virtual void update();
     virtual void draw(IRender* const);

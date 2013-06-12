@@ -20,7 +20,7 @@ public:
     bool initialize();
     void run();
 
-    bool addState(State*);
+    //bool addState(State*);
     void popState();
 
 	/**
@@ -31,6 +31,15 @@ public:
 	 */
 	template<typename... Args>
     void log(const std::string& logStr, Args&&... args);
+
+    template<typename T, typename... Args>
+    T& makeState(Args&&... args)
+    {
+        static_assert(std::is_base_of<State,T>::value, "Class must derive from State");
+        T* state = new T(std::forward<Args>(args)...);
+        _states.emplace(state);
+        return *state;
+    }
 
     State& state();
 private:
