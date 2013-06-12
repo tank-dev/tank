@@ -11,7 +11,7 @@ public:
     static IRender* getRender();
     static void provide(IRender*);
 private:
-    static IRender* _render;
-    static NullRender _nullRender;
+    static IRender* render_;
+    static NullRender nullRender_;
 };
 #endif

@@ -12,16 +12,16 @@
  * ---------------------------- */
 
 Game::Game()
-    : _initialized(false),
-      _run(true),
-      _popState(false),
-      _render(nullptr) {}
+    : initialized_(false),
+      run_(true),
+      popState_(false),
+      render_(nullptr) {}
 
 Game::~Game()
 { 
     log() << "Closing window";
-    delete(_render);
-    delete(_window);
+    delete(render_);
+    delete(window_);
 }
 
 /* ---------------------------- *
@@ -31,28 +31,28 @@ Game::~Game()
 //TODO Handle errors with exceptions
 bool Game::initialize()
 {
-    if(!_initialized)
+    if(!initialized_)
     {
-        _initialized = true;
+        initialized_ = true;
 
         //Create window
-        _window = new Window(640,640);
+        window_ = new Window(640,640);
 
         //Select PCRender as the rendering engine
         log() << "Loading rendering engine";
 
-        _render = new PCRender();
+        render_ = new PCRender();
 
-        ServiceLocator::provide(_render);  //Make render available on request
+        ServiceLocator::provide(render_);  //Make render available on request
 
-        if(!_render->initialize())
+        if(!render_->initialize())
         {
-            _initialized = false; 
+            initialized_ = false; 
             log() << "Could not initialize rendering engine";
         }
     }
 
-    return _initialized;
+    return initialized_;
 }
 
 /* ----------------------------------- *
@@ -62,33 +62,33 @@ bool Game::initialize()
 void Game::run()
 {
     log() << "Entering main loop";
-    while(_run)
+    while(run_)
     {
-        _frameTimer.start();
+        frameTimer_.start();
 
-        if(_states.empty())
+        if(states_.empty())
         {
             log() << "No game state";
-            _run = false;
+            run_ = false;
             break;
         }
 
         handleEvents();
 
         //Update current state
-        _states.top()->update();
+        states_.top()->update();
 
         draw();
 
-        if(_popState)
+        if(popState_)
         {
-            _states.pop();
-            _popState = false;
+            states_.pop();
+            popState_ = false;
         }
 
 		//Delay until the next frame so the game stays at 60fps
-        if (1000000 / FRAMES_PER_SECOND > _frameTimer.getMicrosecs()) {
-            Timer::delay((unsigned long)(1000000 / FRAMES_PER_SECOND - _frameTimer.getTicks()));
+        if (1000000 / FRAMES_PER_SECOND > frameTimer_.getMicrosecs()) {
+            Timer::delay((unsigned long)(1000000 / FRAMES_PER_SECOND - frameTimer_.getTicks()));
         }
     }
 }
@@ -107,12 +107,12 @@ void Game::handleEvents()
             if((event.key.keysym.sym == SDLK_F4 && event.key.keysym.mod & KMOD_ALT)
                     || (event.key.keysym.sym == SDLK_w  && event.key.keysym.mod & KMOD_CTRL))
             {
-                _run = false;
+                run_ = false;
                 break;
             }
-            if(!_states.empty())
+            if(!states_.empty())
             {
-                _states.top()->handleEvents(&event.key);
+                states_.top()->handleEvents(&event.key);
             }
 
             break;
@@ -120,7 +120,7 @@ void Game::handleEvents()
             draw();
             break;
         case SDL_QUIT:
-            _run = false;
+            run_ = false;
             break;
         default:
             break;
@@ -138,7 +138,7 @@ bool Game::addState(State* state)
     if(state->initialize())
     {
         log() << "Loaded state successfully";
-        _states.push(std::move(statePointer));
+        states_.push(std::move(statePointer));
 
         return true;
     }
@@ -150,7 +150,7 @@ bool Game::addState(State* state)
 
 void Game::popState()
 {
-    _popState = true;
+    popState_ = true;
 }
 
 /* ----------------------------------- *
@@ -158,14 +158,14 @@ void Game::popState()
  * TODO Make this not a singleton
  * ----------------------------------- */
 
-Game* Game::_instance = nullptr;
+Game* Game::instance_ = nullptr;
 Game* Game::Instance()
 {
-    if(_instance == nullptr)
+    if(instance_ == nullptr)
     {
-        _instance = new Game;
+        instance_ = new Game;
     }
-    return _instance;
+    return instance_;
 }
 
 /* --------------------------- *
@@ -180,9 +180,9 @@ void Game::update()
 void Game::draw()
 {
     //Draw current state
-    _states.top()->draw(_render);
+    states_.top()->draw(render_);
 
     //Update the screen
-    _render->flipDisplay();
+    render_->flipDisplay();
 
 }

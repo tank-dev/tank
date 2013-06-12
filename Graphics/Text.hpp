@@ -18,8 +18,8 @@ public:
     Text(Vectorf const& pos, std::string text, unsigned int duration);
     ~Text();
 private:
-    std::string  _text;
-    unsigned int _duration;
-    Timer        _displayTimer;
+    std::string  text_;
+    unsigned int duration_;
+    Timer        displayTimer_;
 };
 #endif

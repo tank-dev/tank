@@ -30,29 +30,29 @@ public:
 	 * @param args The rest of the message.
 	 */
     Logger& log() {
-        return _log;
+        return log_;
     }
 
     State& state();
 private:
-    bool _initialized;
-    bool _run;
+    bool initialized_;
+    bool run_;
 
     //Hacky hacky hacky
-    bool _popState;
+    bool popState_;
 
-    Logger _log {"log.txt"};
-    IWindow* _window;
-    IRender* _render;
+    Logger log_ {"log.txt"};
+    IWindow* window_;
+    IRender* render_;
 
-    std::stack<std::unique_ptr<State>> _states;
-    Timer _frameTimer;
+    std::stack<std::unique_ptr<State>> states_;
+    Timer frameTimer_;
 
     void handleEvents();
     void update();
     void draw();
 
-    static Game* _instance;
+    static Game* instance_;
     Game();
 };
 
@@ -60,7 +60,11 @@ private:
 template<typename... Args>
 void Game::log(const std::string& logStr, Args&&... args)
 {
-    _log.log(logStr, std::forward<Args>(args)...);
+<<<<<<< Updated upstream
+    log_.log(logStr, std::forward<Args>(args)...);
+=======
+	log_.log(logStr, std::forward<Args>(args)...);
+>>>>>>> Stashed changes
 }
 */
 #endif
