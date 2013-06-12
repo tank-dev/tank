@@ -132,7 +132,7 @@ void Game::handleEvents()
  * State management
  * ----------------------------------- */
 
-bool Game::addState(State* state)
+/*bool Game::addState(State* state)
 {
     std::unique_ptr<State> statePointer = std::unique_ptr<State>(state);
     if(state->initialize())
@@ -146,7 +146,7 @@ bool Game::addState(State* state)
     log() << "Not pushing state";
 
     return false;
-}
+}*/
 
 void Game::popState()
 {
