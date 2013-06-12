@@ -15,12 +15,11 @@ Game::Game()
     : _initialized(false),
       _run(true),
       _popState(false),
-      _log("Game"),
       _render(nullptr) {}
 
 Game::~Game()
 { 
-    log("Closing window");
+    log() << "Closing window";
     delete(_render);
     delete(_window);
 }
@@ -35,23 +34,12 @@ bool Game::initialize()
     if(!_initialized)
     {
         _initialized = true;
-		
-		//Create the game log file
-        //_log = new Logger("game");
-		if (!_log.initialize())
-		{
-			std::cout << "Something is horribly wrong."
-				<< std::endl
-				<< "The log file has failed to be created."
-				<< std::endl;
-			return false;
-		}
 
         //Create window
         _window = new Window(640,640);
 
         //Select PCRender as the rendering engine
-        log("Loading rendering engine");
+        log() << "Loading rendering engine";
 
         _render = new PCRender();
 
@@ -60,7 +48,7 @@ bool Game::initialize()
         if(!_render->initialize())
         {
             _initialized = false; 
-            log("Could not initialize rendering engine");
+            log() << "Could not initialize rendering engine";
         }
     }
 
@@ -73,14 +61,14 @@ bool Game::initialize()
 
 void Game::run()
 {
-    log("Entering main loop");
+    log() << "Entering main loop";
     while(_run)
     {
         _frameTimer.start();
 
         if(_states.empty())
         {
-            log("No game state");
+            log() << "No game state";
             _run = false;
             break;
         }
@@ -149,13 +137,13 @@ bool Game::addState(State* state)
     std::unique_ptr<State> statePointer = std::unique_ptr<State>(state);
     if(state->initialize())
     {
-        log("Loaded state successfully");
+        log() << "Loaded state successfully";
         _states.push(std::move(statePointer));
 
         return true;
     }
 
-    log("Not pushing state");
+    log() << "Not pushing state";
 
     return false;
 }

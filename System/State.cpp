@@ -12,7 +12,7 @@ bool State::addEntity(Entity* entity)
 {
 	if (!entity)
 	{
-		Game::Instance()->log("Warning: You can't add a null entity.");
+        Game::Instance()->log() << "Warning: You can't add a null entity.";
 		return false;
 	}
 	// Stops an entity being added several times
@@ -20,7 +20,7 @@ bool State::addEntity(Entity* entity)
     {
         if(entity == existingEnt)
         {
-			Game::Instance()->log("Warning: Entity already added");
+            Game::Instance()->log() << "Warning: Entity already added";
 			
             return false;
         }

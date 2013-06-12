@@ -29,8 +29,9 @@ public:
 	 * @param logStr The first part of the message to be logged.
 	 * @param args The rest of the message.
 	 */
-	template<typename... Args>
-    void log(const std::string& logStr, Args&&... args);
+    Logger& log() {
+        return _log;
+    }
 
     State& state();
 private:
@@ -40,7 +41,7 @@ private:
     //Hacky hacky hacky
     bool _popState;
 
-    Logger   _log;
+    Logger _log {"log.txt"};
     IWindow* _window;
     IRender* _render;
 
@@ -55,9 +56,11 @@ private:
     Game();
 };
 
+/*
 template<typename... Args>
 void Game::log(const std::string& logStr, Args&&... args)
 {
-	_log.log(logStr, std::forward<Args>(args)...);
+    _log.log(logStr, std::forward<Args>(args)...);
 }
+*/
 #endif
