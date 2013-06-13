@@ -15,9 +15,7 @@ Entity::Entity(Vectorf const& pos)
       //state_ (state),
       type_(""),
       solid_(false),
-      visible_(true)
-{
-}
+      visible_(true) { }
 
 Entity::~Entity() {}
 
@@ -41,18 +39,27 @@ void Entity::setPos(Vectorf const& pos)
 }
 
 std::vector<Entity*> Entity::collide(std::string type)
-{ 
-    auto entList = state_->getEntities();
+{
+    std::vector<std::unique_ptr<Entity>> const& origList = state_->getEntities();
+    std::vector<Entity*> entList;
     std::vector<Entity*> collisions;
 
-    if(type != "")
+    //TODO do this with algo
+    for(auto& unique : origList)
+    {
+        if(type == unique->getType())
+        {
+            entList.push_back(unique.get());
+        }
+    }
+    /*if(type != "")
     {
         entList.erase(std::remove_if(entList.begin(), entList.end(),
                                      [type](Entity* ent)
         {
             return ent->getType() != type;
         }), entList.end());
-    }
+    }*/
 
     for(auto ent : entList)
     {
@@ -76,7 +83,7 @@ std::vector<Entity*> Entity::collide(std::string type)
             if(bottomA < topB) continue;
 
             collisions.push_back(ent);
-        } 
+        }
     }
 
     return collisions;

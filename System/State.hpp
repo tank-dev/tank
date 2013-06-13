@@ -21,19 +21,32 @@ public:
 	 *
 	 * @return True if the entity is sucessfully added.
 	 */
-    bool addEntity(Entity*);
+    //bool addEntity(Entity*);
+    template <typename T, typename... Args>
+    T& makeEntity(Args... args)
+    {
+        static_assert(std::is_base_of<Entity,T>::value,
+                      "Type must derive from Entity");
+
+        T* ent = new T(std::forward<Args>(args)...);
+        entities_.emplace_back(ent);
+        return *ent;
+    }
+
+    void insertEntity(std::unique_ptr<Entity>&&);
+    std::unique_ptr<Entity> releaseEntity(Entity*);
     void removeEntity(Entity*);
 
-    virtual void handleEvents(SDL_KeyboardEvent* const) = 0;
+    virtual void handleEvents(SDL_KeyboardEvent* const) {}
     virtual void update();
     virtual void draw(IRender* const);
 
-    virtual std::vector<Entity*>& getEntities() { return entities_; }
+    virtual std::vector<std::unique_ptr<Entity>> const& getEntities() { return entities_; }
 
     State();
     virtual ~State();
 protected:
-    std::vector<Entity*> entities_;
+    std::vector<std::unique_ptr<Entity>> entities_;
     bool initialized_;
 private:
     State(State const&);

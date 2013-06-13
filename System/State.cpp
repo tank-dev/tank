@@ -8,38 +8,55 @@ State::State()
 
 State::~State() { }
 
-bool State::addEntity(Entity* entity)
+void State::insertEntity(std::unique_ptr<Entity>&& entity)
 {
-	if (!entity)
+	if (!entity.get())
 	{
         Game::Instance()->log() << "Warning: You can't add a null entity.";
-		return false;
+		return;
 	}
 	// Stops an entity being added several times
-    for(auto existingEnt : entities_)
+    //TODO replace with algo
+    for(auto& existingEnt : entities_)
     {
-        if(entity == existingEnt)
+        if(entity.get() == existingEnt.get())
         {
+            //Maybe shouldn't warn here
             Game::Instance()->log() << "Warning: Entity already added";
 
-            return false;
+            return;
         }
     }
 
     entity->setState(this);
-    entities_.push_back(entity);
-	return true;
+    entities_.push_back(std::move(entity));
 }
 
-void State::removeEntity(Entity* const entity)
+std::unique_ptr<Entity> State::releaseEntity(Entity* entity)
+{
+    std::unique_ptr<Entity> ptr;
+    //TODO Replace with algo
+    for(unsigned int i = 0; i < entities_.size(); i++)
+    {
+        if(entity == entities_[i].get())
+        {
+            const auto iter = entities_.begin()+i;
+            ptr = std::move(entities_[i]);
+            entities_.erase(iter);
+        }
+    }
+
+    return ptr;
+}
+
+void State::removeEntity(Entity* entity)
 {
     //TODO Replace with algo
     for(unsigned int i = 0; i < entities_.size(); i++)
     {
-        if(entity == entities_[i])
+        if(entity == entities_[i].get())
         {
-            std::vector<Entity*>::iterator iter = entities_.begin()+i;
-            delete(entities_[i]);
+            const auto iter = entities_.begin()+i;
             entities_.erase(iter);
         }
     }
@@ -47,7 +64,7 @@ void State::removeEntity(Entity* const entity)
 
 void State::update()
 {
-    for(auto entity : entities_)
+    for(auto& entity : entities_)
     {
         entity->update();
     }
@@ -55,7 +72,7 @@ void State::update()
 
 void State::draw(IRender* const render)
 {
-    for(auto entity : entities_)
+    for(auto& entity : entities_)
     {
         entity->draw(render);
     }
