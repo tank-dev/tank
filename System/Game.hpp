@@ -9,7 +9,7 @@
 #include "../Utility/Timer.hpp"
 #include "State.hpp"
 #include <SDL/SDL_events.h>
-//#include "../Utility/Logger.hpp"
+#include "../Utility/Logger.hpp"
 #include <iostream>
 
 class Game
@@ -30,9 +30,8 @@ public:
 	 * @param logStr The first part of the message to be logged.
 	 * @param args The rest of the message.
 	 */
-    std::ostream& log() {
-        //return log_;
-        return std::cout;
+    Logger& log() {
+        return log_;
     }
 
     template<typename T, typename... Args>
@@ -52,7 +51,7 @@ private:
     //Hacky hacky hacky
     bool popState_;
 
-    //Logger log_ {"log.txt"};
+    Logger log_ {"log.txt"};
     IWindow* window_;
     IRender* render_;
 
