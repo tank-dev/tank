@@ -15,14 +15,12 @@
 class Game
 {
 public:
-    static Game* Instance();
-    ~Game();
-
-    bool initialize();
-    void run();
+    static bool initialize();
+    static void run();
+    static void close();
 
     //bool addState(State*);
-    void popState();
+    static void popState();
 
 	/**
 	 * @brief Log a message in the game logfile.
@@ -30,12 +28,15 @@ public:
 	 * @param logStr The first part of the message to be logged.
 	 * @param args The rest of the message.
 	 */
-    Logger& log() {
+
+    //TODO remove unnecessary accessor
+    static Logger& log() {
         return log_;
     }
+    static Logger log_;
 
     template<typename T, typename... Args>
-    T& makeState(Args&&... args)
+    static T& makeState(Args&&... args)
     {
         static_assert(std::is_base_of<State,T>::value, "Class must derive from State");
         T* state = new T(std::forward<Args>(args)...);
@@ -43,27 +44,26 @@ public:
         return *state;
     }
 
-    State& state();
+    static State& state();
 private:
-    bool initialized_;
-    bool run_;
+    static bool initialized_;
+    static bool run_;
 
     //Hacky hacky hacky
-    bool popState_;
+    static bool popState_;
 
-    Logger log_ {"log.txt"};
-    IWindow* window_;
-    IRender* render_;
+    static IWindow* window_;
+    static IRender* render_;
 
-    std::stack<std::unique_ptr<State>> states_;
-    Timer frameTimer_;
+    static std::stack<std::unique_ptr<State>> states_;
+    static Timer frameTimer_;
 
-    void handleEvents();
-    void update();
-    void draw();
+    static void handleEvents();
+    static void update();
+    static void draw();
 
-    static Game* instance_;
     Game();
+    ~Game(); 
 };
 
 /*

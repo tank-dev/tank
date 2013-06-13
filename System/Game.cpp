@@ -7,17 +7,17 @@
 
 #define FRAMES_PER_SECOND 60
 
-/* ---------------------------- *
- * Constructor and Destructor
- * ---------------------------- */
+Logger   Game::log_         {"log.txt"};
+IWindow* Game::window_      {nullptr};
+IRender* Game::render_      {nullptr};
+bool     Game::initialized_ {false};
+bool     Game::run_         {false};
+bool     Game::popState_    {false};
+Timer    Game::frameTimer_;
+std::stack<std::unique_ptr<State>> Game::states_;
 
-Game::Game()
-    : initialized_(false),
-      run_(true),
-      popState_(false),
-      render_(nullptr) {}
-
-Game::~Game()
+//This shouldn't be necessary, eventually...
+void Game::close()
 { 
     log() << "Closing window" << std::endl;
     delete(render_);
@@ -61,6 +61,9 @@ bool Game::initialize()
 
 void Game::run()
 {
+    if(run_) return;
+
+    run_ = true; 
     log() << "Entering main loop" << std::endl;
     while(run_)
     {
@@ -153,24 +156,8 @@ void Game::popState()
     popState_ = true;
 }
 
-/* ----------------------------------- *
- * Singleton stuff
- * TODO Make this not a singleton
- * ----------------------------------- */
-
-Game* Game::instance_ = nullptr;
-Game* Game::Instance()
-{
-    if(instance_ == nullptr)
-    {
-        instance_ = new Game;
-    }
-    return instance_;
-}
-
 /* --------------------------- *
  * Update and draw functions
- * May be useful later?
  * --------------------------- */
 
 void Game::update()
