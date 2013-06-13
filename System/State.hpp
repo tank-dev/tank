@@ -24,18 +24,17 @@ public:
     bool addEntity(Entity*);
     void removeEntity(Entity*);
 
-    virtual bool initialize() = 0;
     virtual void handleEvents(SDL_KeyboardEvent* const) = 0;
     virtual void update();
     virtual void draw(IRender* const);
 
-    virtual std::vector<Entity*>& getEntities() { return _entities; }
+    virtual std::vector<Entity*>& getEntities() { return entities_; }
 
     State();
     virtual ~State();
 protected:
-    std::vector<Entity*> _entities;
-    bool _initialized;
+    std::vector<Entity*> entities_;
+    bool initialized_;
 private:
     State(State const&);
     State& operator=(State const&);

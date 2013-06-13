@@ -4,7 +4,7 @@
 #include "Game.hpp"
 
 State::State()
-    : _initialized(false) { }
+    : initialized_(false) { }
 
 State::~State() { }
 
@@ -16,38 +16,38 @@ bool State::addEntity(Entity* entity)
 		return false;
 	}
 	// Stops an entity being added several times
-    for(auto existingEnt : _entities)
+    for(auto existingEnt : entities_)
     {
         if(entity == existingEnt)
         {
             Game::Instance()->log() << "Warning: Entity already added";
-			
+
             return false;
         }
     }
 
     entity->setState(this);
-    _entities.push_back(entity);
+    entities_.push_back(entity);
 	return true;
 }
 
 void State::removeEntity(Entity* const entity)
 {
     //TODO Replace with algo
-    for(unsigned int i = 0; i < _entities.size(); i++)
+    for(unsigned int i = 0; i < entities_.size(); i++)
     {
-        if(entity == _entities[i])
+        if(entity == entities_[i])
         {
-            std::vector<Entity*>::iterator iter = _entities.begin()+i;
-            delete(_entities[i]);
-            _entities.erase(iter);
+            std::vector<Entity*>::iterator iter = entities_.begin()+i;
+            delete(entities_[i]);
+            entities_.erase(iter);
         }
     }
 }
 
 void State::update()
 {
-    for(auto entity : _entities)
+    for(auto entity : entities_)
     {
         entity->update();
     }
@@ -55,7 +55,7 @@ void State::update()
 
 void State::draw(IRender* const render)
 {
-    for(auto entity : _entities)
+    for(auto entity : entities_)
     {
         entity->draw(render);
     }

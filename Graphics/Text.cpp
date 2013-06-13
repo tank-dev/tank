@@ -4,11 +4,11 @@
 
 Text::Text(Vectorf const& pos, std::string text, unsigned int duration)
     :Entity(pos),
-     _text(text),
-     _duration(duration)
+     text_(text),
+     duration_(duration)
 {
     //std::string sText(cText);
-    _displayTimer.start();
+    displayTimer_.start();
 }
 
 Text::~Text()
@@ -17,9 +17,9 @@ Text::~Text()
 
 void Text::update()
 {
-    if(_duration != 0 && _displayTimer.getTicks() >= _duration)
+    if(duration_ != 0 && displayTimer_.getTicks() >= duration_)
     {
-        _state->removeEntity(this);
+        state_->removeEntity(this);
     }
 }
 
@@ -27,7 +27,7 @@ void Text::draw(IRender* const render)
 {
     //Render::Instance()->DrawSurface(_text,_pos);
     //TODO Make this work properly
-    render->drawText(_text.c_str(), _pos);
+    render->drawText(text_.c_str(), pos_);
 }
 
 void Text::isInside(Entity* ent) {}

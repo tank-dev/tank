@@ -9,87 +9,87 @@
 #include <thread>
 
 Timer::Timer()
-	: _startTick(),
-	  _pausedTick(),
-	  _started(false),
-	  _paused(false) {}
+	: startTick_(),
+	  pausedTick_(),
+	  started_(false),
+	  paused_(false) {}
 
 Timer::Timer(const Timer& orig)
 {
-    _startTick = orig._startTick;
-    _pausedTick = orig._pausedTick;
-    _started = orig._started;
-    _paused = orig._paused;
+    startTick_ = orig.startTick_;
+    pausedTick_ = orig.pausedTick_;
+    started_ = orig.started_;
+    paused_ = orig.paused_;
 }
 
 Timer::~Timer() {}
 
 void Timer::start()
 {
-    _startTick = std::chrono::steady_clock::now();
+    startTick_ = std::chrono::steady_clock::now();
 
-    _started = true;
-    _paused = false;
+    started_ = true;
+    paused_ = false;
 }
 
 void Timer::stop()
 {
-    _started = false;
-    _paused = false;
+    started_ = false;
+    paused_ = false;
 }
 
 void Timer::pause()
 {
-    if(_started && !_paused)
+    if(started_ && !paused_)
     {
-        _pausedTick = std::chrono::steady_clock::now() - _startTick;
-        _paused = true;
+        pausedTick_ = std::chrono::steady_clock::now() - startTick_;
+        paused_ = true;
     }
 }
 
 void Timer::resume()
 {
-    if(_started && _paused)
+    if(started_ && paused_)
     {
-        _paused = false;
-		_startTick = std::chrono::steady_clock::now() - _pausedTick;
+        paused_ = false;
+		startTick_ = std::chrono::steady_clock::now() - pausedTick_;
     }
 }
 
 bool Timer::isStarted()
 {
-    return _started;
+    return started_;
 }
 
 bool Timer::isPaused()
 {
-    return _paused;
+    return paused_;
 }
 
 unsigned long Timer::getTicks()
 {
-	if (!_started)
+	if (!started_)
    	{
 		return 0;
 	}
-    if(_paused)
+    if(paused_)
     {
-        return std::chrono::duration_cast<std::chrono::milliseconds> (_pausedTick).count();
+        return std::chrono::duration_cast<std::chrono::milliseconds> (pausedTick_).count();
     }
-    return std::chrono::duration_cast<std::chrono::milliseconds> (std::chrono::steady_clock::now() - _startTick).count();
+    return std::chrono::duration_cast<std::chrono::milliseconds> (std::chrono::steady_clock::now() - startTick_).count();
 }
 
 unsigned long Timer::getMicrosecs()
 {
-	if (!_started)
+	if (!started_)
    	{
 		return 0;
 	}
-    if(_paused)
+    if(paused_)
     {
-        return std::chrono::duration_cast<std::chrono::microseconds> (_pausedTick).count();
+        return std::chrono::duration_cast<std::chrono::microseconds> (pausedTick_).count();
     }
-    return std::chrono::duration_cast<std::chrono::microseconds> (std::chrono::steady_clock::now() - _startTick).count();
+    return std::chrono::duration_cast<std::chrono::microseconds> (std::chrono::steady_clock::now() - startTick_).count();
 }
 
 std::string Timer::getHumanTime()

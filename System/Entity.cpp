@@ -4,18 +4,18 @@
 #include <algorithm>
 #include "State.hpp"
 
-int Entity::_numEnts = 0;
+int Entity::numEnts_ = 0;
 
 Entity::Entity(Vectorf const& pos)
-    : _actorID(_numEnts++),
-      _layer(0),
-      _pos(pos),
-      _hitbox({0}),
-      _texture(nullptr),
-      //_state (state),
-      _type(""),
-      _solid(false),
-      _visible(true)
+    : actorID_(numEnts_++),
+      layer_(0),
+      pos_(pos),
+      hitbox_({0}),
+      texture_(nullptr),
+      //state_ (state),
+      type_(""),
+      solid_(false),
+      visible_(true)
 {
 }
 
@@ -24,25 +24,25 @@ Entity::~Entity() {}
 //Default draw function
 void Entity::draw(IRender* const render)
 {
-    if(_texture)
+    if(texture_)
     {
-        render->draw(_texture, _pos);
+        render->draw(texture_, pos_);
     }
 }
 
 void Entity::setState(State* const state)
 {
-    _state = state;
+    state_ = state;
 }
 
 void Entity::setPos(Vectorf const& pos)
 {
-    _pos = pos;
+    pos_ = pos;
 }
 
 std::vector<Entity*> Entity::collide(std::string type)
 { 
-    auto entList = _state->getEntities();
+    auto entList = state_->getEntities();
     std::vector<Entity*> collisions;
 
     if(type != "")
@@ -58,16 +58,16 @@ std::vector<Entity*> Entity::collide(std::string type)
     {
         if(ent != this)
         {
-            Rect const& A = _hitbox;
+            Rect const& A = hitbox_;
             Rect const& B = ent->getHitBox();
 
-            double leftA   = A.x + _pos.x;
+            double leftA   = A.x + pos_.x;
             double leftB   = B.x + ent->getPos().x;
-            double rightA  = A.x + A.w + _pos.x;
+            double rightA  = A.x + A.w + pos_.x;
             double rightB  = B.x + B.w + ent->getPos().x;
-            double topA    = A.y + _pos.y;
+            double topA    = A.y + pos_.y;
             double topB    = B.y + ent->getPos().y;
-            double bottomA = A.y + A.h + _pos.y;
+            double bottomA = A.y + A.h + pos_.y;
             double bottomB = B.y + B.h + ent->getPos().y;
 
             if(leftA > rightB) continue;

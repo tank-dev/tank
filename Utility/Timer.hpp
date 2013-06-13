@@ -89,10 +89,10 @@ public:
     static void delay(unsigned long microsecs);
 private:
 
-	std::chrono::steady_clock::time_point _startTick;
-	std::chrono::steady_clock::duration _pausedTick;
-    bool _started;
-    bool _paused;
+	std::chrono::steady_clock::time_point startTick_;
+	std::chrono::steady_clock::duration pausedTick_;
+    bool started_;
+    bool paused_;
 };
 
 #endif    /* TIMER_H */
