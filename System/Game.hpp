@@ -15,25 +15,47 @@
 class Game
 {
 public:
+	/*!
+	 * \brief This initilizes the game. It returns true if the game is
+	 * successfully initilized.
+	 *
+	 * \return True on success.
+	 */
     static bool initialize();
+	/*!
+	 * \brief This runs the game.
+	 */
     static void run();
+	/*!
+	 * \brief This quits the game.
+	 */
     static void close();
 
     //bool addState(State*);
-    static void popState();
-
-	/*! \brief Log a message in the game logfile.
-	 *
-	 *  \param logStr The first part of the message to be logged.
-	 *  \param args The rest of the message.
+	/*!
+	 * \brief This removes a state at the end of the frame.
 	 */
+    static void popState();
 
     //TODO remove unnecessary accessor
     static Logger& log() {
         return log_;
     }
+	/*!
+	 * \brief The logger. This acts like a stream, remember to finish your log
+	 * with std::endl.
+	 */
     static Logger log_;
 
+	/*!
+	 * \brief This creates a game state.
+	 *
+	 * \tparam T The type of state.
+	 * \tparam Args The arguments to pass to create the state.
+	 * \param args The arguments to create the state.
+	 *
+	 * \return A pointer to the state.
+	 */
     template<typename T, typename... Args>
     static T& makeState(Args&&... args)
     {
@@ -66,4 +88,5 @@ private:
     Game();
     ~Game(); 
 };
+
 #endif
