@@ -28,7 +28,9 @@ class Logger
 
         typedef decltype(std::clog)& (*Manip)(decltype(std::clog)&);
         LogHelper& operator<< (Manip manip) {
+#ifdef DEBUG
             manip(std::clog);
+#endif DEBUG
             manip(enclosing_.logFile_);
             return *this;
         }
