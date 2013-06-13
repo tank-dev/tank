@@ -19,9 +19,9 @@ class Logger
     public:
         explicit LogHelper(Logger& enclosing) : enclosing_(enclosing) {}
         template <typename T> LogHelper& operator<< (const T& t) {
-            enclosing_.logFile_ << t;
+            enclosing_.logFile_ << t << std::flush;
 #ifdef DEBUG
-            std::clog << t;
+            std::clog << t << std::flush;
 #endif
             return *this;
         }
