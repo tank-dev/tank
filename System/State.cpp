@@ -3,8 +3,7 @@
 #include "Entity.hpp"
 #include "Game.hpp"
 
-State::State()
-    : initialized_(false) { }
+State::State() {}
 
 State::~State() { }
 

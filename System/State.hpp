@@ -47,7 +47,6 @@ public:
     virtual ~State();
 protected:
     std::vector<std::unique_ptr<Entity>> entities_;
-    bool initialized_;
 private:
     State(State const&);
     State& operator=(State const&);

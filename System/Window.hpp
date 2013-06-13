@@ -27,9 +27,6 @@ private:
 
     //Unfortunately we can only have one window to stop SDL from shitting itself
     static bool windowExists_;
-
-    //Make SDL happen
-    static void initialize();
 };
 
 #endif /* WINDOW_H */
