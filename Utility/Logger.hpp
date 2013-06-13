@@ -21,16 +21,16 @@ class Logger
         template <typename T> LogHelper& operator<< (const T& t) {
             enclosing_.logFile_ << t;
 #ifdef DEBUG
-            std::clog << t;
+            std::cerr << t;
 #endif
             return *this;
         }
 
-        typedef decltype(std::clog)& (*Manip)(decltype(std::clog)&);
+        typedef decltype(std::cerr)& (*Manip)(decltype(std::cerr)&);
         LogHelper& operator<< (Manip manip) {
 #ifdef DEBUG
-            manip(std::clog);
-#endif DEBUG
+            manip(std::cerr);
+#endif //DEBUG
             manip(enclosing_.logFile_);
             return *this;
         }
