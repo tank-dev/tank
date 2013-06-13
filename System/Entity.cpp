@@ -11,11 +11,11 @@ Entity::Entity(Vectorf const& pos)
       layer_(0),
       pos_(pos),
       hitbox_({0}),
-      texture_(nullptr),
       //state_ (state),
       type_(""),
       solid_(false),
-      visible_(true) { }
+      visible_(true),
+      texture_(nullptr) {}
 
 Entity::~Entity() {}
 

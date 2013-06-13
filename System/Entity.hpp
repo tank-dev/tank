@@ -160,11 +160,11 @@ protected:
 
     //Member variables
     int         layer_;     //0
+    Vectorf     pos_; 
     Rect        hitbox_;    //(0,0,0,0)
     std::string type_;      //""
     bool        solid_;     //false
     bool        visible_;   //true
-    Vectorf     pos_; 
 
     Texture const* texture_;//nullptr
     State* state_;          //Set by parent State
