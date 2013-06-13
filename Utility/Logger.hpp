@@ -25,6 +25,13 @@ class Logger
 #endif
             return *this;
         }
+
+        typedef decltype(std::clog)& (*Manip)(decltype(std::clog)&);
+        LogHelper& operator<< (Manip manip) {
+            manip(std::clog);
+            manip(enclosing_.logFile_);
+            return *this;
+        }
     } logHelper_{*this};
 
 public:
@@ -56,13 +63,13 @@ Logger::Logger(std::string file) : fileName_{file}, logFile_{fileName_}
 
 Logger::~Logger()
 {
-    logHelper_ << '\n';
+    logHelper_ << std::endl;
 }
 
 template <typename T>
 Logger::LogHelper& Logger::operator<<(const T& t)
 {
-    logHelper_ << '\n' << "["
+    logHelper_ << std::endl << "["
         << fileName_
         << ": "
         << timer_.getHumanTime()
