@@ -29,6 +29,7 @@ public:
                       "Type must derive from Entity");
 
         T* ent = new T(std::forward<Args>(args)...);
+        ent->setState(this);
         entities_.emplace_back(ent);
         return *ent;
     }

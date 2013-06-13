@@ -55,6 +55,7 @@ void State::removeEntity(Entity* entity)
     {
         if(entity == entities_[i].get())
         {
+            Game::log() << "Deleting" << std::endl;
             const auto iter = entities_.begin()+i;
             entities_.erase(iter);
         }
