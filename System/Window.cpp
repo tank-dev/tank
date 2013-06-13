@@ -16,23 +16,23 @@ Window::Window(int width, int height, int flags)
         valid_ = true;
         bool success = true;
 
-        Game::Instance()->log() << "Opening Window";
+        Game::Instance()->log() << "Opening Window" << std::endl;
 
         if(SDL_Init(SDL_INIT_EVERYTHING) < 0)
         {
-            Game::Instance()->log() << "OH GOD, SDL REALLY COCKED UP PROPER: " << SDL_GetError();
+            Game::Instance()->log() << "OH GOD, SDL REALLY COCKED UP PROPER: " << SDL_GetError() << std::endl;
             success = false;
         }
 
         if(IMG_Init(IMG_INIT_PNG) == -1)
         {
-            Game::Instance()->log() << "Something went wrong: " << IMG_GetError();
+            Game::Instance()->log() << "Something went wrong: " << IMG_GetError() << std::endl;
             success = false;
         }
 
         if(SDL_SetVideoMode(width, height, 32, flags) == NULL)
         {
-            Game::Instance()->log() << "OH NOEZ: " << SDL_GetError();
+            Game::Instance()->log() << "OH NOEZ: " << SDL_GetError() << std::endl;
             success = false;
         }
 
@@ -44,7 +44,7 @@ Window::~Window()
 {
     if(windowExists_ && valid_)
     {
-        Game::Instance()->log() << "Closing Window";
+        Game::Instance()->log() << "Closing Window" << std::endl;
 
         IMG_Quit();
         SDL_Quit();
