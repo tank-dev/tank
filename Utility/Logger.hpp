@@ -37,9 +37,25 @@ class Logger
     } logHelper_{*this};
 
 public:
+	/*!
+	 * \brief Creates a logger.
+	 *
+	 * \param file The name of the file to log to.
+	 */
     Logger(std::string file);
     ~Logger();
 
+	/*!
+	 * \brief This acts like a stream to log comments. Remeber to end you
+	 * comment with std::endl.
+	 *
+	 * \tparam T The type to comment, accepts all the same types as cerr and
+	 * ofstream.
+	 * \param t The comment to log.
+	 *
+	 * \return A reference to the class (in fact this isn't strictly true but
+	 * that's all you need to know).
+	 */
     template <typename T>
     LogHelper& operator<<(const T& t);
 };
