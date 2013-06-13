@@ -41,43 +41,73 @@ public:
 
     std::vector<Entity*> collide(std::string type = "");
 
-    /* ------------------------------ *
-     * Getters
-     * ------------------------------ */
+    /*!
+     * \brief Returns the entity's z-layer
+     */
     int getLayer() const
     {
         return layer_;
     }
+    /*!
+     * \brief Returns the entity's vector position
+     */
     Vectorf const& getPos() const
     {
         return pos_;
     }
+    /*!
+     * \brief Returns the entity's hitbox
+     * Returns the entity's hitbox in the format
+     * (x-offset, y-offset, width, height) where the offse
+     */
     Rect const& getHitBox() const
     {
         return hitbox_;
     }
+    /*!
+     * \brief Returns whether the entity is solid (deprecated)
+     */
     bool isSolid() const
     {
         return solid_;
     }
 
+    /*!
+     * \brief Returns the entity's unique id
+     */
     int getActorID() const
     {
         return actorID_;
     }
+    /*!
+     * \brief Returns the number of entities 
+     */
     static int getNumEnts()
     {
         return numEnts_;
     }
+    /*!
+     * \brief Returns the entity's type
+     */
     std::string getType() const
     {
         return type_;
     }
 
-    /* ------------------------------ *
-     * Setters
-     * ------------------------------ */
+    /*!
+     * \brief sets the entity's parent state
+     *
+     * Typically set by the state on addition. Don't change it unless you know
+     * what you're doing.
+     *
+     * \param state A pointer to the parent state
+     */
     void setState(State* const state);
+    /*!
+     * \brief sets the entity's position
+     *
+     * \param pos The entity's new position
+     */
     void setPos(Vectorf const& pos);
 
     /* ------------------------------ *

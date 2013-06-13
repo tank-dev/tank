@@ -73,5 +73,4 @@ Logger::LogHelper& Logger::operator<<(const T& t)
     return logHelper_;
 }
 
-
 #endif //LOGGER_HPP
