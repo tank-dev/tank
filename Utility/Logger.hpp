@@ -21,15 +21,15 @@ class Logger
         template <typename T> LogHelper& operator<< (const T& t) {
             enclosing_.logFile_ << t;
 #ifdef DEBUG
-            std::cerr << t;
+            std::clog << t;
 #endif
             return *this;
         }
 
-        typedef decltype(std::cerr)& (*Manip)(decltype(std::cerr)&);
+        typedef decltype(std::clog)& (*Manip)(decltype(std::clog)&);
         LogHelper& operator<< (Manip manip) {
 #ifdef DEBUG
-            manip(std::cerr);
+            manip(std::clog);
 #endif //DEBUG
             manip(enclosing_.logFile_);
             return *this;
@@ -47,7 +47,7 @@ public:
 template <typename T>
 Logger::LogHelper& Logger::operator<<(const T& t)
 {
-    logHelper_ << std::endl << "["
+    logHelper_ << "["
         << fileName_
         << ": "
         << timer_.getHumanTime()
