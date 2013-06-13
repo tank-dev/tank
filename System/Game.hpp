@@ -22,11 +22,10 @@ public:
     //bool addState(State*);
     static void popState();
 
-	/**
-	 * @brief Log a message in the game logfile.
+	/*! \brief Log a message in the game logfile.
 	 *
-	 * @param logStr The first part of the message to be logged.
-	 * @param args The rest of the message.
+	 *  \param logStr The first part of the message to be logged.
+	 *  \param args The rest of the message.
 	 */
 
     //TODO remove unnecessary accessor
@@ -44,7 +43,9 @@ public:
         return *state;
     }
 
-    static State& state();
+    /*! \brief Return a reference to the active state
+     */
+    static State& state() { return *states_.top().get(); }
 private:
     static bool initialized_;
     static bool run_;
@@ -65,16 +66,4 @@ private:
     Game();
     ~Game(); 
 };
-
-/*
-template<typename... Args>
-void Game::log(const std::string& logStr, Args&&... args)
-{
-<<<<<<< Updated upstream
-    log_.log(logStr, std::forward<Args>(args)...);
-=======
-	log_.log(logStr, std::forward<Args>(args)...);
->>>>>>> Stashed changes
-}
-*/
 #endif
