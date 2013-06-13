@@ -25,9 +25,8 @@ void Text::update()
 
 void Text::draw(IRender* const render)
 {
-    //Render::Instance()->DrawSurface(_text,_pos);
     //TODO Make this work properly
-    render->drawText(text_.c_str(), pos_);
+    render->drawText(text_.c_str(), getPos());
 }
 
 void Text::isInside(Entity* ent) {}
