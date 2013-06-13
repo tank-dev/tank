@@ -23,7 +23,7 @@ public:
 	 */
     //bool addEntity(Entity*);
     template <typename T, typename... Args>
-    T& makeEntity(Args... args)
+    T& makeEntity(Args&&... args)
     {
         static_assert(std::is_base_of<Entity,T>::value,
                       "Type must derive from Entity");
