@@ -32,15 +32,15 @@ class State
 {
 public:
 	/*!
-	 * \brief Creates an entity and adds it to the State
+	 * \brief Creates an Entity and adds it to the State
 	 *
-     * Creates an entity, setting its state pointer to point to it.
-     * Adds a unique_ptr to the entity to the entity list
-     * Returns a raw pointer to the entity created
+     * Creates an Entity, setting its state pointer to point to it.
+     * Adds a unique_ptr to the entity to the entity list.
+     * Returns a raw pointer of type T* to the Entity created.
      *
-	 * \tparam T The type of entity to construct
+	 * \tparam T The type of Entity to construct
      * \param args the arguments to send to the entity's constructor
-	 * \return A raw pointer to the created entity (NEVER DELETE IT)
+	 * \return A raw pointer to the created Entity (NEVER DELETE IT)
 	 */
     template <typename T, typename... Args>
     T* makeEntity(Args&&... args)
@@ -55,42 +55,42 @@ public:
     }
 
     /*!
-     * \brief Inserts a unique_ptr to an entity into the entity list
+     * \brief Inserts a unique_ptr to an Entity into the entity list
      *
      * This is a way to add entities that have 
-     * * been removed from their original state or 
-     * * been created independently of State::makeEntity
+     * * been removed from their original State or 
+     * * been created independently of State::makeEntity()
      *
-     * \param entity A unique_ptr to the entity to be inserted
+     * \param entity A unique_ptr to the Entity to be inserted
      * \see makeEntity()
      */
     void insertEntity(std::unique_ptr<Entity>&&);
 
     /*!
-     * \brief Moves an entity from one state to another
+     * \brief Moves an Entity from one State to another
      *
      * This is essentially a shorthand for state->insertEntity(this->releaseEntity(entity))
      *
-     * \param state The state to which to move the entity
-     * \param entity A raw pointer to the entity to be moved
+     * \param state The State to which to move the Entity
+     * \param entity A raw pointer to the Entity to be moved
      * \see insertEntity()
      * \see releaseEntity()
      */
     void moveEntity(State*, Entity*);
 
     /*!
-     * \brief Removes the entity from the entity list and returns a unique_ptr
+     * \brief Removes an Entity from the entity list and returns a unique_ptr
      * to it
      *
-     * \param entity A raw pointer to the entity to be released
+     * \param entity A raw pointer to the Entity to be released
      * \see insertEntity()
      */
     std::unique_ptr<Entity> releaseEntity(Entity*);
 
     /*!
-     * \brief Removes the entity from the entity list, deleting it
+     * \brief Removes an Entity from the entity list, deleting it
      *
-     * \param entity A raw pointer to the entity to be removed
+     * \param entity A raw pointer to the Entity to be removed
      */
     void removeEntity(Entity*);
 
@@ -98,13 +98,13 @@ public:
      * \brief Handle keyboard input on a per-frame basis (deprecated)
      *
      * When State is the active state, Game calls this once per frame, before
-     * update and draw.
+     * update() and draw().
      *
      * Override this to send keyboard input to entities that need it
      *
      * \param key SDL_KeyboardEvent representing the change in keyboard state
      * \see update()
-     * \eee draw()
+     * \see draw()
      * \see Game
      */
     virtual void handleEvents(SDL_KeyboardEvent* const) {}
@@ -113,14 +113,14 @@ public:
      * \brief Update all entities in the state's entities list
      *
      * When State is the active state, Game calls this once per frame, between
-     * handleEvents and draw
+     * handleEvents() and draw()
      *
      * Override this to specify new logic for updates, but be sure to update the
      * entity list, either by looping over and calling update, or by calling
      * State::update()
      *
      * \see handleEvents()
-     * \eee draw()
+     * \see draw()
      * \see Game
      */
     virtual void update();
@@ -129,7 +129,7 @@ public:
      * \brief Draw all entities in the state's entities list
      *
      * When State is the active state, Game calls this once per frame, after
-     * handleEvents and update
+     * handleEvents() and update()
      *
      * Override this to specify new drawing operations, or to sort the entities
      * list before drawing, but be sure to then draw all entities by either
@@ -138,7 +138,7 @@ public:
      * \param render The render context to draw to
      *
      * \see handleEvents()
-     * \eee update()
+     * \see update()
      * \see Game
      */
     virtual void draw(IRender* const);
