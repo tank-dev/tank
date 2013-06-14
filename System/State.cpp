@@ -31,6 +31,25 @@ void State::insertEntity(std::unique_ptr<Entity>&& entity)
     entities_.push_back(std::move(entity));
 }
 
+void State::moveEntity(State* state, Entity* entity)
+{
+	if (!entity)
+	{
+        Game::log() << "Warning: You can't move null entity." << std::endl;
+		return;
+	}
+	// Stops an entity being added several times
+    //TODO replace with algo
+    std::unique_ptr<Entity> entPtr = releaseEntity(entity);
+    if(!entPtr.get())
+    {
+        Game::log() << "Entity not found in move operation" << std::endl;
+        return;
+    }
+
+    state->insertEntity(std::move(entPtr));
+}
+
 std::unique_ptr<Entity> State::releaseEntity(Entity* entity)
 {
     std::unique_ptr<Entity> ptr;

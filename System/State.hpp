@@ -10,20 +10,26 @@
 class Entity;
 class Game;
 
+/*!
+ * \brief Base class for game states ("Worlds")
+ *
+ * Handles game logic 
+ *
+ * \see Entity
+ * \see EventHandler
+ */
 class State
 {
 public:
-	/**
-	 * @brief Adds an entity to the world, returns true if the entity is
+	/*!
+	 * \brief Adds an entity to the world, returns true if the entity is
 	 * successfully added.
 	 *
-	 * @param Entity The entity to add.
-	 *
-	 * @return True if the entity is sucessfully added.
+	 * \param Entity The entity to add.
+	 * \return True if the entity is sucessfully added.
 	 */
-    //bool addEntity(Entity*);
     template <typename T, typename... Args>
-    T& makeEntity(Args&&... args)
+    T* makeEntity(Args&&... args)
     {
         static_assert(std::is_base_of<Entity,T>::value,
                       "Type must derive from Entity");
@@ -31,10 +37,11 @@ public:
         T* ent = new T(std::forward<Args>(args)...);
         ent->setState(this);
         entities_.emplace_back(ent);
-        return *ent;
+        return ent;
     }
 
     void insertEntity(std::unique_ptr<Entity>&&);
+    void moveEntity(State*, Entity*);
     std::unique_ptr<Entity> releaseEntity(Entity*);
     void removeEntity(Entity*);
 
