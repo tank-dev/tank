@@ -91,7 +91,7 @@ void Game::run()
 
 		//Delay until the next frame so the game stays at 60fps
         if (1000000 / FRAMES_PER_SECOND > frameTimer_.getMicrosecs()) {
-            Timer::delay((unsigned long)(1000000 / FRAMES_PER_SECOND - frameTimer_.getTicks()));
+            Timer::delayMicrosecs((unsigned long)(1000000 / FRAMES_PER_SECOND - frameTimer_.getTicks()));
         }
     }
 }

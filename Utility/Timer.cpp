@@ -99,7 +99,13 @@ std::string Timer::getHumanTime()
 	return std::to_string(microsecs/3600000000) + ":" + std::to_string(microsecs/60000000 % 60) + ":" + std::to_string((microsecs % 60000000)/1000000.0 );
 }
 
-void Timer::delay(unsigned long microsecs)
+void Timer::delay(unsigned long millisecs)
+{
+	std::chrono::milliseconds waitTime(millisecs);
+	std::this_thread::sleep_for(waitTime);
+}
+
+void Timer::delayMicrosecs(unsigned long microsecs)
 {
 	std::chrono::microseconds waitTime(microsecs);
 	std::this_thread::sleep_for(waitTime);

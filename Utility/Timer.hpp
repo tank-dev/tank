@@ -81,12 +81,18 @@ public:
     virtual ~Timer();
 
     /*!
+     * \brief Delays the current thread for a numeber of milliseconds.
+	 *
+     * \param millisecs The number of milliseconds to delay the thread for.
+	 */
+    static void delay(unsigned long millisecs);
+    /*!
      * \brief Delays the current thread for a numeber of microseconds. (NOTE:
 	 * most computers may not have this sort of precision.)
 	 *
      * \param microsecs The number of microseconds to delay the thread for.
 	 */
-    static void delay(unsigned long microsecs);
+    static void delayMicrosecs(unsigned long microsecs);
 private:
 
 	std::chrono::steady_clock::time_point startTick_;
