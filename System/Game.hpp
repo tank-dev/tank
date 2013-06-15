@@ -35,9 +35,10 @@ public:
 	 * \brief Initializes the game.
 	 *
      * Creates a window and a rendering context.
+     * \param windowSize The window canvas size in pixels.
 	 * \return True on success.
 	 */
-    static bool initialize();
+    static bool initialize(Vectori const& windowSize);
 	/*!
 	 * \brief Starts the game loop
 	 */

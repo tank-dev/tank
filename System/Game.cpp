@@ -29,14 +29,14 @@ void Game::close()
  * ---------------------------- */
 
 //TODO Handle errors with exceptions
-bool Game::initialize()
+bool Game::initialize(Vectori const& wSize)
 {
     if(!initialized_)
     {
         initialized_ = true;
 
         //Create window
-        window_ = new Window(640,640);
+        window_ = new Window(wSize.x,wSize.y);
 
         //Select PCRender as the rendering engine
         log << "Loading rendering engine" << std::endl;
