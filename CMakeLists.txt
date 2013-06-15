@@ -2,7 +2,6 @@ cmake_minimum_required(VERSION 2.8)
 project (Tank)
 
 set (CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake/modules")
-include(cotire)
 
 find_package(SDL REQUIRED) 
 find_package(SDL_image REQUIRED) 
@@ -55,4 +54,3 @@ endif(DOXYGEN_FOUND)
 set (engine_src ${gfx_src} ${sys_src} ${util_src})
 add_library(engine ${engine_src})
 target_link_libraries(engine ${SDL_LIBRARY} ${SDLIMAGE_LIBRARY})
-cotire(engine)
