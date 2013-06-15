@@ -55,15 +55,11 @@ public:
 	 */
     static void popState();
 
-    //TODO remove unnecessary accessor
-    static Logger& log() {
-        return log_;
-    }
 	/*!
 	 * \brief The log. This acts like a stream, remember to finish your log
 	 * with std::endl.
 	 */
-    static Logger log_;
+    static Logger log;
 
 	/*!
 	 * \brief This creates a game state.

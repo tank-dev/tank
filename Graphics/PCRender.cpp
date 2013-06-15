@@ -26,7 +26,7 @@ PCRender::PCRender()
 /////////////////////////
 PCRender::~PCRender()
 {
-    Game::log() << "PCRender engine shutting down" << std::endl;
+    Game::log << "PCRender engine shutting down" << std::endl;
 
     for(auto iter = images_.begin(); iter != images_.end(); iter++)
     {
@@ -48,7 +48,7 @@ bool PCRender::initialize()
     screen_ = SDL_GetVideoSurface();
     if(screen_ == nullptr)
     {
-        Game::log() << "Could not retrieve video surface: " << std::string(SDL_GetError()) << std::endl;
+        Game::log << "Could not retrieve video surface: " << std::string(SDL_GetError()) << std::endl;
         return false;
     }
 
@@ -89,7 +89,7 @@ void PCRender::draw(Texture const* texture, Vectorf const& pos, Rect const& clip
     }
     else
     {
-        Game::log() << "Render Error: Texture does not exist (" << texture->name << ")" << std::endl;
+        Game::log << "Render Error: Texture does not exist (" << texture->name << ")" << std::endl;
     }
 }
 
@@ -169,7 +169,7 @@ bool PCRender::loadImage(char const* name, char const* fileName)
 
     if(temp == nullptr)
     {
-        Game::log() << SDL_GetError() << std::endl;
+        Game::log << SDL_GetError() << std::endl;
 
         return false;
     }
@@ -180,7 +180,7 @@ bool PCRender::loadImage(char const* name, char const* fileName)
 
     if(optimized  == nullptr)
     {
-        Game::log() << SDL_GetError() << std::endl;
+        Game::log << SDL_GetError() << std::endl;
 
         return false;
     }

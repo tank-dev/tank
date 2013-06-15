@@ -8,14 +8,16 @@ Logger::Logger(std::string file) : fileName_{file}, logFile_{fileName_}
         << ": "
         << timer_.getHumanTime()
         << "] "
-        << "Log file created...";
+        << "Log file created..."
+        << std::endl;
 #ifdef DEBUG
     std::clog << "["
         << file
         << ": "
         << timer_.getHumanTime()
         << "] "
-        << "Log file created...";
+        << "Log file created..."
+        << std::endl;
 #endif
 }
 

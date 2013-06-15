@@ -11,7 +11,7 @@ void State::insertEntity(std::unique_ptr<Entity>&& entity)
 {
 	if (!entity.get())
 	{
-        Game::log() << "Warning: You can't add a null entity.";
+        Game::log << "Warning: You can't add a null entity.";
 		return;
 	}
 	// Stops an entity being added several times
@@ -21,7 +21,7 @@ void State::insertEntity(std::unique_ptr<Entity>&& entity)
         if(entity.get() == existingEnt.get())
         {
             //Maybe shouldn't warn here
-            Game::log() << "Warning: Entity already added";
+            Game::log << "Warning: Entity already added";
 
             return;
         }
@@ -35,7 +35,7 @@ void State::moveEntity(State* state, Entity* entity)
 {
 	if (!entity)
 	{
-        Game::log() << "Warning: You can't move null entity." << std::endl;
+        Game::log << "Warning: You can't move null entity." << std::endl;
 		return;
 	}
 	// Stops an entity being added several times
@@ -43,7 +43,7 @@ void State::moveEntity(State* state, Entity* entity)
     std::unique_ptr<Entity> entPtr = releaseEntity(entity);
     if(!entPtr.get())
     {
-        Game::log() << "Entity not found in move operation" << std::endl;
+        Game::log << "Entity not found in move operation" << std::endl;
         return;
     }
 
@@ -74,7 +74,7 @@ void State::removeEntity(Entity* entity)
     {
         if(entity == entities_[i].get())
         {
-            Game::log() << "Deleting" << std::endl;
+            Game::log << "Deleting" << std::endl;
             const auto iter = entities_.begin()+i;
             entities_.erase(iter);
         }

@@ -7,7 +7,7 @@
 
 #define FRAMES_PER_SECOND 60
 
-Logger   Game::log_         {"log.txt"};
+Logger   Game::log          {"log.txt"};
 IWindow* Game::window_      {nullptr};
 IRender* Game::render_      {nullptr};
 bool     Game::initialized_ {false};
@@ -19,7 +19,7 @@ std::stack<std::unique_ptr<State>> Game::states_;
 //This shouldn't be necessary, eventually...
 void Game::close()
 { 
-    log() << "Closing window" << std::endl;
+    log << "Closing window" << std::endl;
     delete(render_);
     delete(window_);
 }
@@ -39,7 +39,7 @@ bool Game::initialize()
         window_ = new Window(640,640);
 
         //Select PCRender as the rendering engine
-        log() << "Loading rendering engine" << std::endl;
+        log << "Loading rendering engine" << std::endl;
 
         render_ = new PCRender();
 
@@ -48,7 +48,7 @@ bool Game::initialize()
         if(!render_->initialize())
         {
             initialized_ = false; 
-            log() << "Could not initialize rendering engine" << std::endl;
+            log << "Could not initialize rendering engine" << std::endl;
         }
     }
 
@@ -64,14 +64,14 @@ void Game::run()
     if(run_) return;
 
     run_ = true; 
-    log() << "Entering main loop" << std::endl;
+    log << "Entering main loop" << std::endl;
     while(run_)
     {
         frameTimer_.start();
 
         if(states_.empty())
         {
-            log() << "No game state" << std::endl;
+            log << "No game state" << std::endl;
             run_ = false;
             break;
         }
@@ -140,13 +140,13 @@ void Game::handleEvents()
     std::unique_ptr<State> statePointer = std::unique_ptr<State>(state);
     if(state->initialize())
     {
-        log() << "Loaded state successfully" << std::endl;
+        log << "Loaded state successfully" << std::endl;
         states_.push(std::move(statePointer));
 
         return true;
     }
 
-    log() << "Not pushing state" << std::endl;
+    log << "Not pushing state" << std::endl;
 
     return false;
 }*/
