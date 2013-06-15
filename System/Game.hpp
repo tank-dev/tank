@@ -12,28 +12,46 @@
 #include "../Utility/Logger.hpp"
 #include <iostream>
 
+/*!
+ * \brief Static Game class containing main loop and current state.
+ *
+ * To start the game engine, call Game::initialize(). This will create the
+ * window, and initialize rendering.
+ *
+ * Once started, you should create a State with Game::makeState<>(). This will
+ * both create a state and add it to the top of the state stack. 
+ *
+ * Once there is a state to run, call Game::run() to start the main loop.
+ *
+ * Currently, it is required to call Game::close() to clean up after the game
+ * has finished, but this requirement should be lifted in later versions.
+ * \see State
+ * \see Logger
+ */
 class Game
 {
 public:
 	/*!
-	 * \brief This initilizes the game. It returns true if the game is
-	 * successfully initilized.
+	 * \brief Initializes the game.
 	 *
+     * Creates a window and a rendering context.
 	 * \return True on success.
 	 */
     static bool initialize();
 	/*!
-	 * \brief This runs the game.
+	 * \brief Starts the game loop
 	 */
     static void run();
 	/*!
-	 * \brief This quits the game.
+	 * \brief This cleans up after the game.
+     *
+     * This function should be placed at the end of your program to clean up
+     * some of the engine's dependencies
 	 */
     static void close();
 
-    //bool addState(State*);
 	/*!
-	 * \brief This removes a state at the end of the frame.
+	 * \brief This removes the current state at the end of the frame.
 	 */
     static void popState();
 
@@ -42,7 +60,7 @@ public:
         return log_;
     }
 	/*!
-	 * \brief The logger. This acts like a stream, remember to finish your log
+	 * \brief The log. This acts like a stream, remember to finish your log
 	 * with std::endl.
 	 */
     static Logger log_;
@@ -57,15 +75,18 @@ public:
 	 * \return A pointer to the state.
 	 */
     template<typename T, typename... Args>
-    static T& makeState(Args&&... args)
+    static T* makeState(Args&&... args)
     {
         static_assert(std::is_base_of<State,T>::value, "Class must derive from State");
         T* state = new T(std::forward<Args>(args)...);
         states_.emplace(state);
-        return *state;
+        return state;
     }
 
-    /*! \brief Return a reference to the active state
+    /*! 
+     * \brief Return a reference to the active state
+     *
+     * \return A reference to the active state
      */
     static State& state() { return *states_.top().get(); }
 private:
