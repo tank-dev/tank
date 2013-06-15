@@ -1,8 +1,6 @@
 cmake_minimum_required(VERSION 2.8)
 project (Tank)
 
-set (CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake/modules")
-
 find_package(SDL REQUIRED) 
 find_package(SDL_image REQUIRED) 
 find_package(SDL_mixer REQUIRED) 
