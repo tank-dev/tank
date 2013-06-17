@@ -11,7 +11,7 @@ void State::insertEntity(std::unique_ptr<Entity>&& entity)
 {
 	if (!entity.get())
 	{
-        Game::log << "Warning: You can't add a null entity.";
+        Game::log << "Warning: You can't add a null entity." << std::endl;
 		return;
 	}
 	// Stops an entity being added several times
@@ -21,7 +21,7 @@ void State::insertEntity(std::unique_ptr<Entity>&& entity)
         if(entity.get() == existingEnt.get())
         {
             //Maybe shouldn't warn here
-            Game::log << "Warning: Entity already added";
+            Game::log << "Warning: Entity already added" << std::endl;
 
             return;
         }
