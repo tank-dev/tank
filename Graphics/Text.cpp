@@ -19,7 +19,7 @@ void Text::update()
 {
     if(duration_ != 0 && displayTimer_.getTicks() >= duration_)
     {
-        state_->removeEntity(this);
+        getState()->removeEntity(this);
     }
 }
 
@@ -28,5 +28,3 @@ void Text::draw(IRender* const render)
     //TODO Make this work properly
     render->drawText(text_.c_str(), getPos());
 }
-
-void Text::isInside(Entity* ent) {}

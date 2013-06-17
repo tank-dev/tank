@@ -13,8 +13,6 @@ public:
     void update();
     void draw(IRender* const);
 
-    void isInside(Entity*);
-
     Text(Vectorf const& pos, std::string text, unsigned int duration);
     ~Text();
 private:
