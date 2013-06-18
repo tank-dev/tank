@@ -37,7 +37,7 @@ public:
      * \param windowSize The window canvas size in pixels.
 	 * \return True on success.
 	 */
-    static bool initialize(Vector<unsigned int> const& windowSize);
+    static bool initialize(Vector<unsigned int> const& windowSize, int argc, char** argv);
 	/*!
 	 * \brief Starts the game loop
 	 */

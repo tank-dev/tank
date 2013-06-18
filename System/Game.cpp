@@ -4,6 +4,7 @@
 #include "../Graphics/PCRender.hpp"
 #include <SFML/Window/Event.hpp>
 #include <SFML/Window/Keyboard.hpp>
+#include <Magick++.h>
 #include "ServiceLocator.hpp"
 #include "Window.hpp"
 
@@ -31,7 +32,7 @@ void Game::close()
  * ---------------------------- */
 
 //TODO Handle errors with exceptions
-bool Game::initialize(Vector<unsigned int> const& wSize)
+bool Game::initialize(Vector<unsigned int> const& wSize, int argc, char** argv)
 {
     if(!initialized_)
     {
@@ -43,6 +44,7 @@ bool Game::initialize(Vector<unsigned int> const& wSize)
         //Select PCRender as the rendering engine
         log << "Loading rendering engine" << std::endl;
 
+        InitializeMagick(*argv); 
         render_ = new PCRender();
 
         ServiceLocator::provide(render_);  //Make render available on request
