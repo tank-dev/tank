@@ -85,6 +85,8 @@ public:
      * \return A reference to the active state
      */
     static State& state() { return *states_.top().get(); }
+
+    static const unsigned int FPS;
 private:
     static bool initialized_;
     static bool run_;

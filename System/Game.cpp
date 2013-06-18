@@ -7,8 +7,6 @@
 #include "ServiceLocator.hpp"
 #include "Window.hpp"
 
-#define FRAMES_PER_SECOND 60
-
 Logger   Game::log          {"log.txt"};
 IWindow* Game::window_      {nullptr};
 IRender* Game::render_      {nullptr};
@@ -17,6 +15,8 @@ bool     Game::run_         {false};
 bool     Game::popState_    {false};
 Timer    Game::frameTimer_;
 std::stack<std::unique_ptr<State>> Game::states_;
+
+const unsigned int Game::FPS {60};
 
 //This shouldn't be necessary, eventually...
 void Game::close()
@@ -92,8 +92,8 @@ void Game::run()
         }
 
 		//Delay until the next frame so the game stays at 60fps
-        if (1000000 / FRAMES_PER_SECOND > frameTimer_.getMicrosecs()) {
-            Timer::delayMicrosecs(static_cast<unsigned long>(1000000 / FRAMES_PER_SECOND - frameTimer_.getTicks()));
+        if (1000000 / FPS > frameTimer_.getMicrosecs()) {
+            Timer::delayMicrosecs(static_cast<unsigned long>(1000000 / FPS - frameTimer_.getTicks()));
         }
     }
 }
