@@ -10,6 +10,9 @@ namespace sf
     class Event;
 }
 
+/*!
+ * \brief Base virtual class (interface) for windows
+ */
 class IWindow
 {
 public:
