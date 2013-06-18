@@ -1,31 +1,48 @@
 #ifndef WINDOW_H
 #define    WINDOW_H
 
-#include <SDL/SDL.h>
-#include <SDL/SDL_image.h>
+#include <SFML/Graphics/RenderWindow.hpp>
 #include "IWindow.hpp"
 #include "../Utility/Vector.hpp"
+
+namespace sf
+{
+    class Event;
+}
 
 class Window : public IWindow
 {
 public:
-    Window(int width, int height, int flags = SDL_HWSURFACE);
+    Window(Vector<unsigned int> const& size, std::string caption = "");
     virtual ~Window();
 
-    virtual Vectori const& getSize();
+    virtual Vector<unsigned int> const& getSize();
     virtual std::string const& getCaption();
 
-    virtual void setWidth(int width, int height);   //Doesn't work
-    virtual void setCaption(std::string&& caption);
-    virtual void setIcon(std::string&& path);
+    virtual void render();
+    virtual void flipBuffer();
+
+    virtual void resize(Vector<unsigned int> const& size);
+    virtual void setCaption(std::string& caption);
+
+    /*!
+     * \brief SFML-specific polling code (temporary)
+     */
+    bool pollEvent(sf::Event&);
+
+    /*!
+     * \brief Not implemented
+     */
+    virtual void setIcon(std::string& path); 
 private:
+    sf::RenderWindow window;
     std::string caption_;
-    Vectori size_;
+    Vector<unsigned int> size_;
 
     //Is this window instance the current window?
     bool valid_;
 
-    //Unfortunately we can only have one window to stop SDL from shitting itself
+    //Unfortunately we can only have one window right now
     static bool windowExists_;
 };
 

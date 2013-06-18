@@ -2,6 +2,8 @@
 
 #include <iostream>
 #include "../Graphics/PCRender.hpp"
+#include <SFML/Window/Event.hpp>
+#include <SFML/Window/Keyboard.hpp>
 #include "ServiceLocator.hpp"
 #include "Window.hpp"
 
@@ -29,14 +31,14 @@ void Game::close()
  * ---------------------------- */
 
 //TODO Handle errors with exceptions
-bool Game::initialize(Vectori const& wSize)
+bool Game::initialize(Vector<unsigned int> const& wSize)
 {
     if(!initialized_)
     {
         initialized_ = true;
 
         //Create window
-        window_ = new Window(wSize.x,wSize.y);
+        window_ = new Window({wSize.x,wSize.y});
 
         //Select PCRender as the rendering engine
         log << "Loading rendering engine" << std::endl;
@@ -98,31 +100,28 @@ void Game::run()
 
 void Game::handleEvents()
 {
-    SDL_Event event;
+    sf::Event event;
     //TODO Make this independent of SDL
-    while(SDL_PollEvent(&event))
+    while(window_->pollEvent(event))
     {
         switch(event.type)
         {
-        case SDL_KEYUP:
-        case SDL_KEYDOWN:
-
-            if((event.key.keysym.sym == SDLK_F4 && event.key.keysym.mod & KMOD_ALT)
-                    || (event.key.keysym.sym == SDLK_w  && event.key.keysym.mod & KMOD_CTRL))
+        case sf::Event::KeyPressed:
+        case sf::Event::KeyReleased: 
+            /*if((event.key.code == sf::Keyboard::Key::F4 && event.key.alt)
             {
                 run_ = false;
                 break;
-            }
-            if(!states_.empty())
-            {
-                states_.top()->handleEvents(&event.key);
-            }
-
+            }*/
+            //if(!states_.empty())
+            //{
+                states_.top()->handleEvents(event.key.code);
+            //} 
             break;
-        case SDL_VIDEOEXPOSE:
+        case sf::Event::GainedFocus:
             draw();
             break;
-        case SDL_QUIT:
+        case sf::Event::Closed:
             run_ = false;
             break;
         default:

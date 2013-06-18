@@ -8,7 +8,6 @@
 #include "../System/IWindow.hpp"
 #include "../Utility/Timer.hpp"
 #include "State.hpp"
-#include <SDL/SDL_events.h>
 #include "../Utility/Logger.hpp"
 #include <iostream>
 
@@ -38,7 +37,7 @@ public:
      * \param windowSize The window canvas size in pixels.
 	 * \return True on success.
 	 */
-    static bool initialize(Vectori const& windowSize);
+    static bool initialize(Vector<unsigned int> const& windowSize);
 	/*!
 	 * \brief Starts the game loop
 	 */

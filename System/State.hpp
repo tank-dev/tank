@@ -4,7 +4,8 @@
 
 #include <vector>
 #include <memory>
-#include <SDL/SDL_events.h>
+#include <SFML/Window/Event.hpp>
+#include <SFML/Window/Keyboard.hpp>
 #include "../Graphics/IRender.hpp"
 
 class Entity;
@@ -107,7 +108,7 @@ public:
      * \see draw()
      * \see Game
      */
-    virtual void handleEvents(SDL_KeyboardEvent* const) {}
+    virtual void handleEvents(sf::Keyboard::Key const&) {}
 
     /*!
      * \brief Update all entities in the state's entities list

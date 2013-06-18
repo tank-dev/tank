@@ -1,42 +1,35 @@
 #include "Window.hpp"
 
 #include <iostream>
+#include <GL/glew.h> 
+#include <SFML/OpenGL.hpp>
 #include "Game.hpp"
 
 
 bool Window::windowExists_ = false;
 
-Window::Window(int width, int height, int flags)
-    :caption_(""),
-    size_({width, height}),
-    valid_(false)
+Window::Window(Vector<unsigned int> const& size, std::string caption)
+    : caption_(caption)
+    , size_(size)
+    , valid_(false)
 {
     if(!windowExists_)
     {
-        valid_ = true;
-        bool success = true;
-
         Game::log << "Opening Window" << std::endl;
 
-        if(SDL_Init(SDL_INIT_EVERYTHING) < 0)
-        {
-            Game::log << "OH GOD, SDL REALLY COCKED UP PROPER: " << SDL_GetError() << std::endl;
-            success = false;
-        }
+        sf::ContextSettings settings;
+        settings.antialiasingLevel = 4;
+        settings.majorVersion = 3;
+        settings.minorVersion = 1;
+        window.create(sf::VideoMode(size.x, size.y), caption,
+                      sf::Style::Default, settings);
 
-        if(IMG_Init(IMG_INIT_PNG) == -1)
-        {
-            Game::log << "Something went wrong: " << IMG_GetError() << std::endl;
-            success = false;
-        }
-
-        if(SDL_SetVideoMode(width, height, 32, flags) == NULL)
-        {
-            Game::log << "OH NOEZ: " << SDL_GetError() << std::endl;
-            success = false;
-        }
-
-        windowExists_ = success;
+        valid_ = true;
+        windowExists_ = true;
+    }
+    else
+    {
+        Game::log << "Window already exists" << std::endl;
     }
 }
 
@@ -45,35 +38,47 @@ Window::~Window()
     if(windowExists_ && valid_)
     {
         Game::log << "Closing Window" << std::endl;
-
-        IMG_Quit();
-        SDL_Quit();
     }
 }
 
-void Window::setWidth(int width, int height)
+bool Window::pollEvent(sf::Event& event)
 {
-    //Unfortunately SDL will create a new window, which is generally
-    //undesired, so this function shouldn't do anything
+    return window.pollEvent(event);
 }
 
-void Window::setIcon(std::string&& path)
+void Window::render()
+{
+}
+
+void Window::flipBuffer()
+{
+    window.display();
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+}
+
+void Window::resize(Vector<unsigned int> const& size)
+{
+    window.setSize({size.x, size.y});
+}
+
+void Window::setIcon(std::string& path)
 {
     if(windowExists_ && valid_)
     {
-        SDL_WM_SetIcon(IMG_Load(path.c_str()), NULL);
+        //SDL_WM_SetIcon(IMG_Load(path.c_str()), NULL);
     }
 }
 
-void Window::setCaption(std::string&& caption)
+void Window::setCaption(std::string& caption)
 {
     if(windowExists_ && valid_)
     {
-        SDL_WM_SetCaption(caption.c_str(), NULL);
+        caption_ = caption;
+        //SDL_WM_SetCaption(caption.c_str(), NULL);
     }
 }
 
-Vectori const& Window::getSize()
+Vector<unsigned int> const& Window::getSize()
 {
     return size_;
 }
