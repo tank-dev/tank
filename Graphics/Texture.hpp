@@ -3,21 +3,28 @@
 #define TEXTURE_H
 
 #include <string>
+#include <GL/glew.h>
+#include "../Utility/Vector.hpp"
 
-struct Texture
+class Texture
 {
 public:
-    std::string name; /* Name to identify texture */
-    int width, height;
+    Vectori const& getSize() const { return size_; }
 
-    /*------------------------- *
-     * Constructors
-     * ------------------------ */
-    /*Texture()
-    :name( "null" ), width( 0 ), height( 0 ) {}
-    Texture( int w, int h, std::string const& name )
-    :name( name ), width( w ), height( h ) {}*/
+    Texture(GLenum target = GL_TEXTURE_RECTANGLE);
+    Texture(std::string file, GLenum target = GL_TEXTURE_RECTANGLE);
+    ~Texture();
 
-    //const int id;      /* Ties texture to platform-dependent image structure */
+    void load(std::string file);
+
+    static void bind(Texture*);
+    static const unsigned int bytesPerPixel = 4;
+private:
+    GLuint name_;
+
+    bool loaded_;
+    GLuint target_;
+
+    Vectori size_;
 };
-#endif
+#endif /* TANK_TEXTURE_HPP */
