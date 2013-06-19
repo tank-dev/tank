@@ -7,19 +7,12 @@
 
 #include <string>
 
-class Text : public Entity
+class Text
 {
 public:
-    void update();
-    void draw(IRender* const);
-
-    void isInside(Entity*);
-
-    Text(Vectorf const& pos, std::string text, unsigned int duration);
+    Text(std::string text);
     ~Text();
 private:
     std::string  text_;
-    unsigned int duration_;
-    Timer        displayTimer_;
 };
 #endif
