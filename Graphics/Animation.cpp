@@ -129,9 +129,9 @@ void Animation::play()
     }
 }
 
-void Animation::draw(IRender* const render, const Vectorf& pos)
+void Animation::draw(Vectorf const& pos)
 {
-    render->draw(texture_, pos, clip_);
+    //render->draw(texture_, pos, clip_);
 }
 
 void Animation::setTexture(const Texture* const texture, const Vectorf& frameDims)

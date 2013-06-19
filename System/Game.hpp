@@ -4,11 +4,10 @@
 
 #include <stack>
 #include <memory>
-#include "../Graphics/IRender.hpp"
-#include "../System/IWindow.hpp"
 #include "../Utility/Timer.hpp"
-#include "State.hpp"
 #include "../Utility/Logger.hpp"
+#include "IWindow.hpp"
+#include "State.hpp"
 #include <iostream>
 
 /*!
@@ -95,7 +94,6 @@ private:
     static bool popState_;
 
     static IWindow* window_;
-    static IRender* render_;
 
     static std::stack<std::unique_ptr<State>> states_;
     static Timer frameTimer_;

@@ -20,11 +20,11 @@ Entity::Entity(Vectorf const& pos)
 Entity::~Entity() {}
 
 //Default draw function
-void Entity::draw(IRender* const render)
+void Entity::draw()
 {
     if(texture_)
     {
-        render->draw(texture_, pos_);
+        //render->draw(texture_, pos_);
     }
 }
 

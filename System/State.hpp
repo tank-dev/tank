@@ -6,7 +6,6 @@
 #include <memory>
 #include <SFML/Window/Event.hpp>
 #include <SFML/Window/Keyboard.hpp>
-#include "../Graphics/IRender.hpp"
 
 class Entity;
 class Game;
@@ -142,7 +141,7 @@ public:
      * \see update()
      * \see Game
      */
-    virtual void draw(IRender* const);
+    virtual void draw();
 
     /*!
      * \brief Get the list of entities

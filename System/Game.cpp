@@ -1,7 +1,6 @@
 #include "Game.hpp"
 
 #include <iostream>
-#include "../Graphics/PCRender.hpp"
 #include <SFML/Window/Event.hpp>
 #include <SFML/Window/Keyboard.hpp>
 #include <Magick++.h>
@@ -10,7 +9,6 @@
 
 Logger   Game::log          {"log.txt"};
 IWindow* Game::window_      {nullptr};
-IRender* Game::render_      {nullptr};
 bool     Game::initialized_ {false};
 bool     Game::run_         {false};
 bool     Game::popState_    {false};
@@ -23,7 +21,6 @@ const unsigned int Game::FPS {60};
 void Game::close()
 { 
     log << "Closing window" << std::endl;
-    delete(render_);
     delete(window_);
 }
 
@@ -45,15 +42,9 @@ bool Game::initialize(Vector<unsigned int> const& wSize, int argc, char** argv)
         log << "Loading rendering engine" << std::endl;
 
         Magick::InitializeMagick(*argv); 
-        render_ = new PCRender();
 
-        ServiceLocator::provide(render_);  //Make render available on request
+        //ServiceLocator::provide(render_);  //Make render available on request
 
-        if(!render_->initialize())
-        {
-            initialized_ = false; 
-            log << "Could not initialize rendering engine" << std::endl;
-        }
     }
 
     return initialized_;
@@ -168,9 +159,8 @@ void Game::update()
 void Game::draw()
 {
     //Draw current state
-    states_.top()->draw(render_);
+    states_.top()->draw();
 
     //Update the screen
-    render_->flipDisplay();
-
+    window_->flipDisplay(); 
 }

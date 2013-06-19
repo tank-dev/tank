@@ -3,7 +3,6 @@
 #define    ENTITY_H
 
 #include <vector>
-#include "../Graphics/IRender.hpp"
 #include "../Graphics/Texture.hpp"
 #include "../Utility/Vector.hpp"
 #include "../Utility/Rect.hpp"
@@ -44,7 +43,7 @@ public:
      * Render the entity for the current frame
      * \param render The Render instance with which to render the entity
      */
-    virtual void draw(IRender* const render);
+    virtual void draw();
 
     /*!
      * \brief Check for collisions with the entity (deprecated?)

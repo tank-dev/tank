@@ -89,10 +89,10 @@ void State::update()
     }
 }
 
-void State::draw(IRender* const render)
+void State::draw()
 {
     for(auto& entity : entities_)
     {
-        entity->draw(render);
+        entity->draw();
     }
 }

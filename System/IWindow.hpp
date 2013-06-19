@@ -23,7 +23,7 @@ public:
     virtual std::string const& getCaption() = 0;
 
     virtual void render();
-    virtual void flipBuffer();
+    virtual void flipDisplay();
 
     /*!
      * \brief SFML-specific polling code (temporary)

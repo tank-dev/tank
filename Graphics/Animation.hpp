@@ -5,7 +5,6 @@
 #include <string>
 #include <vector>
 #include <functional>
-#include "../Graphics/IRender.hpp"
 #include "../Graphics/Texture.hpp"
 #include "../Utility/Vector.hpp"
 #include "../Utility/Rect.hpp"
@@ -70,7 +69,7 @@ public:
 
     void select(const std::string& name, bool loop = true, std::function<void()> = []{});
     void play();
-    void draw(IRender* const, Vectorf const& pos);
+    void draw(Vectorf const& pos);
 
     void resume();
     void pause();

@@ -20,7 +20,7 @@ public:
     virtual std::string const& getCaption();
 
     virtual void render();
-    virtual void flipBuffer();
+    virtual void flipDisplay();
 
     virtual void resize(Vector<unsigned int> const& size);
     virtual void setCaption(std::string& caption);
