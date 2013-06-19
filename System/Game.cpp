@@ -44,7 +44,7 @@ bool Game::initialize(Vector<unsigned int> const& wSize, int argc, char** argv)
         //Select PCRender as the rendering engine
         log << "Loading rendering engine" << std::endl;
 
-        InitializeMagick(*argv); 
+        Magick::InitializeMagick(*argv); 
         render_ = new PCRender();
 
         ServiceLocator::provide(render_);  //Make render available on request
