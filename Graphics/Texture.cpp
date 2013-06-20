@@ -1,10 +1,11 @@
 #include "Texture.hpp"
 
 #include <SFML/OpenGL.hpp>
-#include <ImageMagick-6/Magick++.h>
+#include <CImg.h>
+#include <cstdint>
 
 /* TODO:
- *   * Allow Mipmaps
+ *   * Allow mipmaps
  *   * Allow different data formats
  *   * Allow multisampling
  */
@@ -34,14 +35,12 @@ void Texture::load(std::string file)
 {
     if(!loaded_)
     {
-        Magick::Image texture(file);
+        cimg_library::CImg<float> texture(file.c_str());
 
-        auto size = texture.size();
-        size_.x = size.width(),
-        size_.y = size.height();
+        size_.x = texture.width(),
+        size_.y = texture.height();
 
-        float* pixels = new float[size_.x*size_.y];
-        texture.write(0,0,size_.x, size_.y, "RGBA", Magick::FloatPixel, pixels);
+        float* pixels = texture.data();
 
         glBindTexture(target_, name_);
 

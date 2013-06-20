@@ -3,7 +3,6 @@
 #include <iostream>
 #include <SFML/Window/Event.hpp>
 #include <SFML/Window/Keyboard.hpp>
-#include <Magick++.h>
 #include "ServiceLocator.hpp"
 #include "Window.hpp"
 
@@ -40,8 +39,6 @@ bool Game::initialize(Vector<unsigned int> const& wSize, int argc, char** argv)
 
         //Select PCRender as the rendering engine
         log << "Loading rendering engine" << std::endl;
-
-        Magick::InitializeMagick(*argv); 
 
         //ServiceLocator::provide(render_);  //Make render available on request
 

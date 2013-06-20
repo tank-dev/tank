@@ -12,14 +12,10 @@ set (CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_SOURCE_DIR}/modules/)
 find_package(SFML 2.0 REQUIRED system window graphics)
 find_package(OpenGL REQUIRED)
 find_package(GLEW REQUIRED)
-find_package(ImageMagick COMPONENTS Magick++ REQUIRED)
 
 include_directories(${SFML_INCLUDE_DIRS})
 include_directories(${OpenGL_INCLUDE_DIRS})
 include_directories(${GLEW_INCLUDE_DIRS})
-include_directories(${ImageMagick_INCLUDE_DIRS})
-
-add_definitions(-DMAGICKCORE_HDRI_ENABLE=0 -DMAGICKCORE_QUANTUM_DEPTH=8)
 
 set(EXECUTABLE_OUTPUT_PATH ${CMAKE_BINARY_DIR})
 
@@ -66,7 +62,7 @@ endif(DOXYGEN_FOUND)
 set (engine_src ${gfx_src} ${sys_src} ${util_src})
 add_library(engine ${engine_src})
 target_link_libraries(engine ${SDL_LIBRARY} ${SDLIMAGE_LIBRARY}
-    ${OPENGL_LIBRARIES} ${SFML_LIBRARIES} ${GLEW_LIBRARY} ${ImageMagick_LIBRARY})
+    ${OPENGL_LIBRARIES} ${SFML_LIBRARIES} ${GLEW_LIBRARY})
 if(Cotire)
     cotire(engine)
 endif(Cotire)
