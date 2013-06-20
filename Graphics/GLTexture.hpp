@@ -1,23 +1,23 @@
 #pragma once
-#ifndef TEXTURE_H
-#define TEXTURE_H
+#ifndef TANK_GLTEXTURE_HPP
+#define TANK_GLTEXTURE_HPP
 
 #include <string>
 #include <GL/glew.h>
 #include "../Utility/Vector.hpp"
 
-class Texture
+class GLTexture
 {
 public:
     Vectori const& getSize() const { return size_; }
 
-    Texture();
-    Texture(std::string file);
-    ~Texture();
+    GLTexture();
+    GLTexture(std::string file);
+    ~GLTexture();
 
     void load(std::string file);
 
-    static void bind(Texture*);
+    static void bind(GLTexture*);
 private:
     GLuint name_;
 
@@ -25,5 +25,8 @@ private:
     GLuint target_;
 
     Vectori size_;
+
+    GLTexture(GLTexture const&);
+    GLTexture& operator=(GLTexture const&);
 };
 #endif /* TANK_TEXTURE_HPP */

@@ -1,4 +1,4 @@
-#include "Texture.hpp"
+#include "GLTexture.hpp"
 
 #include <SFML/OpenGL.hpp>
 #include <CImg.h>
@@ -10,7 +10,7 @@
  *   * Allow multisampling
  */
 
-Texture::Texture()
+GLTexture::GLTexture()
     : loaded_(false)
     , target_(GL_TEXTURE_RECTANGLE)
 {
@@ -20,18 +20,18 @@ Texture::Texture()
     glBindTexture(target_, name_);
 }
 
-Texture::Texture(std::string file)
-    : Texture()
+GLTexture::GLTexture(std::string file)
+    : GLTexture()
 {
     load(file);
 }
 
-Texture::~Texture()
+GLTexture::~GLTexture()
 {
     glDeleteTextures(1, &name_);
 }
 
-void Texture::load(std::string file)
+void GLTexture::load(std::string file)
 {
     if(!loaded_)
     {
@@ -57,7 +57,7 @@ void Texture::load(std::string file)
     }
 }
 
-void Texture::bind(Texture* t)
+void GLTexture::bind(GLTexture* t)
 {
     GLuint name = t ? t->name_ : 0;
 

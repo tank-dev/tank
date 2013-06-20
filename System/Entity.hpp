@@ -3,7 +3,7 @@
 #define    ENTITY_H
 
 #include <vector>
-#include "../Graphics/Texture.hpp"
+#include "../Graphics/GLTexture.hpp"
 #include "../Utility/Vector.hpp"
 #include "../Utility/Rect.hpp"
 
@@ -165,7 +165,7 @@ protected:
     bool        solid_;     //false
     bool        visible_;   //true
 
-    Texture const* texture_;//nullptr
+    GLTexture const* texture_;//nullptr
     State* state_;          //Set by parent State
 };
 #endif

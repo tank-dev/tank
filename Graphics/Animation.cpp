@@ -2,7 +2,7 @@
 
 #include <algorithm>
 
-void Animation::add(const std::string& name, 
+void Animation::add(const std::string& name,
                     std::vector<unsigned int> const& frames,
                     unsigned int time)
 {
@@ -81,7 +81,7 @@ void Animation::play()
 {
     //Only play if there is a selected animation
     if(currentAnimation_)
-    { 
+    {
         //Check if we need to change animation frame
         //const unsigned int frameTime = currentAnimation_->time;
 
@@ -134,7 +134,7 @@ void Animation::draw(Vectorf const& pos)
     //render->draw(texture_, pos, clip_);
 }
 
-void Animation::setTexture(const Texture* const texture, const Vectorf& frameDims)
+void Animation::setTexture(const GLTexture* const texture, const Vectorf& frameDims)
 {
     frameDimensions_ = frameDims;
     texture_ = texture;

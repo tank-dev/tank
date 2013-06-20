@@ -5,7 +5,7 @@
 #include <string>
 #include <vector>
 #include <functional>
-#include "../Graphics/Texture.hpp"
+#include "../Graphics/GLTexture.hpp"
 #include "../Utility/Vector.hpp"
 #include "../Utility/Rect.hpp"
 #include "../Utility/Timer.hpp"
@@ -58,8 +58,8 @@ class Animation
 {
 public:
     Animation() = default;
-    Animation(Texture const* const t, const Vectorf& frameDims) :
-        texture_ {t}, frameDimensions_(frameDims), 
+    Animation(GLTexture const* const t, const Vectorf& frameDims) :
+        texture_ {t}, frameDimensions_(frameDims),
         clip_({0,0,(int)frameDims.x, (int)frameDims.y}) {}
 
     void add(const std::string& name,
@@ -89,7 +89,7 @@ public:
      * \param texture
      * \param frameDims
      */
-    void setTexture(Texture const*const texture, Vectorf const& frameDims);
+    void setTexture(GLTexture const*const texture, Vectorf const& frameDims);
 
 
 private:
@@ -101,10 +101,7 @@ private:
         unsigned int              time;
     }; //}}}
 
-    Texture const* texture_
-    {
-        nullptr
-    };
+    GLTexture const* texture_ { nullptr };
     AnimationInfo* currentAnimation_ {nullptr};
     unsigned int currentFrame_ {0};
     Timer animTimer_;
