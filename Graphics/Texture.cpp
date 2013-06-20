@@ -10,9 +10,9 @@
  *   * Allow multisampling
  */
 
-Texture::Texture(GLenum target)
+Texture::Texture()
     : loaded_(false)
-    , target_(target)
+    , target_(GL_TEXTURE_RECTANGLE)
 {
     //Register a 2D texture id
 
@@ -20,8 +20,8 @@ Texture::Texture(GLenum target)
     glBindTexture(target_, name_);
 }
 
-Texture::Texture(std::string file, GLenum target)
-    : Texture(target)
+Texture::Texture(std::string file)
+    : Texture()
 {
     load(file);
 }
