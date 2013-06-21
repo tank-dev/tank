@@ -1,4 +1,3 @@
-#pragma once
 #ifndef TANK_GLTEXTURE_HPP
 #define TANK_GLTEXTURE_HPP
 
@@ -17,7 +16,8 @@ public:
 
     void load(std::string file);
 
-    static void bind(GLTexture*);
+    static void bind(GLTexture const*);
+    static void unbind(GLTexture const*);
 private:
     GLuint name_;
 

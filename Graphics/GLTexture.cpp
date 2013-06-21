@@ -57,9 +57,18 @@ void GLTexture::load(std::string file)
     }
 }
 
-void GLTexture::bind(GLTexture* t)
+void GLTexture::bind(GLTexture const* t)
 {
-    GLuint name = t ? t->name_ : 0;
+    if(t)
+    {
+        glBindTexture(t->target_, t->name_);
+    }
+}
 
-    glBindTexture(t->target_, name);
+void GLTexture::unbind(GLTexture const* t)
+{
+    if(t)
+    {
+        glBindTexture(t->target_, 0);
+    }
 }
