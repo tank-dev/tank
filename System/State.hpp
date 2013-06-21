@@ -4,7 +4,7 @@
 
 #include <vector>
 #include <memory>
-#include <SDL/SDL_events.h>
+#include <SDL_events.h>
 #include "../Graphics/IRender.hpp"
 
 namespace tank {

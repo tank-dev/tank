@@ -1,8 +1,8 @@
 #include "PCRender.hpp"
 
 #include <iostream>
-#include <SDL/SDL.h>
-#include <SDL/SDL_image.h>
+#include <SDL.h>
+#include <SDL_image.h>
 #include <cstring>
 #include "Texture.hpp"
 #include "../Utility/Vector.hpp"

@@ -3,9 +3,11 @@ project (Tank)
 
 find_package(SDL REQUIRED) 
 find_package(SDL_image REQUIRED) 
-find_package(SDL_mixer REQUIRED) 
-include_directories(${SDL_INCLUDE_DIRS})
-
+include_directories(${SDL_INCLUDE_DIR})
+include_directories(${SDL_IMAGE_INCLUDE_DIRS})
+include_directories(${SDLIMAGE_INCLUDE_DIR})
+message("Set sdl include path to ${SDL_INCLUDE_DIR}")
+#SDL_IMAGE_INCLUDE_DIRS
 
 set(EXECUTABLE_OUTPUT_PATH ${CMAKE_BINARY_DIR})
 
@@ -15,6 +17,7 @@ endif(NOT MSVC)
 
 if (APPLE)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -stdlib=libc++")
+    set(CMAKE_LD_FLAGS "${CMAKE_LD_FLAGS} -stdlib=libc++")
 endif (APPLE)
 
 set(CMAKE_BUILD_TYPE Debug)

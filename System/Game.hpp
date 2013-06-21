@@ -8,7 +8,7 @@
 #include "../System/IWindow.hpp"
 #include "../Utility/Timer.hpp"
 #include "State.hpp"
-#include <SDL/SDL_events.h>
+#include <SDL_events.h>
 #include "../Utility/Logger.hpp"
 #include <iostream>
 

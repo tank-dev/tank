@@ -1,8 +1,8 @@
 #ifndef TANK_WINDOW_HPP
 #define TANK_WINDOW_HPP
 
-#include <SDL/SDL.h>
-#include <SDL/SDL_image.h>
+#include <SDL.h>
+#include <SDL_image.h>
 #include "IWindow.hpp"
 #include "../Utility/Vector.hpp"
 
