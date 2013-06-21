@@ -1,13 +1,16 @@
 cmake_minimum_required(VERSION 2.8)
 project (Tank)
 
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/modules")
+
 find_package(SDL REQUIRED) 
 find_package(SDL_image REQUIRED) 
 include_directories(${SDL_INCLUDE_DIR})
-include_directories(${SDL_IMAGE_INCLUDE_DIRS})
 include_directories(${SDLIMAGE_INCLUDE_DIR})
-message("Set sdl include path to ${SDL_INCLUDE_DIR}")
-#SDL_IMAGE_INCLUDE_DIRS
+
+find_package(SFML 2.0 COMPONENTS audio REQUIRED)
+include_directories(${SFML_INCLUDE_DIR})
+message("Set sfml to ${SFML_INCLUDE_DIR}")
 
 set(EXECUTABLE_OUTPUT_PATH ${CMAKE_BINARY_DIR})
 
@@ -40,6 +43,7 @@ endif(Debug)
 add_subdirectory(System)
 add_subdirectory(Utility)
 add_subdirectory(Graphics)
+add_subdirectory(Audio)
 
 find_package(Doxygen)
 if(DOXYGEN_FOUND)
@@ -52,9 +56,9 @@ if(DOXYGEN_FOUND)
     )
 endif(DOXYGEN_FOUND)
 
-set (engine_src ${gfx_src} ${sys_src} ${util_src})
+set (engine_src ${gfx_src} ${sys_src} ${util_src} ${audio_src})
 add_library(engine ${engine_src})
-target_link_libraries(engine ${SDL_LIBRARY} ${SDLIMAGE_LIBRARY})
+target_link_libraries(engine ${SDL_LIBRARY} ${SDLIMAGE_LIBRARY} ${SFML_LIBRARIES})
 if(Cotire)
     cotire(engine)
 endif(Cotire)
