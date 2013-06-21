@@ -1,4 +1,3 @@
-#pragma once
 #ifndef TANK_GAMESTATE_HPP
 #define TANK_GAMESTATE_HPP
 
