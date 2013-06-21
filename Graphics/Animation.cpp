@@ -21,7 +21,8 @@
 
 #include <algorithm>
 
-namespace tank {
+namespace tank
+{
 
 void Animation::add(const std::string& name,
                     std::vector<unsigned int> const& frames,
@@ -41,18 +42,19 @@ void Animation::remove(const std::string& name)
     });
 
     //Remove the animation from the animations list
-    if(iter != animations_.end())
+    if (iter != animations_.end())
     {
         animations_.erase(iter);
     }
 }
 
-void Animation::select(const std::string& name, bool loop, std::function<void()> callback)
+void Animation::select(const std::string& name, bool loop,
+                       std::function<void()> callback)
 {
     //Check that the requested animation is not already playing
-    if(!currentAnimation_ || currentAnimation_->name != name)
+    if (not currentAnimation_ || currentAnimation_->name != name)
     {
-        for(auto& anim : animations_)
+        for (auto& anim : animations_)
         {
             if (anim.name == name)
             {
@@ -76,7 +78,7 @@ void Animation::pause()
 
 void Animation::resume()
 {
-    if(animTimer_.isPaused() && currentAnimation_ != nullptr)
+    if (animTimer_.isPaused() && currentAnimation_ != nullptr)
     {
         animTimer_.resume();
     }
@@ -101,16 +103,17 @@ void Animation::stop()
 void Animation::play()
 {
     //Only play if there is a selected animation
-    if(currentAnimation_)
+    if (currentAnimation_)
     {
         //Check if we need to change animation frame
         //const unsigned int frameTime = currentAnimation_->time;
 
-        //bool playNextFrame = (frameTime != 0); // Don't animate if frametime is 0
+        //bool playNextFrame = (frameTime != 0);
+        // Don't animate if frametime is 0
 
         bool playNextFrame = animTimer_.getTicks() > currentAnimation_->time;
 
-        if(playNextFrame)
+        if (playNextFrame)
         {
             ++currentFrame_;    //Change frame
 
@@ -119,14 +122,14 @@ void Animation::play()
             //Check if we've finished the animation
             unsigned const int lastFrame = currentAnimation_->frameList.size();
 
-            if(currentFrame_ >= lastFrame)
+            if (currentFrame_ >= lastFrame)
             {
                 currentFrame_ = 0;
 
                 callback_();
 
                 //If the animation doesn't loop, stop it
-                if(!loop_)
+                if (not loop_)
                 {
                     //Reset all properties (callback, timer, currentFrame, etc)
                     stop();
@@ -136,7 +139,7 @@ void Animation::play()
     }
 
     //Animation may have ended now. If not, need to set clipping mask for image
-    if(currentAnimation_)
+    if (currentAnimation_)
     {
         //Start at first frame
         auto frameIter = currentAnimation_->frameList.begin();
@@ -155,7 +158,8 @@ void Animation::draw(IRender* const render, const Vectorf& pos)
     render->draw(texture_, pos, clip_);
 }
 
-void Animation::setTexture(const Texture* const texture, const Vectorf& frameDims)
+void Animation::setTexture(const Texture* const texture,
+                           const Vectorf& frameDims)
 {
     frameDimensions_ = frameDims;
     texture_ = texture;

@@ -19,7 +19,7 @@
 
 #pragma once
 #ifndef TANK_PCRENDER_HPP
-#define	TANK_PCRENDER_HPP
+#define TANK_PCRENDER_HPP
 
 #include "IRender.hpp"
 
@@ -28,7 +28,8 @@
 
 struct SDL_Surface;
 
-namespace tank {
+namespace tank
+{
 
 class PCRender : public IRender
 {

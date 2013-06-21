@@ -30,10 +30,12 @@
 #include "../Utility/Rect.hpp"
 #include "../Utility/Timer.hpp"
 
-namespace tank {
+namespace tank
+{
 
 /*!
- * \brief Represents an image with multiple frames and stores animations for that image.
+ * \brief Represents an image with multiple frames and stores animations for
+ * that image.
  */
 class Animation
 {
@@ -46,7 +48,7 @@ public:
      */
     Animation(Texture const* const t, const Vectorf& frameDims) :
         texture_ {t}, frameDimensions_(frameDims),
-        clip_({0,0,(int)frameDims.x, (int)frameDims.y}) {}
+        clip_({0, 0, (int)frameDims.x, (int)frameDims.y}) {}
 
     /*!
      * \brief Add an animations
@@ -59,7 +61,8 @@ public:
              unsigned int frameTime);
     void remove(const std::string& name);
 
-    void select(const std::string& name, bool loop = true, std::function<void()> = []{});
+    void select(const std::string& name, bool loop = true,
+                std::function<void()> = []{});
 
     /*!
      * \brief Called in addition to draw to change the state of an animation.
@@ -127,9 +130,9 @@ private:
     unsigned int currentFrame_ {0};
     Timer animTimer_;
     bool loop_ {false};
-    Vectorf frameDimensions_ {0,0};
+    Vectorf frameDimensions_ {0, 0};
     std::function<void()> callback_ = []{};
-    Rect clip_ {0,0,0,0};
+    Rect clip_ {0, 0, 0, 0};
     std::vector<AnimationInfo>  animations_;
 };
 

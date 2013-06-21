@@ -19,7 +19,8 @@
 
 #include "IRender.hpp"
 
-namespace tank {
+namespace tank
+{
 
 void NullRender::draw(Texture const* texture,
                   Vectorf  const& position) {}

@@ -27,7 +27,8 @@
 #include "../Utility/Vector.hpp"
 #include "../Graphics/Texture.hpp"
 
-namespace tank {
+namespace tank
+{
 
 //TODO Implement 2D OpenGL to remove stupid dependencies
 class IRender

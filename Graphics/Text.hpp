@@ -18,7 +18,7 @@
  */
 
 #ifndef TANK_TEXT_HPP
-#define	TANK_TEXT_HPP
+#define TANK_TEXT_HPP
 
 #include "../System/Entity.hpp"
 #include "../Utility/Timer.hpp"
@@ -26,7 +26,8 @@
 
 #include <string>
 
-namespace tank {
+namespace tank
+{
 
 class Text : public Entity
 {

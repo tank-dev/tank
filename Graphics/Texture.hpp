@@ -23,7 +23,8 @@
 
 #include <string>
 
-namespace tank {
+namespace tank
+{
 
 struct Texture
 {
@@ -39,7 +40,8 @@ public:
     Texture( int w, int h, std::string const& name )
     :name( name ), width( w ), height( h ) {}*/
 
-    //const int id;      /* Ties texture to platform-dependent image structure */
+    //const int id;
+    /* Ties texture to platform-dependent image structure */
 };
 }
 #endif

@@ -28,7 +28,8 @@
 #include "../Utility/Rect.hpp"
 #include "../System/Game.cpp"
 
-namespace tank {
+namespace tank
+{
 
 /* --------------------------------------- *
  * Constructor and Destructor
@@ -49,7 +50,7 @@ PCRender::~PCRender()
 {
     Game::log << "PCRender engine shutting down" << std::endl;
 
-    for(auto iter = images_.begin(); iter != images_.end(); iter++)
+    for (auto iter = images_.begin(); iter != images_.end(); iter++)
     {
         SDL_FreeSurface(iter->second);
     }
@@ -67,9 +68,10 @@ PCRender::~PCRender()
 bool PCRender::initialize()
 {
     screen_ = SDL_GetVideoSurface();
-    if(screen_ == nullptr)
+    if (screen_ == nullptr)
     {
-        Game::log << "Could not retrieve video surface: " << std::string(SDL_GetError()) << std::endl;
+        Game::log << "Could not retrieve video surface: " <<
+                     std::string(SDL_GetError()) << std::endl;
         return false;
     }
 
@@ -84,14 +86,15 @@ void PCRender::draw(Texture const* texture, Vectorf const& pos)
     draw(texture, pos, { 0,  0,  texture->width, texture->height });
 }
 
-void PCRender::draw(Texture const* texture, Vectorf const& pos, Rect const& clip)
+void PCRender::draw(Texture const* texture, Vectorf const& pos,
+                    Rect const& clip)
 {
     // Retrieve SDL_Surface from Resources
     std::string tName = texture->name;
 
     SDL_Surface* surface = images_[tName];
 
-    if(surface != nullptr)
+    if (surface != nullptr)
     {
         // Convert position to SDL_Rect
         SDL_Rect offset;
@@ -110,7 +113,8 @@ void PCRender::draw(Texture const* texture, Vectorf const& pos, Rect const& clip
     }
     else
     {
-        Game::log << "Render Error: Texture does not exist (" << texture->name << ")" << std::endl;
+        Game::log << "Render Error: Texture does not exist (" << texture->name
+                  << ")" << std::endl;
     }
 }
 
@@ -128,7 +132,7 @@ void PCRender::drawText(char const* text, Vectorf const& pos)
     int width = length*letterSize;
     //int height = ceil((float)width/maxWidth)*letterSize;
 
-    if(width > maxWidth)
+    if (width > maxWidth)
     {
         width = maxWidth;
     }
@@ -155,7 +159,7 @@ void PCRender::drawText(char const* text, Vectorf const& pos)
     destRect.x = pos.x;
     destRect.y = pos.y;
 
-    for(int i = 0; i < length; ++i)
+    for (int i = 0; i < length; ++i)
     {
         c = toupper(text[i]);
 
@@ -167,7 +171,7 @@ void PCRender::drawText(char const* text, Vectorf const& pos)
 
         destRect.x += letterSize;
 
-        if(destRect.x > maxWidth - letterSize)
+        if (destRect.x > maxWidth - letterSize)
         {
             destRect.x  = pos.x;
             destRect.y += letterSize;
@@ -178,7 +182,8 @@ void PCRender::drawText(char const* text, Vectorf const& pos)
 void PCRender::flipDisplay()
 {
     SDL_Flip(screen_);
-    SDL_FillRect(screen_, nullptr, SDL_MapRGBA(screen_->format,0x66,0xFF,0xFF,0xFF));
+    SDL_FillRect(screen_, nullptr,
+                 SDL_MapRGBA(screen_->format, 0x66, 0xFF, 0xFF, 0xFF));
 }
 
 bool PCRender::loadImage(char const* name, char const* fileName)
@@ -188,7 +193,7 @@ bool PCRender::loadImage(char const* name, char const* fileName)
 
     temp = IMG_Load(fileName);
 
-    if(temp == nullptr)
+    if (temp == nullptr)
     {
         Game::log << SDL_GetError() << std::endl;
 
@@ -199,7 +204,7 @@ bool PCRender::loadImage(char const* name, char const* fileName)
 
     SDL_FreeSurface(temp);
 
-    if(optimized  == nullptr)
+    if (optimized  == nullptr)
     {
         Game::log << SDL_GetError() << std::endl;
 

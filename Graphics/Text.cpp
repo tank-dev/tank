@@ -21,7 +21,8 @@
 
 #include "../System/State.hpp"
 
-namespace tank {
+namespace tank
+{
 
 Text::Text(Vectorf const& pos, std::string text, unsigned int duration)
     :Entity(pos),
@@ -38,7 +39,7 @@ Text::~Text()
 
 void Text::update()
 {
-    if(duration_ != 0 && displayTimer_.getTicks() >= duration_)
+    if (duration_ != 0 && displayTimer_.getTicks() >= duration_)
     {
         remove();
     }
