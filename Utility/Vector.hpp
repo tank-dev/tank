@@ -1,8 +1,9 @@
-#pragma once
-#ifndef VECTOR_H
-#define VECTOR_H
+#ifndef TANK_VECTOR_HPP
+#define TANK_VECTOR_HPP
 
 #include <cmath>
+
+namespace tank {
 
 template <typename T>
 struct Vector
@@ -198,4 +199,7 @@ struct Vector
 typedef Vector<float>  Vectorf; 
 typedef Vector<double> Vectord; 
 typedef Vector<int>    Vectori; 
+
+}
+
 #endif

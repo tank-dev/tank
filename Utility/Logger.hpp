@@ -1,11 +1,13 @@
 #pragma once
-#ifndef LOGGER_HPP
-#define LOGGER_HPP
+#ifndef TANK_LOGGER_HPP
+#define TANK_LOGGER_HPP
 
 #include "Timer.hpp"
 #include <string>
 #include <iostream>
 #include <fstream>
+
+namespace tank {
 
 class Logger
 {
@@ -71,6 +73,8 @@ Logger::LogHelper& Logger::operator<<(const T& t)
         << t;
 
     return logHelper_;
+}
+
 }
 
 #endif //LOGGER_HPP

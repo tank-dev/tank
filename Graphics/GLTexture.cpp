@@ -4,6 +4,7 @@
 #include <CImg.h>
 #include <cstdint>
 
+namespace tank {
 /* TODO:
  *   * Allow mipmaps
  *   * Allow different data formats
@@ -71,4 +72,6 @@ void GLTexture::unbind(GLTexture const* t)
     {
         glBindTexture(t->target_, 0);
     }
+}
+
 }

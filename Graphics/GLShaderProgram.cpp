@@ -4,6 +4,8 @@
 #include <stdexcept>
 #include <fstream>
 
+namespace tank {
+
 void GLShaderProgram::bind(GLShaderProgram *shader)
 {
     if(shader->valid_) glUseProgram(shader->program_);
@@ -240,4 +242,6 @@ void GLShaderProgram::compileProgram(std::vector<GLuint> const& shaderObjects)
     {
         glDeleteShader(so);
     }
+}
+
 }

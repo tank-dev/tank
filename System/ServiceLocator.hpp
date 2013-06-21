@@ -1,8 +1,10 @@
 #pragma once
-#ifndef SERVICELOCATOR_H
-#define SERVICELOCATOR_H
+#ifndef TANK_SERVICELOCATOR_HPP
+#define TANK_SERVICELOCATOR_HPP
 
 #include <memory>
+
+namespace tank {
 
 class ServiceLocator
 {
@@ -13,4 +15,7 @@ private:
     //static IRender* render_;
     //static NullRender nullRender_;
 };
+
+}
+
 #endif

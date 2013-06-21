@@ -8,6 +8,8 @@
 #include "Timer.hpp"
 #include <thread>
 
+namespace tank {
+
 Timer::Timer()
 	: startTick_(),
 	  pausedTick_(),
@@ -109,4 +111,6 @@ void Timer::delayMicrosecs(unsigned long microsecs)
 {
 	std::chrono::microseconds waitTime(microsecs);
 	std::this_thread::sleep_for(waitTime);
+}
+
 }

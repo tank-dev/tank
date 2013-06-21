@@ -6,6 +6,8 @@
 #include "ServiceLocator.hpp"
 #include "Window.hpp"
 
+namespace tank {
+
 Logger   Game::log          {"log.txt"};
 IWindow* Game::window_      {nullptr};
 bool     Game::initialized_ {false};
@@ -13,8 +15,6 @@ bool     Game::run_         {false};
 bool     Game::popState_    {false};
 Timer    Game::frameTimer_;
 std::stack<std::unique_ptr<State>> Game::states_;
-
-const unsigned int Game::FPS {60};
 
 //This shouldn't be necessary, eventually...
 void Game::close()
@@ -41,7 +41,6 @@ bool Game::initialize(Vector<unsigned int> const& wSize, int argc, char** argv)
         log << "Loading rendering engine" << std::endl;
 
         //ServiceLocator::provide(render_);  //Make render available on request
-
     }
 
     return initialized_;
@@ -160,4 +159,5 @@ void Game::draw()
 
     //Update the screen
     window_->flipDisplay(); 
+}
 }

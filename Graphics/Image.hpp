@@ -9,6 +9,8 @@
 #include "GLShaderProgram.hpp"
 #include "Graphic.hpp"
 
+namespace tank {
+
 class Image final : public Graphic
 {
 public:
@@ -34,4 +36,5 @@ private:
     Image(Image const&);
 };
 
+}
 #endif /* TANK_IMAGE_HPP */

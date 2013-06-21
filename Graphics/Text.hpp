@@ -1,11 +1,13 @@
-#ifndef TEXT_H
-#define	TEXT_H
+#ifndef TANK_TEXT_HPP
+#define	TANK_TEXT_HPP
 
 #include "../System/Entity.hpp"
 #include "../Utility/Timer.hpp"
 #include "../Utility/Vector.hpp"
 
 #include <string>
+
+namespace tank {
 
 class Text
 {
@@ -15,4 +17,6 @@ public:
 private:
     std::string  text_;
 };
+
+}
 #endif

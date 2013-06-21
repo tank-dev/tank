@@ -2,6 +2,8 @@
 
 #include <algorithm>
 
+namespace tank {
+
 void Animation::add(const std::string& name,
                     std::vector<unsigned int> const& frames,
                     unsigned int time)
@@ -138,4 +140,6 @@ void Animation::setTexture(const GLTexture* const texture, const Vectorf& frameD
 {
     frameDimensions_ = frameDims;
     texture_ = texture;
+}
+
 }

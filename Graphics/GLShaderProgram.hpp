@@ -7,6 +7,8 @@
 
 #include <glm/glm.hpp>
 
+namespace tank {
+
 class GLShaderProgram
 {
 public:
@@ -46,4 +48,6 @@ private:
     GLShaderProgram& operator=(GLShaderProgram const&);
     GLShaderProgram(GLShaderProgram const&);
 };
+
+}
 #endif /* TANK_SHADERPROGRAM_HPP */

@@ -4,11 +4,13 @@
 
 #include <string>
 #include "../Utility/Vector.hpp"
-
 namespace sf
 {
     class Event;
 }
+
+namespace tank {
+
 
 /*!
  * \brief Base virtual class (interface) for windows
@@ -37,5 +39,7 @@ private:
     IWindow(IWindow const&);
     IWindow& operator=(IWindow const&);
 };
+
+}
 
 #endif /* IWINDOW_H */

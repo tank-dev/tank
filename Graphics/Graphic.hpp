@@ -3,6 +3,8 @@
 
 #include "../Utility/Vector.hpp"
 
+namespace tank {
+
 class Graphic
 {
 public:
@@ -13,5 +15,7 @@ public:
 
     virtual void draw(Vectorf const& pos, float angle, Vectorf const& camera) = 0;
 };
+
+}
 
 #endif /* TANK_GRAPHIC_HPP */

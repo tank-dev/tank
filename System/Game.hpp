@@ -1,6 +1,6 @@
 #pragma once
-#ifndef GAME_H
-#define GAME_H
+#ifndef TANK_GAME_HPP
+#define TANK_GAME_HPP
 
 #include <stack>
 #include <memory>
@@ -9,6 +9,8 @@
 #include "IWindow.hpp"
 #include "State.hpp"
 #include <iostream>
+
+namespace tank {
 
 /*!
  * \brief Static Game class containing main loop and current state.
@@ -105,5 +107,7 @@ private:
     Game();
     ~Game(); 
 };
+
+}
 
 #endif

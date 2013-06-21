@@ -1,5 +1,7 @@
 #include "GLBuffer.hpp"
 
+namespace tank {
+
 GLBuffer::GLBuffer(GLenum target)
     : target_(target)
 { 
@@ -28,4 +30,6 @@ void GLBuffer::unbind(GLBuffer const* b)
     {
         glBindBuffer(b->target_, 0);
     }
+}
+
 }

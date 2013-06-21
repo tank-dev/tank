@@ -1,5 +1,7 @@
 #include "Logger.hpp"
 
+namespace tank {
+
 Logger::Logger(std::string file) : fileName_{file}, logFile_{fileName_}
 {
     timer_.start();
@@ -24,4 +26,6 @@ Logger::Logger(std::string file) : fileName_{file}, logFile_{fileName_}
 Logger::~Logger()
 {
     logHelper_ << '\n';
+}
+
 }

@@ -5,6 +5,7 @@
 #include <SFML/OpenGL.hpp>
 #include "Game.hpp"
 
+namespace tank {
 
 bool Window::windowExists_ = false;
 
@@ -86,4 +87,6 @@ Vector<unsigned int> const& Window::getSize()
 std::string const& Window::getCaption()
 {
     return caption_;
+}
+
 }

@@ -1,5 +1,7 @@
 #include "Image.hpp"
 
+namespace tank {
+
 std::unique_ptr<GLBuffer> Image::buffer_ { nullptr };
 std::unique_ptr<GLShaderProgram> Image::shader_ { nullptr };
 
@@ -58,4 +60,6 @@ void Image::load(std::string file)
 
 void Image::draw(Vectorf const& pos, float angle, Vectorf const& camera)
 {
+}
+
 }

@@ -1,4 +1,3 @@
-#pragma once
 #ifndef ANIMATION_H
 #define ANIMATION_H
 
@@ -10,46 +9,7 @@
 #include "../Utility/Rect.hpp"
 #include "../Utility/Timer.hpp"
 
-/* Animation class
- *
- *
- *      Based on FlashPunk's FP.graphics.Sprite class
- *
- *      Represents an image with multiple frames, and stores any number of named
- *      animations for that image. To use, first create an [Animation], either
- *      constructing it with a [Texture] and the dimensions of a frame, or
- *      setting them later with *setTexture*.
- *
- *      NOTE: Trying to *draw* an [Animation] without a texture WILL crash the
- *            game
- *
- *
- *
- *      To add animations to the [Animation], use add(name, frames, frameTime)
- *      where:
- *
- *          name      - string to identify the animation with later
- *          frames    - initializer_list of frames. I.E. {1,2,3} to create an
- *                      animation that plays frame 1, then 2, then 3.
- *          frameTime - time between each frame in milliseconds (ms)
- *
- *
- *
- *      NOTE: Currently, *draw* does not change an [Animation]'s state. Hence,
- *            when you want to draw an animation call *play* as well.
- *
- *            This offers two benefits: efficiency when using [Animation] as a
- *            clipping tool (no actual animating) and separating actual animation
- *            from drawing (useful when pausing a game)
- *
- *      You can also *pause*, *resume* and *stop* animations, and ask if it is
- *      *playing*.
- *
- *      NOTE: *stop* will set the state of the [Animation] to the first frame of
- *      the current animation.
- *
- *
- */
+namespace tank {
 
 /*!
  * \brief Represents an image with multiple frames and stores animations for that image.
@@ -58,23 +18,60 @@ class Animation
 {
 public:
     Animation() = default;
+    /*!
+     * \brief Construct an Animation with a Texture.
+     * \param t GLTexture to give the animation.
+     * \param frameDims size of each image in the Texture.
+     */
     Animation(GLTexture const* const t, const Vectorf& frameDims) :
-        texture_ {t}, frameDimensions_(frameDims),
+        texture_ {t}, frameDimensions_(frameDims), 
         clip_({0,0,(int)frameDims.x, (int)frameDims.y}) {}
 
+    /*!
+     * \brief Add an animations
+     * \param name String to identify the animation with later.
+     * \param frames std::initializer_list of frames.
+     * \param frameTime Time between each frame in milliseconds (ms)
+     */
     void add(const std::string& name,
              const std::vector<unsigned int>& frames,
              unsigned int frameTime);
     void remove(const std::string& name);
 
     void select(const std::string& name, bool loop = true, std::function<void()> = []{});
+
+    /*!
+     * \brief Called in addition to draw to change the state of an animation.
+     */
     void play();
+
+    /*!
+     * \brief Draw the animation.
+     * Trying to draw an animation without a texture will crash the game!
+     * Play must be called as well to change the state of the animation.
+     * \param pos Position at which to draw the texture.
+     */
     void draw(Vectorf const& pos);
 
-    void resume();
+    /*!
+     * \brief Pause the animation.
+     */
     void pause();
+
+    /*!
+     * \brief Resume the animation.
+     */
+    void resume();
+
+    /*!
+     * \brief Stop the animation.
+     * Sets the state of the animation to the first frame.
+     */
     void stop();
 
+    /*!
+     * \return If the animation is playing.
+     */
     bool playing()
     {
         return currentAnimation_;
@@ -85,21 +82,20 @@ public:
     }
 
     /*!
-     * \brief setTexture
-     * \param texture
-     * \param frameDims
+     * \brief Set the texture of the Animation.
+     * \param texture the Texture to set.
+     * \param frameDims the dimensions of each image in the texture.
      */
     void setTexture(GLTexture const*const texture, Vectorf const& frameDims);
 
 
 private:
-    //{{{struct AnimationInfo
     struct AnimationInfo
     {
         std::string               name;
         std::vector<unsigned int> frameList;
         unsigned int              time;
-    }; //}}}
+    };
 
     GLTexture const* texture_ { nullptr };
     AnimationInfo* currentAnimation_ {nullptr};
@@ -111,4 +107,7 @@ private:
     Rect clip_ {0,0,0,0};
     std::vector<AnimationInfo>  animations_;
 };
+
+}
+
 #endif

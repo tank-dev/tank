@@ -1,5 +1,5 @@
-#ifndef WINDOW_H
-#define    WINDOW_H
+#ifndef TANK_WINDOW_HPP
+#define TANK_WINDOW_HPP
 
 #include <SFML/Graphics/RenderWindow.hpp>
 #include "IWindow.hpp"
@@ -10,6 +10,7 @@ namespace sf
     class Event;
 }
 
+namespace tank {
 class Window : public IWindow
 {
 public:
@@ -45,5 +46,7 @@ private:
     //Unfortunately we can only have one window right now
     static bool windowExists_;
 };
+
+}
 
 #endif /* WINDOW_H */

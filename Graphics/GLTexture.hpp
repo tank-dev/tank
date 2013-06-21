@@ -5,6 +5,8 @@
 #include <GL/glew.h>
 #include "../Utility/Vector.hpp"
 
+namespace tank {
+
 class GLTexture
 {
 public:
@@ -29,4 +31,6 @@ private:
     GLTexture(GLTexture const&);
     GLTexture& operator=(GLTexture const&);
 };
+
+}
 #endif /* TANK_TEXTURE_HPP */

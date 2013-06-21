@@ -6,12 +6,14 @@
  */
 
 #pragma once
-#ifndef TIMER_H
-#define    TIMER_H
+#ifndef TANK_TIMER_HPP
+#define TANK_TIMER_HPP
 
 #include <chrono>
 #include <cstring>
 #include <string>
+
+namespace tank {
 
 class Timer
 {
@@ -100,6 +102,8 @@ private:
     bool started_;
     bool paused_;
 };
+
+}
 
 #endif    /* TIMER_H */
 

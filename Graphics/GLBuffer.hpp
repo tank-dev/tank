@@ -3,6 +3,7 @@
 
 #include <GL/glew.h>
 
+namespace tank {
 //TODO: SubBufferData
 class GLBuffer
 { 
@@ -23,5 +24,6 @@ private:
     GLuint target_;
     GLuint name_;
 };
-#endif /* TANK_GLBUFFER_HPP */
 
+}
+#endif /* TANK_GLBUFFER_HPP */
