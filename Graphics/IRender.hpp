@@ -1,6 +1,6 @@
 #pragma once
-#ifndef IRENDER_H
-#define IRENDER_H
+#ifndef TANK_IRENDER_HPP
+#define TANK_IRENDER_HPP
 
 #include <string>
 

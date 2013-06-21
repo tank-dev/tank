@@ -1,6 +1,6 @@
 #pragma once
-#ifndef ANIMATION_H
-#define ANIMATION_H
+#ifndef TANK_ANIMATION_HPP
+#define TANK_ANIMATION_H
 
 #include <string>
 #include <vector>

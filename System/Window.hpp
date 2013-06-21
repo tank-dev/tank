@@ -1,5 +1,5 @@
-#ifndef WINDOW_H
-#define    WINDOW_H
+#ifndef TANK_WINDOW_HPP
+#define TANK_WINDOW_HPP
 
 #include <SDL/SDL.h>
 #include <SDL/SDL_image.h>

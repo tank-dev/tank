@@ -1,6 +1,6 @@
 #pragma once
-#ifndef IWINDOW_H
-#define IWINDOW_H
+#ifndef TANK_IWINDOW_HPP
+#define TANK_IWINDOW_HPP
 
 #include <string>
 #include "../Utility/Vector.hpp"

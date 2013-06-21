@@ -1,6 +1,6 @@
 #pragma once
-#ifndef ENTITY_H
-#define    ENTITY_H
+#ifndef TANK_ENTITY_HPP
+#define TANK_ENTITY_HPP
 
 #include <vector>
 #include "../Graphics/IRender.hpp"
@@ -225,6 +225,7 @@ public:
      * \param pos The position of the entity
      */
     Entity(Vectorf const& pos);
+
     virtual ~Entity();
 private:
     //Member variables

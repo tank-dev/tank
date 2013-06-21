@@ -1,6 +1,6 @@
 #pragma once
-#ifndef GAMESTATE_H
-#define    GAMESTATE_H
+#ifndef TANK_GAMESTATE_HPP
+#define TANK_GAMESTATE_HPP
 
 #include <vector>
 #include <memory>

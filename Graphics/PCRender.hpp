@@ -1,6 +1,6 @@
 #pragma once
-#ifndef PCRENDER_H
-#define	PCRENDER_H
+#ifndef TANK_PCRENDER_HPP
+#define	TANK_PCRENDER_HPP
 
 #include "IRender.hpp"
 

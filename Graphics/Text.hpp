@@ -1,5 +1,5 @@
-#ifndef TEXT_H
-#define	TEXT_H
+#ifndef TANK_TEXT_HPP
+#define	TANK_TEXT_HPP
 
 #include "../System/Entity.hpp"
 #include "../Utility/Timer.hpp"

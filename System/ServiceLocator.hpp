@@ -1,6 +1,6 @@
 #pragma once
-#ifndef SERVICELOCATOR_H
-#define SERVICELOCATOR_H
+#ifndef TANK_SERVICELOCATOR_HPP
+#define TANK_SERVICELOCATOR_HPP
 
 #include <memory>
 #include "../Graphics/IRender.hpp"

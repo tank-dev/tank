@@ -1,6 +1,6 @@
 #pragma once
-#ifndef LOGGER_HPP
-#define LOGGER_HPP
+#ifndef TANK_LOGGER_HPP
+#define TANK_LOGGER_HPP
 
 #include "Timer.hpp"
 #include <string>

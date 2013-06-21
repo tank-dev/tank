@@ -1,6 +1,6 @@
 #pragma once
-#ifndef GAME_H
-#define GAME_H
+#ifndef TANK_GAME_HPP
+#define TANK_GAME_HPP
 
 #include <stack>
 #include <memory>

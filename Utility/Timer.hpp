@@ -6,8 +6,8 @@
  */
 
 #pragma once
-#ifndef TIMER_H
-#define    TIMER_H
+#ifndef TANK_TIMER_HPP
+#define TANK_TIMER_HPP
 
 #include <chrono>
 #include <cstring>

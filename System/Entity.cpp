@@ -29,13 +29,13 @@ void Entity::draw(IRender* const render)
         render->draw(texture_, pos_);
     }
 }
+
 std::vector<Entity*> Entity::collide(std::string type)
 {
     std::vector<std::unique_ptr<Entity>> const& origList = state_->getEntities();
     std::vector<Entity*> entList;
     std::vector<Entity*> collisions;
 
-    // TODO: do this with algo
     for(auto& unique : origList)
     {
         if(type == unique->getType())
