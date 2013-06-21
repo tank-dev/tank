@@ -31,7 +31,8 @@
 #include "../Utility/Logger.hpp"
 #include <iostream>
 
-namespace tank {
+namespace tank
+{
 
 /*!
  * \brief Static Game class containing main loop and current state.
@@ -52,50 +53,51 @@ namespace tank {
 class Game
 {
 public:
-	/*!
-	 * \brief Initializes the game.
-	 *
+    /*!
+     * \brief Initializes the game.
+     *
      * Creates a window and a rendering context.
      * \param windowSize The window canvas size in pixels.
-	 * \return True on success.
-	 */
+     * \return True on success.
+     */
     static bool initialize(Vectori const& windowSize);
-	/*!
-	 * \brief Starts the game loop
-	 */
+    /*!
+     * \brief Starts the game loop
+     */
     static void run();
-	/*!
-	 * \brief This cleans up after the game.
+    /*!
+     * \brief This cleans up after the game.
      *
      * This function should be placed at the end of your program to clean up
      * some of the engine's dependencies
-	 */
+     */
     static void close();
 
-	/*!
-	 * \brief This removes the current state at the end of the frame.
-	 */
+    /*!
+     * \brief This removes the current state at the end of the frame.
+     */
     static void popState();
 
-	/*!
-	 * \brief The log. This acts like a stream, remember to finish your log
-	 * with std::endl.
-	 */
+    /*!
+     * \brief The log. This acts like a stream, remember to finish your log
+     * with std::endl.
+     */
     static Logger log;
 
-	/*!
-	 * \brief This creates a game state.
-	 *
-	 * \tparam T The type of state.
-	 * \tparam Args The arguments to pass to create the state.
-	 * \param args The arguments to create the state.
-	 *
-	 * \return A pointer to the state.
-	 */
+    /*!
+     * \brief This creates a game state.
+     *
+     * \tparam T The type of state.
+     * \tparam Args The arguments to pass to create the state.
+     * \param args The arguments to create the state.
+     *
+     * \return A pointer to the state.
+     */
     template<typename T, typename... Args>
     static T* makeState(Args&&... args)
     {
-        static_assert(std::is_base_of<State,T>::value, "Class must derive from State");
+        static_assert(std::is_base_of<State, T>::value,
+                      "Class must derive from State");
         T* state = new T(std::forward<Args>(args)...);
         states_.emplace(state);
         return state;

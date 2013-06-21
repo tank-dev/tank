@@ -23,27 +23,31 @@
 #include "Entity.hpp"
 #include "Game.hpp"
 
-namespace tank {
+namespace tank
+{
 
 State::State() {}
 
-State::~State() { }
+State::~State() {}
 
 void State::insertEntity(std::unique_ptr<Entity>&& entity)
 {
     entity->onAdded();
     if (not entity.get())
-	{
+    {
         Game::log << "Warning: You can't add a null entity." << std::endl;
-		return;
-	}
-	// Stops an entity being added several times
+        return;
+    }
+    // Stops an entity being added several times
 
     auto x = find_if(begin(entities_), end(entities_),
-                     [&entity](std::unique_ptr<Entity>& existing) {
+                     [&entity](std::unique_ptr<Entity>& existing)
+    {
             return entity.get() == existing.get();
     });
-    if (x != end(entities_)) {
+
+    if (x != end(entities_))
+    {
         throw std::invalid_argument("Entity already added");
     }
 
@@ -53,14 +57,14 @@ void State::insertEntity(std::unique_ptr<Entity>&& entity)
 
 void State::moveEntity(State* state, Entity* entity)
 {
-	if (!entity)
-	{
+    if (not entity)
+    {
         Game::log << "Warning: You can't move null entity." << std::endl;
-		return;
-	}
+        return;
+    }
 
     std::unique_ptr<Entity> entPtr = releaseEntity(entity);
-    if(!entPtr.get())
+    if (not entPtr.get())
     {
         Game::log << "Entity not found in move operation" << std::endl;
         return;
@@ -71,11 +75,14 @@ void State::moveEntity(State* state, Entity* entity)
 
 std::unique_ptr<Entity> State::releaseEntity(Entity* entity)
 {
-    auto it = std::find_if(begin(entities_), end(entities_), [&entity](std::unique_ptr<Entity>& ent) {
+    auto it = std::find_if(begin(entities_), end(entities_),
+                           [&entity](std::unique_ptr<Entity>& ent)
+    {
         return entity == ent.get();
     });
 
-    if (it == end(entities_)) {
+    if (it == end(entities_))
+    {
         return nullptr;
     }
 
@@ -96,18 +103,20 @@ void State::removeEntity(Entity* entity)
 
 void State::update()
 {
-    for(auto& entity : entities_)
+    for (auto& entity : entities_)
     {
         entity->update();
     }
-    entities_.erase(std::remove_if(begin(entities_), end(entities_), [](const std::unique_ptr<Entity>& ent) {
+    entities_.erase(std::remove_if(begin(entities_), end(entities_),
+                                   [](const std::unique_ptr<Entity>& ent)
+    {
                         return ent->isRemoved();
     }), end(entities_));
 }
 
 void State::draw(IRender* const render)
 {
-    for(auto& entity : entities_)
+    for (auto& entity : entities_)
     {
         entity->draw(render);
     }

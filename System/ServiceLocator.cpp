@@ -19,7 +19,8 @@
 
 #include "ServiceLocator.hpp"
 
-namespace tank {
+namespace tank
+{
 
 IRender* ServiceLocator::render_;
 NullRender ServiceLocator::nullRender_;
@@ -31,7 +32,7 @@ IRender* ServiceLocator::getRender()
 
 void ServiceLocator::provide(IRender* r)
 {
-    if(r)
+    if (r)
     {
         render_ = r;
     }

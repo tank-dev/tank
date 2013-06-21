@@ -23,7 +23,8 @@
 #include <algorithm>
 #include "State.hpp"
 
-namespace tank {
+namespace tank
+{
 
 int Entity::numEnts_ = 0;
 
@@ -45,7 +46,7 @@ Entity::~Entity() {}
 //Default draw function
 void Entity::draw(IRender* const render)
 {
-    if(texture_)
+    if (texture_)
     {
         render->draw(texture_, pos_);
     }
@@ -53,29 +54,22 @@ void Entity::draw(IRender* const render)
 
 std::vector<Entity*> Entity::collide(std::string type)
 {
-    std::vector<std::unique_ptr<Entity>> const& origList = state_->getEntities();
+    std::vector<std::unique_ptr<Entity>> const& origList =
+            state_->getEntities();
     std::vector<Entity*> entList;
     std::vector<Entity*> collisions;
 
-    for(auto& unique : origList)
+    for (auto& unique : origList)
     {
-        if(type == unique->getType())
+        if (type == unique->getType())
         {
             entList.push_back(unique.get());
         }
     }
-    /*if(type != "")
-    {
-        entList.erase(std::remove_if(entList.begin(), entList.end(),
-                                     [type](Entity* ent)
-        {
-            return ent->getType() != type;
-        }), entList.end());
-    }*/
 
-    for(auto ent : entList)
+    for (auto ent : entList)
     {
-        if(ent != this)
+        if (ent != this)
         {
             Rect const& A = hitbox_;
             Rect const& B = ent->getHitbox();
@@ -89,10 +83,11 @@ std::vector<Entity*> Entity::collide(std::string type)
             const double bottomA = A.y + A.h + pos_.y;
             const double bottomB = B.y + B.h + ent->getPos().y;
 
-            if(leftA > rightB) continue;
-            if(topA > bottomB) continue;
-            if(rightA < leftB) continue;
-            if(bottomA < topB) continue;
+            if (leftA > rightB or topA > bottomB or
+                rightA < leftA or bottomA < topB)
+            {
+                continue;
+            }
 
             collisions.push_back(ent);
         }

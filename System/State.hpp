@@ -26,7 +26,8 @@
 #include <SDL_events.h>
 #include "../Graphics/IRender.hpp"
 
-namespace tank {
+namespace tank
+{
 
 class Entity;
 class Game;
@@ -52,17 +53,17 @@ class Game;
 class State
 {
 public:
-	/*!
-	 * \brief Creates an Entity and adds it to the State
-	 *
+    /*!
+     * \brief Creates an Entity and adds it to the State
+     *
      * Creates an Entity, setting its state pointer to point to it.
      * Adds a unique_ptr to the entity to the entity list.
      * Returns a raw pointer of type T* to the Entity created.
      *
-	 * \tparam T The type of Entity to construct
+     * \tparam T The type of Entity to construct
      * \param args the arguments to send to the entity's constructor
-	 * \return A raw pointer to the created Entity (NEVER DELETE IT)
-	 */
+     * \return A raw pointer to the created Entity (NEVER DELETE IT)
+     */
     template <typename T, typename... Args>
     T* makeEntity(Args&&... args);
 
@@ -81,7 +82,8 @@ public:
     /*!
      * \brief Moves an Entity from one State to another
      *
-     * This is essentially a shorthand for state->insertEntity(this->releaseEntity(entity))
+     * This is essentially a shorthand for
+     * state->insertEntity(this->releaseEntity(entity))
      *
      * \param state The State to which to move the Entity
      * \param entity A raw pointer to the Entity to be moved
@@ -160,7 +162,8 @@ public:
      *
      * \return A reference to the list of unique_ptrs to entities
      */
-    virtual std::vector<std::unique_ptr<Entity>> const& getEntities() { return entities_; }
+    virtual std::vector<std::unique_ptr<Entity>> const& getEntities()
+    { return entities_; }
 
     State();
     virtual ~State();
@@ -174,7 +177,7 @@ private:
 template <typename T, typename... Args>
 T* State::makeEntity(Args&&... args)
 {
-    static_assert(std::is_base_of<Entity,T>::value,
+    static_assert(std::is_base_of<Entity, T>::value,
                   "Type must derive from Entity");
 
     T* ent = new T(std::forward<Args>(args)...);

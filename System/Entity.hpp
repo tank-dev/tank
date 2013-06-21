@@ -27,7 +27,8 @@
 #include "../Utility/Vector.hpp"
 #include "../Utility/Rect.hpp"
 
-namespace tank {
+namespace tank
+{
 
 class State;
 

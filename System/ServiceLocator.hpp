@@ -24,7 +24,8 @@
 #include <memory>
 #include "../Graphics/IRender.hpp"
 
-namespace tank {
+namespace tank
+{
 
 class ServiceLocator
 {

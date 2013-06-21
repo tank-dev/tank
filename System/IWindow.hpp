@@ -24,7 +24,8 @@
 #include <string>
 #include "../Utility/Vector.hpp"
 
-namespace tank {
+namespace tank
+{
 
 class IWindow
 {
