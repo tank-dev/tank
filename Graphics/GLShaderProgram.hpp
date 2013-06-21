@@ -13,6 +13,7 @@ class GLShaderProgram
 {
 public:
     static void bind(GLShaderProgram*);
+    static void unbind();
 
     enum Type { Vertex,
                 Fragment };

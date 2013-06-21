@@ -11,6 +11,11 @@ void GLShaderProgram::bind(GLShaderProgram *shader)
     if(shader->valid_) glUseProgram(shader->program_);
 }
 
+void GLShaderProgram::unbind()
+{
+    glUseProgram(0);
+}
+
 GLShaderProgram::GLShaderProgram() : program_(0), valid_(true) { }
 
 GLShaderProgram::GLShaderProgram(std::string file, Type type)
