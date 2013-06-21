@@ -84,7 +84,7 @@ std::vector<Entity*> Entity::collide(std::string type)
             const double bottomB = B.y + B.h + ent->getPos().y;
 
             if (leftA > rightB or topA > bottomB or
-                rightA < leftA or bottomA < topB)
+                rightA < leftB or bottomA < topB)
             {
                 continue;
             }
