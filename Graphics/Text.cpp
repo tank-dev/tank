@@ -19,7 +19,7 @@ void Text::update()
 {
     if(duration_ != 0 && displayTimer_.getTicks() >= duration_)
     {
-        getState()->removeEntity(this);
+        remove();
     }
 }
 

@@ -59,13 +59,14 @@ std::unique_ptr<Entity> State::releaseEntity(Entity* entity)
     return ptr;
 }
 
+/*
 void State::removeEntity(Entity* entity)
 {
     // Get the unique_ptr from releaseEntity
     auto x = releaseEntity(entity);
     // AND THROW IT AWAY! :D
-    (void)x;
-}
+    *x;
+}*/
 
 void State::update()
 {
