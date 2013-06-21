@@ -5,6 +5,8 @@
 #include <string>
 #include "../Utility/Vector.hpp"
 
+namespace tank {
+
 class IWindow
 {
 public:
@@ -21,5 +23,7 @@ private:
     IWindow(IWindow const&);
     IWindow& operator=(IWindow const&);
 };
+
+}
 
 #endif /* IWINDOW_H */

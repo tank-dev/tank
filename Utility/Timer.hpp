@@ -13,6 +13,8 @@
 #include <cstring>
 #include <string>
 
+namespace tank {
+
 class Timer
 {
 public:
@@ -100,6 +102,8 @@ private:
     bool started_;
     bool paused_;
 };
+
+}
 
 #endif    /* TIMER_H */
 

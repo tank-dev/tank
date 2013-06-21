@@ -4,6 +4,8 @@
 
 #include <cmath>
 
+namespace tank {
+
 template <typename T>
 struct Vector
 {
@@ -193,4 +195,7 @@ struct Vector
 typedef Vector<float>  Vectorf; 
 typedef Vector<double> Vectord; 
 typedef Vector<int>    Vectori; 
+
+}
+
 #endif

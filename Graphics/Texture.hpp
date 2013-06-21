@@ -4,6 +4,8 @@
 
 #include <string>
 
+namespace tank {
+
 struct Texture
 {
 public:
@@ -20,4 +22,5 @@ public:
 
     //const int id;      /* Ties texture to platform-dependent image structure */
 };
+}
 #endif

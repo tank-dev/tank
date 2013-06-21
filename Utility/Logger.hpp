@@ -7,6 +7,8 @@
 #include <iostream>
 #include <fstream>
 
+namespace tank {
+
 class Logger
 {
     std::string fileName_;
@@ -71,6 +73,8 @@ Logger::LogHelper& Logger::operator<<(const T& t)
         << t;
 
     return logHelper_;
+}
+
 }
 
 #endif //LOGGER_HPP
