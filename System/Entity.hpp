@@ -226,6 +226,9 @@ public:
      */
     Entity(Vectorf const& pos);
 
+    void remove() {removed_ = true;}
+    bool isRemoved() {return removed_;}
+
     virtual ~Entity();
 private:
     //Member variables
@@ -241,5 +244,7 @@ private:
 
     static int numEnts_;
     const  int actorID_;
+
+    bool removed_ = false;
 };
 #endif

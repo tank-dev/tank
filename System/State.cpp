@@ -1,7 +1,9 @@
 #include "State.hpp"
 
+#include <algorithm>
 #include "Entity.hpp"
 #include "Game.hpp"
+
 
 State::State() {}
 
@@ -71,6 +73,9 @@ void State::update()
     {
         entity->update();
     }
+    entities_.erase(std::remove_if(begin(entities_), end(entities_), [](const std::unique_ptr<Entity>& ent) {
+                        return ent->isRemoved();
+    }), end(entities_));
 }
 
 void State::draw(IRender* const render)
