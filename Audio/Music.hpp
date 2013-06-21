@@ -23,9 +23,11 @@
 #include <string>
 #include <SFML/Audio/Music.hpp>
 
-namespace tank {
+namespace tank
+{
 
-class Music {
+class Music
+{
     sf::Music music_;
     bool loaded_ = false;
 

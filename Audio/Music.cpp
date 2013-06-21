@@ -20,7 +20,8 @@
 #include "Music.hpp"
 #include "../System/Game.hpp"
 
-namespace tank {
+namespace tank
+{
 
 Music::Music (std::string fileName)
 {
@@ -29,7 +30,8 @@ Music::Music (std::string fileName)
 
 bool Music::load (std::string fileName)
 {
-    if (loaded_) {
+    if (loaded_)
+    {
         Game::log << "Music already loaded!" << std::endl;
         return loaded_;
     }

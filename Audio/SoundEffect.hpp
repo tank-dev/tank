@@ -24,7 +24,8 @@
 #include <SFML/Audio/Sound.hpp>
 #include <SFML/Audio/SoundBuffer.hpp>
 
-namespace tank {
+namespace tank
+{
 
 class SoundEffect
 {

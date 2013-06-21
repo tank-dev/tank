@@ -20,7 +20,8 @@
 #include "SoundEffect.hpp"
 #include "../System/Game.hpp"
 
-namespace tank {
+namespace tank
+{
 
 SoundEffect::SoundEffect(std::string fileName)
 {
@@ -29,7 +30,8 @@ SoundEffect::SoundEffect(std::string fileName)
 
 bool SoundEffect::load(std::string fileName)
 {
-    if (loaded_) {
+    if (loaded_)
+    {
         Game::log << "SoundEffect already loaded!" << std::endl;
         return loaded_;
     }
