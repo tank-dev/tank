@@ -1,4 +1,6 @@
 #include "Image.hpp"
+#include <GL/glew.h>
+#include <SFML/OpenGL.hpp>
 
 namespace tank {
 
@@ -60,6 +62,15 @@ void Image::load(std::string file)
 
 void Image::draw(Vectorf const& pos, float angle, Vectorf const& camera)
 {
+    GLShaderProgram::bind(shader_.get()); 
+    GLBuffer::bind(buffer_.get());
+    GLTexture::bind(texture_.get());
+
+    glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
+
+    GLTexture::unbind(texture_.get());
+    GLBuffer::unbind(buffer_.get());
+    GLShaderProgram::unbind();
 }
 
 }

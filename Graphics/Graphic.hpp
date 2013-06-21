@@ -13,7 +13,8 @@ public:
 
     virtual Vectorf getSize() const = 0;
 
-    virtual void draw(Vectorf const& pos, float angle, Vectorf const& camera) = 0;
+    virtual void draw(Vectorf const& pos, float angle = 0,
+                      Vectorf const& camera = {0,0}) = 0;
 };
 
 }
