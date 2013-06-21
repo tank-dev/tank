@@ -4,16 +4,16 @@
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- * 
+ *
  * Tank is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License and
- * the GNU Lesser General Public Licence along with Tank. If not, see 
+ * the GNU Lesser General Public Licence along with Tank. If not, see
  * <http://www.gnu.org/licenses/>.
- * 
+ *
  * Copyright 2013 (©) Jamie Bayne, David Truby, David Watson
  */
 
@@ -204,7 +204,7 @@ public:
     /*!
      * \brief Sets the entity's solidity (deprecated)
      *
-     * \param solid Whether the entity should be solid or not 
+     * \param solid Whether the entity should be solid or not
      */
     void setSolid(bool solid);
 
@@ -269,11 +269,11 @@ public:
     virtual ~Entity();
 private:
     //Member variables
-    Vectorf     pos_; 
+    Vectorf     pos_;
     Rect        hitbox_;    //(0,0,0,0)
     std::string type_;      //""
     bool        solid_;     //false
-    bool        visible_;   //true 
+    bool        visible_;   //true
     int         layer_;     //0
 
     Texture const* texture_;//nullptr

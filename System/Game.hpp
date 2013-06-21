@@ -4,16 +4,16 @@
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- * 
+ *
  * Tank is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License and
- * the GNU Lesser General Public Licence along with Tank. If not, see 
+ * the GNU Lesser General Public Licence along with Tank. If not, see
  * <http://www.gnu.org/licenses/>.
- * 
+ *
  * Copyright 2013 (©) Jamie Bayne, David Truby, David Watson
  */
 
@@ -40,7 +40,7 @@ namespace tank {
  * window, and initialize rendering.
  *
  * Once started, you should create a State with Game::makeState<>(). This will
- * both create a state and add it to the top of the state stack. 
+ * both create a state and add it to the top of the state stack.
  *
  * Once there is a state to run, call Game::run() to start the main loop.
  *
@@ -101,7 +101,7 @@ public:
         return state;
     }
 
-    /*! 
+    /*!
      * \brief Return a reference to the active state
      *
      * \return A reference to the active state
@@ -125,7 +125,7 @@ private:
     static void draw();
 
     Game();
-    ~Game(); 
+    ~Game();
 };
 
 }
