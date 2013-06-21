@@ -11,6 +11,8 @@
 #include "../Utility/Rect.hpp"
 #include "../Utility/Timer.hpp"
 
+namespace tank {
+
 /*!
  * \brief Represents an image with multiple frames and stores animations for that image.
  */
@@ -52,7 +54,7 @@ public:
      * \param render Render context.
      * \param pos Position at which to draw the texture.
      */
-    void draw(const IRender* render, const Vectorf& pos);
+    void draw(IRender* const render, const Vectorf& pos);
 
     /*!
      * \brief Pause the animation.
@@ -111,5 +113,7 @@ private:
     Rect clip_ {0,0,0,0};
     std::vector<AnimationInfo>  animations_;
 };
+
+}
 
 #endif
