@@ -8,11 +8,12 @@
 
 namespace tank {
 
-Logger   Game::log          {"log.txt"};
-IWindow* Game::window_      {nullptr};
-bool     Game::initialized_ {false};
-bool     Game::run_         {false};
-bool     Game::popState_    {false};
+Logger   Game::log           {"log.txt"};
+IWindow* Game::window_       {nullptr};
+bool     Game::initialized_  {false};
+bool     Game::run_          {false};
+bool     Game::popState_     {false};
+const unsigned int Game::FPS {60};
 Timer    Game::frameTimer_;
 std::stack<std::unique_ptr<State>> Game::states_;
 
@@ -28,7 +29,7 @@ void Game::close()
  * ---------------------------- */
 
 //TODO Handle errors with exceptions
-bool Game::initialize(Vector<unsigned int> const& wSize, int argc, char** argv)
+bool Game::initialize(Vector<unsigned int> const& wSize)
 {
     if(!initialized_)
     {

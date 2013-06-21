@@ -11,20 +11,21 @@ namespace sf
 }
 
 namespace tank {
+
 class Window : public IWindow
 {
 public:
     Window(Vector<unsigned int> const& size, std::string caption = "");
     virtual ~Window();
 
-    virtual Vector<unsigned int> const& getSize();
-    virtual std::string const& getCaption();
+    virtual Vector<unsigned int> const& getSize() override;
+    virtual std::string getCaption() override;
 
-    virtual void render();
-    virtual void flipDisplay();
+    virtual void render() override;
+    virtual void flipDisplay() override;
 
-    virtual void resize(Vector<unsigned int> const& size);
-    virtual void setCaption(std::string& caption);
+    virtual void resize(Vector<unsigned int> const& size) override;
+    virtual void setCaption(std::string caption) override;
 
     /*!
      * \brief SFML-specific polling code (temporary)
@@ -34,7 +35,7 @@ public:
     /*!
      * \brief Not implemented
      */
-    virtual void setIcon(std::string& path); 
+    virtual void setIcon(std::string path); 
 private:
     sf::RenderWindow window;
     std::string caption_;

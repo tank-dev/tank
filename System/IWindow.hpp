@@ -11,30 +11,29 @@ namespace sf
 
 namespace tank {
 
-
 /*!
  * \brief Base virtual class (interface) for windows
  */
 class IWindow
 {
 public:
-    IWindow() {}
-    virtual ~IWindow() {}
+    IWindow() = default;
+    virtual ~IWindow() = default;
 
     virtual Vector<unsigned int> const& getSize() = 0;
-    virtual std::string const& getCaption() = 0;
+    virtual std::string getCaption() = 0;
 
-    virtual void render();
-    virtual void flipDisplay();
+    virtual void render() {}
+    virtual void flipDisplay() {}
 
     /*!
      * \brief SFML-specific polling code (temporary)
      */
-    virtual bool pollEvent(sf::Event&);
+    virtual bool pollEvent(sf::Event&) = 0;
 
     virtual void resize(Vector<unsigned int> const& size) = 0;
-    virtual void setCaption(std::string& caption) = 0;
-    virtual void setIcon(std::string& path) = 0;
+    virtual void setCaption(std::string caption) = 0;
+    virtual void setIcon(std::string path) = 0;
 private:
     IWindow(IWindow const&);
     IWindow& operator=(IWindow const&);

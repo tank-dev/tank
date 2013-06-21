@@ -62,7 +62,7 @@ void Window::resize(Vector<unsigned int> const& size)
     window.setSize({size.x, size.y});
 }
 
-void Window::setIcon(std::string& path)
+void Window::setIcon(std::string path)
 {
     if(windowExists_ && valid_)
     {
@@ -70,7 +70,7 @@ void Window::setIcon(std::string& path)
     }
 }
 
-void Window::setCaption(std::string& caption)
+void Window::setCaption(std::string caption)
 {
     if(windowExists_ && valid_)
     {
@@ -84,7 +84,7 @@ Vector<unsigned int> const& Window::getSize()
     return size_;
 }
 
-std::string const& Window::getCaption()
+std::string Window::getCaption()
 {
     return caption_;
 }
