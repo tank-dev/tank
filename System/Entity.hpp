@@ -227,7 +227,14 @@ public:
      */
     Entity(Vectorf const& pos);
 
+    /*!
+     * \brief Remove the entity from the world.
+     */
     void remove() {removed_ = true;}
+
+    /*!
+     * \return if the entity has been removed.
+     */
     bool isRemoved() {return removed_;}
 
     /*!
