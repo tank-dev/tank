@@ -74,6 +74,7 @@ public:
     template<typename T, typename... Args>
     static T* makeState(Args&&... args)
     {
+        Game::log << "Creating state" << std::endl;
         static_assert(std::is_base_of<State,T>::value, "Class must derive from State");
         T* state = new T(std::forward<Args>(args)...);
         states_.emplace(state);

@@ -1,6 +1,7 @@
 #include "Game.hpp"
 
 #include <iostream>
+#include <GL/glew.h>
 #include <SFML/Window/Event.hpp>
 #include <SFML/Window/Keyboard.hpp>
 #include "ServiceLocator.hpp"
@@ -40,6 +41,11 @@ bool Game::initialize(Vector<unsigned int> const& wSize)
 
         //Select PCRender as the rendering engine
         log << "Loading rendering engine" << std::endl;
+
+        if(glewInit() != GLEW_OK)
+        {
+            throw std::runtime_error("Could not initialise GLEW");
+        }
 
         //ServiceLocator::provide(render_);  //Make render available on request
     }
