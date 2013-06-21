@@ -2,7 +2,9 @@
 #define TANK_ENTITY_HPP
 
 #include <vector>
-#include "../Graphics/GLTexture.hpp"
+#include <string>
+#include <memory>
+#include "../Graphics/Graphic.hpp"
 #include "../Utility/Vector.hpp"
 #include "../Utility/Rect.hpp"
 
@@ -124,9 +126,9 @@ public:
      *
      * \return Entity's texture
      */
-    GLTexture const* getTexture() const
+    Graphic const& getGraphic() const
     {
-        return texture_;
+        return *graphic_;
     }
 
     /*!
@@ -202,11 +204,15 @@ public:
     void setLayer(int layer);
 
     /*!
-     * \brief Sets the entity's texture
+     * \brief Sets the entity's graphic
      *
-     * \param texture The new texture
+     * \tparam T Type of Graphic to create
+     * \tparam Args Arguments to send to T's constructor
+     * \param args The arguments to T's constructor
+     * \return A pointer of type T to the created Graphic
      */
-    void setTexture(GLTexture const* texture);
+    template <typename T, typename... Args>
+    T* setGraphic(Args&&... args);
 
     /*!
      * \brief Sets the entity's parent state
@@ -231,21 +237,33 @@ public:
     virtual ~Entity();
 private:
     //Member variables
-    Vectorf     pos_; 
-    Rect        hitbox_;    //(0,0,0,0)
-    std::string type_;      //""
-    bool        solid_;     //false
-    bool        visible_;   //true 
-    int         layer_;     //0
+    Vectorf pos_;
+    float rot_;
+    Rect hitbox_;     //(0,0,0,0)
+    std::string type_;//""
+    bool solid_;      //false
+    bool visible_;    //true 
+    int layer_;       //0
 
-    GLTexture const* texture_;//nullptr
     State* state_;          //Set by parent State
+    std::unique_ptr<Graphic> graphic_;
 
     static int numEnts_;
     const  int actorID_;
 
     bool removed_ = false;
 };
+
+template <typename T, typename... Args>
+T* Entity::setGraphic(Args&&... args)
+{
+    static_assert(std::is_base_of<Graphic,T>::value,
+                  "Type must derive from Graphic");
+
+    T* g = new T(std::forward<Args>(args)...);
+    graphic_.reset(g);
+    return g;
+}
 
 }
 #endif

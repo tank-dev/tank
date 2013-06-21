@@ -9,15 +9,16 @@ namespace tank {
 int Entity::numEnts_ = 0;
 
 Entity::Entity(Vectorf const& pos)
-    : pos_(pos),
-      hitbox_({0}),
-      type_(""),
-      solid_(false),
-      visible_(true),
-      layer_(0),
-      texture_(nullptr),
-      state_ (nullptr),
-      actorID_(numEnts_++)
+    : pos_(pos)
+    , rot_(0)
+    , hitbox_({0})
+    , type_("")
+    , solid_(false)
+    , visible_(true)
+    , layer_(0)
+    , state_ (nullptr)
+    , graphic_(nullptr)
+    , actorID_(numEnts_++)
 {}
 
 Entity::~Entity() {}
@@ -25,9 +26,9 @@ Entity::~Entity() {}
 //Default draw function
 void Entity::draw()
 {
-    if(texture_)
+    if(graphic_)
     {
-        //render->draw(texture_, pos_);
+        graphic_->draw(pos_, rot_);
     }
 }
 
@@ -104,11 +105,6 @@ void Entity::setVisible(bool visible)
 void Entity::setLayer(int layer)
 {
     layer_ = layer;
-}
-
-void Entity::setTexture(GLTexture const* const texture)
-{
-    texture_ = texture;
 }
 
 void Entity::setState(State* const state)
