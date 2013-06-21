@@ -38,6 +38,7 @@ public:
      * \brief Run entity's per-frame game logic
      */
     virtual void update() {}
+
     /*!
      * \brief Render the entity
      *
@@ -58,15 +59,6 @@ public:
     std::vector<Entity*> collide(std::string type = "");
 
     /*!
-     * \brief Returns the entity's z-layer
-     *
-     * \return Entity's z-layer
-     */
-    int getLayer() const
-    {
-        return layer_;
-    }
-    /*!
      * \brief Returns the entity's vector position
      *
      * \return Entity's position
@@ -75,6 +67,7 @@ public:
     {
         return pos_;
     }
+
     /*!
      * \brief Returns the entity's hitbox
      *
@@ -82,38 +75,11 @@ public:
      * (x-offset, y-offset, width, height) where the offse
      * \return Entity's hitbox
      */
-    Rect const& getHitBox() const
+    Rect const& getHitbox() const
     {
         return hitbox_;
     }
-    /*!
-     * \brief Returns whether the entity is solid (deprecated)
-     *
-     * \return Whether or not the entity is solid
-     */
-    bool isSolid() const
-    {
-        return solid_;
-    }
 
-    /*!
-     * \brief Returns the entity's unique id (deprecated)
-     *
-     * \return Entity ID
-     */
-    int getActorID() const
-    {
-        return actorID_;
-    }
-    /*!
-     * \brief Returns the number of entities (deprecated)
-     *
-     * \return The number of entities that have been constructed
-     */
-    static int getNumEnts()
-    {
-        return numEnts_;
-    }
     /*!
      * \brief Returns the entity's type
      *
@@ -125,20 +91,88 @@ public:
     }
 
     /*!
-     * \brief Sets the entity's parent state
+     * \brief Returns whether the entity is solid (deprecated)
      *
-     * Typically set by the state on addition. Don't change it unless you know
-     * what you're doing.
-     *
-     * \param state A pointer to the parent state
+     * \return Whether or not the entity is solid
      */
-    void setState(State* const state);
+    bool isSolid() const
+    {
+        return solid_;
+    }
+
+    /*!
+     * \brief Returns whether the entity is visible (deprecated)
+     *
+     * \return Whether or not the entity is visible
+     */
+    bool isVisible() const
+    {
+        return visible_;
+    }
+
+    /*!
+     * \brief Returns the entity's z-layer
+     *
+     * \return Entity's z-layer
+     */
+    int getLayer() const
+    {
+        return layer_;
+    }
+
+    /*!
+     * \brief Returns a pointer to the entity's Texture
+     *
+     * \return Entity's texture
+     */
+    Texture const* getTexture() const
+    {
+        return texture_;
+    }
+
+    /*!
+     * \brief Returns a pointer to the entity's parent State
+     *
+     * \return Entity's parent state
+     */
+    State* getState() const
+    {
+        return state_;
+    }
+
+    /*!
+     * \brief Returns the entity's unique id (deprecated)
+     *
+     * \return Entity ID
+     */
+    int getActorID() const
+    {
+        return actorID_;
+    }
+
+    /*!
+     * \brief Returns the number of entities (deprecated)
+     *
+     * \return The number of entities that have been constructed
+     */
+    static int getNumEnts()
+    {
+        return numEnts_;
+    }
+
     /*!
      * \brief Sets the entity's position
      *
      * \param pos The position to which to move
      */
-    void setPos(Vectorf const& pos);
+    virtual void setPos(Vectorf const& pos);
+
+    /*!
+     * \brief Sets the entity's hitbox
+     *
+     * \param hitbox The new hitbox
+     */
+    virtual void setHitbox(Rect const& hitbox);
 
     /*!
      * \brief Sets the entity's type
@@ -148,25 +182,63 @@ public:
     void setType(std::string type) { type_ = type; }
 
     /*!
+     * \brief Sets the entity's solidity (deprecated)
+     *
+     * \param solid Whether the entity should be solid or not 
+     */
+    void setSolid(bool solid);
+
+    /*!
+     * \brief Sets the entity's z-layer (deprecated)
+     *
+     * \param visible Whether the entity should be visible or not
+     */
+    void setVisible(bool visible);
+
+    /*!
+     * \brief Sets the entity's z-layer
+     *
+     * \param layer The new layer
+     */
+    void setLayer(int layer);
+
+    /*!
+     * \brief Sets the entity's texture
+     *
+     * \param texture The new texture
+     */
+    void setTexture(Texture const* texture);
+
+    /*!
+     * \brief Sets the entity's parent state
+     *
+     * Typically set by the state on addition. Don't change it unless you know
+     * what you're doing.
+     *
+     * \param state A pointer to the parent state
+     */
+    void setState(State* const state);
+
+    /*!
      * \brief Constructs an entity at position pos
      *
      * \param pos The position of the entity
      */
     Entity(Vectorf const& pos);
     virtual ~Entity();
-protected:
-    static int numEnts_;    //(NOT SET)
-    const  int actorID_;    //Unique ID (NOT SET)
-
+private:
     //Member variables
-    int         layer_;     //0
     Vectorf     pos_; 
     Rect        hitbox_;    //(0,0,0,0)
     std::string type_;      //""
     bool        solid_;     //false
-    bool        visible_;   //true
+    bool        visible_;   //true 
+    int         layer_;     //0
 
     Texture const* texture_;//nullptr
     State* state_;          //Set by parent State
+
+    static int numEnts_;
+    const  int actorID_;
 };
 #endif
