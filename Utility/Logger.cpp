@@ -19,7 +19,8 @@
 
 #include "Logger.hpp"
 
-namespace tank {
+namespace tank
+{
 
 Logger::Logger(std::string file) : fileName_{file}, logFile_{fileName_}
 {
