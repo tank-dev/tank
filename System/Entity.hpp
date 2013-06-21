@@ -230,6 +230,16 @@ public:
     void remove() {removed_ = true;}
     bool isRemoved() {return removed_;}
 
+    /*!
+     * \brief Called when the entitiy is added to the world.
+     */
+    virtual void onAdded() {}
+
+    /*!
+     * \brief Called when the entity is removed from the world.
+     */
+    virtual void onRemoved() {}
+
     virtual ~Entity();
 private:
     //Member variables

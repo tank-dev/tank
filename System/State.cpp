@@ -12,6 +12,7 @@ State::~State() { }
 
 void State::insertEntity(std::unique_ptr<Entity>&& entity)
 {
+    entity->onAdded();
     if (not entity.get())
 	{
         Game::log << "Warning: You can't add a null entity." << std::endl;
@@ -55,8 +56,13 @@ std::unique_ptr<Entity> State::releaseEntity(Entity* entity)
         return entity == ent.get();
     });
 
+    if (it == end(entities_)) {
+        return nullptr;
+    }
+
     auto ptr = std::move(*it);
     entities_.erase(it);
+    ptr->onRemoved();
     return ptr;
 }
 

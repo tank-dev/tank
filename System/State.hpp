@@ -45,16 +45,7 @@ public:
 	 * \return A raw pointer to the created Entity (NEVER DELETE IT)
 	 */
     template <typename T, typename... Args>
-    T* makeEntity(Args&&... args)
-    {
-        static_assert(std::is_base_of<Entity,T>::value,
-                      "Type must derive from Entity");
-
-        T* ent = new T(std::forward<Args>(args)...);
-        ent->setState(this);
-        entities_.emplace_back(ent);
-        return ent;
-    }
+    T* makeEntity(Args&&... args);
 
     /*!
      * \brief Inserts a unique_ptr to an Entity into the entity list
@@ -160,6 +151,18 @@ private:
     State(State const&);
     State& operator=(State const&);
 };
+
+template <typename T, typename... Args>
+T* State::makeEntity(Args&&... args)
+{
+    static_assert(std::is_base_of<Entity,T>::value,
+                  "Type must derive from Entity");
+
+    T* ent = new T(std::forward<Args>(args)...);
+    ent->setState(this);
+    entities_.emplace_back(ent);
+    return ent;
+}
 
 }
 
