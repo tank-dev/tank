@@ -1,6 +1,6 @@
 #pragma once
 #ifndef VECTOR_H
-#define    VECTOR_H
+#define VECTOR_H
 
 #include <cmath>
 
@@ -187,6 +187,11 @@ struct Vector
     inline Vector operator-(T f) const
     {
         return {x-f,y-f};
+    }
+
+    inline Vector operator/(T f) const
+    {
+        return {x/f,y/f};
     }
 };
 
