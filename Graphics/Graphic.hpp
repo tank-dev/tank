@@ -1,4 +1,3 @@
-#pragma once
 #ifndef TANK_GRAPHIC_HPP
 #define TANK_GRAPHIC_HPP
 
@@ -10,9 +9,9 @@ public:
     Graphic() {}
     virtual ~Graphic() {}
 
-    virtual Vectori const& getSize() const = 0;
+    virtual Vectorf getSize() const = 0;
 
-    virtual void draw(Vectorf const& pos) = 0;
+    virtual void draw(Vectorf const& pos, float angle, Vectorf const& camera) = 0;
 };
 
 #endif /* TANK_GRAPHIC_HPP */

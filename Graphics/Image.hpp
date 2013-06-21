@@ -1,4 +1,3 @@
-#pragma once
 #ifndef TANK_IMAGE_HPP
 #define TANK_IMAGE_HPP
 
@@ -6,25 +5,30 @@
 #include <memory>
 #include "../Utility/Vector.hpp"
 #include "GLTexture.hpp"
+#include "GLBuffer.hpp"
+#include "GLShaderProgram.hpp"
 #include "Graphic.hpp"
 
 class Image final : public Graphic
 {
 public:
     Image();
-    //Image(GLTexture const&);
     Image(std::string file);
     virtual ~Image();
 
-    //void load(GLTexture const&);
     void load(std::string file);
 
-    virtual Vectori const& getSize() const;
+    virtual Vectorf getSize() const override;
+    void setSize(Vectorf const& size);
 
-    virtual void draw(Vectorf const& pos);
+    virtual void draw(Vectorf const& pos, float angle = 0, Vectorf const& camera = {}) override;
 private:
+    GLuint vbo_;
     bool loaded_;
+    Vectorf halfSize_;
     std::unique_ptr<GLTexture> texture_;
+    static std::unique_ptr<GLBuffer>        buffer_;
+    static std::unique_ptr<GLShaderProgram> shader_;
 
     Image& operator=(Image const&);
     Image(Image const&);
