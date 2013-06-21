@@ -14,7 +14,7 @@
  * the GNU Lesser General Public Licence along with Tank. If not, see 
  * <http://www.gnu.org/licenses/>.
  * 
- * Copyright (©) Jamie Bayne, David Truby, David Watson
+ * Copyright 2013 (©) Jamie Bayne, David Truby, David Watson
  */
 
 #include "ServiceLocator.hpp"
