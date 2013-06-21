@@ -7,6 +7,8 @@
 #include <SDL/SDL_events.h>
 #include "../Graphics/IRender.hpp"
 
+namespace tank {
+
 class Entity;
 class Game;
 
@@ -158,4 +160,7 @@ private:
     State(State const&);
     State& operator=(State const&);
 };
+
+}
+
 #endif

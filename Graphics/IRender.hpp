@@ -8,6 +8,8 @@
 #include "../Utility/Vector.hpp"
 #include "../Graphics/Texture.hpp"
 
+namespace tank {
+
 //TODO Implement 2D OpenGL to remove stupid dependencies
 class IRender
 {
@@ -51,4 +53,7 @@ public:
     virtual Texture const* getTexture(char const* name) override;
     virtual bool loadImage(char const* name, char const* fileName) override;
 };
+
+}
+
 #endif

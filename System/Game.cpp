@@ -7,6 +7,8 @@
 
 #define FRAMES_PER_SECOND 60
 
+namespace tank {
+
 Logger   Game::log          {"log.txt"};
 IWindow* Game::window_      {nullptr};
 IRender* Game::render_      {nullptr};
@@ -171,5 +173,7 @@ void Game::draw()
 
     //Update the screen
     render_->flipDisplay();
+
+}
 
 }

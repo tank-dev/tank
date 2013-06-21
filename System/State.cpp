@@ -4,6 +4,7 @@
 #include "Entity.hpp"
 #include "Game.hpp"
 
+namespace tank {
 
 State::State() {}
 
@@ -85,4 +86,6 @@ void State::draw(IRender* const render)
     {
         entity->draw(render);
     }
+}
+
 }

@@ -5,6 +5,8 @@
 #include <memory>
 #include "../Graphics/IRender.hpp"
 
+namespace tank {
+
 class ServiceLocator
 {
 public:
@@ -14,4 +16,7 @@ private:
     static IRender* render_;
     static NullRender nullRender_;
 };
+
+}
+
 #endif

@@ -2,6 +2,8 @@
 
 #include "../System/State.hpp"
 
+namespace tank {
+
 Text::Text(Vectorf const& pos, std::string text, unsigned int duration)
     :Entity(pos),
      text_(text),
@@ -27,4 +29,6 @@ void Text::draw(IRender* const render)
 {
     //TODO Make this work properly
     render->drawText(text_.c_str(), getPos());
+}
+
 }

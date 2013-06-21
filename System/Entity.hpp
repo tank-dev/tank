@@ -8,6 +8,7 @@
 #include "../Utility/Vector.hpp"
 #include "../Utility/Rect.hpp"
 
+namespace tank {
 
 class State;
 
@@ -247,4 +248,6 @@ private:
 
     bool removed_ = false;
 };
+
+}
 #endif

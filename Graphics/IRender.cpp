@@ -1,5 +1,7 @@
 #include "IRender.hpp"
 
+namespace tank {
+
 void NullRender::draw(Texture const* texture,
                   Vectorf  const& position) {}
 void NullRender::draw(Texture const* texture,
@@ -17,4 +19,6 @@ Texture const* NullRender::getTexture(char const* name)
 bool NullRender::loadImage(char const* name, char const* fileName)
 {
     return true;
+}
+
 }

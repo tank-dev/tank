@@ -9,6 +9,8 @@
 #include "../Utility/Rect.hpp"
 #include "../System/Game.cpp"
 
+namespace tank {
+
 /* --------------------------------------- *
  * Constructor and Destructor
  * --------------------------------------- */
@@ -199,4 +201,6 @@ Texture const* PCRender::getTexture(char const* name)
     std::string strName = name;
 
     return &textures_[strName];
+}
+
 }

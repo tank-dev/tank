@@ -7,6 +7,8 @@
 
 #include <string>
 
+namespace tank {
+
 class Text : public Entity
 {
 public:
@@ -20,4 +22,7 @@ private:
     unsigned int duration_;
     Timer        displayTimer_;
 };
+
+}
+
 #endif

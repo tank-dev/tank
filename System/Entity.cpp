@@ -4,6 +4,8 @@
 #include <algorithm>
 #include "State.hpp"
 
+namespace tank {
+
 int Entity::numEnts_ = 0;
 
 Entity::Entity(Vectorf const& pos)
@@ -113,4 +115,6 @@ void Entity::setTexture(Texture const* const texture)
 void Entity::setState(State* const state)
 {
     state_ = state;
+}
+
 }

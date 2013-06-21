@@ -6,6 +6,8 @@
 #include "IWindow.hpp"
 #include "../Utility/Vector.hpp"
 
+namespace tank {
+
 class Window : public IWindow
 {
 public:
@@ -28,5 +30,7 @@ private:
     //Unfortunately we can only have one window to stop SDL from shitting itself
     static bool windowExists_;
 };
+
+}
 
 #endif /* WINDOW_H */

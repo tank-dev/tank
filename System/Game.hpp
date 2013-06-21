@@ -12,6 +12,8 @@
 #include "../Utility/Logger.hpp"
 #include <iostream>
 
+namespace tank {
+
 /*!
  * \brief Static Game class containing main loop and current state.
  *
@@ -106,5 +108,7 @@ private:
     Game();
     ~Game(); 
 };
+
+}
 
 #endif

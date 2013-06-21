@@ -3,6 +3,7 @@
 #include <iostream>
 #include "Game.hpp"
 
+namespace tank {
 
 bool Window::windowExists_ = false;
 
@@ -81,4 +82,6 @@ Vectori const& Window::getSize()
 std::string const& Window::getCaption()
 {
     return caption_;
+}
+
 }

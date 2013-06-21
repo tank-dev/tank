@@ -9,6 +9,8 @@
 
 struct SDL_Surface;
 
+namespace tank {
+
 class PCRender : public IRender
 {
 public:
@@ -40,4 +42,7 @@ private:
     SDL_Surface* screen_;
     std::map<std::string, SDL_Surface*> images_;
 };
+
+}
+
 #endif
