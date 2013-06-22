@@ -3,6 +3,7 @@
 #include <SFML/OpenGL.hpp>
 #include <CImg.h>
 #include <cstdint>
+#include "../System/Game.hpp"
 
 namespace tank {
 /* TODO:
@@ -36,7 +37,10 @@ void GLTexture::load(std::string file)
 {
     if(!loaded_)
     {
+        //TODO: Exception this up
+        Game::log << "Loading texture from file" << std::endl;
         cimg_library::CImg<float> texture(file.c_str());
+        Game::log << "Texture loaded" << std::endl;
 
         size_.x = texture.width(),
         size_.y = texture.height();

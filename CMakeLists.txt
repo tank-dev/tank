@@ -1,12 +1,6 @@
 cmake_minimum_required(VERSION 2.8)
 project (Tank)
 
-#Old SDL stuff
-find_package(SDL REQUIRED) 
-find_package(SDL_image REQUIRED) 
-find_package(SDL_mixer REQUIRED) 
-include_directories(${SDL_INCLUDE_DIRS})
-
 #New SFML/OpenGL stuff
 set (CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_SOURCE_DIR}/modules/)
 find_package(SFML 2.0 REQUIRED system window graphics)
@@ -62,8 +56,7 @@ endif(DOXYGEN_FOUND)
 
 set (engine_src ${gfx_src} ${sys_src} ${util_src})
 add_library(engine ${engine_src})
-target_link_libraries(engine ${SDL_LIBRARY} ${SDLIMAGE_LIBRARY}
-    ${OPENGL_LIBRARIES} ${SFML_LIBRARIES} ${GLEW_LIBRARY})
+target_link_libraries(engine ${OPENGL_LIBRARIES} ${SFML_LIBRARIES} ${GLEW_LIBRARY})
 if(Cotire)
     cotire(engine)
 endif(Cotire)

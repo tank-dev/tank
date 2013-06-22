@@ -21,10 +21,15 @@ Window::Window(Vector<unsigned int> const& size, std::string caption)
         sf::ContextSettings settings;
         settings.antialiasingLevel = 4;
         settings.majorVersion = 3;
-        settings.minorVersion = 1;
-        window.create(sf::VideoMode(size.x, size.y), caption,
+        settings.minorVersion = 3;
+        sf::VideoMode vMode = sf::VideoMode::getDesktopMode();
+        vMode.width = size.x;
+        vMode.height = size.y;
+        window_.create(vMode, caption,
                       sf::Style::Default, settings);
 
+        window_.setFramerateLimit(60);
+        glClearColor(1.f,0.f,1.f,1.f);
         valid_ = true;
         windowExists_ = true;
     }
@@ -39,12 +44,13 @@ Window::~Window()
     if(windowExists_ && valid_)
     {
         Game::log << "Closing Window" << std::endl;
+        windowExists_ = false;
     }
 }
 
 bool Window::pollEvent(sf::Event& event)
 {
-    return window.pollEvent(event);
+    return window_.pollEvent(event);
 }
 
 void Window::render()
@@ -53,13 +59,13 @@ void Window::render()
 
 void Window::flipDisplay()
 {
-    window.display();
+    window_.display();
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 
 void Window::resize(Vector<unsigned int> const& size)
 {
-    window.setSize({size.x, size.y});
+    window_.setSize({size.x, size.y});
 }
 
 void Window::setIcon(std::string path)

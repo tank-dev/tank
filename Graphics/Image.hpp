@@ -25,7 +25,7 @@ public:
 
     virtual void draw(Vectorf const& pos, float angle = 0, Vectorf const& camera = {}) override;
 private:
-    GLuint vbo_;
+    GLuint vao_;
     bool loaded_;
     Vectorf halfSize_;
     std::unique_ptr<GLTexture> texture_;

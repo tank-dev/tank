@@ -4,6 +4,8 @@
 #include <stdexcept>
 #include <fstream>
 
+#include "../System/Game.hpp"
+
 namespace tank {
 
 void GLShaderProgram::bind(GLShaderProgram *shader)
@@ -109,10 +111,12 @@ void GLShaderProgram::loadFromFile(std::string file, Type type)
 }
 
 void GLShaderProgram::loadFromFile(std::string vertexShader,
-                          std::string fragmentShader)
+                                   std::string fragmentShader)
 {
+    Game::log << "Registering Shaders" << std::endl;
     createProgram();
 
+    Game::log << "Loading from file " << std::endl;
     GLuint vertexObject   = compileShaderFromFile(vertexShader,   Vertex);
     GLuint fragmentObject = compileShaderFromFile(fragmentShader, Fragment);
 
@@ -139,6 +143,7 @@ void GLShaderProgram::createProgram()
 
 GLuint GLShaderProgram::compileShaderFromFile(std::string file, Type type)
 {
+    Game::log << "Loading shader from file" << std::endl;
     GLuint shaderObject = 0;
 
     if(type == Vertex)

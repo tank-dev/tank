@@ -37,7 +37,7 @@ public:
      */
     virtual void setIcon(std::string path); 
 private:
-    sf::RenderWindow window;
+    sf::RenderWindow window_;
     std::string caption_;
     Vector<unsigned int> size_;
 

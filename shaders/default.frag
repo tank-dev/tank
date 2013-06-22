@@ -7,5 +7,6 @@ out vec4 color;
 
 void main()
 {
-   color = vec4(0.f,1.f,0.f,1.0f);//texture(tex, tPos);
+    color = texture(tex, tPos);
+    //color = vec4(0.f,1.f,0.f,1.0f);//texture(tex, tPos);
 }

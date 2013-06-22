@@ -12,12 +12,11 @@ public:
     ~GLBuffer();
 
     template <typename T>
-    void setData(T* data, size_t size, GLenum mode)
-    {
-        bind(this);
-        glBufferData(target_, size, data, mode);
-        unbind(this);
-    }
+    void setData(T* data, size_t size, GLenum mode);
+    
+    template <typename T>
+    void setSubData(T* data, size_t size, size_t offset);
+
     static void bind(GLBuffer const*);
     static void unbind(GLBuffer const*);
 private:
@@ -25,5 +24,18 @@ private:
     GLuint name_;
 };
 
+template <typename T>
+void GLBuffer::setData(T* data, size_t size, GLenum mode)
+{
+    bind(this);
+    glBufferData(target_, size, data, mode);
+}
+    
+template <typename T>
+void GLBuffer::setSubData(T* data, size_t size, size_t offset)
+{ 
+    bind(this);
+    glBufferSubData(target_, offset, size, data);
+}
 }
 #endif /* TANK_GLBUFFER_HPP */
