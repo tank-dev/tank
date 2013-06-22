@@ -14,6 +14,7 @@ namespace tank {
 
 GLTexture::GLTexture()
     : loaded_(false)
+    , target_(GL_TEXTURE_2D)
 {
     //Register a 2D texture id
 
@@ -45,16 +46,15 @@ void GLTexture::load(std::string file)
         size_.y = texture.height();
 
         float* pixels = texture.data();
-
         glBindTexture(target_, name_);
 
-        glTexStorage2D(target_, 1, GL_RGBA8, size_.x, size_.y);
+        glTexStorage2D(target_, 0, GL_RED, size_.x, size_.y);
 
         glTexSubImage2D(target_, 0,
                         0, 0,
                         size_.x, size_.y,
-                        GL_RGBA8,
-                        GL_FLOAT,
+                        GL_RED,
+                        GL_UNSIGNED_BYTE,
                         pixels);
 
         loaded_ = true;

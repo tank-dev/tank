@@ -7,6 +7,7 @@ uniform vec2 halfImgSize;
 uniform vec2 viewportSize;
 
 in vec4 pos;
+in vec2 texPos;
 out vec2 tPos;
 
 void main()
@@ -19,7 +20,7 @@ void main()
     gl_Position = imgPos;
 
     vec2 texturePos = (pos + 1.f) / 2.f;
-    texturePos.x *= texSize.x;
-    texturePos.y *= texSize.y;
-    tPos = texturePos;
+    //texturePos.x *= texSize.x;
+    //texturePos.y *= texSize.y;
+    tPos = texPos;
 }

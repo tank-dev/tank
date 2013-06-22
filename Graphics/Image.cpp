@@ -28,7 +28,12 @@ Image::Image()
             -1.f, -1.f, //v0
              1.f, -1.f, //v1
              1.f,  1.f, //v2
-            -1.f,  1.f  //v3
+            -1.f,  1.f,  //v3
+
+            0.f, 0.f,
+            1.f, 0.f,
+            1.f, 1.f,
+            0.f, 1.f
         };
 
         glGenVertexArrays(1, &vao_);
@@ -41,8 +46,11 @@ Image::Image()
 
         GLuint vertPos = glGetAttribLocation(shader_->name(), "pos");
         glVertexAttribPointer(vertPos, 2, GL_FLOAT, GL_FALSE, 0, ((GLvoid*)0));
+        GLuint texPos = glGetAttribLocation(shader_->name(), "texPos");
+        glVertexAttribPointer(texPos, 2, GL_FLOAT, GL_FALSE, 0, (GLvoid*)(8*sizeof(float)));
 
         glEnableVertexAttribArray(vertPos);
+        glEnableVertexAttribArray(texPos);
     }
 }
 Image::Image(std::string file)
