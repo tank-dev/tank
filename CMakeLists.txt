@@ -47,6 +47,7 @@ endif(Debug)
 add_subdirectory(System)
 add_subdirectory(Utility)
 add_subdirectory(Graphics)
+file(COPY shaders/ DESTINATION ${CMAKE_BINARY_DIR}/shaders)
 
 find_package(Doxygen)
 if(DOXYGEN_FOUND)
