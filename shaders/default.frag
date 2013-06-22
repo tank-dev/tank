@@ -1,6 +1,6 @@
 #version 330 core
 
-in vec4 tPos;
+in vec2 tPos;
 uniform sampler2D tex;
 
 out vec4 color;

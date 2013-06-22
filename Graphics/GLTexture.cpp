@@ -14,7 +14,6 @@ namespace tank {
 
 GLTexture::GLTexture()
     : loaded_(false)
-    , target_(GL_TEXTURE_RECTANGLE)
 {
     //Register a 2D texture id
 

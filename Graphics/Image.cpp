@@ -31,31 +31,18 @@ Image::Image()
             -1.f,  1.f  //v3
         };
 
-        float const tex[] = {
-            0.f, 0.f,
-            1.f, 0.f,
-            1.f, 1.f,
-            0.f, 1.f
-        };
-
         glGenVertexArrays(1, &vao_);
         glBindVertexArray(vao_);
 
         Game::log << "Loading buffer data" << std::endl;
         buffer_.reset(new GLBuffer(GL_ARRAY_BUFFER));
 
-        buffer_->setData((void*)NULL, sizeof(verts) + sizeof(tex), GL_STATIC_DRAW);
-        buffer_->setSubData(&verts, sizeof(verts), 0);
-        buffer_->setSubData(&tex, sizeof(tex), sizeof(verts));
+        buffer_->setData(&verts, sizeof(verts), GL_STATIC_DRAW);
 
         GLuint vertPos = glGetAttribLocation(shader_->name(), "pos");
         glVertexAttribPointer(vertPos, 2, GL_FLOAT, GL_FALSE, 0, ((GLvoid*)0));
 
-        GLuint texPos = glGetAttribLocation(shader_->name(), "tPos");
-        glVertexAttribPointer(texPos, 2, GL_FLOAT, GL_FALSE, 0, ((GLvoid*)sizeof(verts)));
-
         glEnableVertexAttribArray(vertPos);
-        glEnableVertexAttribArray(texPos);
     }
 }
 Image::Image(std::string file)
@@ -113,6 +100,11 @@ void Image::draw(Vectorf const& pos, float angle, Vectorf const& camera)
 
     //Send Image size to shader
     shader_->setUniform("halfImgSize", glm::vec2{halfSize_.x, halfSize_.y});
+
+    //Send Texture size to shader
+    shader_->setUniform("texSize", glm::vec2 {
+                             static_cast<float>(texture_->getSize().x),
+                             static_cast<float>(texture_->getSize().y)});
 
     //Send window size to shader
     shader_->setUniform("viewportSize", glm::vec2 {
