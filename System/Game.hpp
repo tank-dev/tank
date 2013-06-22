@@ -81,12 +81,16 @@ public:
         return state;
     }
 
+    //TODO: Just realised both of these can crash the game quite easily
+    //Should probably fix that?
     /*! 
      * \brief Return a reference to the active state
      *
      * \return A reference to the active state
      */
-    static State& state() { return *states_.top().get(); }
+    static State& state() { return *states_.top(); }
+
+    static IWindow& window() { return *window_; };
 
     static const unsigned int FPS;
 private:
