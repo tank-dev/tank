@@ -38,7 +38,7 @@ struct Vector
      *
      * \return The result of the dot product.
      */
-    inline T dot(Vector const& b) const
+    T dot(Vector const& b) const
     {
         return x*b.x + y*b.y;
     }
@@ -48,18 +48,32 @@ struct Vector
      *
      * \return The length of the vector.
      */
-    inline T magnitude() const
+    T magnitude() const
     {
         return sqrt(x*x+y*y);
     }
+
+    /*!
+     * \brief Calculates the length squared of the vector.
+	 *
+	 * This is slightly more efficient than calculating the length of the
+	 * vector. And for some algorithms this is all you need.
+     *
+     * \return The length squared of the vector.
+     */
+	T magnitudeSquared() const
+	{
+		return x*x + y*y;
+	}
 
     /*!
      * \brief Reterns a normalised vector.
      *
      * \return The normalised vector.
      */
-    inline Vector unit() const
+    Vector unit() const
     {
+		// TODO: this can be improved
         const double mag = magnitude();
         return {x/mag, y/mag};
     }
@@ -71,7 +85,7 @@ struct Vector
      *
      * \return Returns a referance to itself.
      */
-    inline Vector& operator*=(T f)
+    Vector& operator*=(T const& f)
     {
         x *= f;
         y *= f;
@@ -86,7 +100,7 @@ struct Vector
      *
      * \return A reference to itself.
      */
-    inline Vector& operator+=(Vector& vect)
+    Vector& operator+=(Vector const& vect)
     {
         x += vect.x;
         y += vect.y;
@@ -101,7 +115,7 @@ struct Vector
      *
      * \return A reference to the vector.
      */
-    inline Vector& operator+=(T f)
+    Vector& operator+=(T const& f)
     {
         x += f;
         y += f;
@@ -116,7 +130,7 @@ struct Vector
      *
      * \return A reference to the vector.
      */
-    inline Vector& operator-=(Vector& vect)
+    Vector& operator-=(Vector const& vect)
     {
         x -= vect.x;
         y -= vect.y;
@@ -131,7 +145,7 @@ struct Vector
      *
      * \return A reference to the vector.
      */
-    inline Vector& operator-=(T f)
+    Vector& operator-=(T const& f)
     {
         x -= f;
         y -= f;
@@ -146,9 +160,21 @@ struct Vector
      *
      * \return true if the vectors are equal.
      */
-    inline bool operator==(const Vector& vect) const
+    bool operator==(Vector const& vect) const
     {
         return x == vect.x && y == vect.y;
+    }
+    
+    /*!
+     * \brief Checks if the vector is not equal to another vector.
+     *
+     * \param vect The vector to check equality with.
+     *
+     * \return true if the vectors are not equal.
+     */
+    bool operator!=(Vector const& vect) const
+    {
+        return not operator==(vect);
     }
 
     /*!
@@ -158,7 +184,7 @@ struct Vector
      *
      * \return The result of the multiplication.
      */
-    inline Vector operator*(T f) const
+    Vector operator*(T const& f) const
     {
         return { x*f, y*f };
     }
@@ -170,7 +196,7 @@ struct Vector
      *
      * \return The result of the addition.
      */
-    inline Vector operator+(Vector const& b) const
+    Vector operator+(Vector const& b) const
     {
         return {x+b.x, y+b.y};
     }
@@ -182,7 +208,7 @@ struct Vector
      *
      * \return The result of the addition.
      */
-    inline Vector operator+(T s) const
+    Vector operator+(T const& s) const
     {
         return {x+s, y+s};
     }
@@ -194,7 +220,7 @@ struct Vector
      *
      * \return The result of the subtraction.
      */
-    inline Vector operator-(Vector const& b) const
+    Vector operator-(Vector const& b) const
     {
         return {x-b.x, y-b.y};
     }
@@ -206,12 +232,17 @@ struct Vector
      *
      * \return The result of the subtraction.
      */
-    inline Vector operator-(T f) const
+    Vector operator-(T const& f) const
     {
         return {x-f, y-f};
     }
-};
 
+    Vector operator/(T const& f) const
+    {
+        return {x/f,y/f};
+    }
+};
+    
 typedef Vector<float>  Vectorf;
 typedef Vector<double> Vectord;
 typedef Vector<int>    Vectori;
