@@ -17,18 +17,41 @@
  * Copyright 2013 (©) Jamie Bayne, David Truby, David Watson.
  */
 
-#include "Text.hpp"
+#include "Music.hpp"
+#include "../System/Game.hpp"
 
 namespace tank
 {
 
-Text::Text(std::string text)
-    : text_(text)
+Music::Music (std::string fileName)
 {
+    load(fileName);
 }
 
-Text::~Text()
+bool Music::load (std::string fileName)
 {
+    if (loaded_)
+    {
+        Game::log << "Music already loaded!" << std::endl;
+        return loaded_;
+    }
+    loaded_ = music_.openFromFile(fileName);
+    return loaded_;
+}
+
+void Music::play()
+{
+    music_.play();
+}
+
+void Music::pause()
+{
+    music_.pause();
+}
+
+void Music::stop()
+{
+    music_.stop();
 }
 
 }

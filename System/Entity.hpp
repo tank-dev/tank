@@ -8,7 +8,8 @@
 #include "../Utility/Vector.hpp"
 #include "../Utility/Rect.hpp"
 
-namespace tank {
+namespace tank
+{
 
 class State;
 
@@ -185,7 +186,7 @@ public:
     /*!
      * \brief Sets the entity's solidity (deprecated)
      *
-     * \param solid Whether the entity should be solid or not 
+     * \param solid Whether the entity should be solid or not
      */
     void setSolid(bool solid);
 

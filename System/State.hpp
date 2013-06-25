@@ -1,3 +1,22 @@
+/* This file is part of Tank.
+ *
+ * Tank is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Tank is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License and
+ * the GNU Lesser General Public Licence along with Tank. If not, see
+ * <http://www.gnu.org/licenses/>.
+ *
+ * Copyright 2013 (©) Jamie Bayne, David Truby, David Watson.
+ */
+
 #ifndef TANK_GAMESTATE_HPP
 #define TANK_GAMESTATE_HPP
 
@@ -32,34 +51,25 @@ class Game;
 class State
 {
 public:
-	/*!
-	 * \brief Creates an Entity and adds it to the State
-	 *
+    /*!
+     * \brief Creates an Entity and adds it to the State
+     *
      * Creates an Entity, setting its state pointer to point to it.
      * Adds a unique_ptr to the entity to the entity list.
      * Returns a raw pointer of type T* to the Entity created.
      *
-	 * \tparam T The type of Entity to construct
+     * \tparam T The type of Entity to construct
      * \param args the arguments to send to the entity's constructor
-	 * \return A raw pointer to the created Entity (NEVER DELETE IT)
-	 */
+     * \return A raw pointer to the created Entity (NEVER DELETE IT)
+     */
     template <typename T, typename... Args>
-    T* makeEntity(Args&&... args)
-    {
-        static_assert(std::is_base_of<Entity,T>::value,
-                      "Type must derive from Entity");
-
-        T* ent = new T(std::forward<Args>(args)...);
-        ent->setState(this);
-        entities_.emplace_back(ent);
-        return ent;
-    }
+    T* makeEntity(Args&&... args);
 
     /*!
      * \brief Inserts a unique_ptr to an Entity into the entity list
      *
-     * This is a way to add entities that have 
-     * * been removed from their original State or 
+     * This is a way to add entities that have
+     * * been removed from their original State or
      * * been created independently of State::makeEntity()
      *
      * \param entity A unique_ptr to the Entity to be inserted
@@ -70,7 +80,8 @@ public:
     /*!
      * \brief Moves an Entity from one State to another
      *
-     * This is essentially a shorthand for state->insertEntity(this->releaseEntity(entity))
+     * This is essentially a shorthand for
+     * state->insertEntity(this->releaseEntity(entity))
      *
      * \param state The State to which to move the Entity
      * \param entity A raw pointer to the Entity to be moved
@@ -149,7 +160,8 @@ public:
      *
      * \return A reference to the list of unique_ptrs to entities
      */
-    virtual std::vector<std::unique_ptr<Entity>> const& getEntities() { return entities_; }
+    virtual std::vector<std::unique_ptr<Entity>> const& getEntities()
+    { return entities_; }
 
     State();
     virtual ~State();
@@ -159,6 +171,18 @@ private:
     State(State const&);
     State& operator=(State const&);
 };
+
+template <typename T, typename... Args>
+T* State::makeEntity(Args&&... args)
+{
+    static_assert(std::is_base_of<Entity, T>::value,
+                  "Type must derive from Entity");
+
+    T* ent = new T(std::forward<Args>(args)...);
+    ent->setState(this);
+    entities_.emplace_back(ent);
+    return ent;
+}
 
 }
 

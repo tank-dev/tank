@@ -1,8 +1,28 @@
+/* This file is part of Tank.
+ *
+ * Tank is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Tank is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License and
+ * the GNU Lesser General Public Licence along with Tank. If not, see
+ * <http://www.gnu.org/licenses/>.
+ *
+ * Copyright 2013 (©) Jamie Bayne, David Truby, David Watson.
+ */
+
 #include "Animation.hpp"
 
 #include <algorithm>
 
-namespace tank {
+namespace tank
+{
 
 void Animation::add(const std::string& name,
                     std::vector<unsigned int> const& frames,
@@ -22,18 +42,19 @@ void Animation::remove(const std::string& name)
     });
 
     //Remove the animation from the animations list
-    if(iter != animations_.end())
+    if (iter != animations_.end())
     {
         animations_.erase(iter);
     }
 }
 
-void Animation::select(const std::string& name, bool loop, std::function<void()> callback)
+void Animation::select(const std::string& name, bool loop,
+                       std::function<void()> callback)
 {
     //Check that the requested animation is not already playing
-    if(!currentAnimation_ || currentAnimation_->name != name)
+    if (not currentAnimation_ || currentAnimation_->name != name)
     {
-        for(auto& anim : animations_)
+        for (auto& anim : animations_)
         {
             if (anim.name == name)
             {
@@ -57,7 +78,7 @@ void Animation::pause()
 
 void Animation::resume()
 {
-    if(animTimer_.isPaused() && currentAnimation_ != nullptr)
+    if (animTimer_.isPaused() && currentAnimation_ != nullptr)
     {
         animTimer_.resume();
     }
@@ -82,16 +103,17 @@ void Animation::stop()
 void Animation::play()
 {
     //Only play if there is a selected animation
-    if(currentAnimation_)
+    if (currentAnimation_)
     {
         //Check if we need to change animation frame
         //const unsigned int frameTime = currentAnimation_->time;
 
-        //bool playNextFrame = (frameTime != 0); // Don't animate if frametime is 0
+        //bool playNextFrame = (frameTime != 0);
+        // Don't animate if frametime is 0
 
         bool playNextFrame = animTimer_.getTicks() > currentAnimation_->time;
 
-        if(playNextFrame)
+        if (playNextFrame)
         {
             ++currentFrame_;    //Change frame
 
@@ -100,14 +122,14 @@ void Animation::play()
             //Check if we've finished the animation
             unsigned const int lastFrame = currentAnimation_->frameList.size();
 
-            if(currentFrame_ >= lastFrame)
+            if (currentFrame_ >= lastFrame)
             {
                 currentFrame_ = 0;
 
                 callback_();
 
                 //If the animation doesn't loop, stop it
-                if(!loop_)
+                if (not loop_)
                 {
                     //Reset all properties (callback, timer, currentFrame, etc)
                     stop();
@@ -117,7 +139,7 @@ void Animation::play()
     }
 
     //Animation may have ended now. If not, need to set clipping mask for image
-    if(currentAnimation_)
+    if (currentAnimation_)
     {
         //Start at first frame
         auto frameIter = currentAnimation_->frameList.begin();

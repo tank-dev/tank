@@ -1,3 +1,22 @@
+/* This file is part of Tank.
+ *
+ * Tank is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Tank is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License and
+ * the GNU Lesser General Public Licence along with Tank. If not, see
+ * <http://www.gnu.org/licenses/>.
+ *
+ * Copyright 2013 (©) Jamie Bayne, David Truby, David Watson.
+ */
+
 #include "Game.hpp"
 
 #include <iostream>
@@ -7,22 +26,23 @@
 #include "ServiceLocator.hpp"
 #include "Window.hpp"
 
-namespace tank {
+namespace tank
+{
 
-Logger   Game::log           {"log.txt"};
-IWindow* Game::window_       {nullptr};
-bool     Game::initialized_  {false};
-bool     Game::run_          {false};
-bool     Game::popState_     {false};
+Logger Game::log {"log.txt"};
+IWindow* Game::window_ {nullptr};
+bool Game::initialized_ {false};
+bool Game::run_ {false};
+bool Game::popState_ {false};
 const unsigned int Game::FPS {60};
-Timer    Game::frameTimer_;
+Timer Game::frameTimer_;
 std::stack<std::unique_ptr<State>> Game::states_;
 
 //This shouldn't be necessary, eventually...
 void Game::close()
 { 
     log << "Closing window" << std::endl;
-    delete(window_);
+    delete window_;
 }
 
 /* ---------------------------- *
@@ -32,7 +52,7 @@ void Game::close()
 //TODO Handle errors with exceptions
 bool Game::initialize(Vector<unsigned int> const& wSize)
 {
-    if(!initialized_)
+    if (not initialized_)
     {
         initialized_ = true;
 
@@ -46,8 +66,6 @@ bool Game::initialize(Vector<unsigned int> const& wSize)
         {
             throw std::runtime_error("Could not initialise GLEW");
         }
-
-        //ServiceLocator::provide(render_);  //Make render available on request
     }
 
     return initialized_;
@@ -59,15 +77,18 @@ bool Game::initialize(Vector<unsigned int> const& wSize)
 
 void Game::run()
 {
-    if(run_) return;
+    if (run_)
+    {
+        return;
+    }
 
-    run_ = true; 
+    run_ = true;
     log << "Entering main loop" << std::endl;
-    while(run_)
+    while (run_)
     {
         frameTimer_.start();
 
-        if(states_.empty())
+        if (states_.empty())
         {
             log << "No game state" << std::endl;
             run_ = false;
@@ -81,7 +102,7 @@ void Game::run()
 
         draw();
 
-        if(popState_)
+        if (popState_)
         {
             states_.pop();
             popState_ = false;
@@ -98,9 +119,9 @@ void Game::handleEvents()
 {
     sf::Event event;
     //TODO Make this independent of SDL
-    while(window_->pollEvent(event))
+    while (window_->pollEvent(event))
     {
-        switch(event.type)
+        switch (event.type)
         {
         case sf::Event::KeyPressed:
         case sf::Event::KeyReleased: 
@@ -167,4 +188,5 @@ void Game::draw()
     //Update the screen
     window_->flipDisplay(); 
 }
+
 }

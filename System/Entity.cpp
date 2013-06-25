@@ -1,10 +1,30 @@
+/* This file is part of Tank.
+ *
+ * Tank is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Tank is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License and
+ * the GNU Lesser General Public Licence along with Tank. If not, see
+ * <http://www.gnu.org/licenses/>.
+ *
+ * Copyright 2013 (©) Jamie Bayne, David Truby, David Watson.
+ */
+
 #include "Entity.hpp"
 
 #include <cmath>
 #include <algorithm>
 #include "State.hpp"
 
-namespace tank {
+namespace tank
+{
 
 int Entity::numEnts_ = 0;
 
@@ -34,29 +54,22 @@ void Entity::draw()
 
 std::vector<Entity*> Entity::collide(std::string type)
 {
-    std::vector<std::unique_ptr<Entity>> const& origList = state_->getEntities();
+    std::vector<std::unique_ptr<Entity>> const& origList =
+            state_->getEntities();
     std::vector<Entity*> entList;
     std::vector<Entity*> collisions;
 
-    for(auto& unique : origList)
+    for (auto& unique : origList)
     {
-        if(type == unique->getType())
+        if (type == unique->getType())
         {
             entList.push_back(unique.get());
         }
     }
-    /*if(type != "")
-    {
-        entList.erase(std::remove_if(entList.begin(), entList.end(),
-                                     [type](Entity* ent)
-        {
-            return ent->getType() != type;
-        }), entList.end());
-    }*/
 
-    for(auto ent : entList)
+    for (auto ent : entList)
     {
-        if(ent != this)
+        if (ent != this)
         {
             Rect const& A = hitbox_;
             Rect const& B = ent->getHitbox();
@@ -70,10 +83,11 @@ std::vector<Entity*> Entity::collide(std::string type)
             const double bottomA = A.y + A.h + pos_.y;
             const double bottomB = B.y + B.h + ent->getPos().y;
 
-            if(leftA > rightB) continue;
-            if(topA > bottomB) continue;
-            if(rightA < leftB) continue;
-            if(bottomA < topB) continue;
+            if (leftA > rightB or topA > bottomB or
+                rightA < leftB or bottomA < topB)
+            {
+                continue;
+            }
 
             collisions.push_back(ent);
         }

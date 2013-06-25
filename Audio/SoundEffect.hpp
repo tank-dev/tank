@@ -17,18 +17,36 @@
  * Copyright 2013 (©) Jamie Bayne, David Truby, David Watson.
  */
 
-#include "Text.hpp"
+#ifndef TANK_SOUNDEFFECT_HPP
+#define TANK_SOUNDEFFECT_HPP
+
+#include <string>
+#include <SFML/Audio/Sound.hpp>
+#include <SFML/Audio/SoundBuffer.hpp>
 
 namespace tank
 {
 
-Text::Text(std::string text)
-    : text_(text)
+class SoundEffect
 {
+    sf::SoundBuffer buffer_;
+    sf::Sound sound_;
+    bool loaded_ = false;
+
+public:
+    SoundEffect(std::string fileName);
+
+    bool load(std::string fileName);
+
+    void play();
+
+    explicit operator bool()
+    {
+        return loaded_;
+    }
+
+};
+
 }
 
-Text::~Text()
-{
-}
-
-}
+#endif //TANK_SOUNDEFFECT_HPP

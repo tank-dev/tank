@@ -1,5 +1,24 @@
-#ifndef ANIMATION_H
-#define ANIMATION_H
+/* This file is part of Tank.
+ *
+ * Tank is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Tank is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License and
+ * the GNU Lesser General Public Licence along with Tank. If not, see
+ * <http://www.gnu.org/licenses/>.
+ *
+ * Copyright 2013 (©) Jamie Bayne, David Truby, David Watson.
+ */
+
+#ifndef TANK_ANIMATION_HPP
+#define TANK_ANIMATION_HPP
 
 #include <string>
 #include <vector>
@@ -9,10 +28,12 @@
 #include "../Utility/Rect.hpp"
 #include "../Utility/Timer.hpp"
 
-namespace tank {
+namespace tank
+{
 
 /*!
- * \brief Represents an image with multiple frames and stores animations for that image.
+ * \brief Represents an image with multiple frames and stores animations for
+ * that image.
  */
 class Animation
 {
@@ -38,7 +59,8 @@ public:
              unsigned int frameTime);
     void remove(const std::string& name);
 
-    void select(const std::string& name, bool loop = true, std::function<void()> = []{});
+    void select(const std::string& name, bool loop = true,
+                std::function<void()> = []{});
 
     /*!
      * \brief Called in addition to draw to change the state of an animation.
@@ -102,9 +124,9 @@ private:
     unsigned int currentFrame_ {0};
     Timer animTimer_;
     bool loop_ {false};
-    Vectorf frameDimensions_ {0,0};
+    Vectorf frameDimensions_ {0, 0};
     std::function<void()> callback_ = []{};
-    Rect clip_ {0,0,0,0};
+    Rect clip_ {0, 0, 0, 0};
     std::vector<AnimationInfo>  animations_;
 };
 
