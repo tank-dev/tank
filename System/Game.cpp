@@ -40,7 +40,7 @@ std::stack<std::unique_ptr<State>> Game::states_;
 
 //This shouldn't be necessary, eventually...
 void Game::close()
-{ 
+{
     log << "Closing window" << std::endl;
     delete window_;
 }
@@ -124,7 +124,7 @@ void Game::handleEvents()
         switch (event.type)
         {
         case sf::Event::KeyPressed:
-        case sf::Event::KeyReleased: 
+        case sf::Event::KeyReleased:
             /*if((event.key.code == sf::Keyboard::Key::F4 && event.key.alt)
             {
                 run_ = false;
@@ -133,7 +133,7 @@ void Game::handleEvents()
             //if(!states_.empty())
             //{
                 states_.top()->handleEvents(event.key.code);
-            //} 
+            //}
             break;
         case sf::Event::GainedFocus:
             draw();
@@ -186,7 +186,7 @@ void Game::draw()
     states_.top()->draw();
 
     //Update the screen
-    window_->flipDisplay(); 
+    window_->flipDisplay();
 }
 
 }

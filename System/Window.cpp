@@ -36,7 +36,6 @@ Window::Window(Vector<unsigned int> const& size, std::string caption)
     if(!windowExists_)
     {
         valid_ = true;
-        bool success = true;
 
         Game::log << "Opening Window" << std::endl;
 

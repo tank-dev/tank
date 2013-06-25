@@ -17,7 +17,6 @@
  * Copyright 2013 (©) Jamie Bayne, David Truby, David Watson.
  */
 
-#pragma once
 #ifndef TANK_GAME_HPP
 #define TANK_GAME_HPP
 
@@ -58,7 +57,7 @@ public:
      * \param windowSize The window canvas size in pixels.
      * \return True on success.
      */
-    static bool initialize(Vectori const& windowSize);
+    static bool initialize(Vector<unsigned int> const& windowSize);
     /*!
      * \brief Starts the game loop
      */
@@ -101,12 +100,18 @@ public:
         return state;
     }
 
+    //TODO: Just realised both of these can crash the game quite easily
+    //Should probably fix that?
     /*!
      * \brief Return a reference to the active state
      *
      * \return A reference to the active state
      */
-    static State& state() { return *states_.top().get(); }
+    static State& state() { return *states_.top(); }
+
+    static IWindow& window() { return *window_; };
+
+    static const unsigned int FPS;
 private:
     static bool initialized_;
     static bool run_;
@@ -115,7 +120,6 @@ private:
     static bool popState_;
 
     static IWindow* window_;
-    static IRender* render_;
 
     static std::stack<std::unique_ptr<State>> states_;
     static Timer frameTimer_;

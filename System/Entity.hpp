@@ -232,8 +232,25 @@ public:
      */
     Entity(Vectorf const& pos);
 
+    /*!
+     * \brief Remove the entity from the world.
+     */
     void remove() {removed_ = true;}
+
+    /*!
+     * \return if the entity has been removed.
+     */
     bool isRemoved() {return removed_;}
+
+    /*!
+     * \brief Called when the entitiy is added to the world.
+     */
+    virtual void onAdded() {}
+
+    /*!
+     * \brief Called when the entity is removed from the world.
+     */
+    virtual void onRemoved() {}
 
     virtual ~Entity();
 private:
@@ -243,7 +260,7 @@ private:
     Rect hitbox_;     //(0,0,0,0)
     std::string type_;//""
     bool solid_;      //false
-    bool visible_;    //true 
+    bool visible_;    //true
     int layer_;       //0
 
     State* state_;          //Set by parent State
