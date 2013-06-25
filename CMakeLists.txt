@@ -2,15 +2,19 @@ cmake_minimum_required(VERSION 2.8)
 project (Tank)
 
 #New SFML/OpenGL stuff
-set (CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_SOURCE_DIR}/modules/)
+set (CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${PROJECT_SOURCE_DIR}/modules/)
 find_package(SFML 2.0 REQUIRED system window graphics)
 find_package(OpenGL REQUIRED)
 find_package(GLEW REQUIRED)
-find_package (Threads REQUIRED)
+find_package(Threads REQUIRED)
+find_package(FreeImagePlus REQUIRED)
+find_package(GLM REQUIRED)
 
 include_directories(${SFML_INCLUDE_DIRS})
 include_directories(${OpenGL_INCLUDE_DIRS})
 include_directories(${GLEW_INCLUDE_DIRS})
+include_directories(${FREEIMAGEPLUS_INCLUDE_DIRS})
+include_directories(${GLM_INCLUDE_DIR})
 
 set(EXECUTABLE_OUTPUT_PATH ${CMAKE_BINARY_DIR})
 
@@ -58,7 +62,7 @@ endif(DOXYGEN_FOUND)
 set (engine_src ${gfx_src} ${sys_src} ${util_src})
 add_library(engine ${engine_src})
 target_link_libraries(engine ${OPENGL_LIBRARIES} ${SFML_LIBRARIES}
-    ${GLEW_LIBRARY} ${CMAKE_THREAD_LIBS_INIT})
+    ${GLEW_LIBRARY} ${CMAKE_THREAD_LIBS_INIT} ${FREEIMAGEPLUS_LIBRARIES})
 if(Cotire)
     cotire(engine)
 endif(Cotire)
