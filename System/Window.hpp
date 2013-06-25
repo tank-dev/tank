@@ -21,11 +21,17 @@ public:
     virtual Vector<unsigned int> const& getSize() override;
     virtual std::string getCaption() override;
 
-    virtual void render() override;
     virtual void flipDisplay() override;
+
+    virtual sf::RenderWindow& SFMLWindow() override { return window_; }
 
     virtual void resize(Vector<unsigned int> const& size) override;
     virtual void setCaption(std::string caption) override;
+
+    virtual void setBackgroundColor(float r,
+                                    float g,
+                                    float b,
+                                    float a = 1.f) override;
 
     /*!
      * \brief SFML-specific polling code (temporary)
@@ -35,7 +41,7 @@ public:
     /*!
      * \brief Not implemented
      */
-    virtual void setIcon(std::string path); 
+    virtual void setIcon(std::string path);
 private:
     sf::RenderWindow window_;
     std::string caption_;

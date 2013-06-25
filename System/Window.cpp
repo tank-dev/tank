@@ -1,7 +1,7 @@
 #include "Window.hpp"
 
 #include <iostream>
-#include <GL/glew.h> 
+#include <GL/glew.h>
 #include <SFML/OpenGL.hpp>
 #include "Game.hpp"
 
@@ -53,10 +53,6 @@ bool Window::pollEvent(sf::Event& event)
     return window_.pollEvent(event);
 }
 
-void Window::render()
-{
-}
-
 void Window::flipDisplay()
 {
     window_.display();
@@ -66,6 +62,11 @@ void Window::flipDisplay()
 void Window::resize(Vector<unsigned int> const& size)
 {
     window_.setSize({size.x, size.y});
+}
+
+void Window::setBackgroundColor(float r, float g, float b, float a)
+{
+    glClearColor(r, g, b, a);
 }
 
 void Window::setIcon(std::string path)

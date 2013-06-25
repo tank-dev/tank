@@ -1,4 +1,3 @@
-#pragma once
 #ifndef IWINDOW_H
 #define IWINDOW_H
 
@@ -7,6 +6,7 @@
 namespace sf
 {
     class Event;
+    class RenderWindow;
 }
 
 namespace tank {
@@ -23,14 +23,16 @@ public:
     virtual Vector<unsigned int> const& getSize() = 0;
     virtual std::string getCaption() = 0;
 
-    virtual void render() {}
-    virtual void flipDisplay() {}
+    virtual void flipDisplay() = 0;
+
+    virtual sf::RenderWindow& SFMLWindow() = 0;
 
     /*!
      * \brief SFML-specific polling code (temporary)
      */
     virtual bool pollEvent(sf::Event&) = 0;
 
+    virtual void setBackgroundColor(float r, float g, float b, float a = 1.f) = 0;
     virtual void resize(Vector<unsigned int> const& size) = 0;
     virtual void setCaption(std::string caption) = 0;
     virtual void setIcon(std::string path) = 0;
