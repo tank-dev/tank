@@ -2,7 +2,9 @@
 #define TANK_GLTEXTURE_HPP
 
 #include <string>
+#include <cstdint>
 #include <GL/glew.h>
+#include <glm/glm.hpp>
 #include "../Utility/Vector.hpp"
 
 namespace tank {
@@ -10,7 +12,7 @@ namespace tank {
 class GLTexture
 {
 public:
-    Vectori const& getSize() const { return size_; }
+    Vector<unsigned int> const& getSize() const { return size_; }
 
     GLTexture();
     GLTexture(std::string file);
@@ -18,15 +20,21 @@ public:
 
     void load(std::string file);
 
+    glm::vec2 const& aspect() const;
+
+    bool isLoaded() const { return loaded_; }
+
     static void bind(GLTexture const*);
     static void unbind(GLTexture const*);
 private:
-    GLuint name_;
-
     bool loaded_;
-    GLuint target_;
+    //uint8_t* pixels_;
 
-    Vectori size_;
+    GLuint name_;
+    GLenum target_;
+
+    Vectorf aspect_;
+    Vector<unsigned int> size_;
 
     GLTexture(GLTexture const&);
     GLTexture& operator=(GLTexture const&);

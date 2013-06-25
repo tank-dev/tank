@@ -11,6 +11,9 @@ namespace tank {
 std::unique_ptr<GLBuffer> Image::buffer_ { nullptr };
 std::unique_ptr<GLShaderProgram> Image::shader_ { nullptr };
 
+//TODO: Move somewhere it can be set by window resizing
+glm::mat4 Image::projection_ = glm::ortho(0.f, 640.f, 640.f, 0.f, -1.f, 1.f);
+
 Image::Image()
     : loaded_(false)
     , texture_(nullptr)
@@ -25,34 +28,45 @@ Image::Image()
     if(buffer_.get() == nullptr)
     {
         float const verts[] = {
-            -1.f, -1.f, //v0
-             1.f, -1.f, //v1
-             1.f,  1.f, //v2
-            -1.f,  1.f,  //v3
+            0.f, 0.f, //v0
+            1.f, 0.f, //v1
+            1.f, 1.f, //v2
+            0.f, 1.f, //v3
 
-            0.f, 0.f,
-            1.f, 0.f,
+            0.f, 1.f,
             1.f, 1.f,
-            0.f, 1.f
+            1.f, 0.f,
+            0.f, 0.f
         };
 
         glGenVertexArrays(1, &vao_);
         glBindVertexArray(vao_);
 
-        Game::log << "Loading buffer data" << std::endl;
         buffer_.reset(new GLBuffer(GL_ARRAY_BUFFER));
 
         buffer_->setData(&verts, sizeof(verts), GL_STATIC_DRAW);
 
-        GLuint vertPos = glGetAttribLocation(shader_->name(), "pos");
-        glVertexAttribPointer(vertPos, 2, GL_FLOAT, GL_FALSE, 0, ((GLvoid*)0));
-        GLuint texPos = glGetAttribLocation(shader_->name(), "texPos");
-        glVertexAttribPointer(texPos, 2, GL_FLOAT, GL_FALSE, 0, (GLvoid*)(8*sizeof(float)));
+        GLuint vertPos = glGetAttribLocation(shader_->name(), "v_pos");
+        GLuint texPos = glGetAttribLocation(shader_->name(), "v_tex_pos");
+
+        glVertexAttribPointer(vertPos,
+                              2,
+                              GL_FLOAT,
+                              GL_FALSE,
+                              0,
+                              ((GLvoid*)0));
+        glVertexAttribPointer(texPos,
+                              2,
+                              GL_FLOAT,
+                              GL_FALSE,
+                              0,
+                              (GLvoid*)(8*sizeof(float)));
 
         glEnableVertexAttribArray(vertPos);
         glEnableVertexAttribArray(texPos);
     }
 }
+
 Image::Image(std::string file)
     : Image()
 {
@@ -66,12 +80,12 @@ Image::~Image()
 
 Vectorf Image::getSize() const
 {
-    return halfSize_ * 2.f;
+    return size_;
 }
 
 void Image::setSize(Vectorf const& size)
 {
-    halfSize_ = size / 2.f;
+    size_ = size;
 }
 
 void Image::load(std::string file)
@@ -80,8 +94,8 @@ void Image::load(std::string file)
     {
         texture_.reset(new GLTexture(file));
 
-        halfSize_.x = texture_->getSize().x / 2;
-        halfSize_.y = texture_->getSize().y / 2;
+        size_.x = texture_->getSize().x;
+        size_.y = texture_->getSize().y;
 
         loaded_ = true;
     }
@@ -94,32 +108,19 @@ void Image::draw(Vectorf const& pos, float angle, Vectorf const& camera)
     GLShaderProgram::bind(shader_.get());
     GLTexture::bind(texture_.get());
     glBindVertexArray(vao_);
-    //Set up model transform
-    glm::mat4 modelS(1.f);
-    glm::mat4 modelRS = glm::rotate(modelS, angle, glm::vec3{ 0.f, 0.f, 1.f });
-    glm::mat4 modelTRS = glm::translate(modelRS, glm::vec3{pos.x, pos.y, 0.f});
 
-    shader_->setUniform("modelTransform", modelTRS);
-
-    //Set up view transform
+    // Set up model transform
     glm::mat4 viewTRS = glm::translate(glm::mat4(1.f),
                                        glm::vec3{camera.x, camera.y, 0.f});
-    shader_->setUniform("viewTransform", viewTRS);
 
-    //Send Image size to shader
-    shader_->setUniform("halfImgSize", glm::vec2{halfSize_.x, halfSize_.y});
+    glm::mat4 modelT = glm::translate(glm::mat4(1.f), glm::vec3{pos.x, pos.y, 0.f});
+    glm::mat4 modelTR = glm::rotate(modelT, angle, glm::vec3{ 0.f, 0.f, 1.f });
+    glm::mat4 modelTRS = glm::scale(modelTR, glm::vec3{10*size_.x, 10*size_.y, 1.f});
 
-    //Send Texture size to shader
-    shader_->setUniform("texSize", glm::vec2 {
-                             static_cast<float>(texture_->getSize().x),
-                             static_cast<float>(texture_->getSize().y)});
+    glm::mat4 pvm = projection_ * viewTRS * modelTRS;
+    shader_->setUniform("pvm", pvm);
 
-    //Send window size to shader
-    shader_->setUniform("viewportSize", glm::vec2 {
-                             static_cast<float>(Game::window().getSize().x),
-                             static_cast<float>(Game::window().getSize().y)});
-
-    //YAY WE GET TO DRAW
+    // YAY WE GET TO DRAW
     glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
 
     glBindVertexArray(0);

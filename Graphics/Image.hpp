@@ -3,6 +3,7 @@
 
 #include <string>
 #include <memory>
+#include <glm/glm.hpp>
 #include "../Utility/Vector.hpp"
 #include "GLTexture.hpp"
 #include "GLBuffer.hpp"
@@ -27,10 +28,11 @@ public:
 private:
     GLuint vao_;
     bool loaded_;
-    Vectorf halfSize_;
+    Vectorf size_;
     std::unique_ptr<GLTexture> texture_;
     static std::unique_ptr<GLBuffer>        buffer_;
     static std::unique_ptr<GLShaderProgram> shader_;
+    static glm::mat4 projection_;
 
     Image& operator=(Image const&);
     Image(Image const&);
