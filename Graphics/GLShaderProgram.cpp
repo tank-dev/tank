@@ -1,6 +1,5 @@
 #include "GLShaderProgram.hpp"
 
-#include <iostream>
 #include <stdexcept>
 #include <fstream>
 
@@ -100,66 +99,73 @@ void GLShaderProgram::setUniform(std::string name, glm::mat4 const& value) const
 
 void GLShaderProgram::loadFromFile(std::string file, Type type)
 {
+    std::string source = loadSourceFromFile(file);
+    try
+    {
+        loadFromSource(source.c_str(), type);
+    }
+    catch(std::exception& e)
+    {
+        std::string error = e.what();
+        error.append("\n " + file);
+
+        throw std::runtime_error(error);
+    }
+}
+
+void GLShaderProgram::loadFromFile(std::string vertexFile,
+                                   std::string fragmentFile)
+{
     createProgram();
 
-    GLuint shaderObject = compileShaderFromFile(file, type);
+    std::string vertexShader = loadSourceFromFile(vertexFile);
+    std::string fragmentShader = loadSourceFromFile(fragmentFile);
 
-    compileProgram({shaderObject});
+    try
+    {
+        loadFromSource(vertexShader.c_str(), fragmentShader.c_str());
+    }
+    catch(std::exception& e)
+    {
+        std::string error = e.what();
+        error.append("\nFiles: " + vertexFile + ", " + fragmentFile);
+
+        throw std::runtime_error(error);
+    }
+}
+
+void GLShaderProgram::loadFromSource(char const* source, Type type)
+{
+    createProgram();
+
+    GLuint shaderObject = compileShaderFromSource(source, type);
+
+    linkProgram({shaderObject});
 
     //If we made it here, must be valid
     valid_ = true;
 }
 
-void GLShaderProgram::loadFromFile(std::string vertexShader,
-                                   std::string fragmentShader)
+void GLShaderProgram::loadFromSource(char const* vertexShader,
+                            char const* fragmentShader)
 {
-    Game::log << "Registering Shaders" << std::endl;
     createProgram();
 
-    Game::log << "Loading from file " << std::endl;
-    GLuint vertexObject   = compileShaderFromFile(vertexShader,   Vertex);
-    GLuint fragmentObject = compileShaderFromFile(fragmentShader, Fragment);
+    GLuint vertexObject;
+    GLuint fragmentObject;
 
-    compileProgram({vertexObject, fragmentObject});
+    vertexObject   = compileShaderFromSource(vertexShader,   Vertex);
+    fragmentObject = compileShaderFromSource(fragmentShader, Fragment);
+
+    linkProgram({vertexObject, fragmentObject});
 
     //If we made it here, must be valid
     valid_ = true;
 }
 
-void GLShaderProgram::createProgram()
+
+std::string GLShaderProgram::loadSourceFromFile(std::string file)
 {
-    if(glIsProgram(program_))
-    {
-        glDeleteProgram(program_);
-    }
-
-    program_ = glCreateProgram();
-
-    if(program_ == 0)
-    {
-        throw std::runtime_error("Could not create shader");
-    }
-}
-
-GLuint GLShaderProgram::compileShaderFromFile(std::string file, Type type)
-{
-    Game::log << "Loading shader from file" << std::endl;
-    GLuint shaderObject = 0;
-
-    if(type == Vertex)
-    {
-        shaderObject = glCreateShader(GL_VERTEX_SHADER);
-    }
-    else if(type == Fragment)
-    {
-        shaderObject = glCreateShader(GL_FRAGMENT_SHADER);
-    }
-
-    if(shaderObject == 0)
-    {
-        throw std::runtime_error("Could not create shader.");
-    }
-
     std::fstream f(file, std::ios::in);
 
     if(f.fail())
@@ -180,9 +186,43 @@ GLuint GLShaderProgram::compileShaderFromFile(std::string file, Type type)
     }
     f.close();
 
-    const char* shaderSource = content.c_str();
+    return content;
+}
 
-    glShaderSource(shaderObject, 1, &shaderSource, NULL);
+void GLShaderProgram::createProgram()
+{
+    if(glIsProgram(program_))
+    {
+        glDeleteProgram(program_);
+    }
+
+    program_ = glCreateProgram();
+
+    if(program_ == 0)
+    {
+        throw std::runtime_error("Could not create shader");
+    }
+}
+
+GLuint GLShaderProgram::compileShaderFromSource(char const* source, Type type)
+{
+    GLuint shaderObject = 0;
+
+    if(type == Vertex)
+    {
+        shaderObject = glCreateShader(GL_VERTEX_SHADER);
+    }
+    else if(type == Fragment)
+    {
+        shaderObject = glCreateShader(GL_FRAGMENT_SHADER);
+    }
+
+    if(shaderObject == 0)
+    {
+        throw std::runtime_error("Could not create shader.");
+    }
+
+    glShaderSource(shaderObject, 1, &source, NULL);
 
     glCompileShader(shaderObject);
 
@@ -198,17 +238,15 @@ GLuint GLShaderProgram::compileShaderFromFile(std::string file, Type type)
 
         if(!logfile.is_open())
         {
-            throw std::runtime_error("ShaderProgram failed to compile. Could not open logfile");
+            throw std::runtime_error("Shader failed to compile. Could not open logfile");
         }
 
         logfile << logText << "\n";
         logfile << "Code:\n\n";
-        logfile << file;
+        logfile << source;
         logfile.close();
 
-        std::string error = "ShaderProgram failed to compile (see compile_errors.txt): ";
-        error.append(file);
-
+        std::string error = "Shader failed to compile (see compile_errors.txt)";
         glDeleteShader(shaderObject);
 
         throw std::runtime_error(error);
@@ -217,7 +255,7 @@ GLuint GLShaderProgram::compileShaderFromFile(std::string file, Type type)
     return shaderObject;
 }
 
-void GLShaderProgram::compileProgram(std::vector<GLuint> const& shaderObjects)
+void GLShaderProgram::linkProgram(std::vector<GLuint> const& shaderObjects)
 {
     for(auto so : shaderObjects)
     {

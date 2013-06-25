@@ -28,6 +28,11 @@ public:
     void loadFromFile(std::string vertexShader,
                       std::string fragmentShader);
 
+    void loadFromSource(char const* source, Type type);
+
+    void loadFromSource(char const* vertexShader,
+                        char const* fragmentShader);
+
     void setUniform(std::string, GLint)            const;
     void setUniform(std::string, GLuint)           const;
     void setUniform(std::string, GLfloat)          const;
@@ -40,8 +45,9 @@ public:
     bool   isValid() const { return valid_; }
 private:
     void   createProgram();
-    GLuint compileShaderFromFile(std::string file, Type type);
-    void   compileProgram(std::vector<GLuint> const& shaderObjects);
+    std::string loadSourceFromFile(std::string file);
+    GLuint compileShaderFromSource(char const*, Type type);
+    void   linkProgram(std::vector<GLuint> const& shaderObjects);
 
     GLuint program_;
     bool   valid_;
