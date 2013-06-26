@@ -54,20 +54,22 @@ void GLTexture::load(std::string file)
         const unsigned int p2w = nextPowerOfTwo(size_.x);
         const unsigned int p2h = nextPowerOfTwo(size_.y);
 
-        /*fipImage resized(FIT_BITMAP, p2w, p2h, 32);
+        fipImage resized(FIT_BITMAP, p2w, p2h, 32);
         if(not resized.pasteSubImage(image, 0, 0))
         {
             std::string err = "Failed to resize " + file;
             throw std::runtime_error(err);
-        }*/
+        }
 
-        const uint8_t* pixels = image.accessPixels();
+        // GL will render upside down, causing problems with texture coordinate
+        // operations, so flip it before loading.
+        resized.flipVertical();
 
-        /*
+        const uint8_t* pixels = resized.accessPixels();
+
         // Need to store the ratio between resized texture and original
         aspect_ = glm::vec2{static_cast<float>(p2w) / static_cast<float>(size_.x),
                             static_cast<float>(p2h) / static_cast<float>(size_.y)};
-                            */
 
         glBindTexture(target_, name_);
 

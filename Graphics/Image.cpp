@@ -106,10 +106,11 @@ void Image::draw(Vectorf const& pos, float angle, Vectorf const& camera)
                                       glm::vec3{pos.x, pos.y, 0.f});
     glm::mat4 modelTR = glm::rotate(modelT, angle, glm::vec3{ 0.f, 0.f, 1.f });
     glm::mat4 modelTRS = glm::scale(modelTR,
-                                    glm::vec3{10*size_.x, 10*size_.y, 1.f});
+                                    glm::vec3{size_.x, size_.y, 1.f});
 
     glm::mat4 pvm = projection_ * viewTRS * modelTRS;
     shader_->setUniform("pvm", pvm);
+    shader_->setUniform("tex_aspect", texture_->aspect());
 
     // YAY WE GET TO DRAW
     glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
