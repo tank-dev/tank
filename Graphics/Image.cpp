@@ -31,12 +31,14 @@ Image::Image()
             0.f, 0.f, //v0
             1.f, 0.f, //v1
             1.f, 1.f, //v2
-            0.f, 1.f, //v3
+            0.f, 1.f  //v3
+        };
 
-            0.f, 1.f,
-            1.f, 1.f,
+        float const tex[] = {
+            0.f, 0.f,
             1.f, 0.f,
-            0.f, 0.f
+            1.f, 1.f,
+            0.f, 1.f
         };
 
         glGenVertexArrays(1, &vao_);
@@ -44,7 +46,9 @@ Image::Image()
 
         buffer_.reset(new GLBuffer(GL_ARRAY_BUFFER));
 
-        buffer_->setData(&verts, sizeof(verts), GL_STATIC_DRAW);
+        buffer_->setData((void*)nullptr, sizeof(verts) + sizeof(tex), GL_STATIC_DRAW);
+        buffer_->setSubData(&verts, sizeof(verts), sizeof(tex));
+        buffer_->setSubData(&tex, sizeof(tex), 0);
 
         GLuint vertPos = glGetAttribLocation(shader_->name(), "v_pos");
         GLuint texPos = glGetAttribLocation(shader_->name(), "v_tex_pos");
@@ -54,13 +58,13 @@ Image::Image()
                               GL_FLOAT,
                               GL_FALSE,
                               0,
-                              ((GLvoid*)0));
+                              ((GLvoid*)sizeof(tex)));
         glVertexAttribPointer(texPos,
                               2,
                               GL_FLOAT,
                               GL_FALSE,
                               0,
-                              (GLvoid*)(8*sizeof(float)));
+                              ((GLvoid*)0));
 
         glEnableVertexAttribArray(vertPos);
         glEnableVertexAttribArray(texPos);
@@ -71,21 +75,6 @@ Image::Image(std::string file)
     : Image()
 {
     load(file);
-}
-
-Image::~Image()
-{
-    glDeleteVertexArrays(1,&vao_);
-}
-
-Vectorf Image::getSize() const
-{
-    return size_;
-}
-
-void Image::setSize(Vectorf const& size)
-{
-    size_ = size;
 }
 
 void Image::load(std::string file)
@@ -113,9 +102,11 @@ void Image::draw(Vectorf const& pos, float angle, Vectorf const& camera)
     glm::mat4 viewTRS = glm::translate(glm::mat4(1.f),
                                        glm::vec3{camera.x, camera.y, 0.f});
 
-    glm::mat4 modelT = glm::translate(glm::mat4(1.f), glm::vec3{pos.x, pos.y, 0.f});
+    glm::mat4 modelT = glm::translate(glm::mat4(1.f),
+                                      glm::vec3{pos.x, pos.y, 0.f});
     glm::mat4 modelTR = glm::rotate(modelT, angle, glm::vec3{ 0.f, 0.f, 1.f });
-    glm::mat4 modelTRS = glm::scale(modelTR, glm::vec3{10*size_.x, 10*size_.y, 1.f});
+    glm::mat4 modelTRS = glm::scale(modelTR,
+                                    glm::vec3{10*size_.x, 10*size_.y, 1.f});
 
     glm::mat4 pvm = projection_ * viewTRS * modelTRS;
     shader_->setUniform("pvm", pvm);
@@ -126,6 +117,21 @@ void Image::draw(Vectorf const& pos, float angle, Vectorf const& camera)
     glBindVertexArray(0);
     GLTexture::unbind(texture_.get());
     GLShaderProgram::unbind();
+}
+
+Image::~Image()
+{
+    glDeleteVertexArrays(1,&vao_);
+}
+
+Vectorf Image::getSize() const
+{
+    return size_;
+}
+
+void Image::setSize(Vectorf const& size)
+{
+    size_ = size;
 }
 
 }

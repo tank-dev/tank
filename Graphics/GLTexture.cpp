@@ -17,7 +17,7 @@ unsigned int nextPowerOfTwo(unsigned int x);
 GLTexture::GLTexture()
     : loaded_(false)
     , target_(GL_TEXTURE_2D)
-    , aspect_({})
+    , aspect_(glm::vec2{0.f, 0.f})
     , size_({})
 {
     //Register a 2D texture id
@@ -37,7 +37,7 @@ GLTexture::~GLTexture()
 
 void GLTexture::load(std::string file)
 {
-    if(!loaded_)
+    if(not loaded_)
     {
         // TODO: Exception this up
         fipImage image;
@@ -54,18 +54,20 @@ void GLTexture::load(std::string file)
         const unsigned int p2w = nextPowerOfTwo(size_.x);
         const unsigned int p2h = nextPowerOfTwo(size_.y);
 
-        fipImage resized(FIT_BITMAP, p2w, p2h, 32);
+        /*fipImage resized(FIT_BITMAP, p2w, p2h, 32);
         if(not resized.pasteSubImage(image, 0, 0))
         {
             std::string err = "Failed to resize " + file;
             throw std::runtime_error(err);
-        }
+        }*/
 
-        const uint8_t* pixels = resized.accessPixels();
+        const uint8_t* pixels = image.accessPixels();
 
+        /*
         // Need to store the ratio between resized texture and original
-        aspect_ = { static_cast<float>(p2w) / static_cast<float>(size_.x),
-                    static_cast<float>(p2h) / static_cast<float>(size_.y)};
+        aspect_ = glm::vec2{static_cast<float>(p2w) / static_cast<float>(size_.x),
+                            static_cast<float>(p2h) / static_cast<float>(size_.y)};
+                            */
 
         glBindTexture(target_, name_);
 
@@ -78,8 +80,8 @@ void GLTexture::load(std::string file)
 
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 
         glBindTexture(GL_TEXTURE_2D, 0);
 

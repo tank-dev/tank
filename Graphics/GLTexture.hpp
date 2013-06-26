@@ -12,18 +12,14 @@ namespace tank {
 class GLTexture
 {
 public:
-    Vector<unsigned int> const& getSize() const { return size_; }
-
     GLTexture();
     GLTexture(std::string file);
     ~GLTexture();
 
     void load(std::string file);
-
-    glm::vec2 const& aspect() const;
-
+    glm::vec2 const& aspect() const { return aspect_; }
+    Vector<unsigned int> const& getSize() const { return size_; }
     bool isLoaded() const { return loaded_; }
-
     static void bind(GLTexture const*);
     static void unbind(GLTexture const*);
 private:
@@ -33,7 +29,7 @@ private:
     GLuint name_;
     GLenum target_;
 
-    Vectorf aspect_;
+    glm::vec2 aspect_;
     Vector<unsigned int> size_;
 
     GLTexture(GLTexture const&);

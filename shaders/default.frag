@@ -1,8 +1,8 @@
 #version 330 core
 
-in vec2 tPos;
+layout (location = 1) in vec2 tPos;
 
-out vec4 color;
+layout (location = 0) out vec4 color;
 
 uniform sampler2D tex;
 

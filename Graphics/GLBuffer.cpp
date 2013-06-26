@@ -4,7 +4,7 @@ namespace tank {
 
 GLBuffer::GLBuffer(GLenum target)
     : target_(target)
-{ 
+{
     glGenBuffers(1, &name_);
 }
 

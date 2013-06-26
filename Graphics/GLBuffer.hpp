@@ -6,14 +6,14 @@
 namespace tank {
 //TODO: SubBufferData
 class GLBuffer
-{ 
+{
 public:
     GLBuffer(GLenum target);
     ~GLBuffer();
 
     template <typename T>
     void setData(T* data, size_t size, GLenum mode);
-    
+
     template <typename T>
     void setSubData(T* data, size_t size, size_t offset);
 
@@ -30,10 +30,10 @@ void GLBuffer::setData(T* data, size_t size, GLenum mode)
     bind(this);
     glBufferData(target_, size, data, mode);
 }
-    
+
 template <typename T>
 void GLBuffer::setSubData(T* data, size_t size, size_t offset)
-{ 
+{
     bind(this);
     glBufferSubData(target_, offset, size, data);
 }
