@@ -34,10 +34,14 @@ public:
     virtual void setSize(Vectorf) = 0;
     virtual Vectorf getSize() const = 0;
 
+    virtual void setOrigin(Vectorf) = 0;
+    virtual Vectorf getOrigin() const = 0;
+
     virtual void draw(Vectorf pos, float angle = 0,
                       Vectorf camera = {0,0}) = 0;
 
     virtual void setClip(Rect) = 0;
+    virtual Rect getClip() const = 0;
 };
 
 }

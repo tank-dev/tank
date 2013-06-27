@@ -40,15 +40,21 @@ public:
 
     void load(std::string file);
 
+    virtual void setOrigin(Vectorf);
+    virtual Vectorf getOrigin() const;
+
     virtual Vectorf getSize() const override;
     void setSize(Vectorf size) override;
+
     virtual void setClip(Rect) override;
+    virtual Rect getClip() const override;
 
     virtual void draw(Vectorf pos, float angle = 0, Vectorf camera = {}) override;
 private:
     bool loaded_;
     Vectorf size_;
     glm::vec4 clip_;
+    glm::vec2 origin_;
     std::unique_ptr<gl::Texture> texture_;
 
     static GLuint vao_;

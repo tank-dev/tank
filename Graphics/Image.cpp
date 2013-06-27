@@ -38,6 +38,7 @@ Image::Image()
     : loaded_(false)
     , size_({0.f, 0.f})
     , clip_(glm::vec4{0.f, 0.f, 1.f, 1.f})
+    , origin_(glm::vec2{0.f, 0.f})
     , texture_(nullptr)
 {
     if(shader_.get() == nullptr)
@@ -121,16 +122,34 @@ void Image::draw(Vectorf pos, float angle, Vectorf camera)
     glBindVertexArray(vao_);
 
     // Set up model-view-projection transform
+    // NB: All matrix operations occur in reverse
+
+    /* View transform */
+    // TODO: Add rotation
+    // Move to camera position
     glm::mat4 viewTRS = glm::translate(glm::mat4(1.f),
                                        glm::vec3{camera.x, camera.y, 0.f});
 
+    /* Model View */
+    // Translate
     glm::mat4 modelT = glm::translate(glm::mat4(1.f),
                                       glm::vec3{pos.x, pos.y, 0.f});
+
+    // Rotate
     glm::mat4 modelTR = glm::rotate(modelT, angle, glm::vec3{ 0.f, 0.f, 1.f });
-    glm::mat4 modelTRS = glm::scale(modelTR,
+
+    // Move to the origin
+    glm::mat4 modelTRO = glm::translate(modelTR,
+                                      glm::vec3{ -origin_.x, -origin_.y, 0.f});
+
+    // Scale to full size
+    glm::mat4 modelTRS = glm::scale(modelTRO,
                                     glm::vec3{size_.x, size_.y, 1.f});
 
+    /* Bring it all together */
     glm::mat4 pvm = projection_ * viewTRS * modelTRS;
+
+    // Send data to the shader
     shader_->setUniform("pvm", pvm);
     shader_->setUniform("tex_scale", texture_->scale());
     shader_->setUniform("tex_clip", clip_);
@@ -174,6 +193,33 @@ void Image::setClip(Rect clip)
     //Normalized scale
     clip_.z = static_cast<float>(clip.w - clip.x) / size.x;
     clip_.w = static_cast<float>(clip.h - clip.y) / size.y;
+}
+
+Rect Image::getClip() const
+{
+    const Vectorf size {static_cast<float>(texture_->getSize().x),
+                        static_cast<float>(texture_->getSize().y)};
+
+    Rect clip;
+
+    clip.x = static_cast<int>(clip_.x / size.x);
+    clip.y = static_cast<int>(clip_.y / size.y);
+
+    clip.w = static_cast<int>(clip_.z*size.x + clip.x);
+    clip.h = static_cast<int>(clip_.w*size.y + clip.y);
+
+    return clip;
+}
+
+void Image::setOrigin(Vectorf origin)
+{
+    origin_.x = origin.x;
+    origin_.y = origin.y;
+}
+
+Vectorf Image::getOrigin() const
+{
+    return { origin_.x, origin_.y };
 }
 
 }
