@@ -127,8 +127,9 @@ public:
      *
      * \return Entity's texture
      */
-    Graphic const& getGraphic() const
+    Graphic& getGraphic() const
     {
+        // TODO: Check pointer
         return *graphic_;
     }
 
