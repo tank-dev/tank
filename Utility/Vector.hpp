@@ -65,6 +65,19 @@ struct Vector
 		return x*x + y*y;
 	}
 
+	/*!
+	 * \brief Gets the signed angle in radians between the current vector and
+	 * the given vector.
+	 *
+	 * \param vec The vector to find the angle to.
+	 *
+	 * \return The angle between the vectors.
+	 */
+	float getAngle(const Vector& vec) const
+	{
+		return std::atan2(x * vec.y - y * vec.x, dot(vec));
+	}
+
     /*!
      * \brief Reterns a normalised vector.
      *
@@ -73,7 +86,7 @@ struct Vector
     Vector unit() const
     {
 		// TODO: this can be improved
-        const double mag = magnitude();
+        const T mag = magnitude();
         return {x/mag, y/mag};
     }
 
@@ -84,7 +97,8 @@ struct Vector
      *
      * \return Returns a referance to itself.
      */
-    Vector& operator*=(T const& f)
+    template <typename U>
+    Vector& operator*=(U const& f)
     {
         x *= f;
         y *= f;
@@ -99,10 +113,11 @@ struct Vector
      *
      * \return A reference to itself.
      */
-    Vector& operator+=(Vector const& vect)
+    template <typename U>
+    Vector& operator+=(Vector<U> const& rhs)
     {
-        x += vect.x;
-        y += vect.y;
+        x += rhs.x;
+        y += rhs.y;
 
         return *this;
     }
@@ -114,7 +129,8 @@ struct Vector
      *
      * \return A reference to the vector.
      */
-    Vector& operator+=(T const& f)
+    template <typename U>
+    Vector& operator+=(U const& f)
     {
         x += f;
         y += f;
@@ -129,7 +145,8 @@ struct Vector
      *
      * \return A reference to the vector.
      */
-    Vector& operator-=(Vector const& vect)
+    template <typename U>
+    Vector& operator-=(Vector<U> const& vect)
     {
         x -= vect.x;
         y -= vect.y;
@@ -138,110 +155,125 @@ struct Vector
     }
 
     /*!
-     * \brief Subtracts a scalar times the vector (1, 1) to the vector.
+     * \brief Subtracts a scalar times the vector (1, 1) from the vector.
      *
      * \param f The scalar to subtract.
      *
      * \return A reference to the vector.
      */
-    Vector& operator-=(T const& f)
+    template <typename U>
+    Vector& operator-=(U const& f)
     {
         x -= f;
         y -= f;
 
         return *this;
     }
-
-    /*!
-     * \brief Checks if the vector is equal to another vector.
-     *
-     * \param vect The vector to check equality with.
-     *
-     * \return true if the vectors are equal.
-     */
-    bool operator==(Vector const& vect) const
-    {
-        return x == vect.x && y == vect.y;
-    }
-    
-    /*!
-     * \brief Checks if the vector is not equal to another vector.
-     *
-     * \param vect The vector to check equality with.
-     *
-     * \return true if the vectors are not equal.
-     */
-    bool operator!=(Vector const& vect) const
-    {
-        return not operator==(vect);
-    }
-
-    /*!
-     * \brief Multiplies a vector by a scalar.
-     *
-     * \param f The scalar to multiply by.
-     *
-     * \return The result of the multiplication.
-     */
-    Vector operator*(T const& f) const
-    {
-        return { x*f, y*f };
-    }
-
-    /*!
-     * \brief Adds two vectors.
-     *
-     * \param b The other vector to add.
-     *
-     * \return The result of the addition.
-     */
-    Vector operator+(Vector const& b) const
-    {
-        return {x+b.x, y+b.y};
-    }
-
-    /*!
-     * \brief Adds a vector and a scalar times the vector (1, 1).
-     *
-     * \param s The scalar to add.
-     *
-     * \return The result of the addition.
-     */
-    Vector operator+(T const& s) const
-    {
-        return {x+s, y+s};
-    }
-
-    /*!
-     * \brief Subtacts a vector from another.
-     *
-     * \param b The vector to subtract.
-     *
-     * \return The result of the subtraction.
-     */
-    Vector operator-(Vector const& b) const
-    {
-        return {x-b.x, y-b.y};
-    }
-
-    /*!
-     * \brief Subtracts a vector and a scalar times the vector (1, 1).
-     *
-     * \param s The scalar to subtract.
-     *
-     * \return The result of the subtraction.
-     */
-    Vector operator-(T const& f) const
-    {
-        return {x-f, y-f};
-    }
-
-    Vector operator/(T const& f) const
-    {
-        return {x/f,y/f};
-    }
 };
     
+/*!
+ * \brief Adds two vectors.
+ *
+ * \param b The other vector to add.
+ *
+ * \return The result of the addition.
+ */
+template <typename T, typename U> 
+inline auto operator+ (const Vector<T>& lhs, const Vector<U>& rhs) -> 
+                                                Vector<decltype(lhs.x + rhs.x)>
+{
+    return {lhs.x + rhs.x, lhs.y + rhs.y};
+}
+    
+/*!
+ * \brief Adds a vector and a scalar.
+ *
+ * \param s The scalar to add.
+ *
+ * \return The result of the addition.
+ */
+template <typename T, typename U>
+inline auto operator+ (const Vector<T>& lhs, const U& rhs) -> 
+                                                Vector<decltype(lhs.x + rhs)>
+{
+    return {lhs.x + rhs, lhs.y + rhs};
+}
+
+/*!
+ * \brief Subtacts a vector from another.
+ *
+ * \param b The vector to subtract.
+ *
+ * \return The result of the subtraction.
+ */
+template <typename T, typename U>
+inline auto operator- (const Vector<T>& lhs, const Vector<U>& rhs) ->
+                                                Vector<decltype(lhs.x - rhs.x)>
+{
+    return {lhs.x - rhs.x, lhs.y - rhs.y};
+}
+
+/*!
+ * \brief Subtracts a vector and a scalar times the vector (1, 1).
+ *
+ * \param s The scalar to subtract.
+ *
+ * \return The result of the subtraction.
+ */
+ template <typename T, typename U>
+ inline auto operator- (const Vector<T>& lhs, const U& rhs) ->
+                                                Vector<decltype(lhs.x - rhs)>
+{
+    return {lhs.x - rhs, lhs.y - rhs};
+}
+
+/*!
+ * \brief Multiplies a vector by a scalar.
+ *
+ * \param f The scalar to multiply by.
+ *
+ * \return The result of the multiplication.
+ */
+template <typename T, typename U>
+inline auto operator* (const Vector<T>& lhs, const U& rhs) ->
+                                                Vector<decltype(lhs.x * rhs)>
+{
+    return {lhs.x * rhs, lhs.y * rhs};
+}
+
+template <typename T, typename U>
+inline auto operator/ (const Vector<T>& lhs, const U& rhs) ->
+                                                Vector<decltype(lhs.x / rhs)>
+{
+    return {lhs.x / rhs, lhs.y / rhs};
+}
+
+/*!
+ * \brief Checks if the vector is equal to another vector.
+ *
+ * \param vect The vector to check equality with.
+ *
+ * \return true if the vectors are equal.
+ */
+template <typename T, typename U>
+inline bool operator== (const Vector<T>& lhs, const Vector<U>& rhs)
+{
+    return lhs.x == rhs.x and lhs.y == rhs.y;
+}
+
+/*!
+ * \brief Checks if the vector is not equal to another vector.
+ *
+ * \param vect The vector to check equality with.
+ *
+ * \return true if the vectors are not equal.
+ */
+template <typename T, typename U>
+inline bool operator!= (const Vector<T>& lhs, const Vector<U>& rhs)
+{
+    return not operator==(lhs, rhs);
+}
+
 typedef Vector<float>  Vectorf;
 typedef Vector<double> Vectord;
 typedef Vector<int>    Vectori;
