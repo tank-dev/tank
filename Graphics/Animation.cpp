@@ -158,7 +158,7 @@ void Animation::draw(Vectorf const& pos)
     //render->draw(texture_, pos, clip_);
 }
 
-void Animation::setTexture(const GLTexture* const texture, const Vectorf& frameDims)
+void Animation::setTexture(const Image* const texture, const Vectorf& frameDims)
 {
     frameDimensions_ = frameDims;
     texture_ = texture;

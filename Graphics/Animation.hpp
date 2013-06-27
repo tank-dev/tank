@@ -23,7 +23,7 @@
 #include <string>
 #include <vector>
 #include <functional>
-#include "../Graphics/GLTexture.hpp"
+#include "Image.hpp"
 #include "../Utility/Vector.hpp"
 #include "../Utility/Rect.hpp"
 #include "../Utility/Timer.hpp"
@@ -41,11 +41,11 @@ public:
     Animation() = default;
     /*!
      * \brief Construct an Animation with a Texture.
-     * \param t GLTexture to give the animation.
+     * \param t Image to give the animation.
      * \param frameDims size of each image in the Texture.
      */
-    Animation(GLTexture const* const t, const Vectorf& frameDims) :
-        texture_ {t}, frameDimensions_(frameDims), 
+    Animation(Image const* const t, const Vectorf& frameDims) :
+        texture_ {t}, frameDimensions_(frameDims),
         clip_({0,0,(int)frameDims.x, (int)frameDims.y}) {}
 
     /*!
@@ -108,7 +108,7 @@ public:
      * \param texture the Texture to set.
      * \param frameDims the dimensions of each image in the texture.
      */
-    void setTexture(GLTexture const*const texture, Vectorf const& frameDims);
+    void setTexture(Image const*const texture, Vectorf const& frameDims);
 
 
 private:
@@ -119,7 +119,7 @@ private:
         unsigned int              time;
     };
 
-    GLTexture const* texture_ { nullptr };
+    Image const* texture_ { nullptr };
     AnimationInfo* currentAnimation_ {nullptr};
     unsigned int currentFrame_ {0};
     Timer animTimer_;
