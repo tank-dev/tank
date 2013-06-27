@@ -27,6 +27,7 @@
 
 namespace tank {
 
+GLuint Image::vao_ = 0;
 std::unique_ptr<gl::Buffer> Image::buffer_ { nullptr };
 std::unique_ptr<gl::ShaderProgram> Image::shader_ { nullptr };
 
@@ -35,6 +36,8 @@ glm::mat4 Image::projection_ = glm::ortho(0.f, 640.f, 640.f, 0.f, -1.f, 1.f);
 
 Image::Image()
     : loaded_(false)
+    , size_({0.f, 0.f})
+    , clip_(glm::vec4{0.f, 0.f, 1.f, 1.f})
     , texture_(nullptr)
 {
     if(shader_.get() == nullptr)
@@ -109,7 +112,7 @@ void Image::load(std::string file)
     }
 }
 
-void Image::draw(Vectorf const& pos, float angle, Vectorf const& camera)
+void Image::draw(Vectorf pos, float angle, Vectorf camera)
 {
     //TODO: Put int overloads in GLShaderObject
     //TODO: Move axis of rotation to global const
@@ -129,7 +132,8 @@ void Image::draw(Vectorf const& pos, float angle, Vectorf const& camera)
 
     glm::mat4 pvm = projection_ * viewTRS * modelTRS;
     shader_->setUniform("pvm", pvm);
-    shader_->setUniform("tex_aspect", texture_->aspect());
+    shader_->setUniform("tex_scale", texture_->scale());
+    shader_->setUniform("tex_clip", clip_);
 
     glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
 
@@ -148,9 +152,28 @@ Vectorf Image::getSize() const
     return size_;
 }
 
-void Image::setSize(Vectorf const& size)
+void Image::setSize(Vectorf size)
 {
     size_ = size;
+}
+
+void Image::setClip(Rect clip)
+{
+    // Clip has to be represented by a set of transformations to texture
+    // coordinates going from 0 -> 1.
+    // Unfortunately, vec2s can't take a mat3 transformation matrix, so store
+    // the translation in x and y, the scale in z and w
+
+    const Vectorf size {static_cast<float>(texture_->getSize().x),
+                        static_cast<float>(texture_->getSize().y)};
+
+    // Normalized translation
+    clip_.x = static_cast<float>(clip.x) / size.x;
+    clip_.y = static_cast<float>(clip.y) / size.y;
+
+    //Normalized scale
+    clip_.z = static_cast<float>(clip.w - clip.x) / size.x;
+    clip_.w = static_cast<float>(clip.h - clip.y) / size.y;
 }
 
 }

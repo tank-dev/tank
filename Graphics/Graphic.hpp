@@ -21,6 +21,7 @@
 #define TANK_GRAPHIC_HPP
 
 #include "../Utility/Vector.hpp"
+#include "../Utility/Rect.hpp"
 
 namespace tank {
 
@@ -30,10 +31,13 @@ public:
     Graphic() {}
     virtual ~Graphic() {}
 
+    virtual void setSize(Vectorf) = 0;
     virtual Vectorf getSize() const = 0;
 
-    virtual void draw(Vectorf const& pos, float angle = 0,
-                      Vectorf const& camera = {0,0}) = 0;
+    virtual void draw(Vectorf pos, float angle = 0,
+                      Vectorf camera = {0,0}) = 0;
+
+    virtual void setClip(Rect) = 0;
 };
 
 }

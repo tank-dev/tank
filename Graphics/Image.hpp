@@ -41,14 +41,17 @@ public:
     void load(std::string file);
 
     virtual Vectorf getSize() const override;
-    void setSize(Vectorf const& size);
+    void setSize(Vectorf size) override;
+    virtual void setClip(Rect) override;
 
-    virtual void draw(Vectorf const& pos, float angle = 0, Vectorf const& camera = {}) override;
+    virtual void draw(Vectorf pos, float angle = 0, Vectorf camera = {}) override;
 private:
-    GLuint vao_;
     bool loaded_;
     Vectorf size_;
+    glm::vec4 clip_;
     std::unique_ptr<gl::Texture> texture_;
+
+    static GLuint vao_;
     static std::unique_ptr<gl::Buffer>        buffer_;
     static std::unique_ptr<gl::ShaderProgram> shader_;
     static glm::mat4 projection_;
