@@ -1,5 +1,5 @@
-#ifndef TANK_GLSHADERPROGRAM_HPP
-#define TANK_GLSHADERPROGRAM_HPP
+#ifndef TANK_GL_SHADERPROGRAM_HPP
+#define TANK_GL_SHADERPROGRAM_HPP
 
 #include <string>
 #include <vector>
@@ -8,20 +8,21 @@
 #include <glm/glm.hpp>
 
 namespace tank {
+namespace gl {
 
-class GLShaderProgram
+class ShaderProgram
 {
 public:
-    static void bind(GLShaderProgram*);
+    static void bind(ShaderProgram*);
     static void unbind();
 
     enum Type { Vertex,
                 Fragment };
 
-    GLShaderProgram();
-    GLShaderProgram(std::string file, Type type);
-    GLShaderProgram(std::string vertexShader, std::string fragmentShader);
-    virtual ~GLShaderProgram();
+    ShaderProgram();
+    ShaderProgram(std::string file, Type type);
+    ShaderProgram(std::string vertexShader, std::string fragmentShader);
+    virtual ~ShaderProgram();
 
     void loadFromFile(std::string file, Type type);
 
@@ -52,9 +53,10 @@ private:
     GLuint program_;
     bool   valid_;
 
-    GLShaderProgram& operator=(GLShaderProgram const&);
-    GLShaderProgram(GLShaderProgram const&);
+    ShaderProgram& operator=(ShaderProgram const&);
+    ShaderProgram(ShaderProgram const&);
 };
 
 }
-#endif /* TANK_SHADERPROGRAM_HPP */
+}
+#endif /* TANK_GL_SHADERPROGRAM_HPP */

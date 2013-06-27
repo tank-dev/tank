@@ -1,11 +1,12 @@
-#include "GLTexture.hpp"
+#include "Texture.hpp"
 
 #include <sstream>
+#include <stdexcept>
 #include <SFML/OpenGL.hpp>
 #include <FreeImagePlus.h>
-#include "../System/Game.hpp"
 
 namespace tank {
+namespace gl {
 /* TODO:
  *   * Allow mipmaps
  *   * Allow different data formats
@@ -14,7 +15,7 @@ namespace tank {
 
 unsigned int nextPowerOfTwo(unsigned int x);
 
-GLTexture::GLTexture()
+Texture::Texture()
     : loaded_(false)
     , target_(GL_TEXTURE_2D)
     , aspect_(glm::vec2{0.f, 0.f})
@@ -24,18 +25,18 @@ GLTexture::GLTexture()
     glGenTextures(1, &name_);
 }
 
-GLTexture::GLTexture(std::string file)
-    : GLTexture()
+Texture::Texture(std::string file)
+    : Texture()
 {
     load(file);
 }
 
-GLTexture::~GLTexture()
+Texture::~Texture()
 {
     glDeleteTextures(1, &name_);
 }
 
-void GLTexture::load(std::string file)
+void Texture::load(std::string file)
 {
     if(not loaded_)
     {
@@ -91,7 +92,7 @@ void GLTexture::load(std::string file)
     }
 }
 
-void GLTexture::bind(GLTexture const* t)
+void Texture::bind(Texture const* t)
 {
     if(t)
     {
@@ -99,7 +100,7 @@ void GLTexture::bind(GLTexture const* t)
     }
 }
 
-void GLTexture::unbind(GLTexture const* t)
+void Texture::unbind(Texture const* t)
 {
     if(t)
     {
@@ -116,5 +117,7 @@ unsigned int nextPowerOfTwo(unsigned int x)
     }
 
     return p;
+}
+
 }
 }

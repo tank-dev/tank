@@ -5,9 +5,9 @@
 #include <memory>
 #include <glm/glm.hpp>
 #include "../Utility/Vector.hpp"
-#include "GLTexture.hpp"
-#include "GLBuffer.hpp"
-#include "GLShaderProgram.hpp"
+#include "GL/Texture.hpp"
+#include "GL/Buffer.hpp"
+#include "GL/ShaderProgram.hpp"
 #include "Graphic.hpp"
 
 namespace tank {
@@ -29,9 +29,9 @@ private:
     GLuint vao_;
     bool loaded_;
     Vectorf size_;
-    std::unique_ptr<GLTexture> texture_;
-    static std::unique_ptr<GLBuffer>        buffer_;
-    static std::unique_ptr<GLShaderProgram> shader_;
+    std::unique_ptr<gl::Texture> texture_;
+    static std::unique_ptr<gl::Buffer>        buffer_;
+    static std::unique_ptr<gl::ShaderProgram> shader_;
     static glm::mat4 projection_;
 
     Image& operator=(Image const&);

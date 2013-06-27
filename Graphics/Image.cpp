@@ -8,8 +8,8 @@
 
 namespace tank {
 
-std::unique_ptr<GLBuffer> Image::buffer_ { nullptr };
-std::unique_ptr<GLShaderProgram> Image::shader_ { nullptr };
+std::unique_ptr<gl::Buffer> Image::buffer_ { nullptr };
+std::unique_ptr<gl::ShaderProgram> Image::shader_ { nullptr };
 
 //TODO: Move somewhere it can be set by window resizing
 glm::mat4 Image::projection_ = glm::ortho(0.f, 640.f, 640.f, 0.f, -1.f, 1.f);
@@ -21,7 +21,7 @@ Image::Image()
     if(shader_.get() == nullptr)
     {
         //TODO: CHANGE THIS TO MAKE IT NOT TERRIBLE
-        shader_.reset(new GLShaderProgram("shaders/default.vert",
+        shader_.reset(new gl::ShaderProgram("shaders/default.vert",
                                           "shaders/default.frag"));
     }
 
@@ -44,7 +44,7 @@ Image::Image()
         glGenVertexArrays(1, &vao_);
         glBindVertexArray(vao_);
 
-        buffer_.reset(new GLBuffer(GL_ARRAY_BUFFER));
+        buffer_.reset(new gl::Buffer(GL_ARRAY_BUFFER));
 
         buffer_->setData((void*)nullptr, sizeof(verts) + sizeof(tex), GL_STATIC_DRAW);
         buffer_->setSubData(&verts, sizeof(verts), sizeof(tex));
@@ -81,7 +81,7 @@ void Image::load(std::string file)
 {
     if(not loaded_)
     {
-        texture_.reset(new GLTexture(file));
+        texture_.reset(new gl::Texture(file));
 
         size_.x = texture_->getSize().x;
         size_.y = texture_->getSize().y;
@@ -94,11 +94,11 @@ void Image::draw(Vectorf const& pos, float angle, Vectorf const& camera)
 {
     //TODO: Put int overloads in GLShaderObject
     //TODO: Move axis of rotation to global const
-    GLShaderProgram::bind(shader_.get());
-    GLTexture::bind(texture_.get());
+    gl::ShaderProgram::bind(shader_.get());
+    gl::Texture::bind(texture_.get());
     glBindVertexArray(vao_);
 
-    // Set up model transform
+    // Set up model-view-projection transform
     glm::mat4 viewTRS = glm::translate(glm::mat4(1.f),
                                        glm::vec3{camera.x, camera.y, 0.f});
 
@@ -112,12 +112,11 @@ void Image::draw(Vectorf const& pos, float angle, Vectorf const& camera)
     shader_->setUniform("pvm", pvm);
     shader_->setUniform("tex_aspect", texture_->aspect());
 
-    // YAY WE GET TO DRAW
     glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
 
     glBindVertexArray(0);
-    GLTexture::unbind(texture_.get());
-    GLShaderProgram::unbind();
+    gl::Texture::unbind(texture_.get());
+    gl::ShaderProgram::unbind();
 }
 
 Image::~Image()

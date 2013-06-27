@@ -1,14 +1,15 @@
-#include "GLBuffer.hpp"
+#include "Buffer.hpp"
 
 namespace tank {
+namespace gl {
 
-GLBuffer::GLBuffer(GLenum target)
+Buffer::Buffer(GLenum target)
     : target_(target)
 {
     glGenBuffers(1, &name_);
 }
 
-GLBuffer::~GLBuffer()
+Buffer::~Buffer()
 {
     if(glIsBuffer(name_))
     {
@@ -16,7 +17,7 @@ GLBuffer::~GLBuffer()
     }
 }
 
-void GLBuffer::bind(GLBuffer const* b)
+void Buffer::bind(Buffer const* b)
 {
     if(b)
     {
@@ -24,7 +25,7 @@ void GLBuffer::bind(GLBuffer const* b)
     }
 }
 
-void GLBuffer::unbind(GLBuffer const* b)
+void Buffer::unbind(Buffer const* b)
 {
     if(b)
     {
@@ -32,4 +33,5 @@ void GLBuffer::unbind(GLBuffer const* b)
     }
 }
 
+}
 }

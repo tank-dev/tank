@@ -1,2 +1,4 @@
 FILE(GLOB gfx_src *.cpp *.hpp)
-set(gfx_src ${gfx_src} PARENT_SCOPE)
+
+add_subdirectory(GL)
+set(gfx_src ${gfx_src} ${gl_src} PARENT_SCOPE)

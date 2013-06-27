@@ -1,38 +1,37 @@
-#include "GLShaderProgram.hpp"
+#include "ShaderProgram.hpp"
 
 #include <stdexcept>
 #include <fstream>
 
-#include "../System/Game.hpp"
-
 namespace tank {
+namespace gl {
 
-void GLShaderProgram::bind(GLShaderProgram *shader)
+void ShaderProgram::bind(ShaderProgram *shader)
 {
     if(shader->valid_) glUseProgram(shader->program_);
 }
 
-void GLShaderProgram::unbind()
+void ShaderProgram::unbind()
 {
     glUseProgram(0);
 }
 
-GLShaderProgram::GLShaderProgram() : program_(0), valid_(true) { }
+ShaderProgram::ShaderProgram() : program_(0), valid_(true) { }
 
-GLShaderProgram::GLShaderProgram(std::string file, Type type)
+ShaderProgram::ShaderProgram(std::string file, Type type)
     :program_(0), valid_(false)
 {
     loadFromFile(file,type);
 }
 
-GLShaderProgram::GLShaderProgram(std::string vertexShader,
+ShaderProgram::ShaderProgram(std::string vertexShader,
                std::string fragmentShader)
     :program_(0), valid_(false)
 {
     loadFromFile(vertexShader,fragmentShader);
 }
 
-GLShaderProgram::~GLShaderProgram()
+ShaderProgram::~ShaderProgram()
 {
     if(glIsProgram(program_))
     {
@@ -44,49 +43,49 @@ GLShaderProgram::~GLShaderProgram()
 // Uniform Accessors
 /////////////////////////////////////////////
 
-void GLShaderProgram::setUniform(std::string name, GLint value) const
+void ShaderProgram::setUniform(std::string name, GLint value) const
 {
     GLuint addr = glGetUniformLocation(program_, name.c_str());
 
     glProgramUniform1i(program_, addr,value);
 }
 
-void GLShaderProgram::setUniform(std::string name, GLuint value) const
+void ShaderProgram::setUniform(std::string name, GLuint value) const
 {
     GLuint addr = glGetUniformLocation(program_, name.c_str());
 
     glProgramUniform1ui(program_, addr,value);
 }
 
-void GLShaderProgram::setUniform(std::string name, GLfloat value)  const
+void ShaderProgram::setUniform(std::string name, GLfloat value)  const
 {
     GLuint addr = glGetUniformLocation(program_, name.c_str());
 
     glProgramUniform1f(program_, addr,value);
 }
 
-void GLShaderProgram::setUniform(std::string name, glm::vec2 const& value) const
+void ShaderProgram::setUniform(std::string name, glm::vec2 const& value) const
 {
     GLuint addr = glGetUniformLocation(program_, name.c_str());
 
     glProgramUniform2fv(program_, addr, 1, &value[0]);
 }
 
-void GLShaderProgram::setUniform(std::string name, glm::vec3 const& value) const
+void ShaderProgram::setUniform(std::string name, glm::vec3 const& value) const
 {
     GLuint addr = glGetUniformLocation(program_, name.c_str());
 
     glProgramUniform3fv(program_, addr, 1, &value[0]);
 }
 
-void GLShaderProgram::setUniform(std::string name, glm::vec4 const& value) const
+void ShaderProgram::setUniform(std::string name, glm::vec4 const& value) const
 {
     GLuint addr = glGetUniformLocation(program_, name.c_str());
 
     glProgramUniform4fv(program_, addr, 1, &value[0]);
 }
 
-void GLShaderProgram::setUniform(std::string name, glm::mat4 const& value) const
+void ShaderProgram::setUniform(std::string name, glm::mat4 const& value) const
 {
     GLuint addr = glGetUniformLocation(program_, name.c_str());
 
@@ -97,7 +96,7 @@ void GLShaderProgram::setUniform(std::string name, glm::mat4 const& value) const
 // Loading Functions
 /////////////////////////////////////////////
 
-void GLShaderProgram::loadFromFile(std::string file, Type type)
+void ShaderProgram::loadFromFile(std::string file, Type type)
 {
     std::string source = loadSourceFromFile(file);
     try
@@ -113,7 +112,7 @@ void GLShaderProgram::loadFromFile(std::string file, Type type)
     }
 }
 
-void GLShaderProgram::loadFromFile(std::string vertexFile,
+void ShaderProgram::loadFromFile(std::string vertexFile,
                                    std::string fragmentFile)
 {
     createProgram();
@@ -134,7 +133,7 @@ void GLShaderProgram::loadFromFile(std::string vertexFile,
     }
 }
 
-void GLShaderProgram::loadFromSource(char const* source, Type type)
+void ShaderProgram::loadFromSource(char const* source, Type type)
 {
     createProgram();
 
@@ -146,7 +145,7 @@ void GLShaderProgram::loadFromSource(char const* source, Type type)
     valid_ = true;
 }
 
-void GLShaderProgram::loadFromSource(char const* vertexShader,
+void ShaderProgram::loadFromSource(char const* vertexShader,
                             char const* fragmentShader)
 {
     createProgram();
@@ -164,7 +163,7 @@ void GLShaderProgram::loadFromSource(char const* vertexShader,
 }
 
 
-std::string GLShaderProgram::loadSourceFromFile(std::string file)
+std::string ShaderProgram::loadSourceFromFile(std::string file)
 {
     std::fstream f(file, std::ios::in);
 
@@ -173,7 +172,6 @@ std::string GLShaderProgram::loadSourceFromFile(std::string file)
         std::string error = "Could not open file \"";
         error.append(file);
         error.append("\"");
-        std::cout << error << std::endl;
         throw std::runtime_error(error);
     }
 
@@ -189,7 +187,7 @@ std::string GLShaderProgram::loadSourceFromFile(std::string file)
     return content;
 }
 
-void GLShaderProgram::createProgram()
+void ShaderProgram::createProgram()
 {
     if(glIsProgram(program_))
     {
@@ -204,7 +202,7 @@ void GLShaderProgram::createProgram()
     }
 }
 
-GLuint GLShaderProgram::compileShaderFromSource(char const* source, Type type)
+GLuint ShaderProgram::compileShaderFromSource(char const* source, Type type)
 {
     GLuint shaderObject = 0;
 
@@ -255,7 +253,7 @@ GLuint GLShaderProgram::compileShaderFromSource(char const* source, Type type)
     return shaderObject;
 }
 
-void GLShaderProgram::linkProgram(std::vector<GLuint> const& shaderObjects)
+void ShaderProgram::linkProgram(std::vector<GLuint> const& shaderObjects)
 {
     for(auto so : shaderObjects)
     {
@@ -292,4 +290,5 @@ void GLShaderProgram::linkProgram(std::vector<GLuint> const& shaderObjects)
     }
 }
 
+}
 }
