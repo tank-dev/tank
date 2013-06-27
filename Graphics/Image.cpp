@@ -41,6 +41,16 @@ Image::Image()
     , origin_(glm::vec2{0.f, 0.f})
     , texture_(nullptr)
 {
+}
+
+Image::Image(std::string file)
+    : Image()
+{
+    load(file);
+}
+
+void Image::load(std::string file)
+{
     if(shader_.get() == nullptr)
     {
         //TODO: CHANGE THIS TO MAKE IT NOT TERRIBLE
@@ -92,16 +102,6 @@ Image::Image()
         glEnableVertexAttribArray(vertPos);
         glEnableVertexAttribArray(texPos);
     }
-}
-
-Image::Image(std::string file)
-    : Image()
-{
-    load(file);
-}
-
-void Image::load(std::string file)
-{
     if(not loaded_)
     {
         texture_.reset(new gl::Texture(file));

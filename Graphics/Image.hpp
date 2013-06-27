@@ -35,6 +35,7 @@ class Image final : public Graphic
 {
 public:
     Image();
+    //Image(Image const&);
     Image(std::string file);
     virtual ~Image();
 
@@ -55,7 +56,7 @@ private:
     Vectorf size_;
     glm::vec4 clip_;
     glm::vec2 origin_;
-    std::unique_ptr<gl::Texture> texture_;
+    std::shared_ptr<gl::Texture> texture_;
 
     static GLuint vao_;
     static std::unique_ptr<gl::Buffer>        buffer_;
@@ -63,7 +64,6 @@ private:
     static glm::mat4 projection_;
 
     Image& operator=(Image const&);
-    Image(Image const&);
 };
 
 }
