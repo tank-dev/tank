@@ -37,7 +37,7 @@ public:
     ~Texture();
 
     void load(std::string file);
-    glm::vec2 const& aspect() const { return aspect_; }
+    glm::vec2 const& scale() const { return scale_; }
     Vector<unsigned int> const& getSize() const { return size_; }
     bool isLoaded() const { return loaded_; }
     static void bind(Texture const*);
@@ -49,7 +49,7 @@ private:
     GLuint name_;
     GLenum target_;
 
-    glm::vec2 aspect_;
+    glm::vec2 scale_;
     Vector<unsigned int> size_;
 
     Texture(Texture const&);

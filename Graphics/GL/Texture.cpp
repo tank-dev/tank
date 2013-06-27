@@ -37,7 +37,7 @@ unsigned int nextPowerOfTwo(unsigned int x);
 Texture::Texture()
     : loaded_(false)
     , target_(GL_TEXTURE_2D)
-    , aspect_(glm::vec2{0.f, 0.f})
+    , scale_(glm::vec2{0.f, 0.f})
     , size_({})
 {
     //Register a 2D texture id
@@ -88,8 +88,8 @@ void Texture::load(std::string file)
         const uint8_t* pixels = resized.accessPixels();
 
         // Need to store the ratio between resized texture and original
-        aspect_ = glm::vec2{static_cast<float>(p2w) / static_cast<float>(size_.x),
-                            static_cast<float>(p2h) / static_cast<float>(size_.y)};
+        scale_ = glm::vec2{static_cast<float>(p2w) / static_cast<float>(size_.x),
+                           static_cast<float>(p2h) / static_cast<float>(size_.y)};
 
         glBindTexture(target_, name_);
 
