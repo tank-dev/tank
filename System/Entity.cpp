@@ -23,15 +23,14 @@
 #include <algorithm>
 #include "State.hpp"
 
-namespace tank
-{
+namespace tank {
 
 int Entity::numEnts_ = 0;
 
 Entity::Entity(Vectorf const& pos)
     : pos_(pos)
     , rot_(0)
-    , hitbox_({0})
+    , hitbox_({0,0,0,0})
     , type_("")
     , solid_(false)
     , visible_(true)
@@ -96,12 +95,17 @@ std::vector<Entity*> Entity::collide(std::string type)
     return collisions;
 }
 
-void Entity::setPos(Vectorf const& pos)
+void Entity::setPos(Vectorf pos)
 {
     pos_ = pos;
 }
 
-void Entity::setHitbox(Rect const& hitbox)
+void Entity::setRotation(float rot)
+{
+    rot_ = rot;
+}
+
+void Entity::setHitbox(Rect hitbox)
 {
     hitbox_ = hitbox;
 }

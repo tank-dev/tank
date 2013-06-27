@@ -71,10 +71,22 @@ public:
     }
 
     /*!
+     * \brief Returns the entity's rotation
+     *
+     * \return Entity's rotation in degrees
+     */
+    float getRotation() const
+    {
+        return rot_;
+    }
+
+    /*!
      * \brief Returns the entity's hitbox
      *
      * Returns the entity's hitbox in the format
-     * (x-offset, y-offset, width, height) where the offse
+     * (x-offset, y-offset, width, height), the offset being a translation to
+     * the bottom right from the entity's position vector.
+     *
      * \return Entity's hitbox
      */
     Rect const& getHitbox() const
@@ -168,14 +180,21 @@ public:
      *
      * \param pos The position to which to move
      */
-    virtual void setPos(Vectorf const& pos);
+    virtual void setPos(Vectorf pos);
+
+    /*!
+     * \brief Sets the entity's rotation
+     *
+     * \param pos The entity's new rotation in degrees
+     */
+    virtual void setRotation(float rot);
 
     /*!
      * \brief Sets the entity's hitbox
      *
      * \param hitbox The new hitbox
      */
-    virtual void setHitbox(Rect const& hitbox);
+    virtual void setHitbox(Rect hitbox);
 
     /*!
      * \brief Sets the entity's type
@@ -236,7 +255,7 @@ public:
     /*!
      * \brief Remove the entity from the world.
      */
-    void remove() {removed_ = true;}
+    void remove() { removed_ = true; }
 
     /*!
      * \return if the entity has been removed.
