@@ -35,7 +35,6 @@ class Image final : public Graphic
 {
 public:
     Image();
-    //Image(Image const&);
     Image(std::string file);
     virtual ~Image();
 
@@ -50,6 +49,11 @@ public:
     virtual void setClip(Rect) override;
     virtual Rect getClip() const override;
 
+    virtual Vector<unsigned int> getTextureSize() const override
+    {
+        return texture_->getSize();
+    }
+
     virtual void draw(Vectorf pos, float angle = 0, Vectorf camera = {}) override;
 private:
     bool loaded_;
@@ -62,8 +66,6 @@ private:
     static std::unique_ptr<gl::Buffer>        buffer_;
     static std::unique_ptr<gl::ShaderProgram> shader_;
     static glm::mat4 projection_;
-
-    Image& operator=(Image const&);
 };
 
 }
