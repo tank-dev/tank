@@ -23,6 +23,7 @@
 #include <string>
 #include <vector>
 #include <functional>
+#include "Graphic.hpp"
 #include "Image.hpp"
 #include "../Utility/Vector.hpp"
 #include "../Utility/Rect.hpp"
@@ -31,11 +32,12 @@
 namespace tank
 {
 
+// TODO: setRow?
 /*!
  * \brief Represents an image with multiple frames and stores animations for
  * that image.
  */
-class Animation
+class Animation final : public Graphic
 {
 public:
     Animation() = default;
@@ -44,9 +46,7 @@ public:
      * \param t Image to give the animation.
      * \param frameDims size of each image in the Texture.
      */
-    Animation(Image const* const t, const Vectorf& frameDims) :
-        texture_ {t}, frameDimensions_(frameDims),
-        clip_({0,0,(int)frameDims.x, (int)frameDims.y}) {}
+    Animation(Image const&, Vector<unsigned int> frameDimensions);
 
     /*!
      * \brief Add an animations
@@ -54,16 +54,16 @@ public:
      * \param frames std::initializer_list of frames.
      * \param frameTime Time between each frame in milliseconds (ms)
      */
-    void add(const std::string& name,
-             const std::vector<unsigned int>& frames,
+    void add(std::string name, const std::vector<unsigned int>& frames,
              unsigned int frameTime);
-    void remove(const std::string& name);
 
-    void select(const std::string& name, bool loop = true,
+    void remove(std::string name);
+
+    void select(std::string name, bool loop = true,
                 std::function<void()> = []{});
 
     /*!
-     * \brief Called in addition to draw to change the state of an animation.
+     * \brief Called to update the animation to the current frame
      */
     void play();
 
@@ -73,7 +73,7 @@ public:
      * Play must be called as well to change the state of the animation.
      * \param pos Position at which to draw the texture.
      */
-    void draw(Vectorf const& pos);
+    void draw(Vectorf pos, float angle = 0, Vectorf camera = {0, 0}) override;
 
     /*!
      * \brief Pause the animation.
@@ -108,23 +108,35 @@ public:
      * \param texture the Texture to set.
      * \param frameDims the dimensions of each image in the texture.
      */
-    void setTexture(Image const*const texture, Vectorf const& frameDims);
+    void setImage(Image const&, Vector<unsigned int> frameDims);
 
+    void setClip(Rect clip) override { image_.setClip(clip); }
+    Rect getClip() const override { return image_.getClip(); }
 
+    void setOrigin(Vectorf origin) override { image_.setOrigin(origin); }
+    Vectorf getOrigin() const override { return image_.getOrigin(); }
+
+    void setSize(Vectorf size) override { image_.setSize(size); }
+    Vectorf getSize() const override { return image_.getSize(); }
+
+    virtual Vector<unsigned int> getTextureSize() const override
+    {
+        return image_.getTextureSize();
+    }
 private:
     struct AnimationInfo
     {
-        std::string               name;
+        std::string name;
         std::vector<unsigned int> frameList;
-        unsigned int              time;
+        unsigned int time;
     };
 
-    Image const* texture_ { nullptr };
+    Image image_;
     AnimationInfo* currentAnimation_ {nullptr};
     unsigned int currentFrame_ {0};
     Timer animTimer_;
     bool loop_ {false};
-    Vectorf frameDimensions_ {0, 0};
+    Vector<unsigned int> frameDimensions_ {0, 0};
     std::function<void()> callback_ = []{};
     Rect clip_ {0, 0, 0, 0};
     std::vector<AnimationInfo>  animations_;

@@ -24,15 +24,24 @@
 namespace tank
 {
 
-void Animation::add(const std::string& name,
+Animation::Animation(Image const& i, Vector<unsigned int> frameDims)
+    : image_ (i)
+    , frameDimensions_(frameDims)
+    , clip_({0,0,(int)frameDims.x, (int)frameDims.y})
+{
+    image_.setSize({static_cast<float>(frameDims.x),
+                    static_cast<float>(frameDims.y)});
+}
+
+void Animation::add(std::string name,
                     std::vector<unsigned int> const& frames,
                     unsigned int time)
 {
     //Push back a POD-initialized AnimationInfo(name, numframes, time)
-    animations_.push_back({name, frames, time });
+    animations_.push_back({name, frames, time});
 }
 
-void Animation::remove(const std::string& name)
+void Animation::remove(std::string name)
 {
     // Find the animation by name
     auto iter = std::find_if_not(animations_.begin(), animations_.end(),
@@ -48,7 +57,7 @@ void Animation::remove(const std::string& name)
     }
 }
 
-void Animation::select(const std::string& name, bool loop,
+void Animation::select(std::string name, bool loop,
                        std::function<void()> callback)
 {
     //Check that the requested animation is not already playing
@@ -65,7 +74,7 @@ void Animation::select(const std::string& name, bool loop,
                 callback_ = callback;
 
                 //Update Animation to reflect changes immediately
-                play();
+                //play();
             }
         }
     }
@@ -92,7 +101,7 @@ void Animation::stop()
 
     //Change appearance to first frame
     //May not be a good idea?
-    play();
+    //play();
 
     //Unset member variables
     currentAnimation_ = nullptr;
@@ -148,20 +157,24 @@ void Animation::play()
         frameIter += currentFrame_;
 
         //Set clipping rectangle according to current frame
+
         clip_.x = (*frameIter) * frameDimensions_.x;
-        clip_.w = frameDimensions_.x;
+        clip_.w = clip_.x + frameDimensions_.x;
+
+        image_.setClip(clip_);
     }
 }
 
-void Animation::draw(Vectorf const& pos)
+void Animation::draw(Vectorf pos, float angle, Vectorf camera)
 {
-    //render->draw(texture_, pos, clip_);
+    play();
+    image_.draw(pos, angle, camera);
 }
 
-void Animation::setTexture(const Image* const texture, const Vectorf& frameDims)
+void Animation::setImage(Image const& image, Vector<unsigned int> frameDims)
 {
     frameDimensions_ = frameDims;
-    texture_ = texture;
+    image_ = image;
 }
 
 }
