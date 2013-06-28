@@ -50,7 +50,10 @@ Window::Window(Vector<unsigned int> const& size, std::string caption)
                       sf::Style::Default, settings);
 
         window_.setFramerateLimit(60);
-        glClearColor(1.f,0.f,1.f,1.f);
+        glClearColor(0.f,0.f,0.f,1.f);
+        glEnable(GL_BLEND);
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
         valid_ = true;
         windowExists_ = true;
     }
