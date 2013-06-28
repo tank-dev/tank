@@ -68,9 +68,9 @@ public:
     /*!
      * \brief Inserts a unique_ptr to an Entity into the entity list
      *
-     * This is a way to add entities that have
-     * * been removed from their original State or
-     * * been created independently of State::makeEntity()
+     * This method provides a way to add entities that have
+     * * been released from their original State via releaseEntity()
+     * * been created independently of makeEntity()
      *
      * \param entity A unique_ptr to the Entity to be inserted
      * \see makeEntity()
@@ -98,13 +98,6 @@ public:
      * \see insertEntity()
      */
     std::unique_ptr<Entity> releaseEntity(Entity*);
-
-    /*!
-     * \brief Removes an Entity from the entity list, deleting it
-     *
-     * \param entity A raw pointer to the Entity to be removed
-     */
-    void removeEntity(Entity*);
 
     /*!
      * \brief Handle keyboard input on a per-frame basis (deprecated)
