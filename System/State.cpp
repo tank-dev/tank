@@ -52,6 +52,7 @@ void State::insertEntity(std::unique_ptr<Entity>&& entity)
 
     entity->onAdded();
     entity->setState(this);
+    entity->onAdded();
     entities_.push_back(std::move(entity));
 }
 
@@ -107,6 +108,12 @@ void State::update()
 
 void State::draw()
 {
+    std::stable_sort(entities_.begin(), entities_.end(),
+                     [](std::unique_ptr<Entity> const& e1,
+                        std::unique_ptr<Entity> const& e2) {
+        return e1->getLayer() > e2->getLayer();
+    });
+
     for (auto& entity : entities_)
     {
         entity->draw();
