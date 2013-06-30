@@ -17,13 +17,6 @@
  * Copyright 2013 (©) Jamie Bayne, David Truby, David Watson.
  */
 
-/*
- * File:   Timer.cpp
- * Author: jamie & David W
- *
- * Created on 17 December 2011, 17:26
- */
-
 #include "Timer.hpp"
 #include <thread>
 
