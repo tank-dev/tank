@@ -100,8 +100,7 @@ void Animation::stop()
     currentFrame_ = 0;
 
     //Change appearance to first frame
-    //May not be a good idea?
-    //play();
+    play();
 
     //Unset member variables
     currentAnimation_ = nullptr;
