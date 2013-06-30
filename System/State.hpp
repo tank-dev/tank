@@ -112,7 +112,7 @@ public:
      * \see draw()
      * \see Game
      */
-    virtual void handleEvents(sf::Keyboard::Key const&) {}
+    virtual void handleEvents(sf::Keyboard::Key) {}
 
     /*!
      * \brief Update all entities in the state's entities list
