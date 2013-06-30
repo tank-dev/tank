@@ -191,8 +191,8 @@ void Image::setClip(Rect clip)
     clip_.y = static_cast<float>(clip.y) / size.y;
 
     //Normalized scale
-    clip_.z = static_cast<float>(clip.w - clip.x) / size.x;
-    clip_.w = static_cast<float>(clip.h - clip.y) / size.y;
+    clip_.z = static_cast<float>(clip.w) / size.x;
+    clip_.w = static_cast<float>(clip.h) / size.y;
 }
 
 Rect Image::getClip() const
@@ -202,11 +202,11 @@ Rect Image::getClip() const
 
     Rect clip;
 
-    clip.x = static_cast<int>(clip_.x / size.x);
-    clip.y = static_cast<int>(clip_.y / size.y);
+    clip.x = static_cast<int>(clip_.x * size.x);
+    clip.y = static_cast<int>(clip_.y * size.y);
 
-    clip.w = static_cast<int>(clip_.z*size.x + clip.x);
-    clip.h = static_cast<int>(clip_.w*size.y + clip.y);
+    clip.w = static_cast<int>(clip_.z * size.x);
+    clip.h = static_cast<int>(clip_.w * size.y);
 
     return clip;
 }

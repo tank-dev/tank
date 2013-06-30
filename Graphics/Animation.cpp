@@ -158,7 +158,6 @@ void Animation::play()
         //Set clipping rectangle according to current frame
 
         clip_.x = (*frameIter) * frameDimensions_.x;
-        clip_.w = clip_.x + frameDimensions_.x;
 
         image_.setClip(clip_);
     }
