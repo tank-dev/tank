@@ -23,7 +23,6 @@
 #include <GL/glew.h>
 #include <SFML/Window/Event.hpp>
 #include <SFML/Window/Keyboard.hpp>
-#include "ServiceLocator.hpp"
 #include "Window.hpp"
 
 namespace tank
