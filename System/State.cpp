@@ -37,8 +37,8 @@ void State::insertEntity(std::unique_ptr<Entity>&& entity)
         Game::log << "Warning: You can't add a null entity." << std::endl;
         return;
     }
-    // Stops an entity being added several times
 
+    // Stops an entity being added several times 
     auto x = find_if(begin(entities_), end(entities_),
                      [&entity](std::unique_ptr<Entity>& existing)
     {
@@ -50,7 +50,6 @@ void State::insertEntity(std::unique_ptr<Entity>&& entity)
         throw std::invalid_argument("Entity already added");
     }
 
-    entity->onAdded();
     entity->setState(this);
     entity->onAdded();
     entities_.push_back(std::move(entity));
@@ -102,7 +101,7 @@ void State::update()
     entities_.erase(std::remove_if(begin(entities_), end(entities_),
                                    [](const std::unique_ptr<Entity>& ent)
     {
-                        return ent->isRemoved();
+        return ent->isRemoved();
     }), end(entities_));
 }
 
@@ -111,7 +110,7 @@ void State::draw()
     std::stable_sort(entities_.begin(), entities_.end(),
                      [](std::unique_ptr<Entity> const& e1,
                         std::unique_ptr<Entity> const& e2) {
-        return e1->getLayer() > e2->getLayer();
+        return e1->getLayer() < e2->getLayer();
     });
 
     for (auto& entity : entities_)
