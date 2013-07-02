@@ -159,10 +159,15 @@ public:
     State();
     virtual ~State();
 protected:
+    //TODO: Make private and add getter
     std::vector<std::unique_ptr<Entity>> entities_;
 private:
     State(State const&);
     State& operator=(State const&);
+
+    void moveEntities();
+
+    std::vector<std::tuple<State*, Entity*>> toMove_;
 };
 
 template <typename T, typename... Args>

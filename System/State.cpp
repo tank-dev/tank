@@ -38,7 +38,7 @@ void State::insertEntity(std::unique_ptr<Entity>&& entity)
         return;
     }
 
-    // Stops an entity being added several times 
+    // Stops an entity being added several times
     auto x = find_if(begin(entities_), end(entities_),
                      [&entity](std::unique_ptr<Entity>& existing)
     {
@@ -59,18 +59,44 @@ void State::moveEntity(State* state, Entity* entity)
 {
     if (not entity)
     {
-        Game::log << "Warning: You can't move null entity." << std::endl;
+        Game::log << "Warning: attempted to move null entity." << std::endl;
         return;
     }
 
-    std::unique_ptr<Entity> entPtr = releaseEntity(entity);
-    if (not entPtr.get())
+    if (not state)
     {
-        Game::log << "Entity not found in move operation" << std::endl;
+        Game::log << "Warning: attempted to move entity to null state."
+                  << std::endl;
         return;
     }
 
-    state->insertEntity(std::move(entPtr));
+    if (entity->isRemoved())
+    {
+        // Don't let an entity escape deletion
+        return;
+    }
+
+    if (entity)
+    toMove_.push_back(std::tuple<State*,Entity*>{state, entity});
+}
+
+void State::moveEntities()
+{
+    while (not toMove_.empty())
+    {
+        State* state = std::get<0>(toMove_.back());
+        Entity* entity = std::get<1>(toMove_.back());
+        toMove_.pop_back();
+
+        std::unique_ptr<Entity> entPtr = releaseEntity(entity);
+        if (not entPtr.get())
+        {
+            Game::log << "Entity not found in move operation" << std::endl;
+            continue;
+        }
+
+        state->insertEntity(std::move(entPtr));
+    }
 }
 
 std::unique_ptr<Entity> State::releaseEntity(Entity* entity)
@@ -98,6 +124,8 @@ void State::update()
     {
         entity->update();
     }
+
+    moveEntities();
     entities_.erase(std::remove_if(begin(entities_), end(entities_),
                                    [](const std::unique_ptr<Entity>& ent)
     {
