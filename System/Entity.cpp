@@ -27,7 +27,7 @@ namespace tank {
 
 int Entity::numEnts_ = 0;
 
-Entity::Entity(Vectorf const& pos)
+Entity::Entity(Vectorf pos)
     : pos_(pos)
     , rot_(0)
     , hitbox_({0,0,0,0})

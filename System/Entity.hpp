@@ -250,7 +250,7 @@ public:
      *
      * \param pos The position of the entity
      */
-    Entity(Vectorf const& pos);
+    Entity(Vectorf pos);
 
     /*!
      * \brief Remove the entity from the world.
