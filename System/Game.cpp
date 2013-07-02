@@ -29,20 +29,14 @@ namespace tank
 {
 
 Logger Game::log {"log.txt"};
-IWindow* Game::window_ {nullptr};
+const unsigned int Game::FPS {60};
 bool Game::initialized_ {false};
 bool Game::run_ {false};
 bool Game::popState_ {false};
-const unsigned int Game::FPS {60};
-Timer Game::frameTimer_;
+State* Game::currentState_ {nullptr};
+std::unique_ptr<IWindow> Game::window_ {nullptr};
 std::stack<std::unique_ptr<State>> Game::states_;
-
-//This shouldn't be necessary, eventually...
-void Game::close()
-{
-    log << "Closing window" << std::endl;
-    delete window_;
-}
+Timer Game::frameTimer_;
 
 /* ---------------------------- *
  * Initialization
@@ -56,7 +50,7 @@ bool Game::initialize(Vector<unsigned int> const& wSize)
         initialized_ = true;
 
         //Create window
-        window_ = new Window({wSize.x,wSize.y});
+        window_.reset(new Window({wSize.x,wSize.y}));
 
         //Select PCRender as the rendering engine
         log << "Loading rendering engine" << std::endl;
@@ -94,10 +88,11 @@ void Game::run()
             break;
         }
 
+        currentState_ = states_.top().get();
+
         handleEvents();
 
-        //Update current state
-        states_.top()->update();
+        currentState_->update();
 
         draw();
 
@@ -109,7 +104,9 @@ void Game::run()
 
 		//Delay until the next frame so the game stays at 60fps
         if (1000000 / FPS > frameTimer_.getMicrosecs()) {
-            Timer::delayMicrosecs(static_cast<unsigned long>(1000000 / FPS - frameTimer_.getTicks()));
+            Timer::delayMicrosecs(
+                static_cast<unsigned long>(1000000 / 
+                                           FPS - frameTimer_.getTicks()));
         }
     }
 }
@@ -117,21 +114,23 @@ void Game::run()
 void Game::handleEvents()
 {
     sf::Event event;
-    //TODO Make this independent of SDL
+    //TODO Make this independent of SFML
     while (window_->pollEvent(event))
     {
         switch (event.type)
         {
         case sf::Event::KeyPressed:
         case sf::Event::KeyReleased:
-            /*if((event.key.code == sf::Keyboard::Key::F4 && event.key.alt)
+            /*
+            if((event.key.code == sf::Keyboard::Key::F4 && event.key.alt)
             {
                 run_ = false;
                 break;
-            }*/
+            }
+            */
             //if(!states_.empty())
             //{
-                states_.top()->handleEvents(event.key.code);
+                currentState_->handleEvents(event.key.code);
             //}
             break;
         case sf::Event::GainedFocus:
@@ -150,22 +149,6 @@ void Game::handleEvents()
  * State management
  * ----------------------------------- */
 
-/*bool Game::addState(State* state)
-{
-    std::unique_ptr<State> statePointer = std::unique_ptr<State>(state);
-    if(state->initialize())
-    {
-        log << "Loaded state successfully" << std::endl;
-        states_.push(std::move(statePointer));
-
-        return true;
-    }
-
-    log << "Not pushing state" << std::endl;
-
-    return false;
-}*/
-
 void Game::popState()
 {
     popState_ = true;
@@ -182,7 +165,7 @@ void Game::update()
 void Game::draw()
 {
     //Draw current state
-    states_.top()->draw();
+    currentState_->draw();
 
     //Update the screen
     window_->flipDisplay();

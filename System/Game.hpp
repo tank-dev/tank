@@ -68,7 +68,7 @@ public:
      * This function should be placed at the end of your program to clean up
      * some of the engine's dependencies
      */
-    static void close();
+    //static void close();
 
     /*!
      * \brief This removes the current state at the end of the frame.
@@ -91,35 +91,27 @@ public:
      * \return A pointer to the state.
      */
     template<typename T, typename... Args>
-    static T* makeState(Args&&... args)
-    {
-        static_assert(std::is_base_of<State, T>::value,
-                      "Class must derive from State");
-        T* state = new T(std::forward<Args>(args)...);
-        states_.emplace(state);
-        return state;
-    }
+    static T* makeState(Args&&... args);
 
-    //TODO: Just realised both of these can crash the game quite easily
-    //Should probably fix that?
     /*!
-     * \brief Return a reference to the active state
+     * \brief Return a pointer to the active state
      *
-     * \return A reference to the active state
+     * \return A pointer to the active state
      */
-    static State& state() { return *states_.top(); }
+    static State* state() { return currentState_; }
 
-    static IWindow& window() { return *window_; };
+    static std::unique_ptr<IWindow> const& window() { return window_; };
 
     static const unsigned int FPS;
 private:
     static bool initialized_;
     static bool run_;
 
-    //Hacky hacky hacky
     static bool popState_;
 
-    static IWindow* window_;
+    // TODO: Replace with observing_ptr
+    static State* currentState_;
+    static std::unique_ptr<IWindow> window_;
 
     static std::stack<std::unique_ptr<State>> states_;
     static Timer frameTimer_;
@@ -131,6 +123,16 @@ private:
     Game();
     ~Game();
 };
+
+template<typename T, typename... Args>
+T* Game::makeState(Args&&... args)
+{
+    static_assert(std::is_base_of<State, T>::value,
+                  "Class must derive from State");
+    T* state = new T(std::forward<Args>(args)...);
+    states_.emplace(state);
+    return state;
+}
 
 }
 
