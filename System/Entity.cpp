@@ -60,7 +60,7 @@ std::vector<Entity*> Entity::collide(std::string type)
 
     for (auto& unique : origList)
     {
-        if (type == unique->getType())
+        if (type == "" or type == unique->getType())
         {
             entList.push_back(unique.get());
         }
