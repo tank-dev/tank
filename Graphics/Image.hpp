@@ -40,11 +40,23 @@ public:
 
     void load(std::string file);
 
-    virtual void setOrigin(Vectorf);
-    virtual Vectorf getOrigin() const;
+    virtual void setOrigin(Vectorf origin)
+    {
+        origin_ = origin;
+    }
+    virtual Vectorf getOrigin() const
+    {
+        return origin_;
+    }
 
-    virtual Vectorf getSize() const override;
-    void setSize(Vectorf size) override;
+    virtual Vectorf getSize() const override
+    {
+        return size_;
+    }
+    void setSize(Vectorf size) override
+    {
+        size_ = size;
+    }
 
     virtual void setClip(Rect) override;
     virtual Rect getClip() const override;
@@ -54,12 +66,12 @@ public:
         return texture_->getSize();
     }
 
-    virtual void draw(Vectorf pos, float angle = 0, Vectorf camera = {}) override;
+    virtual void draw(Vectorf parentPos = {}, float parentRot = 0, Vectorf camera = {}) override;
 private:
     bool loaded_;
     Vectorf size_;
     glm::vec4 clip_;
-    glm::vec2 origin_;
+    Vectorf origin_;
     std::shared_ptr<gl::Texture> texture_;
 
     static GLuint vao_;

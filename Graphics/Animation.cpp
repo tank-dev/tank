@@ -163,10 +163,10 @@ void Animation::play()
     }
 }
 
-void Animation::draw(Vectorf pos, float angle, Vectorf camera)
+void Animation::draw(Vectorf parentPos, float parentRot, Vectorf camera)
 {
     play();
-    image_.draw(pos, angle, camera);
+    image_.draw(parentPos, parentRot, camera);
 }
 
 void Animation::setImage(Image const& image, Vector<unsigned int> frameDims)

@@ -28,8 +28,38 @@ namespace tank {
 class Graphic
 {
 public:
-    Graphic() {}
+    Graphic()
+        : pos_({})
+        , rot_(0.f)
+        , relativeToParent_(true) {}
     virtual ~Graphic() {}
+
+    virtual void setPos(Vectorf pos)
+    {
+        pos_ = pos;
+    }
+    virtual Vectorf getPos() const
+    {
+        return pos_;
+    }
+
+    virtual void setRotation(float angle)
+    {
+        rot_ = angle;
+    }
+    virtual float getRotation() const
+    {
+        return rot_;
+    }
+
+    void drawRelativeToParent(bool relative)
+    {
+        relativeToParent_ = relative;
+    }
+    bool isRelativeToParent() const
+    {
+        return relativeToParent_;
+    }
 
     virtual void setSize(Vectorf) = 0;
     virtual Vectorf getSize() const = 0;
@@ -42,8 +72,11 @@ public:
 
     virtual Vector<unsigned int> getTextureSize() const = 0;
 
-    virtual void draw(Vectorf pos, float angle = 0,
-                      Vectorf camera = {0,0}) = 0;
+    virtual void draw(Vectorf parentPos, float parentRot, Vectorf camera = {0,0}) = 0;
+private:
+    Vectorf pos_;
+    float rot_;
+    bool relativeToParent_;
 };
 
 }

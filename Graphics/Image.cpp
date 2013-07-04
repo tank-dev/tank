@@ -38,7 +38,7 @@ Image::Image()
     : loaded_(false)
     , size_({0.f, 0.f})
     , clip_(glm::vec4{0.f, 0.f, 1.f, 1.f})
-    , origin_(glm::vec2{0.f, 0.f})
+    , origin_({0.f, 0.f})
     , texture_(nullptr)
 {
 }
@@ -53,9 +53,9 @@ void Image::load(std::string file)
 {
     if(shader_.get() == nullptr)
     {
-        //TODO: CHANGE THIS TO MAKE IT NOT TERRIBLE
+        //TODO: Add image-specific shader loading, with default
         shader_.reset(new gl::ShaderProgram("shaders/default.vert",
-                                          "shaders/default.frag"));
+                                            "shaders/default.frag"));
     }
 
     if(buffer_.get() == nullptr)
@@ -113,7 +113,7 @@ void Image::load(std::string file)
     }
 }
 
-void Image::draw(Vectorf pos, float angle, Vectorf camera)
+void Image::draw(Vectorf parentPos, float parentRot, Vectorf camera)
 {
     //TODO: Put int overloads in GLShaderObject
     //TODO: Move axis of rotation to global const
@@ -123,7 +123,6 @@ void Image::draw(Vectorf pos, float angle, Vectorf camera)
 
     // Set up model-view-projection transform
     // NB: All matrix operations occur in reverse
-
     /* View transform */
     // TODO: Add rotation
     // Move to camera position
@@ -131,12 +130,22 @@ void Image::draw(Vectorf pos, float angle, Vectorf camera)
                                        glm::vec3{camera.x, camera.y, 0.f});
 
     /* Model View */
+    Vectorf pos = getPos();
+    float angle = getRotation();
+
+    if(isRelativeToParent())
+    {
+        pos += parentPos;
+        angle += parentRot;
+    }
+
     // Translate
     glm::mat4 modelT = glm::translate(glm::mat4(1.f),
                                       glm::vec3{pos.x, pos.y, 0.f});
 
     // Rotate
-    glm::mat4 modelTR = glm::rotate(modelT, angle, glm::vec3{ 0.f, 0.f, 1.f });
+    glm::mat4 modelTR = glm::rotate(modelT, angle,
+                                    glm::vec3{ 0.f, 0.f, 1.f });
 
     // Move to the origin
     glm::mat4 modelTRO = glm::translate(modelTR,
@@ -166,18 +175,9 @@ Image::~Image()
     glDeleteVertexArrays(1,&vao_);
 }
 
-Vectorf Image::getSize() const
-{
-    return size_;
-}
-
-void Image::setSize(Vectorf size)
-{
-    size_ = size;
-}
-
 void Image::setClip(Rect clip)
 {
+    // TODO: Do this with Rect<float> after templating Rect
     // Clip has to be represented by a set of transformations to texture
     // coordinates going from 0 -> 1.
     // Unfortunately, vec2s can't take a mat3 transformation matrix, so store
@@ -209,17 +209,6 @@ Rect Image::getClip() const
     clip.h = static_cast<int>(clip_.w * size.y);
 
     return clip;
-}
-
-void Image::setOrigin(Vectorf origin)
-{
-    origin_.x = origin.x;
-    origin_.y = origin.y;
-}
-
-Vectorf Image::getOrigin() const
-{
-    return { origin_.x, origin_.y };
 }
 
 }

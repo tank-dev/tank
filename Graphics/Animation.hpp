@@ -73,7 +73,7 @@ public:
      * Play must be called as well to change the state of the animation.
      * \param pos Position at which to draw the texture.
      */
-    void draw(Vectorf pos, float angle = 0, Vectorf camera = {0, 0}) override;
+    void draw(Vectorf parentPos, float parentRot, Vectorf camera = {0, 0}) override;
 
     /*!
      * \brief Pause the animation.
@@ -109,6 +109,18 @@ public:
      * \param frameDims the dimensions of each image in the texture.
      */
     void setImage(Image const&, Vector<unsigned int> frameDims);
+
+    virtual void setPos(Vectorf pos) { image_.setPos(pos); }
+    virtual Vectorf getPos() const { return image_.getPos(); }
+
+    virtual void drawRelativeToParent(bool relative)
+    {
+        image_.drawRelativeToParent(relative);
+    }
+    virtual bool isRelativeToParent() { return image_.isRelativeToParent(); }
+
+    virtual void setRotation(float angle) { image_.setRotation(angle); }
+    virtual float getRotation() const { return image_.getRotation(); }
 
     void setClip(Rect clip) override { image_.setClip(clip); }
     Rect getClip() const override { return image_.getClip(); }
