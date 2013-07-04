@@ -26,7 +26,9 @@
 namespace tank
 {
 
-State::State() {}
+State::State()
+    : camera_({})
+{}
 
 State::~State() {}
 
@@ -76,7 +78,6 @@ void State::moveEntity(State* state, Entity* entity)
         return;
     }
 
-    if (entity)
     toMove_.push_back(std::tuple<State*,Entity*>{state, entity});
 }
 
@@ -143,7 +144,7 @@ void State::draw()
 
     for (auto& entity : entities_)
     {
-        entity->draw();
+        entity->draw(getCamera());
     }
 }
 

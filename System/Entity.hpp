@@ -47,7 +47,7 @@ public:
      * Render the entity for the current frame
      * \param render The Render instance with which to render the entity
      */
-    virtual void draw();
+    virtual void draw(Vectorf camera);
 
     /*!
      * \brief Check for collisions with the entity (deprecated?)
@@ -283,7 +283,7 @@ private:
     bool visible_;    //true
     int layer_;       //0
 
-    State* state_;          //Set by parent State
+    State* state_; //Set by parent State
     std::unique_ptr<Graphic> graphic_;
 
     static int numEnts_;

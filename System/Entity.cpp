@@ -43,11 +43,11 @@ Entity::Entity(Vectorf pos)
 Entity::~Entity() {}
 
 //Default draw function
-void Entity::draw()
+void Entity::draw(Vectorf camera)
 {
     if(graphic_)
     {
-        graphic_->draw(pos_, rot_);
+        graphic_->draw(getPos(), getRotation(), camera);
     }
 }
 

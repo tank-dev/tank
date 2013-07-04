@@ -21,9 +21,12 @@
 #define TANK_GAMESTATE_HPP
 
 #include <vector>
+#include <tuple>
 #include <memory>
 #include <SFML/Window/Event.hpp>
 #include <SFML/Window/Keyboard.hpp>
+
+#include "../Utility/Vector.hpp"
 
 namespace tank {
 
@@ -148,6 +151,15 @@ public:
      */
     virtual void draw();
 
+    virtual Vectorf getCamera() const
+    {
+        return camera_;
+    }
+    virtual void setCamera(Vectorf camera)
+    {
+        camera_ = camera;
+    }
+
     /*!
      * \brief Get the list of entities
      *
@@ -164,6 +176,8 @@ protected:
 private:
     State(State const&);
     State& operator=(State const&);
+
+    Vectorf camera_;
 
     void moveEntities();
 
