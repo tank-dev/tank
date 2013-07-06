@@ -170,7 +170,7 @@ struct Vector
         return *this;
     }
 };
-    
+
 /*!
  * \brief Adds two vectors.
  *
@@ -178,13 +178,13 @@ struct Vector
  *
  * \return The result of the addition.
  */
-template <typename T, typename U> 
-inline auto operator+ (const Vector<T>& lhs, const Vector<U>& rhs) -> 
+template <typename T, typename U>
+inline auto operator+ (const Vector<T>& lhs, const Vector<U>& rhs) ->
                                                 Vector<decltype(lhs.x + rhs.x)>
 {
     return {lhs.x + rhs.x, lhs.y + rhs.y};
 }
-    
+
 /*!
  * \brief Adds a vector and a scalar.
  *
@@ -193,7 +193,7 @@ inline auto operator+ (const Vector<T>& lhs, const Vector<U>& rhs) ->
  * \return The result of the addition.
  */
 template <typename T, typename U>
-inline auto operator+ (const Vector<T>& lhs, const U& rhs) -> 
+inline auto operator+ (const Vector<T>& lhs, const U& rhs) ->
                                                 Vector<decltype(lhs.x + rhs)>
 {
     return {lhs.x + rhs, lhs.y + rhs};
@@ -274,9 +274,10 @@ inline bool operator!= (const Vector<T>& lhs, const Vector<U>& rhs)
     return not operator==(lhs, rhs);
 }
 
-typedef Vector<float>  Vectorf;
-typedef Vector<double> Vectord;
-typedef Vector<int>    Vectori;
+using Vectorf = Vector<float>;
+using Vectord = Vector<double>;
+using Vectori = Vector<int>;
+using Vectoru = Vector<unsigned int>;
 
 }
 
