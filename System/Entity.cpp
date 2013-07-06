@@ -33,10 +33,8 @@ Entity::Entity(Vectorf pos)
     , hitbox_({0,0,0,0})
     , type_("")
     , solid_(false)
-    , visible_(true)
     , layer_(0)
     , state_ (nullptr)
-    , graphic_(nullptr)
     , actorID_(numEnts_++)
 {}
 
@@ -45,9 +43,9 @@ Entity::~Entity() {}
 //Default draw function
 void Entity::draw(Vectorf camera)
 {
-    if(graphic_)
+    for(auto& g : graphics_)
     {
-        graphic_->draw(getPos(), getRotation(), camera);
+        g->draw(getPos(), getRotation(), camera);
     }
 }
 
@@ -95,6 +93,15 @@ std::vector<Entity*> Entity::collide(std::string type)
     return collisions;
 }
 
+std::unique_ptr<Graphic> const& Entity::getGraphic(unsigned int i) const
+{
+    if (graphics_.size() > i)
+    {
+        return graphics_[i];
+    }
+    throw std::invalid_argument("getGraphic called with invalid index");
+}
+
 void Entity::setPos(Vectorf pos)
 {
     pos_ = pos;
@@ -113,11 +120,6 @@ void Entity::setHitbox(Rect hitbox)
 void Entity::setSolid(bool solid)
 {
     solid_ = solid;
-}
-
-void Entity::setVisible(bool visible)
-{
-    visible_ = visible;
 }
 
 void Entity::setLayer(int layer)

@@ -134,16 +134,6 @@ public:
     }
 
     /*!
-     * \brief Returns whether the entity is visible (deprecated)
-     *
-     * \return Whether or not the entity is visible
-     */
-    bool isVisible() const
-    {
-        return visible_;
-    }
-
-    /*!
      * \brief Returns the entity's z-layer
      *
      * \return Entity's z-layer
@@ -158,11 +148,7 @@ public:
      *
      * \return Entity's texture
      */
-    Graphic& getGraphic() const
-    {
-        // TODO: Check pointer
-        return *graphic_;
-    }
+    std::unique_ptr<Graphic> const& getGraphic(unsigned int i = 0) const;
 
     /*!
      * \brief Returns a pointer to the entity's parent State
@@ -230,13 +216,6 @@ public:
     void setSolid(bool solid);
 
     /*!
-     * \brief Sets the entity's z-layer (deprecated)
-     *
-     * \param visible Whether the entity should be visible or not
-     */
-    void setVisible(bool visible);
-
-    /*!
      * \brief Sets the entity's z-layer
      *
      * \param layer The new layer
@@ -244,7 +223,7 @@ public:
     void setLayer(int layer);
 
     /*!
-     * \brief Sets the entity's graphic
+     * \brief Create a Graphic and Add it to the Entity's graphic list
      *
      * \tparam T Type of Graphic to create
      * \tparam Args Arguments to send to T's constructor
@@ -252,7 +231,7 @@ public:
      * \return A pointer of type T to the created Graphic
      */
     template <typename T, typename... Args>
-    T* setGraphic(Args&&... args);
+    T* makeGraphic(Args&&... args);
 
     /*!
      * \brief Sets the entity's parent state
@@ -282,12 +261,12 @@ public:
     bool isRemoved() {return removed_;}
 
     /*!
-     * \brief Called when the entitiy is added to the world.
+     * \brief Called when the entitiy is added to a State
      */
     virtual void onAdded() {}
 
     /*!
-     * \brief Called when the entity is removed from the world.
+     * \brief Called when the entity is removed from a State
      */
     virtual void onRemoved() {}
 
@@ -296,14 +275,13 @@ private:
     //Member variables
     Vectorf pos_;
     float rot_;
-    Rect hitbox_;     //(0,0,0,0)
-    std::string type_;//""
-    bool solid_;      //false
-    bool visible_;    //true
-    int layer_;       //0
+    Rect hitbox_;
+    std::string type_;
+    bool solid_;
+    int layer_;
 
     State* state_; //Set by parent State
-    std::unique_ptr<Graphic> graphic_;
+    std::vector<std::unique_ptr<Graphic>> graphics_;
 
     static int numEnts_;
     const  int actorID_;
@@ -312,13 +290,13 @@ private:
 };
 
 template <typename T, typename... Args>
-T* Entity::setGraphic(Args&&... args)
+T* Entity::makeGraphic(Args&&... args)
 {
     static_assert(std::is_base_of<Graphic,T>::value,
                   "Type must derive from Graphic");
 
     T* g = new T(std::forward<Args>(args)...);
-    graphic_.reset(g);
+    graphics_.emplace_back(g);
     return g;
 }
 
