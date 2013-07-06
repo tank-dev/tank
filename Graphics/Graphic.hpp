@@ -31,7 +31,9 @@ public:
     Graphic()
         : pos_({})
         , rot_(0.f)
-        , relativeToParent_(true) {}
+        , relativeToParent_(true)
+        , visible_(true)
+        {}
     virtual ~Graphic() {}
 
     virtual void setPos(Vectorf pos)
@@ -61,6 +63,15 @@ public:
         return relativeToParent_;
     }
 
+    bool isVisible() const
+    {
+        return visible_;
+    }
+    bool setVisibile(bool visibile)
+    {
+        visible_ = visibile;
+    }
+
     virtual void setSize(Vectorf) = 0;
     virtual Vectorf getSize() const = 0;
 
@@ -77,6 +88,7 @@ private:
     Vectorf pos_;
     float rot_;
     bool relativeToParent_;
+    bool visible_;
 };
 
 }
