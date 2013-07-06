@@ -67,7 +67,7 @@ public:
     {
         return visible_;
     }
-    bool setVisibile(bool visibile)
+    void setVisibile(bool visibile)
     {
         visible_ = visibile;
     }
@@ -78,8 +78,8 @@ public:
     virtual void setOrigin(Vectorf) = 0;
     virtual Vectorf getOrigin() const = 0;
 
-    virtual void setClip(Rect) = 0;
-    virtual Rect getClip() const = 0;
+    virtual void setClip(Rectu) = 0;
+    virtual Rectu getClip() const = 0;
 
     virtual Vector<unsigned int> getTextureSize() const = 0;
 

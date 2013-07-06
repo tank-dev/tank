@@ -108,7 +108,7 @@ public:
      *
      * \return Entity's hitbox
      */
-    Rect const& getHitbox() const
+    Rectd const& getHitbox() const
     {
         return hitbox_;
     }
@@ -199,7 +199,7 @@ public:
      *
      * \param hitbox The new hitbox
      */
-    virtual void setHitbox(Rect hitbox);
+    virtual void setHitbox(Rectd hitbox);
 
     /*!
      * \brief Sets the entity's type
@@ -275,7 +275,7 @@ private:
     //Member variables
     Vectorf pos_;
     float rot_;
-    Rect hitbox_;
+    Rectd hitbox_;
     std::string type_;
     bool solid_;
     int layer_;

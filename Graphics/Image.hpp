@@ -58,8 +58,8 @@ public:
         size_ = size;
     }
 
-    virtual void setClip(Rect) override;
-    virtual Rect getClip() const override;
+    virtual void setClip(Rectu) override;
+    virtual Rectu getClip() const override;
 
     virtual Vector<unsigned int> getTextureSize() const override
     {

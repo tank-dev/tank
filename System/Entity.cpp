@@ -68,8 +68,8 @@ std::vector<Entity*> Entity::collide(std::string type)
     {
         if (ent != this)
         {
-            Rect const& A = hitbox_;
-            Rect const& B = ent->getHitbox();
+            Rectd const& A = hitbox_;
+            Rectd const& B = ent->getHitbox();
 
             const double leftA   = A.x + pos_.x;
             const double leftB   = B.x + ent->getPos().x;
@@ -112,7 +112,7 @@ void Entity::setRotation(float rot)
     rot_ = rot;
 }
 
-void Entity::setHitbox(Rect hitbox)
+void Entity::setHitbox(Rectd hitbox)
 {
     hitbox_ = hitbox;
 }

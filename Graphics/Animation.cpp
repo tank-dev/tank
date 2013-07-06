@@ -27,7 +27,7 @@ namespace tank
 Animation::Animation(Image const& i, Vector<unsigned int> frameDims)
     : image_ (i)
     , frameDimensions_(frameDims)
-    , clip_({0,0,(int)frameDims.x, (int)frameDims.y})
+    , clip_({0,0,frameDims.x, frameDims.y})
 {
     image_.setSize({static_cast<float>(frameDims.x),
                     static_cast<float>(frameDims.y)});
@@ -37,7 +37,7 @@ void Animation::add(std::string name,
                     std::vector<unsigned int> const& frames,
                     unsigned int time)
 {
-    //Push back a POD-initialized AnimationInfo(name, numframes, time)
+    // Create new AnimationInfo
     animations_.push_back({name, frames, time});
 }
 
@@ -63,6 +63,7 @@ void Animation::select(std::string name, bool loop,
     //Check that the requested animation is not already playing
     if (not currentAnimation_ || currentAnimation_->name != name)
     {
+        //search for the name requested
         for (auto& anim : animations_)
         {
             if (anim.name == name)
@@ -87,7 +88,7 @@ void Animation::pause()
 
 void Animation::resume()
 {
-    if (animTimer_.isPaused() && currentAnimation_ != nullptr)
+    if (animTimer_.isPaused() and currentAnimation_ != nullptr)
     {
         animTimer_.resume();
     }
@@ -95,35 +96,29 @@ void Animation::resume()
 
 void Animation::stop()
 {
-    animTimer_.stop(); //Set timer to 0
+    animTimer_.stop();
 
     currentFrame_ = 0;
 
     //Change appearance to first frame
     play();
 
-    //Unset member variables
+    //After appearance has been set, unset member variables
     currentAnimation_ = nullptr;
     callback_ = []{};
 }
 
-//This function could probably use a bit of TLC
 void Animation::play()
 {
     //Only play if there is a selected animation
     if (currentAnimation_)
     {
         //Check if we need to change animation frame
-        //const unsigned int frameTime = currentAnimation_->time;
-
-        //bool playNextFrame = (frameTime != 0);
-        // Don't animate if frametime is 0
-
         bool playNextFrame = animTimer_.getTicks() > currentAnimation_->time;
 
         if (playNextFrame)
         {
-            ++currentFrame_;    //Change frame
+            ++currentFrame_;
 
             animTimer_.start(); //Reset timer
 

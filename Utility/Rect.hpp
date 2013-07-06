@@ -17,7 +17,6 @@
  * Copyright 2013 (©) Jamie Bayne, David Truby, David Watson.
  */
 
-#pragma once
 #ifndef TANK_RECT_HPP
 #define TANK_RECT_HPP
 
@@ -27,10 +26,16 @@ namespace tank
 /*!
  * \brief A rectangle stuct. Stored as ints. Top left x,y then width and height.
  */
+template <typename T>
 struct Rect
 {
-    int x, y, w, h;
+    T x, y, w, h;
 };
+
+using Rectf = Rect<float>;
+using Recti = Rect<int>;
+using Rectu = Rect<unsigned int>;
+using Rectd = Rect<double>;
 
 }
 

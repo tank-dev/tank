@@ -175,7 +175,7 @@ Image::~Image()
     glDeleteVertexArrays(1,&vao_);
 }
 
-void Image::setClip(Rect clip)
+void Image::setClip(Rectu clip)
 {
     // TODO: Do this with Rect<float> after templating Rect
     // Clip has to be represented by a set of transformations to texture
@@ -195,18 +195,18 @@ void Image::setClip(Rect clip)
     clip_.w = static_cast<float>(clip.h) / size.y;
 }
 
-Rect Image::getClip() const
+Rectu Image::getClip() const
 {
     const Vectorf size {static_cast<float>(texture_->getSize().x),
                         static_cast<float>(texture_->getSize().y)};
 
-    Rect clip;
+    Rectu clip;
 
-    clip.x = static_cast<int>(clip_.x * size.x);
-    clip.y = static_cast<int>(clip_.y * size.y);
+    clip.x = static_cast<unsigned int>(clip_.x * size.x);
+    clip.y = static_cast<unsigned int>(clip_.y * size.y);
 
-    clip.w = static_cast<int>(clip_.z * size.x);
-    clip.h = static_cast<int>(clip_.w * size.y);
+    clip.w = static_cast<unsigned int>(clip_.z * size.x);
+    clip.h = static_cast<unsigned int>(clip_.w * size.y);
 
     return clip;
 }

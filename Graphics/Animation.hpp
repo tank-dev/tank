@@ -32,7 +32,6 @@
 namespace tank
 {
 
-// TODO: setRow?
 /*!
  * \brief Represents an image with multiple frames and stores animations for
  * that image.
@@ -108,7 +107,7 @@ public:
      * \param texture the Texture to set.
      * \param frameDims the dimensions of each image in the texture.
      */
-    void setImage(Image const&, Vector<unsigned int> frameDims);
+    void setImage(Image const&, Vectoru frameDims);
 
     virtual void setPos(Vectorf pos) { image_.setPos(pos); }
     virtual Vectorf getPos() const { return image_.getPos(); }
@@ -122,8 +121,8 @@ public:
     virtual void setRotation(float angle) { image_.setRotation(angle); }
     virtual float getRotation() const { return image_.getRotation(); }
 
-    void setClip(Rect clip) override { image_.setClip(clip); }
-    Rect getClip() const override { return image_.getClip(); }
+    void setClip(Rectu clip) override { image_.setClip(clip); }
+    Rectu getClip() const override { return image_.getClip(); }
 
     void setOrigin(Vectorf origin) override { image_.setOrigin(origin); }
     Vectorf getOrigin() const override { return image_.getOrigin(); }
@@ -150,7 +149,7 @@ private:
     bool loop_ {false};
     Vector<unsigned int> frameDimensions_ {0, 0};
     std::function<void()> callback_ = []{};
-    Rect clip_ {0, 0, 0, 0};
+    Rectu clip_ {0, 0, 0, 0};
     std::vector<AnimationInfo>  animations_;
 };
 
