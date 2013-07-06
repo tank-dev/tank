@@ -36,15 +36,15 @@ if (${CMAKE_GENERATOR} MATCHES "Xcode")
     set(CMAKE_XCODE_ATTRIBUTE_CLANG_CXX_LIBRARY "libc++")
 endif()
 
-option(Warn "Compile using all warnings" ON)
+option(WARN "Compile using all warnings" ON)
 
-if(Warn)
+if(WARN)
     if (NOT MSVC)
         set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Werror")
     else()
         set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /Wall /WX")
     endif(NOT MSVC)
-endif(Warn)
+endif(WARN)
 
 set(COMPILE_DEFINITIONS_DEBUG "${COMPILE_DEFINITIONS_DEBUG} -DDEBUG")
 
