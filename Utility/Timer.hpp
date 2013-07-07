@@ -24,7 +24,6 @@
  * Created on 17 December 2011, 17:26
  */
 
-#pragma once
 #ifndef TANK_TIMER_HPP
 #define TANK_TIMER_HPP
 
