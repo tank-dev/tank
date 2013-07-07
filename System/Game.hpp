@@ -42,8 +42,6 @@ namespace tank
  *
  * Once there is a state to run, call Game::run() to start the main loop.
  *
- * Currently, it is required to call Game::close() to clean up after the game
- * has finished, but this requirement should be lifted in later versions.
  * \see State
  * \see Logger
  */
@@ -62,13 +60,6 @@ public:
      * \brief Starts the game loop
      */
     static void run();
-    /*!
-     * \brief This cleans up after the game.
-     *
-     * This function should be placed at the end of your program to clean up
-     * some of the engine's dependencies
-     */
-    //static void close();
 
     /*!
      * \brief This removes the current state at the end of the frame.
