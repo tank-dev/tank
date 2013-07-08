@@ -20,6 +20,7 @@
 #include "State.hpp"
 
 #include <algorithm>
+#include <stdexcept>
 #include "Entity.hpp"
 #include "Game.hpp"
 

@@ -20,6 +20,7 @@
 #include "Entity.hpp"
 
 #include <cmath>
+#include <stdexcept>
 #include <algorithm>
 #include "State.hpp"
 
