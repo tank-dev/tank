@@ -37,7 +37,7 @@ class IWindow
 {
 public:
     IWindow() = default;
-    virtual ~IWindow() = default;
+    virtual ~IWindow() {}
 
     virtual Vector<unsigned int> const& getSize() = 0;
     virtual std::string getCaption() = 0;
