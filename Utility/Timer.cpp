@@ -19,6 +19,7 @@
 
 #include "Timer.hpp"
 
+#include <sstream>
 #if defined(__WIN32__) || defined(_WIN32) || defined(WIN32) || defined(__WINDOWS__) || defined(__TOS_WIN__)
 #include <windows.h>
 #else
@@ -120,9 +121,12 @@ std::string Timer::getHumanTime()
 {
     long int microsecs = getMicrosecs();
     // Returns time in H:M:S.uuuuuu
-    return std::to_string(microsecs/3600000000) + ":" +
-            std::to_string(microsecs/60000000 % 60) + ":" +
-            std::to_string((microsecs % 60000000)/1000000.0 );
+    std::stringstream s;
+    s << microsecs/3600000000 << ":" <<
+            microsecs/60000000 % 60 << ":" <<
+            (microsecs % 60000000)/1000000.0;
+
+    return s.str();
 }
 
 void Timer::delay(unsigned long millisecs)
