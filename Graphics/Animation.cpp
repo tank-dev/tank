@@ -29,8 +29,6 @@ Animation::Animation(Image const& i, Vector<unsigned int> frameDims)
     , frameDimensions_(frameDims)
     , clip_({0,0,frameDims.x, frameDims.y})
 {
-    image_.setSize({static_cast<float>(frameDims.x),
-                    static_cast<float>(frameDims.y)});
 }
 
 void Animation::add(std::string name,

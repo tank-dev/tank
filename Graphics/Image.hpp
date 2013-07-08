@@ -22,11 +22,9 @@
 
 #include <string>
 #include <memory>
-#include <glm/glm.hpp>
+#include <SFML/Graphics/Sprite.hpp>
 #include "../Utility/Vector.hpp"
-#include "GL/Texture.hpp"
-#include "GL/Buffer.hpp"
-#include "GL/ShaderProgram.hpp"
+#include "Texture.hpp"
 #include "Graphic.hpp"
 
 namespace tank {
@@ -36,48 +34,52 @@ class Image final : public Graphic
 public:
     Image();
     Image(std::string file);
-    virtual ~Image();
 
     void load(std::string file);
 
     virtual void setOrigin(Vectorf origin)
     {
-        origin_ = origin;
+        sprite_.setOrigin({origin.x, origin.y});
     }
     virtual Vectorf getOrigin() const
     {
-        return origin_;
+        return {sprite_.getOrigin().x, sprite_.getOrigin().y};
     }
 
     virtual Vectorf getSize() const override
     {
         return size_;
     }
-    void setSize(Vectorf size) override
+
+    void setSize(Vectorf size) override;
+
+    virtual void setClip(Rectu clip) override
     {
-        size_ = size;
+        sprite_.setTextureRect({static_cast<int>(clip.x),
+                                static_cast<int>(clip.y),
+                                static_cast<int>(clip.w),
+                                static_cast<int>(clip.h)});
+    }
+    virtual Rectu getClip() const override
+    {
+        auto clip = sprite_.getTextureRect();
+        return {static_cast<unsigned int>(clip.left),
+                static_cast<unsigned int>(clip.top),
+                static_cast<unsigned int>(clip.width),
+                static_cast<unsigned int>(clip.height)};
     }
 
-    virtual void setClip(Rectu) override;
-    virtual Rectu getClip() const override;
-
-    virtual Vector<unsigned int> getTextureSize() const override
+    virtual Vectoru getTextureSize() const override
     {
-        return texture_->getSize();
+        return { texture_->getSize().x, texture_->getSize().y };
     }
 
     virtual void draw(Vectorf parentPos = {}, float parentRot = 0, Vectorf camera = {}) override;
 private:
     bool loaded_;
     Vectorf size_;
-    glm::vec4 clip_;
-    Vectorf origin_;
-    std::shared_ptr<gl::Texture> texture_;
-
-    static GLuint vao_;
-    static std::unique_ptr<gl::Buffer>        buffer_;
-    static std::unique_ptr<gl::ShaderProgram> shader_;
-    static glm::mat4 projection_;
+    sf::Sprite sprite_;
+    std::shared_ptr<Texture> texture_;
 };
 
 }

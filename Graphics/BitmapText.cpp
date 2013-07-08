@@ -16,8 +16,6 @@ BitmapText::BitmapText(Image const& font, Vectoru glyphDimensions,
     , clip_({0, 0, glyphDims_.x, glyphDims_.y})
     , origin_({})
 {
-    font_.setSize({static_cast<float>(glyphDims_.x),
-                   static_cast<float>(glyphDims_.y)});
 }
 
 void BitmapText::setSize(Vectorf size)

@@ -21,6 +21,7 @@
 #define TANK_WINDOW_HPP
 
 #include <SFML/Graphics/RenderWindow.hpp>
+#include <SFML/Graphics/Color.hpp>
 #include "IWindow.hpp"
 #include "../Utility/Vector.hpp"
 
@@ -68,6 +69,8 @@ private:
 
     //Is this window instance the current window?
     bool valid_;
+
+    sf::Color backgroundColor_;
 
     //Unfortunately we can only have one window right now
     static bool windowExists_;

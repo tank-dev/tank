@@ -20,7 +20,6 @@
 #include "Game.hpp"
 
 #include <iostream>
-#include <GL/glew.h>
 #include <SFML/Window/Event.hpp>
 #include <SFML/Window/Keyboard.hpp>
 #include "Window.hpp"
@@ -51,14 +50,6 @@ bool Game::initialize(Vector<unsigned int> const& wSize)
 
         //Create window
         window_.reset(new Window({wSize.x,wSize.y}));
-
-        //Select PCRender as the rendering engine
-        log << "Loading rendering engine" << std::endl;
-
-        if(glewInit() != GLEW_OK)
-        {
-            throw std::runtime_error("Could not initialise GLEW");
-        }
     }
 
     return initialized_;

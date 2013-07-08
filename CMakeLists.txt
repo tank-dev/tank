@@ -6,19 +6,11 @@ project (Tank)
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_CURRENT_SOURCE_DIR}/cmake/modules")
 
 find_package(SFML 2.0 REQUIRED system window graphics)
-find_package(OpenGL REQUIRED)
-find_package(GLEW REQUIRED)
 find_package(Threads REQUIRED)
 find_package(Boost 1.53.0 REQUIRED)
-find_package(FreeImagePlus REQUIRED)
-find_package(GLM REQUIRED)
 
 include_directories(${Boost_INCLUDE_DIRS})
 include_directories(${SFML_INCLUDE_DIRS})
-include_directories(${OpenGL_INCLUDE_DIRS})
-include_directories(${GLEW_INCLUDE_DIRS})
-include_directories(${FREEIMAGEPLUS_INCLUDE_DIRS})
-include_directories(${GLM_INCLUDE_DIR})
 
 set(EXECUTABLE_OUTPUT_PATH ${CMAKE_BINARY_DIR})
 
@@ -58,7 +50,7 @@ find_package(Doxygen)
 if(DOXYGEN_FOUND)
     configure_file(${CMAKE_CURRENT_SOURCE_DIR}/doc/Doxyfile.in
         ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile @ONLY)
-    add_custom_target(doc 
+    add_custom_target(doc
         ${DOXYGEN_EXECUTABLE} ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile
         WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
         COMMENT "Generating API documentation" VERBATIM
@@ -67,8 +59,7 @@ endif(DOXYGEN_FOUND)
 
 set (engine_src ${gfx_src} ${sys_src} ${util_src} ${audio_src})
 add_library(tank ${engine_src})
-target_link_libraries(tank ${OPENGL_LIBRARIES} ${SFML_LIBRARIES}
-    ${GLEW_LIBRARY} ${CMAKE_THREAD_LIBS_INIT} ${FREEIMAGEPLUS_LIBRARIES})
+target_link_libraries(tank ${SFML_LIBRARIES} ${CMAKE_THREAD_LIBS_INIT})
 
 if(Cotire)
     cotire(engine)

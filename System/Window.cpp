@@ -20,8 +20,6 @@
 #include "Window.hpp"
 
 #include <iostream>
-#include <GL/glew.h>
-#include <SFML/OpenGL.hpp>
 #include "Game.hpp"
 
 namespace tank {
@@ -50,9 +48,7 @@ Window::Window(Vector<unsigned int> const& size, std::string caption)
                       sf::Style::Default, settings);
 
         window_.setFramerateLimit(60);
-        glClearColor(0.f,0.f,0.f,1.f);
-        glEnable(GL_BLEND);
-        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+        setBackgroundColor(0.f,0.f,0.f);
 
         valid_ = true;
         windowExists_ = true;
@@ -80,7 +76,7 @@ bool Window::pollEvent(sf::Event& event)
 void Window::flipDisplay()
 {
     window_.display();
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    window_.clear(backgroundColor_);
 }
 
 void Window::resize(Vector<unsigned int> const& size)
@@ -90,7 +86,10 @@ void Window::resize(Vector<unsigned int> const& size)
 
 void Window::setBackgroundColor(float r, float g, float b, float a)
 {
-    glClearColor(r, g, b, a);
+    backgroundColor_.r = 255 * r;
+    backgroundColor_.g = 255 * g;
+    backgroundColor_.b = 255 * b;
+    backgroundColor_.a = 255 * a;
 }
 
 void Window::setIcon(std::string path)
