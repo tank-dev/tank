@@ -144,11 +144,21 @@ public:
     }
 
     /*!
-     * \brief Returns a pointer to the entity's Texture
+     * \brief Returns a Graphic from the Entity's graphic list
      *
-     * \return Entity's texture
+     * \return unique_ptr to Graphic at specified position in graphic list
      */
     std::unique_ptr<Graphic> const& getGraphic(unsigned int i = 0) const;
+
+    /*!
+     * \brief Returns an Entity's graphic list
+     *
+     * \return Const reference to Entity's graphic list
+     */
+    std::vector<std::unique_ptr<Graphic>> const& getGraphicList()
+    {
+        return graphics_;
+    }
 
     /*!
      * \brief Returns a pointer to the entity's parent State
