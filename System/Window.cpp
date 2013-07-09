@@ -45,7 +45,8 @@ Window::Window(Vector<unsigned int> const& size, std::string caption)
         vMode.width = size.x;
         vMode.height = size.y;
         window_.create(vMode, caption,
-                      sf::Style::Default, settings);
+                      sf::Style::Close | sf::Style::Titlebar,
+                      settings);
 
         window_.setFramerateLimit(60);
         setBackgroundColor(0.f,0.f,0.f);
