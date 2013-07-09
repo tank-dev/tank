@@ -192,6 +192,7 @@ T* State::makeEntity(Args&&... args)
 
     T* ent = new T(std::forward<Args>(args)...);
     ent->setState(this);
+    ent->onAdded();
     entities_.emplace_back(ent);
     return ent;
 }
