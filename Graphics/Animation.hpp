@@ -112,6 +112,19 @@ public:
     virtual void setPos(Vectorf pos) { image_.setPos(pos); }
     virtual Vectorf getPos() const { return image_.getPos(); }
 
+    virtual void setScale(float scale) override
+    {
+        image_.setScale(scale);
+    }
+    virtual void setScale(Vectorf scale) override
+    {
+        image_.setScale(scale);
+    }
+    virtual Vectorf getScale() const override
+    {
+        return image_.getScale();
+    }
+
     virtual void drawRelativeToParent(bool relative)
     {
         image_.drawRelativeToParent(relative);

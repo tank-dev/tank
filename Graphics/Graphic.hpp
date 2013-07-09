@@ -72,6 +72,10 @@ public:
         visible_ = visibile;
     }
 
+    virtual void setScale(float) = 0;
+    virtual void setScale(Vectorf) = 0;
+    virtual Vectorf getScale() const = 0;
+
     virtual void setSize(Vectorf) = 0;
     virtual Vectorf getSize() const = 0;
 

@@ -23,6 +23,19 @@ public:
         return text_;
     }
 
+    virtual void setScale(float scale) override
+    {
+        font_.setScale(scale);
+    }
+    virtual void setScale(Vectorf scale) override
+    {
+        font_.setScale(scale);
+    }
+    virtual Vectorf getScale() const override
+    {
+        return font_.getScale();
+    }
+
     /*!
      * \brief Set the size of each rendered glyph
      *
