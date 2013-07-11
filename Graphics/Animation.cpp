@@ -67,7 +67,6 @@ void Animation::select(std::string name, bool loop,
             if (anim.name == name)
             {
                 currentAnimation_ = &anim;
-                animTimer_.start();
                 currentFrame_ = 0;
                 loop_ = loop;
                 callback_ = callback;
