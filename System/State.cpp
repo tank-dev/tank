@@ -29,6 +29,7 @@ namespace tank
 
 State::State()
     : camera_({})
+    , updating_(false)
 {}
 
 State::~State() {}
@@ -80,24 +81,10 @@ void State::moveEntity(State* state, Entity* entity)
     }
 
     toMove_.push_back(std::tuple<State*,Entity*>{state, entity});
-}
 
-void State::moveEntities()
-{
-    while (not toMove_.empty())
+    if(not updating_)
     {
-        State* state = std::get<0>(toMove_.back());
-        Entity* entity = std::get<1>(toMove_.back());
-        toMove_.pop_back();
-
-        std::unique_ptr<Entity> entPtr = releaseEntity(entity);
-        if (not entPtr.get())
-        {
-            Game::log << "Entity not found in move operation" << std::endl;
-            continue;
-        }
-
-        state->insertEntity(std::move(entPtr));
+        moveEntities();
     }
 }
 
@@ -122,17 +109,15 @@ std::unique_ptr<Entity> State::releaseEntity(Entity* entity)
 
 void State::update()
 {
+    updating_ = true;
     for (auto& entity : entities_)
     {
         entity->update();
     }
 
     moveEntities();
-    entities_.erase(std::remove_if(begin(entities_), end(entities_),
-                                   [](const std::unique_ptr<Entity>& ent)
-    {
-        return ent->isRemoved();
-    }), end(entities_));
+    deleteEntities();
+    updating_ = false;
 }
 
 void State::draw()
@@ -147,6 +132,34 @@ void State::draw()
     {
         entity->draw(getCamera());
     }
+}
+
+void State::moveEntities()
+{
+    while (not toMove_.empty())
+    {
+        State* state = std::get<0>(toMove_.back());
+        Entity* entity = std::get<1>(toMove_.back());
+        toMove_.pop_back();
+
+        std::unique_ptr<Entity> entPtr = releaseEntity(entity);
+        if (not entPtr.get())
+        {
+            Game::log << "Entity not found in move operation" << std::endl;
+            continue;
+        }
+
+        state->insertEntity(std::move(entPtr));
+    }
+}
+
+void State::deleteEntities()
+{
+    entities_.erase(std::remove_if(begin(entities_), end(entities_),
+                                   [](const std::unique_ptr<Entity>& ent)
+    {
+        return ent->isRemoved();
+    }), end(entities_));
 }
 
 }

@@ -174,14 +174,15 @@ protected:
     //TODO: Make private and add getter
     std::vector<std::unique_ptr<Entity>> entities_;
 private:
-    State(State const&);
-    State& operator=(State const&);
-
     Vectorf camera_;
+    std::vector<std::tuple<State*, Entity*>> toMove_;
+    bool updating_;
 
     void moveEntities();
+    void deleteEntities();
 
-    std::vector<std::tuple<State*, Entity*>> toMove_;
+    State(State const&);
+    State& operator=(State const&);
 };
 
 template <typename T, typename... Args>
