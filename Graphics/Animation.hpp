@@ -143,7 +143,7 @@ public:
     void setSize(Vectorf size) override { image_.setSize(size); }
     Vectorf getSize() const override { return image_.getSize(); }
 
-    virtual Vector<unsigned int> getTextureSize() const override
+    virtual Vectoru getTextureSize() const override
     {
         return image_.getTextureSize();
     }
@@ -160,7 +160,7 @@ private:
     unsigned int currentFrame_ {0};
     Timer animTimer_;
     bool loop_ {false};
-    Vector<unsigned int> frameDimensions_ {0, 0};
+    Vectoru frameDimensions_ {0, 0};
     std::function<void()> callback_ = []{};
     Rectu clip_ {0, 0, 0, 0};
     std::vector<AnimationInfo>  animations_;

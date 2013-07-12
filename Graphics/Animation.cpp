@@ -142,16 +142,10 @@ void Animation::play()
     if (currentAnimation_)
     {
         //Start at first frame
-        auto frameIter = currentAnimation_->frameList.begin();
-
-        //Move to current frame
-        frameIter += currentFrame_;
+        unsigned int frame = currentAnimation_->frameList[currentFrame_];
 
         //Set clipping rectangle according to current frame
-
-        clip_.x = (*frameIter) * frameDimensions_.x;
-
-        image_.setClip(clip_);
+        image_.setClip(frameDimensions_, frame);
     }
 }
 
