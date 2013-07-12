@@ -79,5 +79,18 @@ void Image::setSize(Vectorf size)
                      static_cast<float>(size.y/getClip().h));
 }
 
+void Image::setClip(Vectoru dimensions, unsigned int index)
+{
+    Rectu clip = { 0, 0, dimensions.x, dimensions.y };
+
+    Vectoru usefulSize = { getTextureSize().x -
+                                ( getTextureSize().x % dimensions.x ),
+                           getTextureSize().y -
+                                ( getTextureSize().y % dimensions.y )};
+
+    clip.x = (dimensions.x * index) % usefulSize.x;
+    clip.y = (dimensions.y * index) / usefulSize.y;
+    setClip(clip);
+}
 
 }

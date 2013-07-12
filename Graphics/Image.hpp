@@ -66,6 +66,8 @@ public:
 
     void setSize(Vectorf size) override;
 
+    virtual void setClip(Vectoru dimensions, unsigned int index);
+
     virtual void setClip(Rectu clip) override
     {
         sprite_.setTextureRect({static_cast<int>(clip.x),
