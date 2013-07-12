@@ -22,8 +22,6 @@
 #include <SFML/Graphics/RenderWindow.hpp>
 #include "../System/Game.hpp"
 
-#include <iostream>
-
 namespace tank {
 
 Image::Image()
@@ -87,11 +85,6 @@ void Image::setClip(Vectoru dimensions, unsigned int index)
 
     clip.x = (dimensions.x * index) % usefulSize.x;
     clip.y = dimensions.y * ((dimensions.x * index) / usefulSize.x);
-
-    std::cout << "Element's clip: " << getClip().x  << ", " << getClip().y
-              << std::endl
-              << "Same Element's tSize: " << getTextureSize().x << ", "
-              << getTextureSize().y << std::endl;
 
     setClip(clip);
 }
