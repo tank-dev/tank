@@ -71,16 +71,13 @@ void Image::setSize(Vectorf size)
 {
     size_ = size;
 
-    std::cout << "Element's clip: " << getClip().w  << ", " << getClip().h
-              << std::endl
-              << "Same Element's tSize: " << getTextureSize().x << ", "
-              << getTextureSize().y << std::endl;
     sprite_.setScale(static_cast<float>(size.x/getClip().w),
                      static_cast<float>(size.y/getClip().h));
 }
 
 void Image::setClip(Vectoru dimensions, unsigned int index)
 {
+    // TODO: This needs testing with rectangular dimensions
     Rectu clip = { 0, 0, dimensions.x, dimensions.y };
 
     Vectoru usefulSize = { getTextureSize().x -
@@ -89,7 +86,13 @@ void Image::setClip(Vectoru dimensions, unsigned int index)
                                 ( getTextureSize().y % dimensions.y )};
 
     clip.x = (dimensions.x * index) % usefulSize.x;
-    clip.y = (dimensions.y * index) / usefulSize.y;
+    clip.y = dimensions.y * ((dimensions.x * index) / usefulSize.x);
+
+    std::cout << "Element's clip: " << getClip().x  << ", " << getClip().y
+              << std::endl
+              << "Same Element's tSize: " << getTextureSize().x << ", "
+              << getTextureSize().y << std::endl;
+
     setClip(clip);
 }
 
