@@ -78,33 +78,6 @@ void Animation::select(std::string name, bool loop,
     }
 }
 
-void Animation::pause()
-{
-    animTimer_.pause();
-}
-
-void Animation::resume()
-{
-    if (animTimer_.isPaused() and currentAnimation_ != nullptr)
-    {
-        animTimer_.resume();
-    }
-}
-
-void Animation::stop()
-{
-    animTimer_.stop();
-
-    currentFrame_ = 0;
-
-    //Change appearance to first frame
-    play();
-
-    //After appearance has been set, unset member variables
-    currentAnimation_ = nullptr;
-    callback_ = []{};
-}
-
 void Animation::play()
 {
     //Only play if there is a selected animation
@@ -147,6 +120,38 @@ void Animation::play()
         //Set clipping rectangle according to current frame
         image_.setClip(frameDimensions_, frame);
     }
+}
+
+void Animation::start()
+{
+    animTimer_.start();
+}
+
+void Animation::pause()
+{
+    animTimer_.pause();
+}
+
+void Animation::resume()
+{
+    if (animTimer_.isPaused() and currentAnimation_ != nullptr)
+    {
+        animTimer_.resume();
+    }
+}
+
+void Animation::stop()
+{
+    animTimer_.stop();
+
+    currentFrame_ = 0;
+
+    //Change appearance to first frame
+    play();
+
+    //After appearance has been set, unset member variables
+    currentAnimation_ = nullptr;
+    callback_ = []{};
 }
 
 void Animation::draw(Vectorf parentPos, float parentRot, Vectorf camera)

@@ -62,7 +62,7 @@ public:
                 std::function<void()> = []{});
 
     /*!
-     * \brief Called to update the animation to the current frame
+     * \brief Update the animation to the current frame. Called by draw
      */
     void play();
 
@@ -73,6 +73,11 @@ public:
      * \param pos Position at which to draw the texture.
      */
     void draw(Vectorf parentPos, float parentRot, Vectorf camera = {0, 0}) override;
+
+    /*!
+     * \brief Start the animation
+     */
+    void start();
 
     /*!
      * \brief Pause the animation.
