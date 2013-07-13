@@ -116,24 +116,6 @@ public:
 
     virtual void setPos(Vectorf pos) { image_.setPos(pos); }
     virtual Vectorf getPos() const { return image_.getPos(); }
-
-    virtual void setScale(float scale) override
-    {
-        image_.setScale(scale);
-    }
-    virtual void setScale(Vectorf scale) override
-    {
-        image_.setScale(scale);
-    }
-    virtual Vectorf getScale() const override
-    {
-        return image_.getScale();
-    }
-
-    virtual void drawRelativeToParent(bool relative)
-    {
-        image_.drawRelativeToParent(relative);
-    }
     virtual bool isRelativeToParent() { return image_.isRelativeToParent(); }
 
     virtual void setRotation(float angle) { image_.setRotation(angle); }
@@ -148,6 +130,24 @@ public:
     void setSize(Vectorf size) override { image_.setSize(size); }
     Vectorf getSize() const override { return image_.getSize(); }
 
+
+    Vectoru getFrameDimensions() const { return frameDimensions_; }
+    virtual void setScale(float scale) override
+    {
+        image_.setScale(scale);
+    }
+    virtual void setScale(Vectorf scale) override
+    {
+        image_.setScale(scale);
+    }
+    virtual Vectorf getScale() const override
+    {
+        return image_.getScale();
+    }
+    virtual void drawRelativeToParent(bool relative)
+    {
+        image_.drawRelativeToParent(relative);
+    }
     virtual Vectoru getTextureSize() const override
     {
         return image_.getTextureSize();
@@ -170,6 +170,15 @@ private:
     Rectu clip_ {0, 0, 0, 0};
     std::vector<AnimationInfo>  animations_;
 };
+
+// TODO: Use enum to specify image format
+/*!
+ * \brief Generate a walking animations for Animation
+ *
+ * Generates four animations: walk_up, walk_right, walk_down, walk_left.
+ * Currently, they are generated from image rows going down in that order.
+ */
+void addWalkingAnimation(Animation& anim, unsigned int time);
 
 }
 

@@ -166,4 +166,26 @@ void Animation::setImage(Image const& image, Vector<unsigned int> frameDims)
     image_ = image;
 }
 
+void addWalkingAnimation(Animation& anim, unsigned int time)
+{
+    unsigned int xFrames = anim.getTextureSize().x / anim.getFrameDimensions().x;
+
+    std::vector<unsigned int> up;
+    std::vector<unsigned int> right;
+    std::vector<unsigned int> down;
+    std::vector<unsigned int> left;
+
+    for (unsigned int i = 0; i < xFrames; ++i)
+    {
+        up.push_back(i);
+        right.push_back(i + xFrames);
+        down.push_back(i + xFrames * 2);
+        left.push_back(i + xFrames * 3);
+    }
+    anim.add("walk_up", up, time);
+    anim.add("walk_right", right, time);
+    anim.add("walk_down", down, time);
+    anim.add("walk_left", left, time);
+}
+
 }
