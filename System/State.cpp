@@ -34,9 +34,9 @@ State::State()
 
 State::~State() {}
 
-void State::insertEntity(std::unique_ptr<Entity>&& entity)
+void State::insertEntity(const std::shared_ptr<Entity> entity)
 {
-    if (not entity.get())
+    if (not entity)
     {
         Game::log << "Warning: You can't add a null entity." << std::endl;
         return;
@@ -44,9 +44,9 @@ void State::insertEntity(std::unique_ptr<Entity>&& entity)
 
     // Stops an entity being added several times
     auto x = find_if(begin(entities_), end(entities_),
-                     [&entity](std::unique_ptr<Entity>& existing)
+                     [&entity](const std::shared_ptr<Entity>& existing)
     {
-            return entity.get() == existing.get();
+            return entity == existing;
     });
 
     if (x != end(entities_))
@@ -56,10 +56,10 @@ void State::insertEntity(std::unique_ptr<Entity>&& entity)
 
     entity->setState(this);
     entity->onAdded();
-    entities_.push_back(std::move(entity));
+    entities_.push_back(entity);
 }
 
-void State::moveEntity(State* state, Entity* entity)
+void State::moveEntity(State* state, std::shared_ptr<Entity> entity)
 {
     if (not entity)
     {
@@ -80,7 +80,7 @@ void State::moveEntity(State* state, Entity* entity)
         return;
     }
 
-    toMove_.push_back(std::tuple<State*,Entity*>{state, entity});
+    toMove_.emplace_back(state, entity);
 
     if(not updating_)
     {
@@ -88,12 +88,12 @@ void State::moveEntity(State* state, Entity* entity)
     }
 }
 
-std::unique_ptr<Entity> State::releaseEntity(Entity* entity)
+std::shared_ptr<Entity> State::releaseEntity(std::shared_ptr<Entity> entity)
 {
     auto it = std::find_if(begin(entities_), end(entities_),
-                           [&entity](std::unique_ptr<Entity>& ent)
+                           [&entity](std::shared_ptr<Entity>& ent)
     {
-        return entity == ent.get();
+        return entity == ent;
     });
 
     if (it == end(entities_))
@@ -101,7 +101,7 @@ std::unique_ptr<Entity> State::releaseEntity(Entity* entity)
         return nullptr;
     }
 
-    auto ent = std::move(*it);
+    auto ent = *it;
     entities_.erase(it);
     ent->onRemoved();
     return ent;
@@ -123,8 +123,8 @@ void State::update()
 void State::draw()
 {
     std::stable_sort(entities_.begin(), entities_.end(),
-                     [](std::unique_ptr<Entity> const& e1,
-                        std::unique_ptr<Entity> const& e2) {
+                     [](const std::shared_ptr<Entity>& e1,
+                        const std::shared_ptr<Entity>& e2) {
         return e1->getLayer() < e2->getLayer();
     });
 
@@ -139,24 +139,24 @@ void State::moveEntities()
     while (not toMove_.empty())
     {
         State* state = std::get<0>(toMove_.back());
-        Entity* entity = std::get<1>(toMove_.back());
+        std::shared_ptr<Entity> entity = std::get<1>(toMove_.back());
         toMove_.pop_back();
 
-        std::unique_ptr<Entity> entPtr = releaseEntity(entity);
+        std::shared_ptr<Entity> entPtr = releaseEntity(entity);
         if (not entPtr.get())
         {
             Game::log << "Entity not found in move operation" << std::endl;
             continue;
         }
 
-        state->insertEntity(std::move(entPtr));
+        state->insertEntity(entPtr);
     }
 }
 
 void State::deleteEntities()
 {
     entities_.erase(std::remove_if(begin(entities_), end(entities_),
-                                   [](const std::unique_ptr<Entity>& ent)
+                                   [](const std::shared_ptr<Entity>& ent)
     {
         return ent->isRemoved();
     }), end(entities_));

@@ -50,24 +50,24 @@ void Entity::draw(Vectorf camera)
     }
 }
 
-std::vector<Entity*> Entity::collide(std::string type)
+std::vector<std::shared_ptr<Entity>> Entity::collide(std::string type)
 {
-    std::vector<std::unique_ptr<Entity>> const& origList =
+    std::vector<std::shared_ptr<Entity>> const& origList =
             state_->getEntities();
-    std::vector<Entity*> entList;
-    std::vector<Entity*> collisions;
+    std::vector<std::shared_ptr<Entity>> entList;
+    std::vector<std::shared_ptr<Entity>> collisions;
 
-    for (auto& unique : origList)
+    for (auto& ptr : origList)
     {
-        if (type == "" or type == unique->getType())
+        if (type == "" or type == ptr->getType())
         {
-            entList.push_back(unique.get());
+            entList.push_back(ptr);
         }
     }
 
     for (auto ent : entList)
     {
-        if (ent != this)
+        if (ent.get() != this)
         {
             Rectd const& A = hitbox_;
             Rectd const& B = ent->getHitbox();
