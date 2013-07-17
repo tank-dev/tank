@@ -59,7 +59,7 @@ void State::insertEntity(std::unique_ptr<Entity>&& entity)
     entities_.push_back(std::move(entity));
 }
 
-void State::moveEntity(State* state, Entity* entity)
+void State::moveEntity(observing_ptr<State> state, observing_ptr<Entity> entity)
 {
     if (not entity)
     {
@@ -80,7 +80,7 @@ void State::moveEntity(State* state, Entity* entity)
         return;
     }
 
-    toMove_.push_back(std::tuple<State*,Entity*>{state, entity});
+    toMove_.emplace_back(state, entity);
 
     if(not updating_)
     {
@@ -88,7 +88,7 @@ void State::moveEntity(State* state, Entity* entity)
     }
 }
 
-std::unique_ptr<Entity> State::releaseEntity(Entity* entity)
+std::unique_ptr<Entity> State::releaseEntity(observing_ptr<Entity> entity)
 {
     auto it = std::find_if(begin(entities_), end(entities_),
                            [&entity](std::unique_ptr<Entity>& ent)
@@ -138,8 +138,8 @@ void State::moveEntities()
 {
     while (not toMove_.empty())
     {
-        State* state = std::get<0>(toMove_.back());
-        Entity* entity = std::get<1>(toMove_.back());
+        observing_ptr<State> state = std::get<0>(toMove_.back());
+        observing_ptr<Entity> entity = std::get<1>(toMove_.back());
         toMove_.pop_back();
 
         std::unique_ptr<Entity> entPtr = releaseEntity(entity);

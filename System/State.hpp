@@ -27,6 +27,7 @@
 #include <SFML/Window/Keyboard.hpp>
 
 #include "../Utility/Vector.hpp"
+#include "../Utility/observing_ptr.hpp"
 
 namespace tank {
 
@@ -59,14 +60,14 @@ public:
      *
      * Creates an Entity, setting its state pointer to point to it.
      * Adds a unique_ptr to the entity to the entity list.
-     * Returns a raw pointer of type T* to the Entity created.
+     * Returns an observing_ptr<T> to the Entity created.
      *
      * \tparam T The type of Entity to construct
      * \param args the arguments to send to the entity's constructor
      * \return A raw pointer to the created Entity (NEVER DELETE IT)
      */
     template <typename T, typename... Args>
-    T* makeEntity(Args&&... args);
+    observing_ptr<T> makeEntity(Args&&... args);
 
     /*!
      * \brief Inserts a unique_ptr to an Entity into the entity list
@@ -91,7 +92,7 @@ public:
      * \see insertEntity()
      * \see releaseEntity()
      */
-    void moveEntity(State*, Entity*);
+    void moveEntity(observing_ptr<State>, observing_ptr<Entity>);
 
     /*!
      * \brief Removes an Entity from the entity list and returns a unique_ptr
@@ -100,7 +101,7 @@ public:
      * \param entity A raw pointer to the Entity to be released
      * \see insertEntity()
      */
-    std::unique_ptr<Entity> releaseEntity(Entity*);
+    std::unique_ptr<Entity> releaseEntity(observing_ptr<Entity>);
 
     /*!
      * \brief Handle keyboard input on a per-frame basis (deprecated)
@@ -165,7 +166,7 @@ public:
      *
      * \return A reference to the list of unique_ptrs to entities
      */
-    virtual std::vector<std::unique_ptr<Entity>> const& getEntities()
+    virtual const std::vector<std::unique_ptr<Entity>>& getEntities()
     { return entities_; }
 
     State();
@@ -175,7 +176,7 @@ protected:
     std::vector<std::unique_ptr<Entity>> entities_;
 private:
     Vectorf camera_;
-    std::vector<std::tuple<State*, Entity*>> toMove_;
+    std::vector<std::tuple<observing_ptr<State>, observing_ptr<Entity>>> toMove_;
     bool updating_;
 
     void moveEntities();
@@ -186,16 +187,17 @@ private:
 };
 
 template <typename T, typename... Args>
-T* State::makeEntity(Args&&... args)
+observing_ptr<T> State::makeEntity(Args&&... args)
 {
     static_assert(std::is_base_of<Entity, T>::value,
                   "Type must derive from Entity");
 
-    T* ent = new T(std::forward<Args>(args)...);
+    std::unique_ptr<T> ent {new T(std::forward<Args>(args)...)};
     ent->setState(this);
     ent->onAdded();
-    entities_.emplace_back(ent);
-    return ent;
+    observing_ptr<T> ptr {ent};
+    entities_.push_back(std::move(ent));
+    return ptr;
 }
 
 }

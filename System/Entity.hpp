@@ -26,6 +26,7 @@
 #include "../Graphics/Graphic.hpp"
 #include "../Utility/Vector.hpp"
 #include "../Utility/Rect.hpp"
+#include "../Utility/observing_ptr.hpp"
 
 namespace tank
 {
@@ -77,7 +78,7 @@ public:
      * \return A list of all colliding entitities of type.
      * \see setType()
      */
-    std::vector<Entity*> collide(std::string type = "");
+    std::vector<observing_ptr<Entity>> collide(std::string type = "");
 
     /*!
      * \brief Returns the entity's vector position
@@ -165,7 +166,7 @@ public:
      *
      * \return Entity's parent state
      */
-    State* getState() const
+    observing_ptr<State> getState() const
     {
         return state_;
     }
@@ -241,7 +242,7 @@ public:
      * \return A pointer of type T to the created Graphic
      */
     template <typename T, typename... Args>
-    T* makeGraphic(Args&&... args);
+    observing_ptr<T> makeGraphic(Args&&... args);
 
     /*!
      * \brief Sets the entity's parent state
@@ -251,7 +252,7 @@ public:
      *
      * \param state A pointer to the parent state
      */
-    void setState(State* const state);
+    void setState(const observing_ptr<State> state);
 
     /*!
      * \brief Constructs an entity at position pos
@@ -290,7 +291,7 @@ private:
     bool solid_;
     int layer_;
 
-    State* state_; //Set by parent State
+    observing_ptr<State> state_; //Set by parent State
     std::vector<std::unique_ptr<Graphic>> graphics_;
 
     static int numEnts_;
@@ -300,14 +301,15 @@ private:
 };
 
 template <typename T, typename... Args>
-T* Entity::makeGraphic(Args&&... args)
+observing_ptr<T> Entity::makeGraphic(Args&&... args)
 {
     static_assert(std::is_base_of<Graphic,T>::value,
                   "Type must derive from Graphic");
 
-    T* g = new T(std::forward<Args>(args)...);
-    graphics_.emplace_back(g);
-    return g;
+    std::unique_ptr<T> g {new T(std::forward<Args>(args)...)};
+    observing_ptr<T> ptr {g};
+    graphics_.push_back(std::move(g));
+    return ptr;
 }
 
 }

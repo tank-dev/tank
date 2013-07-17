@@ -9,21 +9,67 @@ namespace tank
 template <typename T>
 class observing_ptr
 {
-	friend class std::hash<T>;
+    friend struct std::hash<T>;
+    template <typename U> friend class observing_ptr;
 	T* p_ = nullptr;
 public:
-	observing_ptr(std::unique_ptr<T> ptr) : p_(ptr.get()) {}
+    observing_ptr() = default;
+    template <typename U>
+    observing_ptr(const std::unique_ptr<U>& ptr) : p_{ptr.get()} {}
+    observing_ptr(std::nullptr_t) : p_{nullptr} {}
+    template <typename U>
+    observing_ptr(const observing_ptr<U>& ptr) : p_{ptr.p_} {}
+    template <typename U>
+    observing_ptr(U* ptr) : p_{ptr} {}
 
-	observing_ptr& operator* ()
+    T& operator* ()
 	{
 		return *p_;
 	}
 
-	observing_ptr* operator->()
+    T* operator->()
 	{
 		return p_;
 	}
+
+    explicit operator bool()
+    {
+        return p_;
+    }
+
+    bool operator==(const observing_ptr& other) const
+    {
+        return p_ == other.p_;
+    }
+
+    bool operator==(const std::unique_ptr<T>& other) const
+    {
+        return p_ == other.get();
+    }
+
+    bool operator==(const T* other) const
+    {
+        return p_ == other;
+    }
 };
+
+template <typename T>
+bool operator==(const std::unique_ptr<T>& lhs, const observing_ptr<T>& rhs)
+{
+    return rhs == lhs;
+}
+
+template <typename T>
+bool operator==(const T* lhs, const observing_ptr<T>& rhs)
+{
+    return rhs == lhs;
+}
+
+template <typename T, typename U>
+bool operator!= (const T& t, const U& u)
+{
+    return not (t == u);
+}
 
 }
 

@@ -97,7 +97,7 @@ void Window::setIcon(std::string path)
 {
     if(windowExists_ && valid_)
     {
-        //SDL_WM_SetIcon(IMG_Load(path.c_str()), NULL);
+        //SDL_WM_SetIcon(IMG_Load(path.c_str()), nullptr);
     }
 }
 
@@ -106,7 +106,7 @@ void Window::setCaption(std::string caption)
     if(windowExists_ && valid_)
     {
         caption_ = caption;
-        //SDL_WM_SetCaption(caption.c_str(), NULL);
+        //SDL_WM_SetCaption(caption.c_str(), nullptr);
     }
 }
 

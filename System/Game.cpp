@@ -32,7 +32,7 @@ const unsigned int Game::FPS {60};
 bool Game::initialized_ {false};
 bool Game::run_ {false};
 bool Game::popState_ {false};
-State* Game::currentState_ {nullptr};
+observing_ptr<State> Game::currentState_ {nullptr};
 std::unique_ptr<IWindow> Game::window_ {nullptr};
 std::stack<std::unique_ptr<State>> Game::states_;
 Timer Game::frameTimer_;
@@ -79,7 +79,7 @@ void Game::run()
             break;
         }
 
-        currentState_ = states_.top().get();
+        currentState_ = states_.top();
 
         handleEvents();
 

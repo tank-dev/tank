@@ -50,18 +50,18 @@ void Entity::draw(Vectorf camera)
     }
 }
 
-std::vector<Entity*> Entity::collide(std::string type)
+std::vector<observing_ptr<Entity>> Entity::collide(std::string type)
 {
     std::vector<std::unique_ptr<Entity>> const& origList =
             state_->getEntities();
-    std::vector<Entity*> entList;
-    std::vector<Entity*> collisions;
+    std::vector<observing_ptr<Entity>> entList;
+    std::vector<observing_ptr<Entity>> collisions;
 
     for (auto& unique : origList)
     {
         if (type == "" or type == unique->getType())
         {
-            entList.push_back(unique.get());
+            entList.emplace_back(unique);
         }
     }
 
@@ -128,7 +128,7 @@ void Entity::setLayer(int layer)
     layer_ = layer;
 }
 
-void Entity::setState(State* const state)
+void Entity::setState(const observing_ptr<State> state)
 {
     state_ = state;
 }

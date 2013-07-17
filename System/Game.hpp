@@ -27,6 +27,7 @@
 #include "IWindow.hpp"
 #include "State.hpp"
 #include <iostream>
+#include "../Utility/observing_ptr.hpp"
 
 namespace tank
 {
@@ -82,14 +83,14 @@ public:
      * \return A pointer to the state.
      */
     template<typename T, typename... Args>
-    static T* makeState(Args&&... args);
+    static observing_ptr<T> makeState(Args&&... args);
 
     /*!
      * \brief Return a pointer to the active state
      *
      * \return A pointer to the active state
      */
-    static State* state() { return currentState_; }
+    static observing_ptr<State> state() { return currentState_; }
 
     static std::unique_ptr<IWindow> const& window() { return window_; };
 
@@ -100,8 +101,7 @@ private:
 
     static bool popState_;
 
-    // TODO: Replace with observing_ptr
-    static State* currentState_;
+    static observing_ptr<State> currentState_;
     static std::unique_ptr<IWindow> window_;
 
     static std::stack<std::unique_ptr<State>> states_;
@@ -116,13 +116,15 @@ private:
 };
 
 template<typename T, typename... Args>
-T* Game::makeState(Args&&... args)
+observing_ptr<T> Game::makeState(Args&&... args)
 {
     static_assert(std::is_base_of<State, T>::value,
                   "Class must derive from State");
-    T* state = new T(std::forward<Args>(args)...);
-    states_.emplace(state);
-    return state;
+
+    std::unique_ptr<T> state {new T(std::forward<Args>(args)...)};
+    observing_ptr<T> ptr {state};
+    states_.push(std::move(state));
+    return ptr;
 }
 
 }
