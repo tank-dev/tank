@@ -27,10 +27,10 @@
 #include <SFML/Window/Keyboard.hpp>
 
 #include "../Utility/Vector.hpp"
-#include "Entity.hpp"
 
 namespace tank {
 
+class Entity;
 class Game;
 
 /*!
@@ -58,7 +58,7 @@ public:
      * \brief Creates an Entity and adds it to the State
      *
      * Creates an Entity, setting its state pointer to point to it.
-     * Adds a shared_ptr to the entity to the entity list.
+     * Adds a unique_ptr to the entity to the entity list.
      * Returns a raw pointer of type T* to the Entity created.
      *
      * \tparam T The type of Entity to construct
@@ -66,19 +66,19 @@ public:
      * \return A raw pointer to the created Entity (NEVER DELETE IT)
      */
     template <typename T, typename... Args>
-    std::shared_ptr<T> makeEntity(Args&&... args);
+    T* makeEntity(Args&&... args);
 
     /*!
-     * \brief Inserts a shared_ptr to an Entity into the entity list
+     * \brief Inserts a unique_ptr to an Entity into the entity list
      *
      * This method provides a way to add entities that have
      * * been released from their original State via releaseEntity()
      * * been created independently of makeEntity()
      *
-     * \param entity A shared_ptr to the Entity to be inserted
+     * \param entity A unique_ptr to the Entity to be inserted
      * \see makeEntity()
      */
-    void insertEntity(std::shared_ptr<Entity> entity);
+    void insertEntity(std::unique_ptr<Entity>&&);
 
     /*!
      * \brief Moves an Entity from one State to another
@@ -91,16 +91,16 @@ public:
      * \see insertEntity()
      * \see releaseEntity()
      */
-    void moveEntity(State*, std::shared_ptr<Entity>);
+    void moveEntity(State*, Entity*);
 
     /*!
-     * \brief Removes an Entity from the entity list and returns a shared_ptr
+     * \brief Removes an Entity from the entity list and returns a unique_ptr
      * to it
      *
      * \param entity A raw pointer to the Entity to be released
      * \see insertEntity()
      */
-    std::shared_ptr<Entity> releaseEntity(std::shared_ptr<Entity>);
+    std::unique_ptr<Entity> releaseEntity(Entity*);
 
     /*!
      * \brief Handle keyboard input on a per-frame basis (deprecated)
@@ -163,19 +163,19 @@ public:
     /*!
      * \brief Get the list of entities
      *
-     * \return A reference to the list of shared_ptrs to entities
+     * \return A reference to the list of unique_ptrs to entities
      */
-    virtual const std::vector<std::shared_ptr<Entity>>& getEntities()
+    virtual std::vector<std::unique_ptr<Entity>> const& getEntities()
     { return entities_; }
 
     State();
     virtual ~State();
 protected:
     //TODO: Make private and add getter
-    std::vector<std::shared_ptr<Entity>> entities_;
+    std::vector<std::unique_ptr<Entity>> entities_;
 private:
     Vectorf camera_;
-    std::vector<std::tuple<State*, std::shared_ptr<Entity>>> toMove_;
+    std::vector<std::tuple<State*, Entity*>> toMove_;
     bool updating_;
 
     void moveEntities();
@@ -186,15 +186,15 @@ private:
 };
 
 template <typename T, typename... Args>
-std::shared_ptr<T> State::makeEntity(Args&&... args)
+T* State::makeEntity(Args&&... args)
 {
     static_assert(std::is_base_of<Entity, T>::value,
                   "Type must derive from Entity");
 
-    auto ent = std::make_shared<T>(std::forward<Args>(args)...);
+    T* ent = new T(std::forward<Args>(args)...);
     ent->setState(this);
     ent->onAdded();
-    entities_.push_back(ent);
+    entities_.emplace_back(ent);
     return ent;
 }
 

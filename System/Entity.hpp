@@ -77,7 +77,7 @@ public:
      * \return A list of all colliding entitities of type.
      * \see setType()
      */
-    std::vector<std::shared_ptr<Entity>> collide(std::string type = "");
+    std::vector<Entity*> collide(std::string type = "");
 
     /*!
      * \brief Returns the entity's vector position
