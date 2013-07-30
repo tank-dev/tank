@@ -1,5 +1,3 @@
-# This is the minimum version that supports the Qt5 methods we are using in
-# cmake
 cmake_minimum_required(VERSION 2.8.9)
 project (Tank)
 
@@ -56,8 +54,11 @@ if(DOXYGEN_FOUND)
     )
 endif(DOXYGEN_FOUND)
 
-set (engine_src ${gfx_src} ${sys_src} ${util_src} ${audio_src})
-add_library(tank ${engine_src})
+add_library(tank 
+    $<TARGET_OBJECTS:tank_system>
+    $<TARGET_OBJECTS:tank_graphics>
+    $<TARGET_OBJECTS:tank_utility>
+    $<TARGET_OBJECTS:tank_audio>)
 target_link_libraries(tank ${SFML_LIBRARIES} ${CMAKE_THREAD_LIBS_INIT})
 
 if(Cotire)

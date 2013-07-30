@@ -1,2 +1,2 @@
 FILE(GLOB audio_src *.cpp *.hpp)
-set(audio_src ${audio_src} PARENT_SCOPE)
+add_library(tank_audio OBJECT ${audio_src})

@@ -1,2 +1,2 @@
 FILE(GLOB sys_src *.cpp *.hpp)
-set(sys_src ${sys_src} PARENT_SCOPE)
+add_library(tank_system OBJECT ${sys_src})
