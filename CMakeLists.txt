@@ -12,6 +12,8 @@ include_directories(${SFML_INCLUDE_DIRS})
 
 set(EXECUTABLE_OUTPUT_PATH ${CMAKE_BINARY_DIR})
 
+set(TANK_INCLUDE_DIRS ${CMAKE_CURRENT_SOURCE_DIR} PARENT_SCOPE)
+
 if (NOT MSVC)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 endif(NOT MSVC)
@@ -38,10 +40,10 @@ endif(WARN)
 
 set(COMPILE_DEFINITIONS_DEBUG "${COMPILE_DEFINITIONS_DEBUG} -DDEBUG")
 
-add_subdirectory(System)
-add_subdirectory(Utility)
-add_subdirectory(Graphics)
-add_subdirectory(Audio)
+add_subdirectory(Tank/System)
+add_subdirectory(Tank/Utility)
+add_subdirectory(Tank/Graphics)
+add_subdirectory(Tank/Audio)
 
 find_package(Doxygen)
 if(DOXYGEN_FOUND)
