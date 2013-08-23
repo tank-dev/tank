@@ -104,7 +104,7 @@ void Window::setCaption(std::string caption)
     if(windowExists_ && valid_)
     {
         caption_ = caption;
-        //SDL_WM_SetCaption(caption.c_str(), nullptr);
+        window_.setTitle(caption);
     }
 }
 
