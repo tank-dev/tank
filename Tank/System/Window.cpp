@@ -39,8 +39,6 @@ Window::Window(Vector<unsigned int> const& size, std::string caption)
 
         sf::ContextSettings settings;
         settings.antialiasingLevel = 4;
-        settings.majorVersion = 3;
-        settings.minorVersion = 2;
         sf::VideoMode vMode = sf::VideoMode::getDesktopMode();
         vMode.width = size.x;
         vMode.height = size.y;
