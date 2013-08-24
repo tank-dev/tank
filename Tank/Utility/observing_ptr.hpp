@@ -9,7 +9,7 @@ namespace tank
 template <typename T>
 class observing_ptr
 {
-    friend struct std::hash<T>;
+    friend struct std::hash<observing_ptr>;
     template <typename U> friend class observing_ptr;
 	T* p_ = nullptr;
 public:

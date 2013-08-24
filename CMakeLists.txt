@@ -32,7 +32,7 @@ option(WARN "Compile using all warnings" ON)
 
 if(WARN)
     if (NOT MSVC)
-        set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Werror -Wno-mismatched-tags")
+        set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Werror")
     else()
         set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /Wall /WX")
     endif(NOT MSVC)
