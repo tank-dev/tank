@@ -19,7 +19,6 @@
 
 #include "Game.hpp"
 
-#include <iostream>
 #include <SFML/Window/Event.hpp>
 #include <SFML/Window/Keyboard.hpp>
 #include "Window.hpp"
