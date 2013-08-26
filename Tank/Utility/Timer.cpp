@@ -77,17 +77,17 @@ void Timer::resume()
     }
 }
 
-bool Timer::isStarted()
+bool Timer::isStarted() const
 {
     return started_;
 }
 
-bool Timer::isPaused()
+bool Timer::isPaused() const
 {
     return paused_;
 }
 
-unsigned long Timer::getTicks()
+unsigned long Timer::getTicks() const
 {
     if (not started_)
     {
@@ -102,7 +102,7 @@ unsigned long Timer::getTicks()
             (std::chrono::steady_clock::now() - startTick_).count();
 }
 
-unsigned long Timer::getMicrosecs()
+unsigned long Timer::getMicrosecs() const
 {
     if (not started_)
     {
@@ -117,7 +117,7 @@ unsigned long Timer::getMicrosecs()
             (std::chrono::steady_clock::now() - startTick_).count();
 }
 
-std::string Timer::getHumanTime()
+std::string Timer::getHumanTime() const
 {
     long int microsecs = getMicrosecs();
     // Returns time in H:M:S.uuuuuu

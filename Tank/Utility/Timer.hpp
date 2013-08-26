@@ -59,14 +59,14 @@ public:
      *
      * \return True if the timer has been started.
      */
-    bool isStarted();
+    bool isStarted() const;
     /*!
      * \brief Gets whether the timer is paused
      * (NOTE: a stopped timer counts as paused.).
      *
      * \return True if the timer is paused.
      */
-    bool isPaused();
+    bool isPaused() const;
 
     /*!
      * \brief Gets the number of milliseconds since the timer was started or 0
@@ -74,14 +74,14 @@ public:
      *
      * \return The number of millisecnds since the timer was started.
      */
-    unsigned long getTicks();
+    unsigned long getTicks() const;
     /*!
      * \brief Gets the number of microseconds since the timer was started or 0
      * if it hasn't been started.
      *
      * \return The number of microseconds since the timer was started.
      */
-    unsigned long getMicrosecs();
+    unsigned long getMicrosecs() const;
 
     /*!
      * \brief Get the time in a human readable format H:M:S.uuuuuu.
@@ -89,7 +89,7 @@ public:
      *
      * \return A string of the time, H:M:S.uuuuuu
      */
-    std::string getHumanTime();
+    std::string getHumanTime() const;
 
     /*!
      * \brief Creates a timer object
