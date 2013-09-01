@@ -17,33 +17,34 @@
  * Copyright 2013 (©) Jamie Bayne, David Truby, David Watson.
  */
 
-#include "Animation.hpp"
+#include "FrameList.hpp"
 
 #include <algorithm>
 
 namespace tank
 {
 
-Animation::Animation(Image const& i, Vector<unsigned int> frameDims)
+FrameList::FrameList(Image const& i, Vector<unsigned int> frameDims)
     : image_ (i)
     , frameDimensions_(frameDims)
     , clip_({0,0,frameDims.x, frameDims.y})
 {
 }
 
-void Animation::add(std::string name,
+void FrameList::add(std::string name,
                     std::vector<unsigned int> const& frames,
                     unsigned int time)
 {
-    // Create new AnimationInfo
+    // TODO: validate arguments
+    // Create new Animation
     animations_.push_back({name, frames, time});
 }
 
-void Animation::remove(std::string name)
+void FrameList::remove(std::string name)
 {
     // Find the animation by name
     auto iter = std::find_if_not(animations_.begin(), animations_.end(),
-                                 [&name](AnimationInfo anim)
+                                 [&name](Animation& anim)
     {
         return anim.name == (name);
     });
@@ -55,7 +56,7 @@ void Animation::remove(std::string name)
     }
 }
 
-void Animation::select(std::string name, bool loop,
+void FrameList::select(std::string name, bool loop,
                        std::function<void()> callback)
 {
     //Check that the requested animation is not already playing
@@ -70,21 +71,19 @@ void Animation::select(std::string name, bool loop,
                 currentFrame_ = 0;
                 loop_ = loop;
                 callback_ = callback;
-
-                //Update Animation to reflect changes immediately
-                //play();
             }
         }
     }
 }
 
-void Animation::play()
+void FrameList::refresh()
 {
     //Only play if there is a selected animation
     if (currentAnimation_)
     {
         //Check if we need to change animation frame
         bool playNextFrame = animTimer_.getTicks() > currentAnimation_->time;
+
 
         if (playNextFrame)
         {
@@ -122,17 +121,20 @@ void Animation::play()
     }
 }
 
-void Animation::start()
+void FrameList::start()
 {
-    animTimer_.start();
+    if (not animTimer_.isStarted())
+    {
+        animTimer_.start();
+    }
 }
 
-void Animation::pause()
+void FrameList::pause()
 {
     animTimer_.pause();
 }
 
-void Animation::resume()
+void FrameList::resume()
 {
     if (animTimer_.isPaused() and currentAnimation_ != nullptr)
     {
@@ -140,33 +142,31 @@ void Animation::resume()
     }
 }
 
-void Animation::stop()
+void FrameList::stop()
 {
-    animTimer_.stop();
-
-    currentFrame_ = 0;
-
     //Change appearance to first frame
-    play();
+    currentFrame_ = 0;
+    refresh();
 
     //After appearance has been set, unset member variables
-    currentAnimation_ = nullptr;
+    animTimer_.stop();
     callback_ = []{};
+    currentAnimation_ = nullptr;
 }
 
-void Animation::draw(Vectorf parentPos, float parentRot, Vectorf camera)
+void FrameList::draw(Vectorf parentPos, float parentRot, Vectorf camera)
 {
-    play();
+    refresh();
     image_.draw(parentPos, parentRot, camera);
 }
 
-void Animation::setImage(Image const& image, Vector<unsigned int> frameDims)
+void FrameList::setImage(Image const& image, Vector<unsigned int> frameDims)
 {
     frameDimensions_ = frameDims;
     image_ = image;
 }
 
-void addWalkingAnimation(Animation& anim, unsigned int time)
+void addWalkingFrameList(FrameList& anim, unsigned int time)
 {
     unsigned int xFrames = anim.getTextureSize().x / anim.getFrameDimensions().x;
 

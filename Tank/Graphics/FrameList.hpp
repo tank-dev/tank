@@ -17,8 +17,8 @@
  * Copyright 2013 (©) Jamie Bayne, David Truby, David Watson.
  */
 
-#ifndef TANK_ANIMATION_HPP
-#define TANK_ANIMATION_HPP
+#ifndef TANK_FRAMELIST_HPP
+#define TANK_FRAMELIST_HPP
 
 #include <string>
 #include <vector>
@@ -36,16 +36,16 @@ namespace tank
  * \brief Represents an image with multiple frames and stores animations for
  * that image.
  */
-class Animation final : public Graphic
+class FrameList final : public Graphic
 {
 public:
-    Animation() = default;
+    FrameList() = default;
     /*!
      * \brief Construct an Animation with a Texture.
      * \param t Image to give the animation.
      * \param frameDims size of each image in the Texture.
      */
-    Animation(Image const&, Vector<unsigned int> frameDimensions);
+    FrameList(Image const&, Vector<unsigned int> frameDimensions);
 
     /*!
      * \brief Add an animations
@@ -64,7 +64,7 @@ public:
     /*!
      * \brief Update the animation to the current frame. Called by draw
      */
-    void play();
+    void refresh();
 
     /*!
      * \brief Draw the animation.
@@ -108,7 +108,7 @@ public:
     }
 
     /*!
-     * \brief Set the texture of the Animation.
+     * \brief Set the texture of the FrameList.
      * \param texture the Texture to set.
      * \param frameDims the dimensions of each image in the texture.
      */
@@ -153,7 +153,7 @@ public:
         return image_.getTextureSize();
     }
 private:
-    struct AnimationInfo
+    struct Animation
     {
         std::string name;
         std::vector<unsigned int> frameList;
@@ -161,14 +161,14 @@ private:
     };
 
     Image image_;
-    AnimationInfo* currentAnimation_ {nullptr};
+    Animation* currentAnimation_ {nullptr};
     unsigned int currentFrame_ {0};
     Timer animTimer_;
     bool loop_ {false};
     Vectoru frameDimensions_ {0, 0};
     std::function<void()> callback_ = []{};
     Rectu clip_ {0, 0, 0, 0};
-    std::vector<AnimationInfo>  animations_;
+    std::vector<Animation>  animations_;
 };
 
 // TODO: Use enum to specify image format
@@ -178,8 +178,8 @@ private:
  * Generates four animations: walk_up, walk_right, walk_down, walk_left.
  * Currently, they are generated from image rows going down in that order.
  */
-void addWalkingAnimation(Animation& anim, unsigned int time);
+void addWalkingAnimation(FrameList& frames, unsigned int time);
 
 }
 
-#endif
+#endif /* TANK_FRAMELIST_HPP */
