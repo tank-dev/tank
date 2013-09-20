@@ -22,30 +22,36 @@
 namespace tank
 {
 
-Logger::Logger(std::string file) : fileName_{file}, logFile_{fileName_}
+void Logger::log(const std::string& s)
 {
-    timer_.start();
     logFile_ << "["
-        << file
-        << ": "
-        << timer_.getHumanTime()
-        << "] "
-        << "Log file created..."
-        << std::endl;
+             << fileName_
+             << ": "
+             << timer_.getHumanTime()
+             << "] "
+             << s;
 #ifdef DEBUG
     std::clog << "["
-        << file
-        << ": "
-        << timer_.getHumanTime()
-        << "] "
-        << "Log file created..."
-        << std::endl;
+              << fileName_
+              << ": "
+              << timer_.getHumanTime()
+              << "] "
+              << s;
 #endif
 }
 
-Logger::~Logger()
+Logger::Logger(std::string file) : std::ostream(&buf_)
+    ,fileName_{file}
+    ,logFile_{fileName_}
+    ,buf_{[this](const std::string& s){this->log(s);}}
+{
+    timer_.start();
+    *this << "Log file created";
+}
+
+/*Logger::~Logger()
 {
     logHelper_ << '\n';
-}
+}*/
 
 }
