@@ -12,7 +12,12 @@ include_directories(${SFML_INCLUDE_DIRS})
 
 set(EXECUTABLE_OUTPUT_PATH ${CMAKE_BINARY_DIR})
 
-set(TANK_INCLUDE_DIRS ${CMAKE_CURRENT_SOURCE_DIR} PARENT_SCOPE)
+if (${PROJECT_NAME} STREQUAL Tank)
+    set(TANK_INCLUDE_DIRS ${CMAKE_CURRENT_SOURCE_DIR})
+    include_directories(${TANK_INCLUDE_DIRS})
+else()
+    set(TANK_INCLUDE_DIRS ${CMAKE_CURRENT_SOURCE_DIR} PARENT_SCOPE)
+endif()
 
 if (NOT MSVC)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
@@ -30,6 +35,8 @@ endif()
 
 option(WARN "Compile using all warnings" ON)
 
+option(TESTS "Build unit tests" ON)
+
 if(WARN)
     if (NOT MSVC)
         set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Werror -Wno-mismatched-tags")
@@ -40,10 +47,16 @@ endif(WARN)
 
 set(COMPILE_DEFINITIONS_DEBUG "${COMPILE_DEFINITIONS_DEBUG} -DDEBUG")
 
+add_subdirectory(deps)
+
+add_subdirectory(Tank/Audio)
+add_subdirectory(Tank/Graphics)
 add_subdirectory(Tank/System)
 add_subdirectory(Tank/Utility)
-add_subdirectory(Tank/Graphics)
-add_subdirectory(Tank/Audio)
+
+if(TESTS)
+    add_subdirectory(tests)
+endif()
 
 find_package(Doxygen)
 if(DOXYGEN_FOUND)

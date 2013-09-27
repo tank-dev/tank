@@ -1,0 +1,2 @@
+add_executable(observing_ptr_test observing_ptr_test.cpp)
+target_link_libraries(observing_ptr_test gtest gtest_main tank)

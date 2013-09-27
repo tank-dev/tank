@@ -14,11 +14,15 @@ class observing_ptr
 	T* p_ = nullptr;
 public:
     observing_ptr() = default;
+
     template <typename U>
     observing_ptr(const std::unique_ptr<U>& ptr) : p_{ptr.get()} {}
+
     observing_ptr(std::nullptr_t) : p_{nullptr} {}
+
     template <typename U>
     observing_ptr(const observing_ptr<U>& ptr) : p_{ptr.p_} {}
+
     template <typename U>
     observing_ptr(U* ptr) : p_{ptr} {}
 
@@ -47,28 +51,38 @@ public:
         return p_ == other.get();
     }
 
-    bool operator==(const T* other) const
+    bool operator==(const T* const other) const
     {
         return p_ == other;
     }
+
+    bool operator!=(const observing_ptr& other) const
+    {
+        return p_ != other.p_;
+    }
+
+    bool operator!=(const std::unique_ptr<T>& other) const
+    {
+        return p_ != other.get();
+    }
+
+    bool operator!= (const T* const other) const
+    {
+        return p_ != other;
+    }
 };
 
-template <typename T>
-bool operator==(const std::unique_ptr<T>& lhs, const observing_ptr<T>& rhs)
-{
-    return rhs == lhs;
-}
 
-template <typename T>
-bool operator==(const T* lhs, const observing_ptr<T>& rhs)
+template <typename T, typename U>
+bool operator==(const T& lhs, const observing_ptr<U>& rhs)
 {
     return rhs == lhs;
 }
 
 template <typename T, typename U>
-bool operator!= (const T& t, const U& u)
+bool operator!=(const T& lhs, const observing_ptr<U>& rhs)
 {
-    return not (t == u);
+    return rhs != lhs;
 }
 
 }
