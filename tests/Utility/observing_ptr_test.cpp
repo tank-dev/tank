@@ -15,8 +15,8 @@ protected:
 TEST_F(observing_ptr_test, unique_constructor)
 {
     std::unique_ptr<int> u_ptr {new int};
-    *u_ptr = 10;
     tank::observing_ptr<int> o_ptr {u_ptr};
+    *u_ptr = 10;
     ASSERT_EQ(*o_ptr, 10);
 }
 
@@ -52,78 +52,99 @@ TEST_F(observing_ptr_test, struct_dereference)
     ASSERT_EQ(o_ptr->second, 20);
 }
 
-TEST_F(observing_ptr_test, op_bool)
+TEST_F(observing_ptr_test, op_bool_true)
 {
     ASSERT_TRUE(bool(ptr));
+}
 
+TEST_F(observing_ptr_test, op_bool_false)
+{
     tank::observing_ptr<int> null {nullptr};
     ASSERT_FALSE(bool(null));
 }
 
-TEST_F(observing_ptr_test, equals)
+TEST_F(observing_ptr_test, equals_true)
 {
     tank::observing_ptr<int> p {unique};
     ASSERT_TRUE(ptr == p);
     ASSERT_TRUE(p == ptr);
-
-    std::unique_ptr<int> tmp {new int(10)};
-    tank::observing_ptr<int> p2 {tmp};
-    ASSERT_FALSE(p2 == p);
-    ASSERT_FALSE(p == p2);
 }
 
-TEST_F(observing_ptr_test, unique_equals)
+TEST_F(observing_ptr_test, equals_false)
+{
+    std::unique_ptr<int> tmp {new int(10)};
+    tank::observing_ptr<int> p2 {tmp};
+    ASSERT_FALSE(p2 == ptr);
+    ASSERT_FALSE(ptr == p2);
+}
+
+TEST_F(observing_ptr_test, unique_equals_true)
 {
     ASSERT_TRUE(ptr == unique);
     ASSERT_TRUE(unique == ptr);
+}
 
+TEST_F(observing_ptr_test, unique_equals_false)
+{
     std::unique_ptr<int> p {new int(20)};
     ASSERT_FALSE(ptr == p);
     ASSERT_FALSE(p == ptr);
 }
 
-TEST_F(observing_ptr_test, raw_equals)
+TEST_F(observing_ptr_test, raw_equals_true)
 {
     auto* x = new int;
     tank::observing_ptr<int> p {x};
     ASSERT_TRUE(p == x);
     ASSERT_TRUE(x == p);
-
-    auto* y = new int;
-    ASSERT_FALSE(p == y);
-    ASSERT_FALSE(y == p);
 }
 
-TEST_F(observing_ptr_test, not_equals)
+TEST_F(observing_ptr_test, raw_equals_false)
 {
-    tank::observing_ptr<int> p {unique};
-    ASSERT_FALSE(ptr != p);
-    ASSERT_FALSE(p != ptr);
+    auto* y = new int;
+    ASSERT_FALSE(ptr == y);
+    ASSERT_FALSE(y == ptr);
+}
 
+TEST_F(observing_ptr_test, not_equals_true)
+{
     std::unique_ptr<int> tmp {new int(20)};
     tank::observing_ptr<int> p2 {tmp};
     ASSERT_TRUE(ptr != p2);
     ASSERT_TRUE(p2 != ptr);
 }
 
-TEST_F(observing_ptr_test, unique_not_equals)
+TEST_F(observing_ptr_test, not_equals_false)
 {
-    ASSERT_FALSE(ptr != unique);
-    ASSERT_FALSE(unique != ptr);
+    tank::observing_ptr<int> p {unique};
+    ASSERT_FALSE(ptr != p);
+    ASSERT_FALSE(p != ptr);
+}
 
+TEST_F(observing_ptr_test, unique_not_equals_true)
+{
     std::unique_ptr<int> p {new int(20)};
     ASSERT_TRUE(ptr != p);
     ASSERT_TRUE(p != ptr);
 }
 
-TEST_F(observing_ptr_test, raw_not_equals)
+TEST_F(observing_ptr_test, unique_not_equals_false)
+{
+    ASSERT_FALSE(ptr != unique);
+    ASSERT_FALSE(unique != ptr);
+}
+
+TEST_F(observing_ptr_test, raw_not_equals_true)
+{
+    auto* y = new int;
+    ASSERT_TRUE(ptr != y);
+    ASSERT_TRUE(y != ptr);
+}
+
+TEST_F(observing_ptr_test, raw_not_equals_false)
 {
     auto* x = new int;
     tank::observing_ptr<int> p {x};
     ASSERT_FALSE(p != x);
     ASSERT_FALSE(x != p);
-
-    auto* y = new int;
-    ASSERT_TRUE(p != y);
-    ASSERT_TRUE(y != p);
 }
