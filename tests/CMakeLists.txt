@@ -1,0 +1,5 @@
+include_directories(${CMAKE_SOURCE_DIR}/deps/gtest/include)
+add_subdirectory(Audio)
+add_subdirectory(Graphics)
+add_subdirectory(System)
+add_subdirectory(Utility)
