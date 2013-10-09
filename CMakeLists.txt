@@ -1,6 +1,8 @@
 cmake_minimum_required(VERSION 2.8.9)
 project (Tank)
 
+enable_testing()
+
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_CURRENT_SOURCE_DIR}/cmake/modules")
 
 find_package(SFML 2.0 REQUIRED system window graphics)
