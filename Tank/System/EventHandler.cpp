@@ -1,26 +1,28 @@
-#include "Events.hpp"
+#include "EventHandler.hpp"
+#include <numeric>
 
-namespace Tank {
+namespace tank {
+std::size_t EventHandler::ConnectedPair::counter = 0;
 
-bool Events::addEvent(std::string name, std::function<bool ()> predicate)
+void EventHandler::propagate()
 {
-    return SignalMap_.emplace(name,
-        std::unique_ptr<Event>(new Event(predicate))).second;
-}
-
-boost::signals2::connection Events::registerSlot(std::string signal,
-    std::function<void ()> fun)
-{
-    return SignalMap_.at(signal)->signal.connect(fun);
-}
-
-void Events::distribute()
-{
-    for (auto& e : SignalMap_) {
-        if (e.second->predicate()) {
-            e.second->signal();
+    for (auto& x : connections) {
+        if (x.condition()) {
+            x.effect();
         }
     }
+}
+
+EventHandler::Connection EventHandler::connect(Condition condition, Effect effect)
+{
+    auto iter = this->connections.emplace(condition,effect);
+    return Connection{*this, iter.first};
+}
+
+void EventHandler::disconnect(Connection& connection)
+{
+    connection.setInvalid();
+    connections.erase(connection.getIterator());
 }
 
 }

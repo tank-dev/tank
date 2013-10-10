@@ -56,10 +56,6 @@ add_subdirectory(Tank/Graphics)
 add_subdirectory(Tank/System)
 add_subdirectory(Tank/Utility)
 
-if(TESTS)
-    add_subdirectory(tests)
-endif()
-
 find_package(Doxygen)
 if(DOXYGEN_FOUND)
     configure_file(${CMAKE_CURRENT_SOURCE_DIR}/doc/Doxyfile.in
@@ -78,6 +74,7 @@ add_library(tank
     $<TARGET_OBJECTS:tank_audio>)
 target_link_libraries(tank ${SFML_LIBRARIES} ${CMAKE_THREAD_LIBS_INIT})
 
-if(Cotire)
-    cotire(engine)
-endif(Cotire)
+if(TESTS)
+    add_subdirectory(tests)
+endif()
+
