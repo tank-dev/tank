@@ -2,11 +2,8 @@
 #define TANK_EVENTS_HPP
 
 #include <SFML/Window/Event.hpp>
-//#include <boost/signals2/signal.hpp>
-//#include <vector>
 #include <set>
 #include <functional>
-#include <boost/container/stable_vector.hpp>
 
 namespace tank {
 
