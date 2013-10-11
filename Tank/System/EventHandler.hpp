@@ -9,17 +9,20 @@ namespace tank {
 
 class EventHandler
 {
+public:
+    class Connection;
     using Condition = std::function<bool()>;
     using Effect = std::function<void()>;
 
+private:
     class ConnectedPair {
-    private:
         static std::size_t counter;
         std::size_t uid;
 
     public:
         Condition condition;
         Effect effect;
+
 
         ConnectedPair(Condition condition, Effect effect) :
             uid{counter},
@@ -37,12 +40,10 @@ class EventHandler
     using ConnectedPairList = std::set<ConnectedPair>;
     ConnectedPairList connections;
 
-public:
-    class Connection;
-
-    Connection connect(Condition condition, Effect effect);
     void disconnect(Connection& connection);
-//    Connection connect(std::initializer_list<Condition> conditions, Effect effect);
+
+public:
+    Connection connect(Condition condition, Effect effect);
 
     void propagate();
 };
@@ -51,7 +52,7 @@ class EventHandler::Connection
 {
     EventHandler& events;
     ConnectedPairList::iterator iterator;
-    bool valid = true;
+    bool connected = true;
 
 public:
     Connection(EventHandler& events, ConnectedPairList::iterator iterator) :
@@ -61,13 +62,20 @@ public:
     }
 
     ~Connection() {
-        if (valid) {
-            events.disconnect(*this);
-        }
+        disconnect();
     }
 
-    void setInvalid() {valid = false;}
+    void disconnect() {
+        if (not connected) {return;}
+        connected = false;
+        events.disconnect(*this);
+    }
+
     ConnectedPairList::iterator getIterator() {return iterator;}
+
+    bool isConnected() const {
+        return connected;
+    }
 };
 
 }

@@ -21,7 +21,6 @@ EventHandler::Connection EventHandler::connect(Condition condition, Effect effec
 
 void EventHandler::disconnect(Connection& connection)
 {
-    connection.setInvalid();
     connections.erase(connection.getIterator());
 }
 
