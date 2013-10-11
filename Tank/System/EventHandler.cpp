@@ -13,7 +13,8 @@ void EventHandler::propagate()
     }
 }
 
-EventHandler::Connection EventHandler::connect(Condition condition, Effect effect)
+EventHandler::Connection EventHandler::connect(Condition condition,
+                                               Effect effect)
 {
     auto iter = this->connections.emplace(condition,effect);
     return Connection{*this, iter.first};

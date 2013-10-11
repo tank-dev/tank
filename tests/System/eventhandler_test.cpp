@@ -8,7 +8,6 @@ inline constexpr std::chrono::duration<int64_t, std::milli> operator"" _ms (unsi
     return std::chrono::milliseconds(i);
 }
 
-
 std::function<bool()> operator||(std::function<bool()> f1, std::function<bool()> f2) {
     return [f1, f2]() {
         return f1() || f2();
@@ -36,19 +35,26 @@ std::function<bool()> is_less_1_seconds(const tank::Timer& timer)
     };
 }
 
-void hello()
+std::function<bool()> isKeyPressed(sf::Keyboard::Key k)
 {
-    std::cout << "Hello World!" << std::endl;
+    return [&]() {
+        return sf::Keyboard::isKeyPressed(k);
+    };
 }
 
-
+struct hello
+{
+    void operator()() const {
+        std::cout << "Hello World!" << std::endl;
+    }
+};
 
 int main()
 {
     tank::Timer timer;
     tank::EventHandler events;
 
-    tank::EventHandler::Connection c = events.connect(is_3_seconds(timer), hello);
+    auto c = events.connect(is_3_seconds(timer), hello());
     timer.start();
 
 
@@ -59,5 +65,4 @@ int main()
         }
         std::this_thread::sleep_for(1_ms);
     }
-
 }
