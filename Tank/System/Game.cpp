@@ -19,8 +19,8 @@
 
 #include "Game.hpp"
 
+#include <iostream>
 #include <SFML/Window/Event.hpp>
-#include <SFML/Window/Keyboard.hpp>
 #include "Window.hpp"
 
 namespace tank
@@ -60,6 +60,7 @@ bool Game::initialize(Vector<unsigned int> const& wSize)
 
 void Game::run()
 {
+    std::cout << "Entering main loop" << std::endl;
     if (run_)
     {
         return;
@@ -107,32 +108,33 @@ void Game::handleEvents()
     //TODO Make this independent of SFML
     while (window_->pollEvent(event))
     {
+        /*
         switch (event.type)
         {
         case sf::Event::KeyPressed:
         case sf::Event::KeyReleased:
-            /*
             if((event.key.code == sf::Keyboard::Key::F4 && event.key.alt)
             {
                 run_ = false;
                 break;
             }
-            */
             //if(!states_.empty())
             //{
                 currentState_->handleEvents(event.key.code);
             //}
             break;
-        case sf::Event::GainedFocus:
+        */
+        if(event.type == sf::Event::GainedFocus)
+        {
             draw();
-            break;
-        case sf::Event::Closed:
+        }
+        else if(event.type == sf::Event::Closed)
+        {
             run_ = false;
-            break;
-        default:
-            break;
         }
     }
+
+    currentState_->eventHandler.propagate();
 }
 
 /* ----------------------------------- *

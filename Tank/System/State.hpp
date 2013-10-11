@@ -23,9 +23,8 @@
 #include <vector>
 #include <tuple>
 #include <memory>
-#include <SFML/Window/Event.hpp>
-#include <SFML/Window/Keyboard.hpp>
 
+#include "EventHandler.hpp"
 #include "../Utility/Vector.hpp"
 #include "../Utility/observing_ptr.hpp"
 
@@ -54,6 +53,21 @@ class Game;
  */
 class State
 {
+public:
+    EventHandler eventHandler;
+protected:
+    //TODO: Make private and add getter
+    std::vector<std::unique_ptr<Entity>> entities_;
+private:
+    Vectorf camera_;
+    std::vector<std::tuple<observing_ptr<State>, observing_ptr<Entity>>> toMove_;
+    bool updating_;
+
+    void moveEntities();
+    void deleteEntities();
+
+    State(State const&);
+    State& operator=(State const&);
 public:
     /*!
      * \brief Creates an Entity and adds it to the State
@@ -103,7 +117,7 @@ public:
      */
     std::unique_ptr<Entity> releaseEntity(observing_ptr<Entity>);
 
-    /*!
+    /*
      * \brief Handle keyboard input on a per-frame basis (deprecated)
      *
      * When State is the active state, Game calls this once per frame, before
@@ -116,7 +130,7 @@ public:
      * \see draw()
      * \see Game
      */
-    virtual void handleEvents(sf::Keyboard::Key) {}
+    //virtual void handleEvents(sf::Keyboard::Key) {}
 
     /*!
      * \brief Update all entities in the state's entities list
@@ -171,19 +185,6 @@ public:
 
     State();
     virtual ~State();
-protected:
-    //TODO: Make private and add getter
-    std::vector<std::unique_ptr<Entity>> entities_;
-private:
-    Vectorf camera_;
-    std::vector<std::tuple<observing_ptr<State>, observing_ptr<Entity>>> toMove_;
-    bool updating_;
-
-    void moveEntities();
-    void deleteEntities();
-
-    State(State const&);
-    State& operator=(State const&);
 };
 
 template <typename T, typename... Args>

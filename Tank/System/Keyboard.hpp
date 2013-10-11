@@ -9,6 +9,7 @@ using Key = sf::Keyboard::Key;
 
 class Keyboard
 {
+public:
     static std::function<bool()> KeyPressed(Key key) {
         return [key]() {
             return sf::Keyboard::isKeyPressed(key);
