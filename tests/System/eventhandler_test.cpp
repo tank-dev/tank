@@ -8,25 +8,12 @@ inline constexpr std::chrono::duration<int64_t, std::milli> operator"" _ms (unsi
     return std::chrono::milliseconds(i);
 }
 
-std::function<bool()> operator||(std::function<bool()> f1, std::function<bool()> f2) {
-    return [f1, f2]() {
-        return f1() || f2();
-    };
-}
-
-std::function<bool()> operator&&(std::function<bool()> f1, std::function<bool()> f2) {
-    return [f1, f2]() {
-        return f1() && f2();
-    };
-}
-
 std::function<bool()> is_3_seconds(const tank::Timer& timer)
 {
     return [&timer](){
         return timer.getTicks() > 3000;
     };
 }
-
 
 std::function<bool()> is_less_1_seconds(const tank::Timer& timer)
 {
@@ -54,7 +41,7 @@ int main()
     tank::Timer timer;
     tank::EventHandler events;
 
-    auto c = events.connect(is_3_seconds(timer), hello());
+    auto c = events.connect(is_3_seconds(timer) or is_less_1_seconds(timer), hello());
     timer.start();
 
 

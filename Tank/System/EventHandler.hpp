@@ -80,4 +80,19 @@ public:
 
 }
 
+inline std::function<bool()> operator&& (std::function<bool()> f1,
+                                         std::function<bool()> f2)
+{
+    return [f1,f2](){
+        return f1() and f2();
+    };
+}
+
+inline std::function<bool()> operator|| (std::function<bool()> f1,
+                                  std::function<bool()> f2)
+{
+    return [f1,f2](){
+        return f1() or f2();
+    };
+}
 #endif //TANK_EVENTS_HPP
