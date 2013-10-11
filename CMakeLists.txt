@@ -1,5 +1,7 @@
 cmake_minimum_required(VERSION 2.8.9)
-project (Tank)
+if (NOT DEFINED PROJECT_NAME)
+    project (Tank)
+endif()
 
 enable_testing()
 
@@ -14,9 +16,10 @@ include_directories(${SFML_INCLUDE_DIRS})
 
 set(EXECUTABLE_OUTPUT_PATH ${CMAKE_BINARY_DIR})
 
-if (${PROJECT_NAME} STREQUAL Tank)
+if (${PROJECT_NAME} STREQUAL "Tank")
     set(TANK_INCLUDE_DIRS ${CMAKE_CURRENT_SOURCE_DIR})
     include_directories(${TANK_INCLUDE_DIRS})
+    option(TESTS "Build unit tests" ON)
 else()
     set(TANK_INCLUDE_DIRS ${CMAKE_CURRENT_SOURCE_DIR} PARENT_SCOPE)
 endif()
@@ -36,8 +39,6 @@ if (${CMAKE_GENERATOR} MATCHES "Xcode")
 endif()
 
 option(WARN "Compile using all warnings" ON)
-
-option(TESTS "Build unit tests" ON)
 
 if(WARN)
     if (NOT MSVC)
