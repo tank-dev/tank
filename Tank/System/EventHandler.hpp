@@ -57,8 +57,8 @@ class EventHandler::Connection
 
 public:
     Connection(EventHandler& events, ConnectedPairList::iterator iterator) :
-        events{events},
-        iterator{iterator}
+        events(events),
+        iterator(iterator)
     {
     }
 
