@@ -13,11 +13,11 @@ void EventHandler::propagate()
     }
 }
 
-EventHandler::Connection EventHandler::connect(Condition condition,
+std::unique_ptr<EventHandler::Connection> EventHandler::connect(Condition condition,
                                                Effect effect)
 {
     auto iter = this->connections.emplace(condition,effect);
-    return Connection{*this, iter.first};
+    return std::unique_ptr<EventHandler::Connection>(new EventHandler::Connection{*this, iter.first});
 }
 
 void EventHandler::disconnect(Connection& connection)

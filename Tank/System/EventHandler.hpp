@@ -1,9 +1,10 @@
 #ifndef TANK_EVENTS_HPP
 #define TANK_EVENTS_HPP
 
-#include <SFML/Window/Event.hpp>
+#include <memory>
 #include <set>
 #include <functional>
+#include <SFML/Window/Event.hpp>
 
 namespace tank {
 
@@ -43,7 +44,7 @@ private:
     void disconnect(Connection& connection);
 
 public:
-    Connection connect(Condition condition, Effect effect);
+    std::unique_ptr<Connection> connect(Condition condition, Effect effect);
 
     void propagate();
 };
