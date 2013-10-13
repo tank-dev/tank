@@ -30,6 +30,7 @@ using Key = sf::Keyboard::Key;
 class Keyboard
 {
     friend class Game;
+    static bool stateChange_;
     static std::array<bool, Key::KeyCount> currentState_;
     static std::array<bool, Key::KeyCount> lastState_;
 
@@ -46,15 +47,15 @@ public:
         };
     }
 
-    static std::function<bool()> KeyPressed(Key key) {
+    static std::function<bool()> KeyPress(Key key) {
         return [key]() {
             return isKeyPressed(key);
         };
     }
 
-    static std::function<bool()> KeyReleased(Key key) {
+    static std::function<bool()> KeyRelease(Key key) {
         return [key]() {
-            return not isKeyReleased(key);
+            return isKeyReleased(key);
         };
     }
 
@@ -70,16 +71,19 @@ public:
 
     static bool isKeyPressed(Key key)
     {
-        return currentState_[key] and not lastState_[key];
+        return stateChange_ and currentState_[key] and not lastState_[key];
     }
 
     static bool isKeyReleased(Key key)
     {
-        return not currentState_[key] and lastState_[key];
+        return stateChange_ and not currentState_[key] and lastState_[key];
     }
 
 private:
-    static void update();
+    static void reset();
+
+    static void setKeyPressed(Key key);
+    static void setKeyReleased(Key key);
 };
 
 }

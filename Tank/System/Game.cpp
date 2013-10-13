@@ -100,32 +100,35 @@ void Game::run()
 void Game::handleEvents()
 {
     sf::Event event;
-    //TODO Make this independent of SFML
+
     while (window_->pollEvent(event))
     {
-        /*
         switch (event.type)
         {
         case sf::Event::KeyPressed:
+            Keyboard::setKeyPressed(event.key.code);
+            break;
         case sf::Event::KeyReleased:
-            if((event.key.code == sf::Keyboard::Key::F4 && event.key.alt)
+            if(event.key.code == sf::Keyboard::Key::F4 && event.key.alt)
             {
                 run_ = false;
                 break;
             }
+            Keyboard::setKeyReleased(event.key.code);
             break;
         case sf::Event::GainedFocus:
             draw();
             break;
-            */
-        if(event.type == sf::Event::Closed)
-        {
+        case sf::Event::Closed:
             run_ = false;
+            break;
+        default:
+            break;
         }
     }
 
-    Keyboard::update();
     currentState_->eventHandler.propagate();
+    Keyboard::reset();
 }
 
 /* ----------------------------------- *
