@@ -19,12 +19,11 @@
 
 #include "Game.hpp"
 
-#include <iostream>
 #include <SFML/Window/Event.hpp>
+#include "Keyboard.hpp"
 #include "Window.hpp"
 
-namespace tank
-{
+namespace tank {
 
 Logger Game::log {"log.txt"};
 const unsigned int Game::FPS {60};
@@ -60,11 +59,7 @@ bool Game::initialize(Vector<unsigned int> const& wSize)
 
 void Game::run()
 {
-    std::cout << "Entering main loop" << std::endl;
-    if (run_)
-    {
-        return;
-    }
+    if (run_) {return;}
 
     run_ = true;
     log << "Entering main loop" << std::endl;
@@ -96,7 +91,7 @@ void Game::run()
 		//Delay until the next frame so the game stays at 60fps
         if (1000000 / FPS > frameTimer_.getMicrosecs()) {
             Timer::delayMicrosecs(
-                static_cast<unsigned long>(1000000 / 
+                static_cast<unsigned long>(1000000 /
                                            FPS - frameTimer_.getTicks()));
         }
     }
@@ -118,22 +113,18 @@ void Game::handleEvents()
                 run_ = false;
                 break;
             }
-            //if(!states_.empty())
-            //{
-                currentState_->handleEvents(event.key.code);
-            //}
             break;
-        */
-        if(event.type == sf::Event::GainedFocus)
-        {
+        case sf::Event::GainedFocus:
             draw();
-        }
-        else if(event.type == sf::Event::Closed)
+            break;
+            */
+        if(event.type == sf::Event::Closed)
         {
             run_ = false;
         }
     }
 
+    Keyboard::update();
     currentState_->eventHandler.propagate();
 }
 

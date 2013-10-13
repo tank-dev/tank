@@ -24,13 +24,11 @@
 #include <memory>
 #include "../Utility/Timer.hpp"
 #include "../Utility/Logger.hpp"
+#include "../Utility/observing_ptr.hpp"
 #include "IWindow.hpp"
 #include "State.hpp"
-#include <iostream>
-#include "../Utility/observing_ptr.hpp"
 
-namespace tank
-{
+namespace tank {
 
 /*!
  * \brief Static Game class containing main loop and current state.
@@ -48,7 +46,25 @@ namespace tank
  */
 class Game
 {
+    static bool initialized_;
+    static bool run_;
+
+    static bool popState_;
+
+    static observing_ptr<State> currentState_;
+    static std::unique_ptr<IWindow> window_;
+
+    static std::stack<std::unique_ptr<State>> states_;
+    static Timer frameTimer_;
+
 public:
+    /*!
+     * \brief The log. This acts like a stream, remember to finish your log
+     * with std::endl.
+     */
+    static Logger log;
+    static const unsigned int FPS;
+
     /*!
      * \brief Initializes the game.
      *
@@ -66,12 +82,6 @@ public:
      * \brief This removes the current state at the end of the frame.
      */
     static void popState();
-
-    /*!
-     * \brief The log. This acts like a stream, remember to finish your log
-     * with std::endl.
-     */
-    static Logger log;
 
     /*!
      * \brief This creates a game state.
@@ -93,20 +103,7 @@ public:
     static observing_ptr<State> state() { return currentState_; }
 
     static std::unique_ptr<IWindow> const& window() { return window_; };
-
-    static const unsigned int FPS;
 private:
-    static bool initialized_;
-    static bool run_;
-
-    static bool popState_;
-
-    static observing_ptr<State> currentState_;
-    static std::unique_ptr<IWindow> window_;
-
-    static std::stack<std::unique_ptr<State>> states_;
-    static Timer frameTimer_;
-
     static void handleEvents();
     static void update();
     static void draw();
