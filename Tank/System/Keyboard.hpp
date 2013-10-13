@@ -10,9 +10,14 @@ using Key = sf::Keyboard::Key;
 class Keyboard
 {
 public:
-    static std::function<bool()> KeyPressed(Key key) {
+    static std::function<bool()> KeyDown(Key key) {
         return [key]() {
             return sf::Keyboard::isKeyPressed(key);
+        };
+    }
+    static std::function<bool()> KeyUp(Key key) {
+        return [key]() {
+            return not sf::Keyboard::isKeyPressed(key);
         };
     }
 };
