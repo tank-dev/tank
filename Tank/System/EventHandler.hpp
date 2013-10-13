@@ -1,3 +1,22 @@
+/* This file is part of Tank.
+ *
+ * Tank is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Tank is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License and
+ * the GNU Lesser General Public Licence along with Tank. If not, see
+ * <http://www.gnu.org/licenses/>.
+ *
+ * Copyright 2013 (©) Jamie Bayne, David Truby, David Watson.
+ */
+
 #ifndef TANK_EVENTS_HPP
 #define TANK_EVENTS_HPP
 
@@ -12,6 +31,7 @@ class EventHandler
 {
 public:
     class Connection;
+
     using Condition = std::function<bool()>;
     using Effect = std::function<void()>;
 
@@ -33,6 +53,7 @@ private:
             ++counter;
         }
 
+        // std::set boilerplate
         bool operator<(const ConnectedPair& rhs) const {
             return this->uid < rhs.uid;
         }
@@ -42,7 +63,6 @@ private:
     ConnectedPairList connections;
 
     void disconnect(Connection& connection);
-
 public:
     std::unique_ptr<Connection> connect(Condition condition, Effect effect);
 
@@ -67,7 +87,7 @@ public:
     }
 
     void disconnect() {
-        if (not connected) {return;}
+        if (not connected) {return;} // Jamie: Will this ever happen?
         connected = false;
         events.disconnect(*this);
     }
