@@ -48,7 +48,7 @@ int main()
     while(timer.getTicks() < 5000) {
         events.propagate();
         if (timer.getTicks() > 3002) {
-            c.disconnect();
+            c->disconnect();
         }
         std::this_thread::sleep_for(1_ms);
     }
