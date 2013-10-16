@@ -27,6 +27,8 @@
 #include "../Utility/Vector.hpp"
 #include "../Utility/Rect.hpp"
 #include "../Utility/observing_ptr.hpp"
+#include "EventHandler.hpp"
+#include "Game.hpp"
 
 namespace tank
 {
@@ -282,6 +284,11 @@ public:
     virtual void onRemoved() {}
 
     virtual ~Entity();
+
+    tank::observing_ptr<tank::EventHandler::Connection> connect(
+            tank::EventHandler::Condition condition,
+            tank::EventHandler::Effect effect);
+
 private:
     //Member variables
     Vectorf pos_;
@@ -298,6 +305,8 @@ private:
     const  int actorID_;
 
     bool removed_ = false;
+
+    std::vector<std::unique_ptr<EventHandler::Connection>> connections;
 };
 
 template <typename T, typename... Args>
