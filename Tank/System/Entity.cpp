@@ -137,7 +137,7 @@ tank::observing_ptr<tank::EventHandler::Connection> Entity::connect(
                                        EventHandler::Condition condition,
                                        EventHandler::Effect effect)
 {
-    auto cond = tank::Game::state()->eventHandler.connect(condition, effect);
+    auto cond = getState()->eventHandler.connect(condition, effect);
     connections.push_back(std::move(cond));
     return connections.back();
 }

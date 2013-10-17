@@ -35,8 +35,7 @@ void EventHandler::propagate()
 std::unique_ptr<EventHandler::Connection>
 EventHandler::connect(Condition condition, Effect effect)
 {
-    std::pair<ConnectedPairList::iterator, bool> iter =
-        this->connections.emplace(condition,effect);
+    auto iter = this->connections.emplace(condition,effect);
     return std::unique_ptr<Connection>(new Connection{*this, iter.first});
 }
 
