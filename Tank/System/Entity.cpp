@@ -108,6 +108,12 @@ void Entity::setPos(Vectorf pos)
     pos_ = pos;
 }
 
+void Entity::moveBy(Vectorf vec)
+{
+    //setPos({getPos().x + vec.x, getPos().y + vec.y});
+    setPos(getPos() + vec);
+}
+
 void Entity::setRotation(float rot)
 {
     rot_ = rot;

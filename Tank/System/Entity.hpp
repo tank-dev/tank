@@ -24,6 +24,7 @@
 #include <string>
 #include <memory>
 #include "../Graphics/Graphic.hpp"
+#include "../Graphics/Image.hpp"
 #include "../Utility/Vector.hpp"
 #include "../Utility/Rect.hpp"
 #include "../Utility/observing_ptr.hpp"
@@ -200,6 +201,8 @@ public:
      */
     virtual void setPos(Vectorf pos);
 
+    virtual void moveBy(Vectorf vec);
+
     /*!
      * \brief Sets the entity's rotation
      *
@@ -243,7 +246,7 @@ public:
      * \param args The arguments to T's constructor
      * \return A pointer of type T to the created Graphic
      */
-    template <typename T, typename... Args>
+    template <typename T = tank::Image, typename... Args>
     observing_ptr<T> makeGraphic(Args&&... args);
 
     /*!
@@ -261,7 +264,7 @@ public:
      *
      * \param pos The position of the entity
      */
-    Entity(Vectorf pos);
+    Entity(Vectorf pos = {0,0});
 
     /*!
      * \brief Remove the entity from the world.
@@ -320,6 +323,8 @@ observing_ptr<T> Entity::makeGraphic(Args&&... args)
     graphics_.push_back(std::move(g));
     return ptr;
 }
+
+using EntityPtr = tank::observing_ptr<Entity>;
 
 }
 #endif
