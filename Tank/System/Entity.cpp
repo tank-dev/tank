@@ -108,10 +108,36 @@ void Entity::setPos(Vectorf pos)
     pos_ = pos;
 }
 
-void Entity::moveBy(Vectorf vec)
+void Entity::moveBy(Vectorf vec, std::function<bool()> cond)
 {
     //setPos({getPos().x + vec.x, getPos().y + vec.y});
-    setPos(getPos() + vec);
+    //setPos(getPos() + vec);
+    while (vec != Vectorf{0,0}) {
+        auto oldpos = getPos();
+
+        if (vec.x > 0) {
+            setPos(getPos() + Vectorf{1,0});
+            --vec.x;
+        } else if (vec.x < 0) {
+            setPos(getPos() + Vectorf{-1,0});
+            ++vec.x;
+        }
+
+        if (vec.y > 0) {
+            setPos(getPos() + Vectorf{0,1});
+            --vec.y;
+        } else if (vec.y < 0) {
+            setPos(getPos() + Vectorf{0,-1});
+            ++vec.y;
+        }
+
+        if (cond()) setPos(oldpos);
+    }
+}
+
+void Entity::moveBy(Vectorf vec)
+{
+    moveBy(vec, []{return false;});
 }
 
 void Entity::setRotation(float rot)

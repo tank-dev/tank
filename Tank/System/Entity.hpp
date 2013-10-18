@@ -201,6 +201,8 @@ public:
      */
     virtual void setPos(Vectorf pos);
 
+    virtual void moveBy(Vectorf vec, std::function<bool()> cond);
+
     virtual void moveBy(Vectorf vec);
 
     /*!

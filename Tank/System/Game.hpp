@@ -63,7 +63,7 @@ public:
      * with std::endl.
      */
     static Logger log;
-    static const unsigned int FPS;
+    static unsigned int fps;
 
     /*!
      * \brief Initializes the game.
@@ -72,7 +72,7 @@ public:
      * \param windowSize The window canvas size in pixels.
      * \return True on success.
      */
-    static bool initialize(Vector<unsigned int> const& windowSize);
+    static bool initialize(Vector<unsigned int> const& windowSize, int fps = 60);
     /*!
      * \brief Starts the game loop
      */

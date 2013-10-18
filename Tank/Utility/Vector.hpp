@@ -30,6 +30,11 @@ struct Vector
 {
     T x, y;
 
+    Vector(T x = 0, T y = 0) : x{x}, y{y} {}
+    Vector(const Vector& vec) : x{vec.x}, y{vec.y} {}
+    template <typename U> Vector(U x, U y) : x(x), y(y) {}
+    template <typename U> Vector(const Vector<U>& vec) : x(vec.x), y(vec.y) {}
+
     /*!
      * \brief Performs the dot product of the vector and the input vector.
      *

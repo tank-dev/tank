@@ -48,7 +48,8 @@ public:
 
     virtual Vectorf getSize() const override
     {
-        return size_;
+        auto rect = sprite_.getGlobalBounds();
+        return {rect.width, rect.height};
     }
 
     virtual void setScale(float scale) override

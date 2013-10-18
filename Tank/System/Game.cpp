@@ -26,21 +26,21 @@
 namespace tank {
 
 Logger Game::log {"log.txt"};
-const unsigned int Game::FPS {60};
+unsigned int Game::fps {60};
 bool Game::initialized_ {false};
 bool Game::run_ {false};
 bool Game::popState_ {false};
 observing_ptr<State> Game::currentState_ {nullptr};
 std::unique_ptr<IWindow> Game::window_ {nullptr};
 std::stack<std::unique_ptr<State>> Game::states_;
-Timer Game::frameTimer_;
+//Timer Game::frameTimer_;
 
 /* ---------------------------- *
  * Initialization
  * ---------------------------- */
 
 //TODO Handle errors with exceptions
-bool Game::initialize(Vector<unsigned int> const& wSize)
+bool Game::initialize(Vector<unsigned int> const& wSize, int fps)
 {
     if (not initialized_)
     {
@@ -48,6 +48,8 @@ bool Game::initialize(Vector<unsigned int> const& wSize)
 
         //Create window
         window_.reset(new Window({wSize.x,wSize.y}));
+
+        Game::fps = fps;
     }
 
     return initialized_;
@@ -65,8 +67,6 @@ void Game::run()
     log << "Entering main loop" << std::endl;
     while (run_)
     {
-        frameTimer_.start();
-
         if (states_.empty())
         {
             log << "No game state" << std::endl;
@@ -86,13 +86,6 @@ void Game::run()
         {
             states_.pop();
             popState_ = false;
-        }
-
-		//Delay until the next frame so the game stays at 60fps
-        if (1000000 / FPS > frameTimer_.getMicrosecs()) {
-            Timer::delayMicrosecs(
-                static_cast<unsigned long>(1000000 /
-                                           FPS - frameTimer_.getTicks()));
         }
     }
 }
