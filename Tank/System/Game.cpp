@@ -47,7 +47,7 @@ bool Game::initialize(Vector<unsigned int> const& wSize, int fps)
         initialized_ = true;
 
         //Create window
-        window_.reset(new Window({wSize.x,wSize.y}));
+		window_.reset(new Window(tank::Vectoru{ wSize.x, wSize.y }));
 
         Game::fps = fps;
     }

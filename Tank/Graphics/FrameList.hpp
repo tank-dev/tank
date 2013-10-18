@@ -167,7 +167,7 @@ private:
     bool loop_ {false};
     Vectoru frameDimensions_ {0, 0};
     std::function<void()> callback_ = []{};
-    Rectu clip_ {0, 0, 0, 0};
+    Rectu clip_ = Rectu{0, 0, 0, 0};
     std::vector<Animation>  animations_;
 };
 

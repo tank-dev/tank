@@ -55,6 +55,7 @@ class Logger : public std::ostream
 public:
     Logger(std::string file);
     void log(const std::string& s);
+	~Logger() throw() {}
 };
 
 }

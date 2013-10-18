@@ -11,8 +11,8 @@ find_package(SFML 2.0 REQUIRED system window graphics)
 find_package(Threads REQUIRED)
 find_package(Boost 1.53.0 REQUIRED)
 
-include_directories(${Boost_INCLUDE_DIRS})
-include_directories(${SFML_INCLUDE_DIRS})
+include_directories(${Boost_INCLUDE_DIR})
+include_directories(${SFML_INCLUDE_DIR})
 
 set(EXECUTABLE_OUTPUT_PATH ${CMAKE_BINARY_DIR})
 
@@ -27,6 +27,10 @@ endif()
 if (NOT MSVC)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 endif(NOT MSVC)
+
+if (MSVC)
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /Za")
+endif()
 
 if (APPLE)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -stdlib=libc++")
@@ -47,7 +51,7 @@ if(WARN)
             set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-mismatched-tags")
         endif()
     else()
-        set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /Wall /WX")
+        set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}")
     endif(NOT MSVC)
 endif(WARN)
 

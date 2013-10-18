@@ -20,6 +20,8 @@
 #include "Timer.hpp"
 
 #include <sstream>
+#undef _WIN32
+#undef WIN32
 #if defined(__WIN32__) || defined(_WIN32) || defined(WIN32) || defined(__WINDOWS__) || defined(__TOS_WIN__)
 #include <windows.h>
 #else
