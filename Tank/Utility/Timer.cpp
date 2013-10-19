@@ -20,13 +20,7 @@
 #include "Timer.hpp"
 
 #include <sstream>
-#undef _WIN32
-#undef WIN32
-#if defined(__WIN32__) || defined(_WIN32) || defined(WIN32) || defined(__WINDOWS__) || defined(__TOS_WIN__)
-#include <windows.h>
-#else
 #include <thread>
-#endif
 
 namespace tank
 {
@@ -133,22 +127,14 @@ std::string Timer::getHumanTime() const
 
 void Timer::delay(unsigned long millisecs)
 {
-#if defined(__WIN32__) || defined(_WIN32) || defined(WIN32) || defined(__WINDOWS__) || defined(__TOS_WIN__)
-	Sleep(millisecs);
-#else
     std::chrono::milliseconds waitTime(millisecs);
     std::this_thread::sleep_for(waitTime);
-#endif
 }
 
 void Timer::delayMicrosecs(unsigned long microsecs)
 {
-#if defined(__WIN32__) || defined(_WIN32) || defined(WIN32) || defined(__WINDOWS__) || defined(__TOS_WIN__)
-	Sleep(microsecs / 1000);
-#else
     std::chrono::microseconds waitTime(microsecs);
     std::this_thread::sleep_for(waitTime);
-#endif
 }
 
 }
