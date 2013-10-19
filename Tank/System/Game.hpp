@@ -25,7 +25,7 @@
 #include "../Utility/Timer.hpp"
 #include "../Utility/Logger.hpp"
 #include "../Utility/observing_ptr.hpp"
-#include "IWindow.hpp"
+#include "Window.hpp"
 #include "State.hpp"
 
 namespace tank {
@@ -52,7 +52,7 @@ class Game
     static bool popState_;
 
     static observing_ptr<State> currentState_;
-    static std::unique_ptr<IWindow> window_;
+    static std::unique_ptr<Window> window_;
 
     static std::stack<std::unique_ptr<State>> states_;
     static Timer frameTimer_;
@@ -102,7 +102,7 @@ public:
      */
     static observing_ptr<State> state() { return currentState_; }
 
-    static std::unique_ptr<IWindow> const& window() { return window_; };
+    static std::unique_ptr<Window> const& window() { return window_; };
 private:
     static void handleEvents();
     static void update();
