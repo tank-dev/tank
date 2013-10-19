@@ -19,7 +19,8 @@
 
 #include "State.hpp"
 
-#include <algorithm>
+#include <boost/range/algorithm.hpp>
+#include <boost/range/algorithm_ext.hpp>
 #include <stdexcept>
 #include "Entity.hpp"
 #include "Game.hpp"
@@ -42,11 +43,10 @@ void State::insertEntity(std::unique_ptr<Entity>&& entity)
         return;
     }
 
-    // Stops an entity being added several times
-    auto x = find_if(begin(entities_), end(entities_),
-                     [&entity](std::unique_ptr<Entity>& existing)
+    auto x = boost::find_if(entities_,
+                            [&entity](std::unique_ptr<Entity>& existing)
     {
-            return entity.get() == existing.get();
+        return entity.get() == existing.get();
     });
 
     if (x != end(entities_))
@@ -155,11 +155,10 @@ void State::moveEntities()
 
 void State::deleteEntities()
 {
-    entities_.erase(std::remove_if(begin(entities_), end(entities_),
-                                   [](const std::unique_ptr<Entity>& ent)
+    boost::remove_erase_if(entities_, [](const std::unique_ptr<Entity>& ent)
     {
         return ent->isRemoved();
-    }), end(entities_));
+    });
 }
 
 }
