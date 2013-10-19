@@ -21,6 +21,7 @@
 
 #include <cmath>
 #include <stdexcept>
+#include <algorithm>
 #include "State.hpp"
 
 namespace tank {
@@ -64,7 +65,7 @@ std::vector<observing_ptr<Entity>> Entity::collide(std::string type)
         }
     }
 
-    for (auto& ent : entList)
+    for (auto ent : entList)
     {
         if (ent != this)
         {
@@ -109,6 +110,8 @@ void Entity::setPos(Vectorf pos)
 
 void Entity::moveBy(Vectorf vec, std::function<bool()> cond)
 {
+    //setPos({getPos().x + vec.x, getPos().y + vec.y});
+    //setPos(getPos() + vec);
     while (vec != Vectorf{0,0}) {
         auto oldpos = getPos();
 

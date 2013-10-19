@@ -18,6 +18,7 @@
  */
 
 #include "EventHandler.hpp"
+#include <numeric>
 
 namespace tank {
 std::size_t EventHandler::ConnectedPair::counter = 0;

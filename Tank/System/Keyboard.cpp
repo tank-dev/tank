@@ -1,6 +1,7 @@
 #include "Keyboard.hpp"
 
-#include <boost/range/algorithm.hpp>
+#include <algorithm>
+#include <iterator>
 #include <SFML/Window/Keyboard.hpp>
 
 namespace tank {
@@ -13,7 +14,7 @@ void Keyboard::reset()
 {
     if (stateChange_)
     {
-        boost::copy(currentState_, begin(lastState_));
+        std::copy(currentState_.begin(), currentState_.end(), lastState_.begin());
     }
 
     stateChange_ = false;
