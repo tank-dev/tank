@@ -50,8 +50,6 @@ if(WARN)
         if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
             set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-mismatched-tags")
         endif()
-    else()
-        set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}")
     endif(NOT MSVC)
 endif(WARN)
 
