@@ -31,7 +31,7 @@ bool Game::initialized_ {false};
 bool Game::run_ {false};
 bool Game::popState_ {false};
 observing_ptr<State> Game::currentState_ {nullptr};
-std::unique_ptr<IWindow> Game::window_ {nullptr};
+std::unique_ptr<Window> Game::window_ {nullptr};
 std::stack<std::unique_ptr<State>> Game::states_;
 //Timer Game::frameTimer_;
 

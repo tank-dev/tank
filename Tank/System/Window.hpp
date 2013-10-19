@@ -22,7 +22,6 @@
 
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/Graphics/Color.hpp>
-#include "IWindow.hpp"
 #include "../Utility/Vector.hpp"
 
 namespace sf
@@ -32,26 +31,25 @@ namespace sf
 
 namespace tank {
 
-class Window : public IWindow
+class Window
 {
 public:
+    Window();
     Window(Vector<unsigned int> const& size, std::string caption = "");
     virtual ~Window();
 
-    virtual Vector<unsigned int> const& getSize() override;
-    virtual std::string getCaption() override;
+    virtual Vector<unsigned int> const& getSize();
+    virtual std::string getCaption();
 
-    virtual void flipDisplay() override;
+    virtual void flipDisplay();
 
-    virtual sf::RenderWindow& SFMLWindow() override { return window_; }
+    virtual sf::RenderWindow& SFMLWindow() { return window_; }
 
-    virtual void resize(Vector<unsigned int> const& size) override;
-    virtual void setCaption(std::string caption) override;
+    virtual void resize(Vector<unsigned int> const& size);
+    virtual void setCaption(std::string caption);
 
-    virtual void setBackgroundColor(float r,
-                                    float g,
-                                    float b,
-                                    float a = 1.f) override;
+    virtual void setBackgroundColor(float r, float g, float b,
+                                    float a = 1.f);
 
     /*!
      * \brief SFML-specific polling code (temporary)
