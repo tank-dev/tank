@@ -90,7 +90,7 @@ std::vector<observing_ptr<Entity>> Entity::collide(std::string type)
 
 std::unique_ptr<Graphic> const& Entity::getGraphic(unsigned int i) const
 {
-    if (graphics_.size() > i)
+    if (i < graphics_.size())
     {
         return graphics_[i];
     }
@@ -108,23 +108,23 @@ void Entity::moveBy(Vectorf dist, std::function<bool()> cond)
     {
         auto pos = getPos();
 
-        if (dist.x >= 1.) 
+        if (dist.x >= 1.)
         {
             pos += Vectorf{1,0};
             --dist.x;
-        } 
-        else if (dist.x <= -1.) 
+        }
+        else if (dist.x <= -1.)
         {
             pos += Vectorf{-1,0};
             ++dist.x;
         }
 
-        if (dist.y >= 1.) 
+        if (dist.y >= 1.)
         {
             pos += Vectorf{0,1};
             --dist.y;
-        } 
-        else if (dist.y <= -1.) 
+        }
+        else if (dist.y <= -1.)
         {
             pos += Vectorf{0,-1};
             ++dist.y;
