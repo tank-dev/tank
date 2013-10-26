@@ -59,14 +59,15 @@ class State;
 class Entity
 {
     Vectorf pos_;
-    float rot_ = 0.0;
-    Rectd hitbox_ = {};
-    std::string type_ = "";
-    bool solid_ = false;
-    int layer_ = 0;
-    bool removed_ = false;
-    observing_ptr<State> state_ = nullptr; //Set by parent State
+    float rot_ {};
+    Rectd hitbox_ {};
+    std::string type_ {""};
+    bool solid_ {false};
+    int layer_ {};
+    bool removed_ {false};
+    observing_ptr<State> state_ {nullptr}; //Set by parent State
 
+    //std::vector<std::string> types_;
     std::vector<std::unique_ptr<Graphic>> graphics_;
     std::vector<std::unique_ptr<EventHandler::Connection>> connections_;
 
@@ -186,6 +187,11 @@ public:
      */
     observing_ptr<State> getState() const
     {
+        if (state_ == nullptr)
+        {
+            throw std::runtime_error (
+                    "Entity State pointer is null (try Entity::onAdded)");
+        }
         return state_;
     }
 
