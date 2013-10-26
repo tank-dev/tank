@@ -27,13 +27,13 @@ namespace tank {
 
 class Graphic
 {
+    Vectorf pos_ {};
+    float rot_ {};
+    bool relativeToParent_ {true};
+    bool visible_ {true};
+
 public:
-    Graphic()
-        : pos_({})
-        , rot_(0.f)
-        , relativeToParent_(true)
-        , visible_(true)
-        {}
+    Graphic() = default;
     virtual ~Graphic() {}
 
     virtual void setPos(Vectorf pos)
@@ -88,11 +88,6 @@ public:
     virtual Vector<unsigned int> getTextureSize() const = 0;
 
     virtual void draw(Vectorf parentPos, float parentRot, Vectorf camera = {0,0}) = 0;
-private:
-    Vectorf pos_;
-    float rot_;
-    bool relativeToParent_;
-    bool visible_;
 };
 
 }

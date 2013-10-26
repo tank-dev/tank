@@ -24,13 +24,6 @@
 
 namespace tank {
 
-Image::Image()
-    : loaded_(false)
-    , size_({0.f, 0.f})
-    , texture_(nullptr)
-{
-}
-
 Image::Image(std::string file)
     : Image()
 {
@@ -67,8 +60,6 @@ void Image::draw(Vectorf parentPos, float parentRot, Vectorf camera)
 
 void Image::setSize(Vectorf size)
 {
-    size_ = size;
-
     sprite_.setScale(static_cast<float>(size.x/getClip().w),
                      static_cast<float>(size.y/getClip().h));
 }

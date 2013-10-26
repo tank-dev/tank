@@ -35,7 +35,7 @@ public:
     Text(std::string text);
     ~Text();
 private:
-    std::string  text_;
+    std::string text_;
 };
 
 }
