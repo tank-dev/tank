@@ -43,7 +43,7 @@ class Game;
  *
  * States should be created via Game::makeState<T>(Args... args) for memory
  * safety. All states are stored within Game as a stack.
-met *
+ *
  * All entities should be created using the similar method available from
  * State, makeEntity<T>(Args... args).
  *
