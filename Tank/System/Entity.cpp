@@ -108,40 +108,56 @@ bool Entity::moveBy(Vectorf disp, std::function<bool()> cond)
 {
     while (abs(disp.x) >= 1. || abs(disp.y) >= 1.)
     {
-        auto pos = getPos();
+        auto oldPos = getPos();
 
         if (disp.x >= 1.)
         {
-            pos += Vectorf{1,0};
+            setPos(getPos() + Vectorf{1,0});
             --disp.x;
         }
         else if (disp.x <= -1.)
         {
-            pos += Vectorf{-1,0};
+            setPos(getPos() + Vectorf{-1,0});
             ++disp.x;
+        }
+
+        // Check x
+        if (cond())
+        {
+            setPos(oldPos);
         }
 
         if (disp.y >= 1.)
         {
-            pos += Vectorf{0,1};
+            setPos(getPos() + Vectorf{0,1});
             --disp.y;
         }
         else if (disp.y <= -1.)
         {
-            pos += Vectorf{0,-1};
+            setPos(getPos() + Vectorf{0,-1});
             ++disp.y;
         }
 
-        if (not cond()) setPos(pos);
-        else return false;
+        //Check y
+        if (cond())
+        {
+            setPos(oldPos);
+        }
+
+        // Have we moved at all?
+        if (getPos() == oldPos)
+        {
+            return false;
+        }
     }
 
     return true;
 }
 
-void Entity::moveBy(Vectorf dist)
+void Entity::moveBy(Vectorf disp)
 {
-    moveBy(dist, []{return false;});
+    //moveBy(disp, []{return false;}); // Really no need to do this
+    setPos(getPos() + disp);
 }
 
 void Entity::setRotation(float rot)
