@@ -30,12 +30,6 @@ int Entity::numEnts_ = 0;
 
 Entity::Entity(Vectorf pos)
     : pos_(pos)
-    , rot_(0)
-    , hitbox_({0,0,0,0})
-    , type_("")
-    , solid_(false)
-    , layer_(0)
-    , state_ (nullptr)
     , actorID_(numEnts_++)
 {}
 
@@ -108,36 +102,41 @@ void Entity::setPos(Vectorf pos)
     pos_ = pos;
 }
 
-void Entity::moveBy(Vectorf vec, std::function<bool()> cond)
+void Entity::moveBy(Vectorf dist, std::function<bool()> cond)
 {
-    //setPos({getPos().x + vec.x, getPos().y + vec.y});
-    //setPos(getPos() + vec);
-    while (vec != Vectorf{0,0}) {
-        auto oldpos = getPos();
+    while (abs(dist.x) >= 1. || abs(dist.y) >= 1.)
+    {
+        auto pos = getPos();
 
-        if (vec.x > 0) {
-            setPos(getPos() + Vectorf{1,0});
-            --vec.x;
-        } else if (vec.x < 0) {
-            setPos(getPos() + Vectorf{-1,0});
-            ++vec.x;
+        if (dist.x >= 1.) 
+        {
+            pos += Vectorf{1,0};
+            --dist.x;
+        } 
+        else if (dist.x <= -1.) 
+        {
+            pos += Vectorf{-1,0};
+            ++dist.x;
         }
 
-        if (vec.y > 0) {
-            setPos(getPos() + Vectorf{0,1});
-            --vec.y;
-        } else if (vec.y < 0) {
-            setPos(getPos() + Vectorf{0,-1});
-            ++vec.y;
+        if (dist.y >= 1.) 
+        {
+            pos += Vectorf{0,1};
+            --dist.y;
+        } 
+        else if (dist.y <= -1.) 
+        {
+            pos += Vectorf{0,-1};
+            ++dist.y;
         }
 
-        if (cond()) setPos(oldpos);
+        if (not cond()) setPos(pos);
     }
 }
 
-void Entity::moveBy(Vectorf vec)
+void Entity::moveBy(Vectorf dist)
 {
-    moveBy(vec, []{return false;});
+    moveBy(dist, []{return false;});
 }
 
 void Entity::setRotation(float rot)
@@ -170,8 +169,8 @@ tank::observing_ptr<tank::EventHandler::Connection> Entity::connect(
                                        EventHandler::Effect effect)
 {
     auto cond = getState()->eventHandler.connect(condition, effect);
-    connections.push_back(std::move(cond));
-    return connections.back();
+    connections_.push_back(std::move(cond));
+    return connections_.back();
 }
 
 }

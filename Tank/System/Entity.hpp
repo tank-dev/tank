@@ -58,6 +58,21 @@ class State;
  */
 class Entity
 {
+    Vectorf pos_;
+    float rot_ = 0.0;
+    Rectd hitbox_ = {};
+    std::string type_ = "";
+    bool solid_ = false;
+    int layer_ = 0;
+    bool removed_ = false;
+    observing_ptr<State> state_ = nullptr; //Set by parent State
+
+    std::vector<std::unique_ptr<Graphic>> graphics_;
+    std::vector<std::unique_ptr<EventHandler::Connection>> connections_;
+
+    static int numEnts_;
+    const  int actorID_;
+
 public:
     /*!
      * \brief Run entity's per-frame game logic
@@ -254,7 +269,7 @@ public:
     /*!
      * \brief Sets the entity's parent state
      *
-     * Typically set by the state on addition. Don't change it unless you know
+     * Typically set by the state on addition. Don't call it unless you know
      * what you're doing.
      *
      * \param state A pointer to the parent state
@@ -293,25 +308,6 @@ public:
     tank::observing_ptr<tank::EventHandler::Connection> connect(
             tank::EventHandler::Condition condition,
             tank::EventHandler::Effect effect);
-
-private:
-    //Member variables
-    Vectorf pos_;
-    float rot_;
-    Rectd hitbox_;
-    std::string type_;
-    bool solid_;
-    int layer_;
-
-    observing_ptr<State> state_; //Set by parent State
-    std::vector<std::unique_ptr<Graphic>> graphics_;
-
-    static int numEnts_;
-    const  int actorID_;
-
-    bool removed_ = false;
-
-    std::vector<std::unique_ptr<EventHandler::Connection>> connections;
 };
 
 template <typename T, typename... Args>
