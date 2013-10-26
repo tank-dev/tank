@@ -34,7 +34,6 @@ namespace tank {
 class Window
 {
 public:
-    Window();
     Window(Vector<unsigned int> const& size, std::string caption = "");
     virtual ~Window();
 
