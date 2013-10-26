@@ -102,36 +102,41 @@ void Entity::setPos(Vectorf pos)
     pos_ = pos;
 }
 
-void Entity::moveBy(Vectorf dist, std::function<bool()> cond)
+// Note: In hindsight, this isn't such a good idea. The only useful condition
+// will be collision, and this method doesn't handle collision very well.
+bool Entity::moveBy(Vectorf disp, std::function<bool()> cond)
 {
-    while (abs(dist.x) >= 1. || abs(dist.y) >= 1.)
+    while (abs(disp.x) >= 1. || abs(disp.y) >= 1.)
     {
         auto pos = getPos();
 
-        if (dist.x >= 1.)
+        if (disp.x >= 1.)
         {
             pos += Vectorf{1,0};
-            --dist.x;
+            --disp.x;
         }
-        else if (dist.x <= -1.)
+        else if (disp.x <= -1.)
         {
             pos += Vectorf{-1,0};
-            ++dist.x;
+            ++disp.x;
         }
 
-        if (dist.y >= 1.)
+        if (disp.y >= 1.)
         {
             pos += Vectorf{0,1};
-            --dist.y;
+            --disp.y;
         }
-        else if (dist.y <= -1.)
+        else if (disp.y <= -1.)
         {
             pos += Vectorf{0,-1};
-            ++dist.y;
+            ++disp.y;
         }
 
         if (not cond()) setPos(pos);
+        else return false;
     }
+
+    return true;
 }
 
 void Entity::moveBy(Vectorf dist)

@@ -76,8 +76,15 @@ class Entity
 
 public:
     /*!
+     * \brief Constructs an entity at position pos
+     *
+     * \param pos The position of the entity
+     */
+    Entity(Vectorf pos = {0,0});
+    /*!
      * \brief Run entity's per-frame game logic
      */
+
     virtual void update() {}
 
     /*!
@@ -222,9 +229,17 @@ public:
      */
     virtual void setPos(Vectorf pos);
 
-    virtual void moveBy(Vectorf vec, std::function<bool()> cond);
+    /*!
+     * \brief Moves the entity pixel by pixel while cond is false
+     *
+     * \param displacement Vectorial distance to move entity
+     * \param cond Condition to stop movement (e.g. not collide("solid").empty())
+     *
+     * \return True if moved full displacement, false otherwise
+     */
+    virtual bool moveBy(Vectorf displacement, std::function<bool()> cond);
 
-    virtual void moveBy(Vectorf vec);
+    virtual void moveBy(Vectorf displacement);
 
     /*!
      * \brief Sets the entity's rotation
@@ -283,13 +298,6 @@ public:
     void setState(const observing_ptr<State> state);
 
     /*!
-     * \brief Constructs an entity at position pos
-     *
-     * \param pos The position of the entity
-     */
-    Entity(Vectorf pos = {0,0});
-
-    /*!
      * \brief Remove the entity from the world.
      */
     void remove() { removed_ = true; }
@@ -297,7 +305,7 @@ public:
     /*!
      * \return if the entity has been removed.
      */
-    bool isRemoved() {return removed_;}
+    bool isRemoved() { return removed_; }
 
     /*!
      * \brief Called when the entitiy is added to a State
