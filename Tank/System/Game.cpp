@@ -20,35 +20,37 @@
 #include "Game.hpp"
 
 #include <SFML/Window/Event.hpp>
-#include <SFML/Window/Keyboard.hpp>
+#include "Keyboard.hpp"
 #include "Window.hpp"
 
-namespace tank
-{
+namespace tank {
 
 Logger Game::log {"log.txt"};
-const unsigned int Game::FPS {60};
+unsigned int Game::fps {60};
 bool Game::initialized_ {false};
 bool Game::run_ {false};
 bool Game::popState_ {false};
 observing_ptr<State> Game::currentState_ {nullptr};
-std::unique_ptr<IWindow> Game::window_ {nullptr};
+std::unique_ptr<Window> Game::window_ {nullptr};
 std::stack<std::unique_ptr<State>> Game::states_;
-Timer Game::frameTimer_;
+//Timer Game::frameTimer_;
 
 /* ---------------------------- *
  * Initialization
  * ---------------------------- */
 
 //TODO Handle errors with exceptions
-bool Game::initialize(Vector<unsigned int> const& wSize)
+bool Game::initialize(Vector<unsigned int> const& wSize, int fps)
 {
     if (not initialized_)
     {
         initialized_ = true;
 
         //Create window
-        window_.reset(new Window({wSize.x,wSize.y}));
+		window_.reset(new Window(tank::Vectoru{wSize.x, wSize.y}));
+
+        // TODO: Make this reflect actual FPS
+        Game::fps = fps;
     }
 
     return initialized_;
@@ -60,17 +62,12 @@ bool Game::initialize(Vector<unsigned int> const& wSize)
 
 void Game::run()
 {
-    if (run_)
-    {
-        return;
-    }
+    if (run_) { return; }
 
     run_ = true;
     log << "Entering main loop" << std::endl;
     while (run_)
     {
-        frameTimer_.start();
-
         if (states_.empty())
         {
             log << "No game state" << std::endl;
@@ -79,11 +76,8 @@ void Game::run()
         }
 
         currentState_ = states_.top();
-
         handleEvents();
-
         currentState_->update();
-
         draw();
 
         if (popState_)
@@ -91,37 +85,27 @@ void Game::run()
             states_.pop();
             popState_ = false;
         }
-
-		//Delay until the next frame so the game stays at 60fps
-        if (1000000 / FPS > frameTimer_.getMicrosecs()) {
-            Timer::delayMicrosecs(
-                static_cast<unsigned long>(1000000 / 
-                                           FPS - frameTimer_.getTicks()));
-        }
     }
 }
 
 void Game::handleEvents()
 {
     sf::Event event;
-    //TODO Make this independent of SFML
+
     while (window_->pollEvent(event))
     {
         switch (event.type)
         {
         case sf::Event::KeyPressed:
+            Keyboard::setKeyPressed(event.key.code);
+            break;
         case sf::Event::KeyReleased:
-            /*
-            if((event.key.code == sf::Keyboard::Key::F4 && event.key.alt)
+            if(event.key.code == sf::Keyboard::Key::F4 && event.key.alt)
             {
                 run_ = false;
                 break;
             }
-            */
-            //if(!states_.empty())
-            //{
-                currentState_->handleEvents(event.key.code);
-            //}
+            Keyboard::setKeyReleased(event.key.code);
             break;
         case sf::Event::GainedFocus:
             draw();
@@ -133,6 +117,9 @@ void Game::handleEvents()
             break;
         }
     }
+
+    currentState_->eventHandler.propagate();
+    Keyboard::reset();
 }
 
 /* ----------------------------------- *

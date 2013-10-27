@@ -10,6 +10,15 @@ namespace tank
 
 class BitmapText final : public Graphic
 {
+    Image font_;
+    Vectoru glyphDims_;
+    char asciiOffset_;
+    unsigned int rowWidth_;
+    Rectu clip_;
+
+    char const* text_ {""};
+    Vectorf origin_ {};
+
 public:
     BitmapText(Image const& font, Vectoru glyphDimensions,
                char asciiOffset = 32, unsigned int rowWidth = UINT_MAX);
@@ -76,15 +85,6 @@ public:
     }
 
     virtual void draw(Vectorf parentPos, float parentRot, Vectorf camera = {0,0});
-private:
-    Image font_;
-    Vectoru glyphDims_;
-    char asciiOffset_;
-    unsigned int rowWidth_;
-    char const* text_;
-
-    Rectu clip_;
-    Vectorf origin_;
 };
 
 }

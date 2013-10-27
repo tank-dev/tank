@@ -20,30 +20,9 @@
 #include "Timer.hpp"
 
 #include <sstream>
-#if defined(__WIN32__) || defined(_WIN32) || defined(WIN32) || defined(__WINDOWS__) || defined(__TOS_WIN__)
-#include <windows.h>
-#else
 #include <thread>
-#endif
 
-namespace tank
-{
-
-Timer::Timer()
-    : startTick_(),
-      pausedTick_(),
-      started_(false),
-      paused_(false) {}
-
-Timer::Timer(const Timer& orig)
-{
-    startTick_ = orig.startTick_;
-    pausedTick_ = orig.pausedTick_;
-    started_ = orig.started_;
-    paused_ = orig.paused_;
-}
-
-Timer::~Timer() {}
+namespace tank {
 
 void Timer::start()
 {
@@ -102,51 +81,22 @@ unsigned long Timer::getTicks() const
             (std::chrono::steady_clock::now() - startTick_).count();
 }
 
-unsigned long Timer::getMicrosecs() const
-{
-    if (not started_)
-    {
-        return 0;
-    }
-    if (paused_)
-    {
-        return std::chrono::duration_cast<std::chrono::microseconds>
-                (pausedTick_).count();
-    }
-    return std::chrono::duration_cast<std::chrono::microseconds>
-            (std::chrono::steady_clock::now() - startTick_).count();
-}
-
 std::string Timer::getHumanTime() const
 {
-    long int microsecs = getMicrosecs();
+    long int microsecs = getTicks();
     // Returns time in H:M:S.uuuuuu
     std::stringstream s;
-    s << microsecs/3600000000 << ":" <<
-            microsecs/60000000 % 60 << ":" <<
-            (microsecs % 60000000)/1000000.0;
+    s << microsecs/3600000 << ":" <<
+            microsecs/60000 % 60 << ":" <<
+            (microsecs % 60000)/1000.0;
 
     return s.str();
 }
 
 void Timer::delay(unsigned long millisecs)
 {
-#if defined(__WIN32__) || defined(_WIN32) || defined(WIN32) || defined(__WINDOWS__) || defined(__TOS_WIN__)
-	Sleep(millisecs);
-#else
     std::chrono::milliseconds waitTime(millisecs);
     std::this_thread::sleep_for(waitTime);
-#endif
-}
-
-void Timer::delayMicrosecs(unsigned long microsecs)
-{
-#if defined(__WIN32__) || defined(_WIN32) || defined(WIN32) || defined(__WINDOWS__) || defined(__TOS_WIN__)
-	Sleep(microsecs / 1000);
-#else
-    std::chrono::microseconds waitTime(microsecs);
-    std::this_thread::sleep_for(waitTime);
-#endif
 }
 
 }

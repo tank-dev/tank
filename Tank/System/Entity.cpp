@@ -30,12 +30,6 @@ int Entity::numEnts_ = 0;
 
 Entity::Entity(Vectorf pos)
     : pos_(pos)
-    , rot_(0)
-    , hitbox_({0,0,0,0})
-    , type_("")
-    , solid_(false)
-    , layer_(0)
-    , state_ (nullptr)
     , actorID_(numEnts_++)
 {}
 
@@ -50,22 +44,32 @@ void Entity::draw(Vectorf camera)
     }
 }
 
-std::vector<observing_ptr<Entity>> Entity::collide(std::string type)
+std::vector<observing_ptr<Entity>> Entity::collide(std::vector<std::string> colTypes)
 {
-    std::vector<std::unique_ptr<Entity>> const& origList =
-            state_->getEntities();
-    std::vector<observing_ptr<Entity>> entList;
+    std::vector<std::unique_ptr<Entity>> const& orig = state_->getEntities();
+    std::vector<observing_ptr<Entity>> ents;
     std::vector<observing_ptr<Entity>> collisions;
 
-    for (auto& unique : origList)
+    for (auto& unique : orig)
     {
-        if (type == "" or type == unique->getType())
+        if (not unique->getTypes().empty())
         {
-            entList.emplace_back(unique);
+            ents.emplace_back(unique);
         }
     }
 
-    for (auto ent : entList)
+    if (not colTypes.empty())
+    {
+        ents.erase(std::remove_if(ents.begin(), ents.end(),
+            [&colTypes](observing_ptr<Entity> const& ent) {
+                 auto& entTypes = ent->getTypes();
+                 return std::find_first_of(entTypes.begin(), entTypes.end(),
+                                           colTypes.begin(), colTypes.end()) 
+                     == entTypes.end();}),
+                   ents.end());
+    }
+
+    for (auto& ent : ents)
     {
         if (ent != this)
         {
@@ -96,7 +100,7 @@ std::vector<observing_ptr<Entity>> Entity::collide(std::string type)
 
 std::unique_ptr<Graphic> const& Entity::getGraphic(unsigned int i) const
 {
-    if (graphics_.size() > i)
+    if (i < graphics_.size())
     {
         return graphics_[i];
     }
@@ -106,6 +110,64 @@ std::unique_ptr<Graphic> const& Entity::getGraphic(unsigned int i) const
 void Entity::setPos(Vectorf pos)
 {
     pos_ = pos;
+}
+
+// Note: In hindsight, this isn't such a good idea. The only useful condition
+// will be collision, and this method doesn't handle collision very well.
+bool Entity::moveBy(Vectorf disp, std::function<bool()> cond)
+{
+    while (abs(disp.x) >= 1. || abs(disp.y) >= 1.)
+    {
+        auto oldPos = getPos();
+
+        if (disp.x >= 1.)
+        {
+            setPos(getPos() + Vectorf{1,0});
+            --disp.x;
+        }
+        else if (disp.x <= -1.)
+        {
+            setPos(getPos() + Vectorf{-1,0});
+            ++disp.x;
+        }
+
+        // Check x
+        if (cond())
+        {
+            setPos(oldPos);
+        }
+
+        if (disp.y >= 1.)
+        {
+            setPos(getPos() + Vectorf{0,1});
+            --disp.y;
+        }
+        else if (disp.y <= -1.)
+        {
+            setPos(getPos() + Vectorf{0,-1});
+            ++disp.y;
+        }
+
+        //Check y
+        if (cond())
+        {
+            setPos(oldPos);
+        }
+
+        // Have we moved at all?
+        if (getPos() == oldPos)
+        {
+            return false;
+        }
+    }
+
+    return true;
+}
+
+void Entity::moveBy(Vectorf disp)
+{
+    //moveBy(disp, []{return false;}); // Really no need to do this
+    setPos(getPos() + disp);
 }
 
 void Entity::setRotation(float rot)
@@ -123,6 +185,21 @@ void Entity::setSolid(bool solid)
     solid_ = solid;
 }
 
+void Entity::setType(std::string type)
+{
+    types_.clear();
+    types_.push_back(type);
+}
+
+void Entity::addType(std::string type)
+{
+    if(type == "") return;
+    if(std::find(types_.begin(), types_.end(), type) == types_.end())
+    {
+        types_.push_back(type);
+    }
+}
+
 void Entity::setLayer(int layer)
 {
     layer_ = layer;
@@ -131,6 +208,15 @@ void Entity::setLayer(int layer)
 void Entity::setState(const observing_ptr<State> state)
 {
     state_ = state;
+}
+
+tank::observing_ptr<tank::EventHandler::Connection> Entity::connect(
+                                       EventHandler::Condition condition,
+                                       EventHandler::Effect effect)
+{
+    auto cond = getState()->eventHandler.connect(condition, effect);
+    connections_.push_back(std::move(cond));
+    return connections_.back();
 }
 
 }

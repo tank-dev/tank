@@ -38,6 +38,23 @@ namespace tank
  */
 class FrameList final : public Graphic
 {
+    struct Animation
+    {
+        std::string name;
+        std::vector<unsigned int> frameList;
+        unsigned int time;
+    };
+
+    Image image_;
+    Animation* currentAnimation_ {nullptr};
+    unsigned int currentFrame_ {0};
+    Timer animTimer_;
+    bool loop_ {false};
+    Vectoru frameDimensions_ {0, 0};
+    std::function<void()> callback_ = []{};
+    Rectu clip_ {0, 0, 0, 0};
+    std::vector<Animation>  animations_;
+
 public:
     FrameList() = default;
     /*!
@@ -48,7 +65,11 @@ public:
     FrameList(Image const&, Vector<unsigned int> frameDimensions);
 
     /*!
-     * \brief Add an animations
+     * \brief Add an animation
+     *
+     * Create a named list of frames to play in sequence, to be displayed  at a
+     * fixed rate
+     *
      * \param name String to identify the animation with later.
      * \param frames std::initializer_list of frames.
      * \param frameTime Time between each frame in milliseconds (ms)
@@ -68,8 +89,9 @@ public:
 
     /*!
      * \brief Draw the animation.
+     *
      * Trying to draw an animation without a texture will crash the game!
-     * Play must be called as well to change the state of the animation.
+     *
      * \param pos Position at which to draw the texture.
      */
     void draw(Vectorf parentPos, float parentRot, Vectorf camera = {0, 0}) override;
@@ -152,23 +174,6 @@ public:
     {
         return image_.getTextureSize();
     }
-private:
-    struct Animation
-    {
-        std::string name;
-        std::vector<unsigned int> frameList;
-        unsigned int time;
-    };
-
-    Image image_;
-    Animation* currentAnimation_ {nullptr};
-    unsigned int currentFrame_ {0};
-    Timer animTimer_;
-    bool loop_ {false};
-    Vectoru frameDimensions_ {0, 0};
-    std::function<void()> callback_ = []{};
-    Rectu clip_ {0, 0, 0, 0};
-    std::vector<Animation>  animations_;
 };
 
 // TODO: Use enum to specify image format
@@ -180,6 +185,6 @@ private:
  */
 void addWalkingAnimation(FrameList& frames, unsigned int time);
 
-}
+} // tank
 
 #endif /* TANK_FRAMELIST_HPP */

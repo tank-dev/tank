@@ -1,5 +1,7 @@
 cmake_minimum_required(VERSION 2.8.9)
-project (Tank)
+if (NOT DEFINED PROJECT_NAME)
+    project (Tank)
+endif()
 
 enable_testing()
 
@@ -9,14 +11,15 @@ find_package(SFML 2.0 REQUIRED system window graphics)
 find_package(Threads REQUIRED)
 find_package(Boost 1.53.0 REQUIRED)
 
-include_directories(${Boost_INCLUDE_DIRS})
-include_directories(${SFML_INCLUDE_DIRS})
+include_directories(${Boost_INCLUDE_DIR})
+include_directories(${SFML_INCLUDE_DIR})
 
 set(EXECUTABLE_OUTPUT_PATH ${CMAKE_BINARY_DIR})
 
-if (${PROJECT_NAME} STREQUAL Tank)
+if (${PROJECT_NAME} STREQUAL "Tank")
     set(TANK_INCLUDE_DIRS ${CMAKE_CURRENT_SOURCE_DIR})
     include_directories(${TANK_INCLUDE_DIRS})
+    option(TESTS "Build unit tests" ON)
 else()
     set(TANK_INCLUDE_DIRS ${CMAKE_CURRENT_SOURCE_DIR} PARENT_SCOPE)
 endif()
@@ -24,6 +27,10 @@ endif()
 if (NOT MSVC)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 endif(NOT MSVC)
+
+if (MSVC)
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /Za")
+endif()
 
 if (APPLE)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -stdlib=libc++")
@@ -37,13 +44,12 @@ endif()
 
 option(WARN "Compile using all warnings" ON)
 
-option(TESTS "Build unit tests" ON)
-
 if(WARN)
     if (NOT MSVC)
         set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Werror -Wno-mismatched-tags")
-    else()
-        set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /Wall /WX")
+        if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
+            set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-mismatched-tags")
+        endif()
     endif(NOT MSVC)
 endif(WARN)
 
@@ -55,10 +61,6 @@ add_subdirectory(Tank/Audio)
 add_subdirectory(Tank/Graphics)
 add_subdirectory(Tank/System)
 add_subdirectory(Tank/Utility)
-
-if(TESTS)
-    add_subdirectory(tests)
-endif()
 
 find_package(Doxygen)
 if(DOXYGEN_FOUND)
@@ -78,6 +80,7 @@ add_library(tank
     $<TARGET_OBJECTS:tank_audio>)
 target_link_libraries(tank ${SFML_LIBRARIES} ${CMAKE_THREAD_LIBS_INIT})
 
-if(Cotire)
-    cotire(engine)
-endif(Cotire)
+if(TESTS)
+    add_subdirectory(tests)
+endif()
+

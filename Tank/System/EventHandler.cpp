@@ -17,47 +17,33 @@
  * Copyright 2013 (©) Jamie Bayne, David Truby, David Watson.
  */
 
-#pragma once
-#ifndef TANK_LOGGER_HPP
-#define TANK_LOGGER_HPP
+#include "EventHandler.hpp"
+#include <numeric>
 
-#include "Timer.hpp"
-#include <string>
-#include <iostream>
-#include <fstream>
-#include <sstream>
-#include <functional>
+namespace tank {
+std::size_t EventHandler::ConnectedPair::counter = 0;
 
-namespace tank
+void EventHandler::propagate()
 {
-
-class Logger;
-
-class Logger_buf : public std::stringbuf
-{
-    std::function<void(const std::string&)> log_fn;
-public:
-
-    Logger_buf(std::function<void(const std::string&)> log_fn) : log_fn(log_fn) {}
-    int sync() override {
-        log_fn(str());
-        str("");
-        return 0;
+    for (auto& x : connections)
+    {
+        if (x.condition())
+        {
+            x.effect();
+        }
     }
-};
-
-class Logger : public std::ostream
-{
-    std::string fileName_;
-    Timer timer_;
-    std::ofstream logFile_;
-    Logger_buf buf_;
-public:
-    Logger(std::string file);
-    void log(const std::string& s);
-	~Logger() throw() {}
-};
-
 }
 
-#endif //LOGGER_HPP
+std::unique_ptr<EventHandler::Connection>
+EventHandler::connect(Condition condition, Effect effect)
+{
+    auto iter = this->connections.emplace(condition,effect);
+    return std::unique_ptr<Connection>(new Connection{*this, iter.first});
+}
+
+void EventHandler::disconnect(Connection& connection)
+{
+    connections.erase(connection.getIterator());
+}
+
+}

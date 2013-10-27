@@ -12,9 +12,7 @@ BitmapText::BitmapText(Image const& font, Vectoru glyphDimensions,
     , glyphDims_(glyphDimensions)
     , asciiOffset_(asciiOffset)
     , rowWidth_(rowWidth)
-    , text_("")
     , clip_({0, 0, glyphDims_.x, glyphDims_.y})
-    , origin_({})
 {
 }
 
@@ -37,8 +35,7 @@ void BitmapText::draw(Vectorf parentPos, float parentRot, Vectorf camera)
         rot += parentRot;
     }
 
-    unsigned int stringIndex = 0;
-    while(text_[stringIndex] != '\0')
+    for (unsigned int stringIndex = 0; text_[stringIndex] != '\0'; ++stringIndex)
     {
         unsigned int clipIndex = static_cast<unsigned int>(text_[stringIndex]
                                                            - asciiOffset_);
@@ -49,8 +46,6 @@ void BitmapText::draw(Vectorf parentPos, float parentRot, Vectorf camera)
         font_.setPos({ static_cast<float>(stringIndex * glyphDims_.x), 0 });
 
         font_.draw(pos, rot, camera);
-
-        ++stringIndex;
     }
 }
 

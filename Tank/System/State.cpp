@@ -21,6 +21,10 @@
 
 #include <algorithm>
 #include <stdexcept>
+
+#include <boost/range/algorithm.hpp>
+#include <boost/range/algorithm_ext.hpp>
+
 #include "Entity.hpp"
 #include "Game.hpp"
 
@@ -36,18 +40,19 @@ State::~State() {}
 
 void State::insertEntity(std::unique_ptr<Entity>&& entity)
 {
-    if (not entity.get())
+    if (not entity)
     {
         Game::log << "Warning: You can't add a null entity." << std::endl;
         return;
     }
 
     // Stops an entity being added several times
-    auto x = find_if(begin(entities_), end(entities_),
-                     [&entity](std::unique_ptr<Entity>& existing)
-    {
+    auto x = boost::range::find_if(entities_,
+        [&entity](std::unique_ptr<Entity>& existing)
+        {
             return entity.get() == existing.get();
-    });
+        }
+    );
 
     if (x != end(entities_))
     {
@@ -90,11 +95,12 @@ void State::moveEntity(observing_ptr<State> state, observing_ptr<Entity> entity)
 
 std::unique_ptr<Entity> State::releaseEntity(observing_ptr<Entity> entity)
 {
-    auto it = std::find_if(begin(entities_), end(entities_),
-                           [&entity](std::unique_ptr<Entity>& ent)
-    {
-        return entity == ent.get();
-    });
+    auto it = boost::range::find_if(entities_,
+        [&entity](std::unique_ptr<Entity>& ent)
+        {
+            return entity == ent.get();
+        }
+    );
 
     if (it == end(entities_))
     {
@@ -115,6 +121,7 @@ void State::update()
         entity->update();
     }
 
+    addEntities();
     moveEntities();
     deleteEntities();
     updating_ = false;
@@ -122,16 +129,24 @@ void State::update()
 
 void State::draw()
 {
-    std::stable_sort(entities_.begin(), entities_.end(),
+    boost::range::stable_sort(entities_,
                      [](std::unique_ptr<Entity> const& e1,
                         std::unique_ptr<Entity> const& e2) {
         return e1->getLayer() < e2->getLayer();
     });
 
+
     for (auto& entity : entities_)
     {
         entity->draw(getCamera());
     }
+}
+
+void State::addEntities()
+{
+    std::move(newEntities_.begin(), newEntities_.end(),
+              std::back_inserter(entities_));
+    newEntities_.clear();
 }
 
 void State::moveEntities()
@@ -155,11 +170,12 @@ void State::moveEntities()
 
 void State::deleteEntities()
 {
-    entities_.erase(std::remove_if(begin(entities_), end(entities_),
-                                   [](const std::unique_ptr<Entity>& ent)
-    {
-        return ent->isRemoved();
-    }), end(entities_));
+    boost::range::remove_erase_if(entities_,
+        [](const std::unique_ptr<Entity>& ent)
+        {
+            return ent->isRemoved();
+        }
+    );
 }
 
 }

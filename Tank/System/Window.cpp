@@ -47,6 +47,7 @@ Window::Window(Vector<unsigned int> const& size, std::string caption)
                       settings);
 
         window_.setFramerateLimit(60);
+        window_.setVerticalSyncEnabled(true);
         setBackgroundColor(0.f,0.f,0.f);
 
         valid_ = true;

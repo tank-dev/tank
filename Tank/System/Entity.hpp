@@ -24,9 +24,12 @@
 #include <string>
 #include <memory>
 #include "../Graphics/Graphic.hpp"
+#include "../Graphics/Image.hpp"
 #include "../Utility/Vector.hpp"
 #include "../Utility/Rect.hpp"
 #include "../Utility/observing_ptr.hpp"
+#include "EventHandler.hpp"
+#include "Game.hpp"
 
 namespace tank
 {
@@ -55,10 +58,32 @@ class State;
  */
 class Entity
 {
+    Vectorf pos_;
+    float rot_ {};
+    Rectd hitbox_ {};
+    bool solid_ {false};
+    int layer_ {};
+    bool removed_ {false};
+    observing_ptr<State> state_ {nullptr}; //Set by parent State
+
+    std::vector<std::string> types_;
+    std::vector<std::unique_ptr<Graphic>> graphics_;
+    std::vector<std::unique_ptr<EventHandler::Connection>> connections_;
+
+    static int numEnts_;
+    const  int actorID_;
+
 public:
+    /*!
+     * \brief Constructs an entity at position pos
+     *
+     * \param pos The position of the entity
+     */
+    Entity(Vectorf pos = {0,0});
     /*!
      * \brief Run entity's per-frame game logic
      */
+
     virtual void update() {}
 
     /*!
@@ -78,7 +103,7 @@ public:
      * \return A list of all colliding entitities of type.
      * \see setType()
      */
-    std::vector<observing_ptr<Entity>> collide(std::string type = "");
+    std::vector<observing_ptr<Entity>> collide(std::vector<std::string> types = {});
 
     /*!
      * \brief Returns the entity's vector position
@@ -115,14 +140,20 @@ public:
     }
 
     /*!
-     * \brief Returns the entity's type
+     * \brief Returns the entity's types
      *
-     * \return The entity's type
+     * \return A list of the entity's types
      */
-    std::string getType() const
+    std::vector<std::string> const& getTypes() const
     {
-        return type_;
+        return types_;
     }
+
+    bool isType(std::string type)
+    {
+        return std::find(types_.begin(), types_.end(), type) != types_.end();
+    }
+
 
     /*!
      * \brief Returns whether the entity is solid (deprecated)
@@ -168,6 +199,11 @@ public:
      */
     observing_ptr<State> getState() const
     {
+        if (state_ == nullptr)
+        {
+            throw std::runtime_error (
+                    "Entity State pointer is null (try Entity::onAdded)");
+        }
         return state_;
     }
 
@@ -199,6 +235,18 @@ public:
     virtual void setPos(Vectorf pos);
 
     /*!
+     * \brief Moves the entity pixel by pixel while cond is false
+     *
+     * \param displacement Vectorial distance to move entity
+     * \param cond Condition to stop movement (e.g. not collide("solid").empty())
+     *
+     * \return True if moved full displacement, false otherwise
+     */
+    virtual bool moveBy(Vectorf displacement, std::function<bool()> cond);
+
+    virtual void moveBy(Vectorf displacement);
+
+    /*!
      * \brief Sets the entity's rotation
      *
      * \param pos The entity's new rotation in degrees
@@ -213,11 +261,19 @@ public:
     virtual void setHitbox(Rectd hitbox);
 
     /*!
-     * \brief Sets the entity's type
+     * \brief Sets entity's type for collision detection (removing all other
+     * types)
      *
-     * \param type The new type
+     * \param type The type to add
      */
-    void setType(std::string type) { type_ = type; }
+    void setType(std::string type);
+
+    /*!
+     * \brief Adds a type to the entity for collision detection, etc.
+     *
+     * \param type The type to add
+     */
+    void addType(std::string type);
 
     /*!
      * \brief Sets the entity's solidity (deprecated)
@@ -241,25 +297,18 @@ public:
      * \param args The arguments to T's constructor
      * \return A pointer of type T to the created Graphic
      */
-    template <typename T, typename... Args>
+    template <typename T = tank::Image, typename... Args>
     observing_ptr<T> makeGraphic(Args&&... args);
 
     /*!
      * \brief Sets the entity's parent state
      *
-     * Typically set by the state on addition. Don't change it unless you know
+     * Typically set by the state on addition. Don't call it unless you know
      * what you're doing.
      *
      * \param state A pointer to the parent state
      */
     void setState(const observing_ptr<State> state);
-
-    /*!
-     * \brief Constructs an entity at position pos
-     *
-     * \param pos The position of the entity
-     */
-    Entity(Vectorf pos);
 
     /*!
      * \brief Remove the entity from the world.
@@ -269,7 +318,7 @@ public:
     /*!
      * \return if the entity has been removed.
      */
-    bool isRemoved() {return removed_;}
+    bool isRemoved() { return removed_; }
 
     /*!
      * \brief Called when the entitiy is added to a State
@@ -282,22 +331,10 @@ public:
     virtual void onRemoved() {}
 
     virtual ~Entity();
-private:
-    //Member variables
-    Vectorf pos_;
-    float rot_;
-    Rectd hitbox_;
-    std::string type_;
-    bool solid_;
-    int layer_;
 
-    observing_ptr<State> state_; //Set by parent State
-    std::vector<std::unique_ptr<Graphic>> graphics_;
-
-    static int numEnts_;
-    const  int actorID_;
-
-    bool removed_ = false;
+    tank::observing_ptr<tank::EventHandler::Connection> connect(
+            tank::EventHandler::Condition condition,
+            tank::EventHandler::Effect effect);
 };
 
 template <typename T, typename... Args>
@@ -311,6 +348,8 @@ observing_ptr<T> Entity::makeGraphic(Args&&... args)
     graphics_.push_back(std::move(g));
     return ptr;
 }
+
+using EntityPtr = tank::observing_ptr<Entity>;
 
 }
 #endif
