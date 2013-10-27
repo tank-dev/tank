@@ -47,11 +47,12 @@ void State::insertEntity(std::unique_ptr<Entity>&& entity)
     }
 
     // Stops an entity being added several times
-    auto x = find_if(begin(entities_), end(entities_),
-                     [&entity](std::unique_ptr<Entity>& existing)
-    {
+    auto x = boost::range::find_if(entities_,
+        [&entity](std::unique_ptr<Entity>& existing)
+        {
             return entity.get() == existing.get();
-    });
+        }
+    );
 
     if (x != end(entities_))
     {
@@ -94,11 +95,12 @@ void State::moveEntity(observing_ptr<State> state, observing_ptr<Entity> entity)
 
 std::unique_ptr<Entity> State::releaseEntity(observing_ptr<Entity> entity)
 {
-    auto it = std::find_if(begin(entities_), end(entities_),
-                           [&entity](std::unique_ptr<Entity>& ent)
-    {
-        return entity == ent.get();
-    });
+    auto it = boost::range::find_if(entities_,
+        [&entity](std::unique_ptr<Entity>& ent)
+        {
+            return entity == ent.get();
+        }
+    );
 
     if (it == end(entities_))
     {
@@ -127,11 +129,12 @@ void State::update()
 
 void State::draw()
 {
-    std::stable_sort(entities_.begin(), entities_.end(),
+    boost::range::stable_sort(entities_,
                      [](std::unique_ptr<Entity> const& e1,
                         std::unique_ptr<Entity> const& e2) {
         return e1->getLayer() < e2->getLayer();
     });
+
 
     for (auto& entity : entities_)
     {
