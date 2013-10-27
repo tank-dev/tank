@@ -95,12 +95,7 @@ public:
      * \brief Creates a timer object
      */
     Timer();
-    /*!
-     * \brief Copies a timer.
-     *
-     * \param orig The timer to copy.
-     */
-    Timer(const Timer& orig);
+
     virtual ~Timer();
 
     /*!

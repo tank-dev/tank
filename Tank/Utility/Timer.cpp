@@ -29,17 +29,13 @@ Timer::Timer()
     : startTick_(),
       pausedTick_(),
       started_(false),
-      paused_(false) {}
-
-Timer::Timer(const Timer& orig)
+      paused_(false)
 {
-    startTick_ = orig.startTick_;
-    pausedTick_ = orig.pausedTick_;
-    started_ = orig.started_;
-    paused_ = orig.paused_;
 }
 
-Timer::~Timer() {}
+Timer::~Timer()
+{
+}
 
 void Timer::start()
 {
