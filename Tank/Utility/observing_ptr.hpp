@@ -26,6 +26,16 @@ public:
     template <typename U>
     observing_ptr(U* ptr) : p_{ptr} {}
 
+    T const& operator* () const
+	{
+		return *p_;
+	}
+
+    T const* operator->() const
+	{
+		return p_;
+	}
+
     T& operator* ()
 	{
 		return *p_;
@@ -87,7 +97,7 @@ bool operator!=(const T& lhs, const observing_ptr<U>& rhs)
 
 }
 
-namespace std 
+namespace std
 {
 template<typename T>
 struct hash<tank::observing_ptr<T>>
