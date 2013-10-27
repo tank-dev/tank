@@ -151,7 +151,7 @@ public:
 
     bool isType(std::string type)
     {
-        return std::find(types_.begin(), types_.end(), type) == types_.end();
+        return std::find(types_.begin(), types_.end(), type) != types_.end();
     }
 
 
