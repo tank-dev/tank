@@ -173,7 +173,11 @@ void State::deleteEntities()
     boost::range::remove_erase_if(entities_,
         [](const std::unique_ptr<Entity>& ent)
         {
-            return ent->isRemoved();
+            if (ent->isRemoved()) {
+                ent->onRemoved();
+                return true;
+            }
+            return false;
         }
     );
 }
