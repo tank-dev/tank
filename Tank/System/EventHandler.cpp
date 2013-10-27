@@ -25,8 +25,10 @@ std::size_t EventHandler::ConnectedPair::counter = 0;
 
 void EventHandler::propagate()
 {
-    for (auto& x : connections) {
-        if (x.condition()) {
+    for (auto& x : connections)
+    {
+        if (x.condition())
+        {
             x.effect();
         }
     }

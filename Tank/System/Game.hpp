@@ -59,8 +59,8 @@ class Game
 
 public:
     /*!
-     * \brief The log. This acts like a stream, remember to finish your log
-     * with std::endl.
+     * \brief The log. This acts like a standard stream (cout), remember to
+     * finish your log with std::endl.
      */
     static Logger log;
     static unsigned int fps;
@@ -73,6 +73,7 @@ public:
      * \return True on success.
      */
     static bool initialize(Vector<unsigned int> const& windowSize, int fps = 60);
+
     /*!
      * \brief Starts the game loop
      */
@@ -96,12 +97,17 @@ public:
     static observing_ptr<T> makeState(Args&&... args);
 
     /*!
-     * \brief Return a pointer to the active state
+     * \brief Return a pointer to the active state.
      *
-     * \return A pointer to the active state
+     * \return A pointer to the active state.
      */
     static observing_ptr<State> state() { return currentState_; }
 
+    /*!
+     * \brief Return a reference to a pointer to the Window.
+     *
+     * \return The window.
+     */
     static std::unique_ptr<Window> const& window() { return window_; };
 private:
     static void handleEvents();

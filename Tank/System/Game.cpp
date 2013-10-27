@@ -47,8 +47,9 @@ bool Game::initialize(Vector<unsigned int> const& wSize, int fps)
         initialized_ = true;
 
         //Create window
-		window_.reset(new Window(tank::Vectoru{ wSize.x, wSize.y }));
+		window_.reset(new Window(tank::Vectoru{wSize.x, wSize.y}));
 
+        // TODO: Make this reflect actual FPS
         Game::fps = fps;
     }
 
@@ -61,7 +62,7 @@ bool Game::initialize(Vector<unsigned int> const& wSize, int fps)
 
 void Game::run()
 {
-    if (run_) {return;}
+    if (run_) { return; }
 
     run_ = true;
     log << "Entering main loop" << std::endl;
@@ -75,11 +76,8 @@ void Game::run()
         }
 
         currentState_ = states_.top();
-
         handleEvents();
-
         currentState_->update();
-
         draw();
 
         if (popState_)

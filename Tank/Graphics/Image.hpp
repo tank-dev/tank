@@ -31,8 +31,12 @@ namespace tank {
 
 class Image final : public Graphic
 {
+    bool loaded_ {false};
+    sf::Sprite sprite_;
+    std::shared_ptr<Texture> texture_ {nullptr};
+
 public:
-    Image();
+    Image() = default;
     Image(std::string file);
 
     void load(std::string file);
@@ -91,11 +95,6 @@ public:
     }
 
     virtual void draw(Vectorf parentPos = {}, float parentRot = 0, Vectorf camera = {}) override;
-private:
-    bool loaded_;
-    Vectorf size_;
-    sf::Sprite sprite_;
-    std::shared_ptr<Texture> texture_;
 };
 
 }

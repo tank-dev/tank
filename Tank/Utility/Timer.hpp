@@ -31,12 +31,20 @@
 #include <cstring>
 #include <string>
 
-namespace tank
-{
+namespace tank {
 
 class Timer
 {
-public:
+    std::chrono::steady_clock::time_point startTick_;
+    std::chrono::steady_clock::duration pausedTick_;
+    bool started_ {false};
+    bool paused_ {false};
+
+public: 
+    Timer() = default;
+    Timer(const Timer& orig) = default;
+    ~Timer() = default;
+
     /*!
      * \brief Starts the timer
      */
@@ -75,13 +83,6 @@ public:
      * \return The number of millisecnds since the timer was started.
      */
     unsigned long getTicks() const;
-    /*!
-     * \brief Gets the number of microseconds since the timer was started or 0
-     * if it hasn't been started.
-     *
-     * \return The number of microseconds since the timer was started.
-     */
-    unsigned long getMicrosecs() const;
 
     /*!
      * \brief Get the time in a human readable format H:M:S.uuuuuu.
@@ -92,33 +93,13 @@ public:
     std::string getHumanTime() const;
 
     /*!
-     * \brief Creates a timer object
-     */
-    Timer();
-
-    virtual ~Timer();
-
-    /*!
      * \brief Delays the current thread for a numeber of milliseconds.
      *
      * \param millisecs The number of milliseconds to delay the thread for.
      */
     static void delay(unsigned long millisecs);
-    /*!
-     * \brief Delays the current thread for a numeber of microseconds. (NOTE:
-     * most computers may not have this sort of precision.)
-     *
-     * \param microsecs The number of microseconds to delay the thread for.
-     */
-    static void delayMicrosecs(unsigned long microsecs);
-private:
-
-    std::chrono::steady_clock::time_point startTick_;
-    std::chrono::steady_clock::duration pausedTick_;
-    bool started_;
-    bool paused_;
 };
 
-}
+} // tank
 
 #endif    /* TIMER_H */

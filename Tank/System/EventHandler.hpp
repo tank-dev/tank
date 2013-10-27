@@ -36,7 +36,8 @@ public:
     using Effect = std::function<void()>;
 
 private:
-    class ConnectedPair {
+    class ConnectedPair
+    {
         static std::size_t counter;
         std::size_t uid;
 
@@ -54,7 +55,8 @@ private:
         }
 
         // std::set boilerplate
-        bool operator<(const ConnectedPair& rhs) const {
+        bool operator<(const ConnectedPair& rhs) const
+        {
             return this->uid < rhs.uid;
         }
     };
@@ -82,11 +84,13 @@ public:
     {
     }
 
-    ~Connection() {
+    ~Connection()
+    {
         disconnect();
     }
 
-    void disconnect() {
+    void disconnect()
+    {
         if (not connected) {return;} // Jamie: Will this ever happen?
         connected = false;
         events.disconnect(*this);
@@ -104,15 +108,17 @@ public:
 inline std::function<bool()> operator&& (std::function<bool()> f1,
                                          std::function<bool()> f2)
 {
-    return [f1,f2](){
+    return [f1,f2]()
+    {
         return f1() and f2();
     };
 }
 
 inline std::function<bool()> operator|| (std::function<bool()> f1,
-                                  std::function<bool()> f2)
+                                         std::function<bool()> f2)
 {
-    return [f1,f2](){
+    return [f1,f2]()
+    {
         return f1() or f2();
     };
 }
