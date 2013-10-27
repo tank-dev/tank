@@ -61,13 +61,12 @@ class Entity
     Vectorf pos_;
     float rot_ {};
     Rectd hitbox_ {};
-    std::string type_ {""};
     bool solid_ {false};
     int layer_ {};
     bool removed_ {false};
     observing_ptr<State> state_ {nullptr}; //Set by parent State
 
-    //std::vector<std::string> types_;
+    std::vector<std::string> types_;
     std::vector<std::unique_ptr<Graphic>> graphics_;
     std::vector<std::unique_ptr<EventHandler::Connection>> connections_;
 
@@ -104,7 +103,7 @@ public:
      * \return A list of all colliding entitities of type.
      * \see setType()
      */
-    std::vector<observing_ptr<Entity>> collide(std::string type = "");
+    std::vector<observing_ptr<Entity>> collide(std::vector<std::string> types = {});
 
     /*!
      * \brief Returns the entity's vector position
@@ -141,14 +140,20 @@ public:
     }
 
     /*!
-     * \brief Returns the entity's type
+     * \brief Returns the entity's types
      *
-     * \return The entity's type
+     * \return A list of the entity's types
      */
-    std::string getType() const
+    std::vector<std::string> const& getTypes() const
     {
-        return type_;
+        return types_;
     }
+
+    bool isType(std::string type)
+    {
+        return std::find(types_.begin(), types_.end(), type) == types_.end();
+    }
+
 
     /*!
      * \brief Returns whether the entity is solid (deprecated)
@@ -256,11 +261,19 @@ public:
     virtual void setHitbox(Rectd hitbox);
 
     /*!
-     * \brief Sets the entity's type
+     * \brief Sets entity's type for collision detection (removing all other
+     * types)
      *
-     * \param type The new type
+     * \param type The type to add
      */
-    void setType(std::string type) { type_ = type; }
+    void setType(std::string type);
+
+    /*!
+     * \brief Adds a type to the entity for collision detection, etc.
+     *
+     * \param type The type to add
+     */
+    void addType(std::string type);
 
     /*!
      * \brief Sets the entity's solidity (deprecated)
