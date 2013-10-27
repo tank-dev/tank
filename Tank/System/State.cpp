@@ -21,6 +21,10 @@
 
 #include <algorithm>
 #include <stdexcept>
+
+#include <boost/range/algorithm.hpp>
+#include <boost/range/algorithm_ext.hpp>
+
 #include "Entity.hpp"
 #include "Game.hpp"
 
@@ -36,7 +40,7 @@ State::~State() {}
 
 void State::insertEntity(std::unique_ptr<Entity>&& entity)
 {
-    if (not entity.get())
+    if (not entity)
     {
         Game::log << "Warning: You can't add a null entity." << std::endl;
         return;
@@ -115,6 +119,7 @@ void State::update()
         entity->update();
     }
 
+    addEntities();
     moveEntities();
     deleteEntities();
     updating_ = false;
@@ -132,6 +137,13 @@ void State::draw()
     {
         entity->draw(getCamera());
     }
+}
+
+void State::addEntities()
+{
+    std::move(newEntities_.begin(), newEntities_.end(),
+              std::back_inserter(entities_));
+    newEntities_.clear();
 }
 
 void State::moveEntities()
@@ -155,11 +167,12 @@ void State::moveEntities()
 
 void State::deleteEntities()
 {
-    entities_.erase(std::remove_if(begin(entities_), end(entities_),
-                                   [](const std::unique_ptr<Entity>& ent)
-    {
-        return ent->isRemoved();
-    }), end(entities_));
+    boost::range::remove_erase_if(entities_,
+        [](const std::unique_ptr<Entity>& ent)
+        {
+            return ent->isRemoved();
+        }
+    );
 }
 
 }
