@@ -21,14 +21,21 @@
 
 namespace tank
 {
-
-Text::Text(std::string text)
-    : text_(text)
+void Text::draw(Vectorf parentPos, float parentRot, Vectorf camera)
 {
-}
+    Vectorf pos = getPos() - camera;
+    float angle = getRotation();
 
-Text::~Text()
-{
-}
+    if(isRelativeToParent())
+    {
+        pos += parentPos;
+        angle += parentRot;
+    }
 
+    text_.setPosition({pos.x, pos.y});
+    text_.setRotation(angle);
+
+
+    Game::window()->SFMLWindow().draw(text_);
+}
 }

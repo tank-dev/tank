@@ -20,22 +20,70 @@
 #ifndef TANK_TEXT_HPP
 #define TANK_TEXT_HPP
 
+#include <SFML/Graphics/Text.hpp>
 #include "../System/Entity.hpp"
 #include "../Utility/Timer.hpp"
 #include "../Utility/Vector.hpp"
+#include "Font.hpp"
 
 #include <string>
 
 namespace tank
 {
 
-class Text
+class Text : public Graphic
 {
+    sf::Text text_ {};
 public:
-    Text(std::string text);
-    ~Text();
-private:
-    std::string text_;
+    Text() = default;
+    Text(const Text&) = default;
+    Text(Font& f, unsigned size = 30, std::string text = ""):text_(text, f, size) {}
+
+    ~Text() = default;
+
+    void setFont(Font& f) { text_.setFont(f); }
+
+    void setFontSize(unsigned s) { text_.setCharacterSize(s); }
+    unsigned getFontSize() const { return text_.getCharacterSize(); }
+
+    void setText(std::string s) { text_.setString(s); }
+    std::string getText() const { return text_.getString(); }
+
+    virtual void setScale(float scale)
+    {
+        text_.setScale(scale, scale);
+    }
+    virtual void setScale(Vectorf s)
+    {
+        text_.setScale(s.x, s.y);
+    }
+    virtual Vectorf getScale() const
+    {
+        return {text_.getScale().x, text_.getScale().y};
+    }
+
+    virtual void setOrigin(Vectorf o)
+    {
+        text_.setOrigin(o.x,o.y);
+    }
+    virtual Vectorf getOrigin() const
+    {
+        return { text_.getOrigin().x, text_.getOrigin().y };
+    }
+
+    virtual Vectorf getSize() const
+    {
+        return { text_.getLocalBounds().width, text_.getLocalBounds().height };
+    }
+
+    // Not implemented
+    virtual void setClip(Rectu) {}
+    virtual Rectu getClip() const {return {};}
+
+    virtual void setSize(Vectorf) {}
+    virtual Vector<unsigned int> getTextureSize() const {return {};}
+
+    virtual void draw(Vectorf parentPos, float parentRot, Vectorf camera = {0,0});
 };
 
 }
