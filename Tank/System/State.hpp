@@ -61,8 +61,10 @@ protected:
 private:
     Vectorf camera_;
     std::vector<std::tuple<observing_ptr<State>, observing_ptr<Entity>>> toMove_;
+    std::vector<std::unique_ptr<Entity>> newEntities_;
     bool updating_;
 
+    void addEntities();
     void moveEntities();
     void deleteEntities();
 
@@ -197,7 +199,7 @@ observing_ptr<T> State::makeEntity(Args&&... args)
     ent->setState(this);
     ent->onAdded();
     observing_ptr<T> ptr {ent};
-    entities_.push_back(std::move(ent));
+    newEntities_.push_back(std::move(ent));
     return ptr;
 }
 
