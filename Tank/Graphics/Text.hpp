@@ -25,6 +25,7 @@
 #include "../Utility/Timer.hpp"
 #include "../Utility/Vector.hpp"
 #include "Font.hpp"
+#include "Color.hpp"
 
 #include <string>
 
@@ -74,6 +75,10 @@ public:
     virtual Vectorf getSize() const
     {
         return { text_.getLocalBounds().width, text_.getLocalBounds().height };
+    }
+
+    virtual void setColor(const Color& color) {
+        text_.setColor(color);
     }
 
     // Not implemented
