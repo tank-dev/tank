@@ -182,4 +182,13 @@ void State::deleteEntities()
     );
 }
 
+tank::observing_ptr<tank::EventHandler::Connection> State::connect(
+                                       EventHandler::Condition condition,
+                                       EventHandler::Effect effect)
+{
+    auto cond = this->eventHandler.connect(condition, effect);
+    connections_.push_back(std::move(cond));
+    return connections_.back();
+}
+
 }

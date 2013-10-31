@@ -62,6 +62,7 @@ private:
     Vectorf camera_;
     std::vector<std::tuple<observing_ptr<State>, observing_ptr<Entity>>> toMove_;
     std::vector<std::unique_ptr<Entity>> newEntities_;
+    std::vector<std::unique_ptr<EventHandler::Connection>> connections_;
     bool updating_;
 
     void addEntities();
@@ -187,6 +188,10 @@ public:
 
     State();
     virtual ~State();
+
+    tank::observing_ptr<tank::EventHandler::Connection> connect(
+            tank::EventHandler::Condition condition,
+            tank::EventHandler::Effect effect);
 };
 
 template <typename T, typename... Args>
