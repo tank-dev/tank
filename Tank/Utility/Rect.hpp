@@ -32,6 +32,8 @@ struct Rect
     T x, y, w, h;
     Rect(T x = 0, T y = 0, T w = 0, T h = 0)
         : x(x) , y(y) , w(w) , h(h) {}
+    template <typename U> Rect(U x, U y, U h, U w)
+        : x(x) , y(y) , w(w) , h(h) {}
     template <typename U> Rect(const Rect<U>& rect)
         : x(rect.x) , y(rect.y) , w(rect.w) , h(rect.h) {}
 
