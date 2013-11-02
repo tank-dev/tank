@@ -54,9 +54,12 @@ void Image::draw(Vectorf parentPos, float parentRot, Camera const& cam)
     }
 
     /* View */
-    const auto viewRot = cam.getRotation();
     const auto viewScale = cam.getZoom();
+    const auto viewRot = cam.getRotation();
     const float viewRads = 3.14159265 * viewRot / 180.f;
+    auto viewPos = cam.getPos();
+    viewPos.x *= viewScale.x;
+    viewPos.y *= viewScale.y;
 
     modelPos -= cam.getOrigin();
     modelPos.x *= viewScale.x;
@@ -66,7 +69,7 @@ void Image::draw(Vectorf parentPos, float parentRot, Camera const& cam)
     modelViewPos.x = modelPos.x * std::cos(viewRads) + modelPos.y * std::sin(viewRads);
     modelViewPos.y = - modelPos.x * std::sin(viewRads) + modelPos.y * std::cos(viewRads);
     modelViewPos += cam.getOrigin();
-    modelViewPos -= cam.getPos();
+    modelViewPos -= viewPos;
 
     float modelViewRot = modelRot - viewRot;
 
