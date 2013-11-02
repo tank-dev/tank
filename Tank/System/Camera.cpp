@@ -17,32 +17,18 @@
  * Copyright 2013 (©) Jamie Bayne, David Truby, David Watson.
  */
 
-#ifndef TANK_CAMERA_HPP
-#define TANK_CAMERA_HPP
+#include "Camera.hpp"
 
-#include "../Utility/Vector.hpp"
+#include "Game.hpp"
 
 namespace tank {
 
-class Camera
+Camera::Camera()
 {
-    float rot_ {0};
-    Vectorf pos_ {};
-    Vectorf origin_ {};
-public:
-    Vectorf getPos() const { return pos_; }
-    void setPos(Vectorf pos) { pos_ = pos; }
-
-    float getRotation() const { return rot_; }
-    void setRotation(float rot) { rot_ = rot; }
-
-    Vectorf getOrigin() const { return origin_; }
-    void setOrigin(Vectorf o) { origin_ = o; }
-
-    Camera();
-private:
-};
+    if (Game::window())
+    {
+        origin_ = Game::window()->getSize() / 2;
+    }
+}
 
 } /* tank */
-
-#endif /* TANK_CA<ERA_HPP */
