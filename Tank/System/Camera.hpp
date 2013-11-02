@@ -29,6 +29,7 @@ class Camera
     float rot_ {0};
     Vectorf pos_ {};
     Vectorf origin_ {};
+    Vectorf zoom_ {1,1};
 public:
     Vectorf getPos() const { return pos_; }
     void setPos(Vectorf pos) { pos_ = pos; }
@@ -38,6 +39,10 @@ public:
 
     Vectorf getOrigin() const { return origin_; }
     void setOrigin(Vectorf o) { origin_ = o; }
+
+    Vectorf getZoom() const { return zoom_; }
+    void setZoom(float z) { zoom_.x = z; zoom_.y = z; }
+    void setZoom(Vectorf z) { zoom_ = z; }
 
     Camera();
 private:
