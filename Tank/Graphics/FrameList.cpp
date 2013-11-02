@@ -27,8 +27,8 @@ namespace tank
 FrameList::FrameList(Image const& i, Vector<unsigned int> frameDims)
     : image_ (i)
     , frameDimensions_(frameDims)
-    , clip_({0,0,frameDims.x, frameDims.y})
 {
+    image_.setClip({0,0,frameDims.x, frameDims.y});
 }
 
 void FrameList::add(std::string name,
