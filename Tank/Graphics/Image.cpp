@@ -43,7 +43,6 @@ void Image::load(std::string file)
 
 void Image::draw(Vectorf parentPos, float parentRot, Camera const& cam)
 {
-    const auto windowSize = Game::window()->getSize();
     /* Model */
     auto modelPos = getPos();
     auto modelRot = getRotation();
