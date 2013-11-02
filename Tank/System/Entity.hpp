@@ -25,9 +25,9 @@
 #include <memory>
 #include "../Graphics/Graphic.hpp"
 #include "../Graphics/Image.hpp"
-#include "../Utility/Vector.hpp"
-#include "../Utility/Rect.hpp"
 #include "../Utility/observing_ptr.hpp"
+#include "../Utility/Rect.hpp"
+#include "../Utility/Vector.hpp"
 #include "EventHandler.hpp"
 #include "Game.hpp"
 
@@ -345,6 +345,14 @@ observing_ptr<T> Entity::makeGraphic(Args&&... args)
 
     std::unique_ptr<T> g {new T(std::forward<Args>(args)...)};
     observing_ptr<T> ptr {g};
+
+    // If no hitbox, set to image bounds
+    if (getHitbox() == Rectd() and getGraphicList().empty())
+    {
+        auto hb = g->getClip();
+        setHitbox(Rectd(0, 0, hb.w, hb.h));
+    }
+
     graphics_.push_back(std::move(g));
     return ptr;
 }
