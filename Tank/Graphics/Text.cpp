@@ -23,18 +23,29 @@ namespace tank
 {
 void Text::draw(Vectorf parentPos, float parentRot, Camera const& cam)
 {
-    Vectorf pos = getPos() - cam.getPos();
-    float angle = getRotation();
+    Vectorf modelPos = getPos();
+    float modelRot = getRotation();
 
     if(isRelativeToParent())
     {
-        pos += parentPos;
-        angle += parentRot;
+        modelPos += parentPos;
+        modelRot += parentRot;
     }
 
-    text_.setPosition({pos.x, pos.y});
-    text_.setRotation(angle);
+    const float viewRot = cam.getRotation();
+    const float viewRads = 3.14159265 * viewRot / 180.f;
 
+    modelPos -= cam.getOrigin();
+    Vectorf modelViewPos;
+    modelViewPos.x = modelPos.x * std::cos(viewRads) + modelPos.y * std::sin(viewRads);
+    modelViewPos.y = - modelPos.x * std::sin(viewRads) + modelPos.y * std::cos(viewRads);
+    modelViewPos += cam.getOrigin();
+    modelViewPos -= cam.getPos();
+
+    float modelViewRot = modelRot - viewRot;
+
+    text_.setPosition({modelViewPos.x, modelViewPos.y});
+    text_.setRotation(modelViewRot);
 
     Game::window()->SFMLWindow().draw(text_);
 }
