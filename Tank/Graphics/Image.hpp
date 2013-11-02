@@ -98,7 +98,7 @@ public:
 
     virtual void draw(Vectorf parentPos = {},
                       float parentRot = 0,
-                      Vectorf camera = {}) override;
+                      Camera const& = Camera()) override;
 };
 
 }

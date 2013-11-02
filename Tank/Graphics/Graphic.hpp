@@ -20,6 +20,7 @@
 #ifndef TANK_GRAPHIC_HPP
 #define TANK_GRAPHIC_HPP
 
+#include "../System/Camera.hpp"
 #include "../Utility/Vector.hpp"
 #include "../Utility/Rect.hpp"
 
@@ -87,7 +88,10 @@ public:
 
     virtual Vector<unsigned int> getTextureSize() const = 0;
 
-    virtual void draw(Vectorf parentPos, float parentRot, Vectorf camera = {0,0}) = 0;
+    // Make const?
+    virtual void draw(Vectorf parentPos = {},
+                      float parentRot = 0,
+                      Camera const& = Camera()) = 0;
 };
 
 }

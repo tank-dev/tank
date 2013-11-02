@@ -40,9 +40,9 @@ void Image::load(std::string file)
     }
 }
 
-void Image::draw(Vectorf parentPos, float parentRot, Vectorf camera)
+void Image::draw(Vectorf parentPos, float parentRot, Camera const& cam)
 {
-    Vectorf pos = getPos() - camera;
+    Vectorf pos = getPos() - cam.getPos();
     float angle = getRotation();
 
     if(isRelativeToParent())

@@ -1,3 +1,22 @@
+/* This file is part of Tank.
+ *
+ * Tank is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Tank is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License and
+ * the GNU Lesser General Public Licence along with Tank. If not, see
+ * <http://www.gnu.org/licenses/>.
+ *
+ * Copyright 2013 (©) Jamie Bayne, David Truby, David Watson.
+ */
+
 #ifndef TANK_BITMAPTEXT_HPP
 #define TANK_BITMAPTEXT_HPP
 
@@ -16,6 +35,7 @@ class BitmapText final : public Graphic
     unsigned int rowWidth_;
     Rectu clip_;
 
+    // TODO: make std::string
     char const* text_ {""};
     Vectorf origin_ {};
 
@@ -84,7 +104,9 @@ public:
         return font_.getTextureSize();
     }
 
-    virtual void draw(Vectorf parentPos, float parentRot, Vectorf camera = {0,0});
+    virtual void draw(Vectorf parentPos = {},
+                      float parentRot = 0, 
+                      Camera const& = Camera());
 };
 
 }

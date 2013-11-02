@@ -28,6 +28,7 @@
 #include "../Utility/observing_ptr.hpp"
 #include "../Utility/Rect.hpp"
 #include "../Utility/Vector.hpp"
+#include "Camera.hpp"
 #include "EventHandler.hpp"
 #include "Game.hpp"
 
@@ -92,7 +93,7 @@ public:
      * Render the entity for the current frame
      * \param render The Render instance with which to render the entity
      */
-    virtual void draw(Vectorf camera);
+    virtual void draw(Camera const&);
 
     /*!
      * \brief Check for collisions with the entity (deprecated?)

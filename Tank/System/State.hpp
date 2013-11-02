@@ -24,6 +24,7 @@
 #include <tuple>
 #include <memory>
 
+#include "Camera.hpp"
 #include "EventHandler.hpp"
 #include "../Utility/Vector.hpp"
 #include "../Utility/observing_ptr.hpp"
@@ -53,25 +54,15 @@ class Game;
  */
 class State
 {
-public:
-    EventHandler eventHandler;
-protected:
-    //TODO: Make private and add getter
-    std::vector<std::unique_ptr<Entity>> entities_;
-private:
-    Vectorf camera_;
+    bool updating_ {false};
+    Camera camera_;
     std::vector<std::tuple<observing_ptr<State>, observing_ptr<Entity>>> toMove_;
     std::vector<std::unique_ptr<Entity>> newEntities_;
     std::vector<std::unique_ptr<EventHandler::Connection>> connections_;
-    bool updating_;
 
-    void addEntities();
-    void moveEntities();
-    void deleteEntities();
-
-    State(State const&);
-    State& operator=(State const&);
 public:
+    EventHandler eventHandler;
+
     /*!
      * \brief Creates an Entity and adds it to the State
      *
@@ -169,13 +160,9 @@ public:
      */
     virtual void draw();
 
-    virtual Vectorf getCamera() const
+    Camera& camera()
     {
         return camera_;
-    }
-    virtual void setCamera(Vectorf camera)
-    {
-        camera_ = camera;
     }
 
     /*!
@@ -188,10 +175,21 @@ public:
 
     State();
     virtual ~State();
+    State(State const&) = delete;
+    State& operator=(State const&) = delete;
 
     tank::observing_ptr<tank::EventHandler::Connection> connect(
             tank::EventHandler::Condition condition,
             tank::EventHandler::Effect effect);
+
+protected:
+    //TODO: Make private and add getter
+    std::vector<std::unique_ptr<Entity>> entities_;
+
+private:
+    void addEntities();
+    void moveEntities();
+    void deleteEntities();
 };
 
 template <typename T, typename... Args>

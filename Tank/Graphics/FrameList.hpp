@@ -93,7 +93,9 @@ public:
      *
      * \param pos Position at which to draw the texture.
      */
-    void draw(Vectorf parentPos, float parentRot, Vectorf camera = {0, 0}) override;
+    void draw(Vectorf parentPos = {},
+              float parentRot = 0, 
+              Camera const& = Camera()) override;
 
     /*!
      * \brief Start the animation

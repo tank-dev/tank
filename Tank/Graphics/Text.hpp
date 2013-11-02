@@ -88,7 +88,9 @@ public:
     virtual void setSize(Vectorf) {}
     virtual Vector<unsigned int> getTextureSize() const {return {};}
 
-    virtual void draw(Vectorf parentPos, float parentRot, Vectorf camera = {0,0});
+    virtual void draw(Vectorf parentPos,
+                      float parentRot,
+                      Camera const& = Camera()) override;
 };
 
 }

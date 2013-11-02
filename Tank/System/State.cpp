@@ -31,12 +31,11 @@
 namespace tank
 {
 
-State::State()
-    : camera_({})
-    , updating_(false)
-{}
-
-State::~State() {}
+State::State() = default;
+State::~State()
+{
+    connections_.clear();
+}
 
 void State::insertEntity(std::unique_ptr<Entity>&& entity)
 {
@@ -138,7 +137,7 @@ void State::draw()
 
     for (auto& entity : entities_)
     {
-        entity->draw(getCamera());
+        entity->draw(camera());
     }
 }
 

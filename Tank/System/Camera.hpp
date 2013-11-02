@@ -17,25 +17,26 @@
  * Copyright 2013 (©) Jamie Bayne, David Truby, David Watson.
  */
 
-#include "Text.hpp"
+#ifndef TANK_CAMERA_HPP
+#define TANK_CAMERA_HPP
 
-namespace tank
+#include "../Utility/Vector.hpp"
+
+namespace tank {
+
+class Camera
 {
-void Text::draw(Vectorf parentPos, float parentRot, Camera const& cam)
-{
-    Vectorf pos = getPos() - cam.getPos();
-    float angle = getRotation();
+    float rot_ {0};
+    Vectorf pos_ {};
+public:
+    Vectorf getPos() const { return pos_; }
+    void setPos(Vectorf pos) { pos_ = pos; }
 
-    if(isRelativeToParent())
-    {
-        pos += parentPos;
-        angle += parentRot;
-    }
+    float getRotation() const { return rot_; }
+    void setRotation(float rot) { rot_ = rot; }
+private:
+};
 
-    text_.setPosition({pos.x, pos.y});
-    text_.setRotation(angle);
+} /* tank */
 
-
-    Game::window()->SFMLWindow().draw(text_);
-}
-}
+#endif /* TANK_CA<ERA_HPP */
