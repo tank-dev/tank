@@ -19,6 +19,7 @@
 
 #include "Image.hpp"
 
+#include <cmath>
 #include <SFML/Graphics/RenderWindow.hpp>
 #include "../System/Game.hpp"
 
@@ -42,17 +43,32 @@ void Image::load(std::string file)
 
 void Image::draw(Vectorf parentPos, float parentRot, Camera const& cam)
 {
-    Vectorf pos = getPos() - cam.getPos();
-    float angle = getRotation();
-
+    const auto windowSize = Game::window()->getSize();
+    /* Model */
+    auto modelPos = getPos();
+    auto modelRot = getRotation();
     if(isRelativeToParent())
     {
-        pos += parentPos;
-        angle += parentRot;
+        modelPos += parentPos;
+        modelRot += parentRot;
     }
 
-    sprite_.setPosition({pos.x, pos.y});
-    sprite_.setRotation(angle);
+    /* View */
+    const auto viewRot = cam.getRotation();
+    const float viewRads = 3.14159265 * viewRot / 180.f;
+
+    modelPos -= cam.getOrigin();
+    Vectorf modelViewPos;
+    modelViewPos.x = modelPos.x * std::cos(viewRads) + modelPos.y * std::sin(viewRads);
+    modelViewPos.y = - modelPos.x * std::sin(viewRads) + modelPos.y * std::cos(viewRads);
+    modelViewPos += cam.getOrigin();
+    modelViewPos -= cam.getPos();
+
+    float modelViewRot = modelRot - viewRot;
+
+    /* Change sprite settings */
+    sprite_.setPosition({modelViewPos.x, modelViewPos.y});
+    sprite_.setRotation(modelViewRot);
 
 
     Game::window()->SFMLWindow().draw(sprite_);
