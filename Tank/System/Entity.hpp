@@ -349,8 +349,8 @@ observing_ptr<T> Entity::makeGraphic(Args&&... args)
     // If no hitbox, set to image bounds
     if (getHitbox() == Rectd() and getGraphicList().empty())
     {
-        auto hb = g->getClip();
-        setHitbox(Rectd(0, 0, hb.w, hb.h));
+        auto hb = g->getSize();
+        setHitbox(Rectd(0, 0, hb.x, hb.y));
     }
 
     graphics_.push_back(std::move(g));
