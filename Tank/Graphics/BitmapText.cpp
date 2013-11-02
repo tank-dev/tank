@@ -61,8 +61,14 @@ void BitmapText::draw(Vectorf parentPos, float parentRot, Camera const& cam)
         clip_.x = (clipIndex % rowWidth_) * glyphDims_.x;
         clip_.y = (clipIndex / rowWidth_) * glyphDims_.y;
 
+        const float rads = 3.14159265 * rot / 180.f;
+        const float distance = stringIndex * glyphDims_.x;
+        Vectorf displacement;
+        displacement.x = distance * std::cos(rads);
+        displacement.y = distance * std::sin(rads);
+
         font_.setClip(clip_);
-        font_.setPos({ static_cast<float>(stringIndex * glyphDims_.x), 0 });
+        font_.setPos(displacement);
 
         font_.draw(pos, rot, cam);
     }
