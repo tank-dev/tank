@@ -105,7 +105,7 @@ public:
     }
 
     virtual void draw(Vectorf parentPos = {},
-                      float parentRot = 0, 
+                      float parentRot = 0,
                       Camera const& = Camera());
 };
 
