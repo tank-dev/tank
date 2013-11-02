@@ -24,13 +24,31 @@ namespace tank
 {
 
 /*!
- * \brief A rectangle stuct. Stored as ints. Top left x,y then width and height.
+ * \brief A templated rectangle stuct. Top left x,y then width and height.
  */
 template <typename T>
 struct Rect
 {
     T x, y, w, h;
+    Rect(T x = 0, T y = 0, T w = 0, T h = 0)
+        : x(x) , y(y) , w(w) , h(h) {}
+    template <typename U> Rect(const Rect<U>& rect)
+        : x(rect.x) , y(rect.y) , w(rect.w) , h(rect.h) {}
+
 };
+
+template <typename T, typename U>
+inline bool operator== (const Rect<T>& lhs, const Rect<U>& rhs)
+{
+    return lhs.x == rhs.x and lhs.y == rhs.y and
+           lhs.w == rhs.w and lhs.h == rhs.h;
+}
+
+template <typename T, typename U>
+inline bool operator!= (const Rect<T>& lhs, const Rect<U>& rhs)
+{
+    return not operator==(lhs,rhs);
+}
 
 using Rectf = Rect<float>;
 using Recti = Rect<int>;
