@@ -19,19 +19,66 @@
 
 #ifndef TANK_MOUSE_HPP
 #define TANK_MOUSE_HPP
+
+#include <array>
 #include <functional>
 #include <SFML/Window/Mouse.hpp>
+#include "../../Tank/System/Camera.hpp"
 #include "../../Tank/Utility/Vector.hpp"
 
 namespace tank {
 
+class Entity;
 class Mouse {
+    friend class Game;
+    static bool stateChange_;
+    static Vectori currentPos_;
+    static Vectori lastPos_;
+    static int wheelDelta_;
+    static bool hasEntered_;
+    static bool hasLeft_;
+    static std::array<bool, sf::Mouse::Button::ButtonCount> currentState_;
+    static std::array<bool, sf::Mouse::Button::ButtonCount> lastState_;
+
 public:
     using Button = sf::Mouse::Button;
-    static tank::Vectori getPosition();
+    static tank::Vectori const& getPos() { return currentPos_; }
+    static int const& wheelDelta() { return wheelDelta_; }
+    static tank::Vectori getRelPos(Camera const&);
+    static tank::Vectori delta();
 
     static bool isButtonPressed(Button button);
-    static std::function<bool()> ButtonPressed(Button button);
+    static std::function<bool()> ButtonPress(Button button);
+
+    static bool isButtonReleased(Button button);
+    static std::function<bool()> ButtonRelease(Button button);
+
+    static bool isButtonDown(Button button);
+    static std::function<bool()> ButtonDown(Button button);
+
+    static bool isButtonUp(Button button);
+    static std::function<bool()> ButtonUp(Button button);
+
+    static std::function<bool()> WheelUp();
+    static std::function<bool()> WheelDown();
+    static std::function<bool()> WheelMovement();
+
+    static std::function<bool()> EnterWindow();
+    static std::function<bool()> LeaveWindow();
+
+    static std::function<bool()> IsInEntity(Entity const&);
+
+    static std::function<bool()> MouseMovement();
+
+private:
+    static void setButtonPressed(Button);
+    static void setButtonReleased(Button);
+    static void setPos(int x, int y);
+    static void setWheelDelta(int dt);
+    static void setLeft();
+    static void setEntered();
+
+    static void reset();
 };
 }
 

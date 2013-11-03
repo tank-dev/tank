@@ -20,6 +20,7 @@
 #include "Keyboard.hpp"
 
 #include <algorithm>
+#include <array>
 #include <iterator>
 #include <SFML/Window/Keyboard.hpp>
 
