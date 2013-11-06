@@ -21,6 +21,7 @@
 
 #include <SFML/Window/Event.hpp>
 #include "Keyboard.hpp"
+#include "Mouse.hpp"
 #include "Window.hpp"
 
 namespace tank {
@@ -90,6 +91,9 @@ void Game::run()
 
 void Game::handleEvents()
 {
+    Keyboard::reset();
+    Mouse::reset();
+
     sf::Event event;
 
     while (window_->pollEvent(event))
@@ -107,6 +111,24 @@ void Game::handleEvents()
             }
             Keyboard::setKeyReleased(event.key.code);
             break;
+        case sf::Event::MouseButtonPressed:
+            Mouse::setButtonPressed(event.mouseButton.button);
+            break;
+        case sf::Event::MouseButtonReleased:
+            Mouse::setButtonReleased(event.mouseButton.button);
+            break;
+        case sf::Event::MouseMoved:
+            Mouse::setPos(event.mouseMove.x, event.mouseMove.y);
+            break;
+        case sf::Event::MouseWheelMoved:
+            Mouse::setWheelDelta(event.mouseWheel.delta);
+            break;
+        case sf::Event::MouseLeft:
+            Mouse::setLeft();
+            break;
+        case sf::Event::MouseEntered:
+            Mouse::setEntered();
+            break;
         case sf::Event::GainedFocus:
             draw();
             break;
@@ -119,7 +141,6 @@ void Game::handleEvents()
     }
 
     currentState_->eventHandler.propagate();
-    Keyboard::reset();
 }
 
 /* ----------------------------------- *

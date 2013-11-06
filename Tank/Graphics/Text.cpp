@@ -21,21 +21,42 @@
 
 namespace tank
 {
-void Text::draw(Vectorf parentPos, float parentRot, Vectorf camera)
+void Text::draw(Vectorf parentPos, float parentRot, Camera const& cam)
 {
-    Vectorf pos = getPos() - camera;
-    float angle = getRotation();
+    const auto modelScale = getScale();
+    Vectorf modelPos = getPos();
+    float modelRot = getRotation();
 
     if(isRelativeToParent())
     {
-        pos += parentPos;
-        angle += parentRot;
+        modelPos += parentPos;
+        modelRot += parentRot;
     }
 
-    text_.setPosition({pos.x, pos.y});
-    text_.setRotation(angle);
+    const auto viewScale = cam.getZoom();
+    const float viewRot = cam.getRotation();
+    const float viewRads = 3.14159265 * viewRot / 180.f;
+    auto viewPos = cam.getPos();
+    viewPos.x *= viewScale.x;
+    viewPos.y *= viewScale.y;
 
+    modelPos -= cam.getOrigin();
+    Vectorf modelViewPos;
+    modelViewPos.x = modelPos.x * std::cos(viewRads) + modelPos.y * std::sin(viewRads);
+    modelViewPos.y = - modelPos.x * std::sin(viewRads) + modelPos.y * std::cos(viewRads);
+    modelViewPos.x *= viewScale.x;
+    modelViewPos.y *= viewScale.y;
+    modelViewPos += cam.getOrigin();
+    modelViewPos -= viewPos;
+
+    float modelViewRot = modelRot - viewRot;
+
+    setScale({modelScale.x*viewScale.x, modelScale.y * viewScale.y});
+
+    text_.setPosition({modelViewPos.x, modelViewPos.y});
+    text_.setRotation(modelViewRot);
 
     Game::window()->SFMLWindow().draw(text_);
+    setScale(modelScale);
 }
 }

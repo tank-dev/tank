@@ -1,3 +1,22 @@
+/* This file is part of Tank.
+ *
+ * Tank is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Tank is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License and
+ * the GNU Lesser General Public Licence along with Tank. If not, see
+ * <http://www.gnu.org/licenses/>.
+ *
+ * Copyright 2013 (©) Jamie Bayne, David Truby, David Watson.
+ */
+
 #include "BitmapText.hpp"
 
 #include  <cmath>
@@ -25,7 +44,7 @@ Vectorf BitmapText::getSize() const
     return font_.getSize();
 }
 
-void BitmapText::draw(Vectorf parentPos, float parentRot, Vectorf camera)
+void BitmapText::draw(Vectorf parentPos, float parentRot, Camera const& cam)
 {
     Vectorf pos = getPos();
     float rot = getRotation();
@@ -42,10 +61,16 @@ void BitmapText::draw(Vectorf parentPos, float parentRot, Vectorf camera)
         clip_.x = (clipIndex % rowWidth_) * glyphDims_.x;
         clip_.y = (clipIndex / rowWidth_) * glyphDims_.y;
 
-        font_.setClip(clip_);
-        font_.setPos({ static_cast<float>(stringIndex * glyphDims_.x), 0 });
+        const float rads = 3.14159265 * rot / 180.f;
+        const float distance = stringIndex * glyphDims_.x;
+        Vectorf displacement;
+        displacement.x = distance * std::cos(rads);
+        displacement.y = distance * std::sin(rads);
 
-        font_.draw(pos, rot, camera);
+        font_.setClip(clip_);
+        font_.setPos(displacement);
+
+        font_.draw(pos, rot, cam);
     }
 }
 

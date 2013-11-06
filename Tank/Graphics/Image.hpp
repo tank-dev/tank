@@ -52,8 +52,10 @@ public:
 
     virtual Vectorf getSize() const override
     {
-        auto rect = sprite_.getGlobalBounds();
-        return {rect.width, rect.height};
+        auto rect = getClip();
+        return {rect.w, rect.h};
+        //auto rect = sprite_.getGlobalBounds();
+        //return {rect.width, rect.height};
     }
 
     virtual void setScale(float scale) override
@@ -94,7 +96,9 @@ public:
         return { texture_->getSize().x, texture_->getSize().y };
     }
 
-    virtual void draw(Vectorf parentPos = {}, float parentRot = 0, Vectorf camera = {}) override;
+    virtual void draw(Vectorf parentPos = {},
+                      float parentRot = 0,
+                      Camera const& = Camera()) override;
 };
 
 }

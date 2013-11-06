@@ -17,15 +17,37 @@
  * Copyright 2013 (©) Jamie Bayne, David Truby, David Watson.
  */
 
-#ifndef TANK_FONT_HPP
-#define TANK_FONT_HPP
+#ifndef TANK_CAMERA_HPP
+#define TANK_CAMERA_HPP
 
-#include <SFML/Graphics/Font.hpp>
+#include "../Utility/Vector.hpp"
 
 namespace tank {
 
-using Font = sf::Font;
+class Camera
+{
+    float rot_ {0};
+    Vectorf pos_ {};
+    Vectorf origin_ {};
+    Vectorf zoom_ {1,1};
+public:
+    Vectorf getPos() const { return pos_; }
+    void setPos(Vectorf pos) { pos_ = pos; }
 
-} // tank
+    float getRotation() const { return rot_; }
+    void setRotation(float rot) { rot_ = rot; }
 
-#endif /* TANK_FONT_HPP */
+    Vectorf getOrigin() const { return origin_; }
+    void setOrigin(Vectorf o) { origin_ = o; }
+
+    Vectorf getZoom() const { return zoom_; }
+    void setZoom(float z) { zoom_.x = z; zoom_.y = z; }
+    void setZoom(Vectorf z) { zoom_ = z; }
+
+    Camera();
+private:
+};
+
+} /* tank */
+
+#endif /* TANK_CA<ERA_HPP */

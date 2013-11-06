@@ -17,15 +17,18 @@
  * Copyright 2013 (©) Jamie Bayne, David Truby, David Watson.
  */
 
-#ifndef TANK_FONT_HPP
-#define TANK_FONT_HPP
+#include "Camera.hpp"
 
-#include <SFML/Graphics/Font.hpp>
+#include "Game.hpp"
 
 namespace tank {
 
-using Font = sf::Font;
+Camera::Camera()
+{
+    if (Game::window())
+    {
+        origin_ = Game::window()->getSize() / 2;
+    }
+}
 
-} // tank
-
-#endif /* TANK_FONT_HPP */
+} /* tank */

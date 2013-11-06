@@ -52,7 +52,6 @@ class FrameList final : public Graphic
     bool loop_ {false};
     Vectoru frameDimensions_ {0, 0};
     std::function<void()> callback_ = []{};
-    Rectu clip_ {0, 0, 0, 0};
     std::vector<Animation>  animations_;
 
 public:
@@ -80,7 +79,7 @@ public:
     void remove(std::string name);
 
     void select(std::string name, bool loop = true,
-                std::function<void()> = []{});
+                std::function<void()> callback = []{});
 
     /*!
      * \brief Update the animation to the current frame. Called by draw
@@ -94,7 +93,9 @@ public:
      *
      * \param pos Position at which to draw the texture.
      */
-    void draw(Vectorf parentPos, float parentRot, Vectorf camera = {0, 0}) override;
+    void draw(Vectorf parentPos = {},
+              float parentRot = 0, 
+              Camera const& = Camera()) override;
 
     /*!
      * \brief Start the animation

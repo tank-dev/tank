@@ -27,8 +27,8 @@ namespace tank
 FrameList::FrameList(Image const& i, Vector<unsigned int> frameDims)
     : image_ (i)
     , frameDimensions_(frameDims)
-    , clip_({0,0,frameDims.x, frameDims.y})
 {
+    image_.setClip({0,0,frameDims.x, frameDims.y});
 }
 
 void FrameList::add(std::string name,
@@ -148,16 +148,16 @@ void FrameList::stop()
     currentFrame_ = 0;
     refresh();
 
-    //After appearance has been set, unset member variables
+    //Unset member variables
     animTimer_.stop();
     callback_ = []{};
     currentAnimation_ = nullptr;
 }
 
-void FrameList::draw(Vectorf parentPos, float parentRot, Vectorf camera)
+void FrameList::draw(Vectorf parentPos, float parentRot, Camera const& cam)
 {
     refresh();
-    image_.draw(parentPos, parentRot, camera);
+    image_.draw(parentPos, parentRot, cam);
 }
 
 void FrameList::setImage(Image const& image, Vector<unsigned int> frameDims)

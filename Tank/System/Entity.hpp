@@ -25,9 +25,10 @@
 #include <memory>
 #include "../Graphics/Graphic.hpp"
 #include "../Graphics/Image.hpp"
-#include "../Utility/Vector.hpp"
-#include "../Utility/Rect.hpp"
 #include "../Utility/observing_ptr.hpp"
+#include "../Utility/Rect.hpp"
+#include "../Utility/Vector.hpp"
+#include "Camera.hpp"
 #include "EventHandler.hpp"
 #include "Game.hpp"
 
@@ -92,7 +93,7 @@ public:
      * Render the entity for the current frame
      * \param render The Render instance with which to render the entity
      */
-    virtual void draw(Vectorf camera);
+    virtual void draw(Camera const&);
 
     /*!
      * \brief Check for collisions with the entity (deprecated?)
@@ -345,6 +346,14 @@ observing_ptr<T> Entity::makeGraphic(Args&&... args)
 
     std::unique_ptr<T> g {new T(std::forward<Args>(args)...)};
     observing_ptr<T> ptr {g};
+
+    // If no hitbox, set to image bounds
+    if (getHitbox() == Rectd() and getGraphicList().empty())
+    {
+        auto hb = g->getSize();
+        setHitbox(Rectd(0, 0, hb.x, hb.y));
+    }
+
     graphics_.push_back(std::move(g));
     return ptr;
 }
