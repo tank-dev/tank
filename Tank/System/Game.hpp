@@ -26,22 +26,22 @@
 #include "../Utility/Logger.hpp"
 #include "../Utility/observing_ptr.hpp"
 #include "Window.hpp"
-#include "State.hpp"
+#include "World.hpp"
 
 namespace tank {
 
 /*!
- * \brief Static Game class containing main loop and current state.
+ * \brief Static Game class containing main loop and current world.
  *
  * To start the game engine, call Game::initialize(). This will create the
  * window, and initialize rendering.
  *
- * Once started, you should create a State with Game::makeState<>(). This will
- * both create a state and add it to the top of the state stack.
+ * Once started, you should create a World with Game::makeWorld<>(). This will
+ * both create a world and add it to the top of the world stack.
  *
- * Once there is a state to run, call Game::run() to start the main loop.
+ * Once there is a world to run, call Game::run() to start the main loop.
  *
- * \see State
+ * \see World
  * \see Logger
  */
 class Game
@@ -49,12 +49,12 @@ class Game
     static bool initialized_;
     static bool run_;
 
-    static bool popState_;
+    static bool popWorld_;
 
-    static observing_ptr<State> currentState_;
+    static observing_ptr<World> currentWorld_;
     static std::unique_ptr<Window> window_;
 
-    static std::stack<std::unique_ptr<State>> states_;
+    static std::stack<std::unique_ptr<World>> worlds_;
     static Timer frameTimer_;
 
 public:
@@ -80,28 +80,28 @@ public:
     static void run();
 
     /*!
-     * \brief This removes the current state at the end of the frame.
+     * \brief This removes the current world at the end of the frame.
      */
-    static void popState();
+    static void popWorld();
 
     /*!
-     * \brief This creates a game state.
+     * \brief This creates a game world.
      *
-     * \tparam T The type of state.
-     * \tparam Args The arguments to pass to create the state.
-     * \param args The arguments to create the state.
+     * \tparam T The type of world.
+     * \tparam Args The arguments to pass to create the world.
+     * \param args The arguments to create the world.
      *
-     * \return A pointer to the state.
+     * \return A pointer to the world.
      */
     template<typename T, typename... Args>
-    static observing_ptr<T> makeState(Args&&... args);
+    static observing_ptr<T> makeWorld(Args&&... args);
 
     /*!
-     * \brief Return a pointer to the active state.
+     * \brief Return a pointer to the active world.
      *
-     * \return A pointer to the active state.
+     * \return A pointer to the active world.
      */
-    static observing_ptr<State> state() { return currentState_; }
+    static observing_ptr<World> world() { return currentWorld_; }
 
     /*!
      * \brief Return a reference to a pointer to the Window.
@@ -119,14 +119,14 @@ private:
 };
 
 template<typename T, typename... Args>
-observing_ptr<T> Game::makeState(Args&&... args)
+observing_ptr<T> Game::makeWorld(Args&&... args)
 {
-    static_assert(std::is_base_of<State, T>::value,
-                  "Class must derive from State");
+    static_assert(std::is_base_of<World, T>::value,
+                  "Class must derive from World");
 
-    std::unique_ptr<T> state {new T(std::forward<Args>(args)...)};
-    observing_ptr<T> ptr {state};
-    states_.push(std::move(state));
+    std::unique_ptr<T> world {new T(std::forward<Args>(args)...)};
+    observing_ptr<T> ptr {world};
+    worlds_.push(std::move(world));
     return ptr;
 }
 

@@ -22,7 +22,7 @@
 #include <cmath>
 #include <stdexcept>
 #include <algorithm>
-#include "State.hpp"
+#include "World.hpp"
 
 namespace tank {
 
@@ -46,7 +46,7 @@ void Entity::draw(Vectorf camera)
 
 std::vector<observing_ptr<Entity>> Entity::collide(std::vector<std::string> colTypes)
 {
-    std::vector<std::unique_ptr<Entity>> const& orig = state_->getEntities();
+    std::vector<std::unique_ptr<Entity>> const& orig = world_->getEntities();
     std::vector<observing_ptr<Entity>> ents;
     std::vector<observing_ptr<Entity>> collisions;
 
@@ -205,16 +205,16 @@ void Entity::setLayer(int layer)
     layer_ = layer;
 }
 
-void Entity::setState(const observing_ptr<State> state)
+void Entity::setWorld(const observing_ptr<World> world)
 {
-    state_ = state;
+    world_ = world;
 }
 
 tank::observing_ptr<tank::EventHandler::Connection> Entity::connect(
                                        EventHandler::Condition condition,
                                        EventHandler::Effect effect)
 {
-    auto cond = getState()->eventHandler.connect(condition, effect);
+    auto cond = getWorld()->eventHandler.connect(condition, effect);
     connections_.push_back(std::move(cond));
     return connections_.back();
 }

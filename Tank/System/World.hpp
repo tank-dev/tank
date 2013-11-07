@@ -34,24 +34,24 @@ class Entity;
 class Game;
 
 /*!
- * \brief Base class for game states ("Worlds")
+ * \brief Base class for game worlds ("Worlds")
  *
  * Handles Entity creation, destruction, rendering and updating. You can derive
- * from this class to add your own state-specific logic - it can also be useful
- * to handle state initialization in the constructor as opposed to from the
+ * from this class to add your own world-specific logic - it can also be useful
+ * to handle world initialization in the constructor as opposed to from the
  * outside (e.g. in main).
  *
- * States should be created via Game::makeState<T>(Args... args) for memory
- * safety. All states are stored within Game as a stack.
+ * Worlds should be created via Game::makeWorld<T>(Args... args) for memory
+ * safety. All worlds are stored within Game as a stack.
  *
  * All entities should be created using the similar method available from
- * State, makeEntity<T>(Args... args).
+ * World, makeEntity<T>(Args... args).
  *
  * \see Game
  * \see Entity
  * \see EventHandler
  */
-class State
+class World
 {
 public:
     EventHandler eventHandler;
@@ -60,7 +60,7 @@ protected:
     std::vector<std::unique_ptr<Entity>> entities_;
 private:
     Vectorf camera_;
-    std::vector<std::tuple<observing_ptr<State>, observing_ptr<Entity>>> toMove_;
+    std::vector<std::tuple<observing_ptr<World>, observing_ptr<Entity>>> toMove_;
     std::vector<std::unique_ptr<Entity>> newEntities_;
     std::vector<std::unique_ptr<EventHandler::Connection>> connections_;
     bool updating_;
@@ -69,13 +69,13 @@ private:
     void moveEntities();
     void deleteEntities();
 
-    State(State const&);
-    State& operator=(State const&);
+    World(World const&);
+    World& operator=(World const&);
 public:
     /*!
-     * \brief Creates an Entity and adds it to the State
+     * \brief Creates an Entity and adds it to the World
      *
-     * Creates an Entity, setting its state pointer to point to it.
+     * Creates an Entity, setting its world pointer to point to it.
      * Adds a unique_ptr to the entity to the entity list.
      * Returns an observing_ptr<T> to the Entity created.
      *
@@ -90,7 +90,7 @@ public:
      * \brief Inserts a unique_ptr to an Entity into the entity list
      *
      * This method provides a way to add entities that have
-     * * been released from their original State via releaseEntity()
+     * * been released from their original World via releaseEntity()
      * * been created independently of makeEntity()
      *
      * \param entity A unique_ptr to the Entity to be inserted
@@ -99,17 +99,17 @@ public:
     void insertEntity(std::unique_ptr<Entity>&&);
 
     /*!
-     * \brief Moves an Entity from one State to another
+     * \brief Moves an Entity from one World to another
      *
      * This is essentially a shorthand for
-     * state->insertEntity(this->releaseEntity(entity))
+     * world->insertEntity(this->releaseEntity(entity))
      *
-     * \param state The State to which to move the Entity
+     * \param world The World to which to move the Entity
      * \param entity A raw pointer to the Entity to be moved
      * \see insertEntity()
      * \see releaseEntity()
      */
-    void moveEntity(observing_ptr<State>, observing_ptr<Entity>);
+    void moveEntity(observing_ptr<World>, observing_ptr<Entity>);
 
     /*!
      * \brief Removes an Entity from the entity list and returns a unique_ptr
@@ -123,12 +123,12 @@ public:
     /*
      * \brief Handle keyboard input on a per-frame basis (deprecated)
      *
-     * When State is the active state, Game calls this once per frame, before
+     * When World is the active world, Game calls this once per frame, before
      * update() and draw().
      *
      * Override this to send keyboard input to entities that need it
      *
-     * \param key SDL_KeyboardEvent representing the change in keyboard state
+     * \param key SDL_KeyboardEvent representing the change in keyboard world
      * \see update()
      * \see draw()
      * \see Game
@@ -136,14 +136,14 @@ public:
     //virtual void handleEvents(sf::Keyboard::Key) {}
 
     /*!
-     * \brief Update all entities in the state's entities list
+     * \brief Update all entities in the world's entities list
      *
-     * When State is the active state, Game calls this once per frame, between
+     * When World is the active world, Game calls this once per frame, between
      * handleEvents() and draw()
      *
      * Override this to specify new logic for updates, but be sure to update the
      * entity list, either by looping over and calling update, or by calling
-     * State::update()
+     * World::update()
      *
      * \see handleEvents()
      * \see draw()
@@ -152,14 +152,14 @@ public:
     virtual void update();
 
     /*!
-     * \brief Draw all entities in the state's entities list
+     * \brief Draw all entities in the world's entities list
      *
-     * When State is the active state, Game calls this once per frame, after
+     * When World is the active world, Game calls this once per frame, after
      * handleEvents() and update()
      *
      * Override this to specify new drawing operations, or to sort the entities
      * list before drawing, but be sure to then draw all entities by either
-     * looping over the entities list or calling State::draw()
+     * looping over the entities list or calling World::draw()
      *
      * \param render The render context to draw to
      *
@@ -186,8 +186,8 @@ public:
     virtual const std::vector<std::unique_ptr<Entity>>& getEntities()
     { return entities_; }
 
-    State();
-    virtual ~State();
+    World();
+    virtual ~World();
 
     tank::observing_ptr<tank::EventHandler::Connection> connect(
             tank::EventHandler::Condition condition,
@@ -195,13 +195,13 @@ public:
 };
 
 template <typename T, typename... Args>
-observing_ptr<T> State::makeEntity(Args&&... args)
+observing_ptr<T> World::makeEntity(Args&&... args)
 {
     static_assert(std::is_base_of<Entity, T>::value,
                   "Type must derive from Entity");
 
     std::unique_ptr<T> ent {new T(std::forward<Args>(args)...)};
-    ent->setState(this);
+    ent->setWorld(this);
     ent->onAdded();
     observing_ptr<T> ptr {ent};
     newEntities_.push_back(std::move(ent));
