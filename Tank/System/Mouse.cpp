@@ -127,7 +127,7 @@ std::function<bool()> Mouse::IsInEntity(Entity const& e)
 {
     return [&e]
     {
-        auto mPos = getRelPos(e.getState()->camera());
+        auto mPos = getRelPos(e.getWorld()->camera());
         auto ePos = e.getPos();
         auto hb = e.getHitbox();
         hb.x += ePos.x;

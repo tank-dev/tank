@@ -35,18 +35,18 @@
 namespace tank
 {
 
-class State;
+class World;
 
 /*!
  * \brief Base class for all in-game entities.
  *
- * Entities should be added to gamestates via State::addEntity(Entity)
+ * Entities should be added to worlds via World::addEntity(Entity)
  *
  * All derived classes contain a Vectorf position and a reference to a
  * texture (loaded via IRender), as well as a string type.
  * visible determines whether the entity will be drawn
  * Every Entity has a unique actorID
- * Every Entity added to a State will automatically have its state
+ * Every Entity added to a World will automatically have its world
  * set accordingly.
  *
  * Derived classes must override update, to define the entity's per-frame
@@ -65,7 +65,7 @@ class Entity
     bool solid_ {false};
     int layer_ {};
     bool removed_ {false};
-    observing_ptr<State> state_ {nullptr}; //Set by parent State
+    observing_ptr<World> world_ {nullptr}; //Set by parent World
 
     std::vector<std::string> types_;
     std::vector<std::unique_ptr<Graphic>> graphics_;
@@ -194,18 +194,18 @@ public:
     }
 
     /*!
-     * \brief Returns a pointer to the entity's parent State
+     * \brief Returns a pointer to the entity's parent World
      *
-     * \return Entity's parent state
+     * \return Entity's parent world
      */
-    observing_ptr<State> getState() const
+    observing_ptr<World> getWorld() const
     {
-        if (state_ == nullptr)
+        if (world_ == nullptr)
         {
             throw std::runtime_error (
-                    "Entity State pointer is null (try Entity::onAdded)");
+                    "Entity World pointer is null (try Entity::onAdded)");
         }
-        return state_;
+        return world_;
     }
 
     /*!
@@ -302,14 +302,14 @@ public:
     observing_ptr<T> makeGraphic(Args&&... args);
 
     /*!
-     * \brief Sets the entity's parent state
+     * \brief Sets the entity's parent world
      *
-     * Typically set by the state on addition. Don't call it unless you know
+     * Typically set by the world on addition. Don't call it unless you know
      * what you're doing.
      *
-     * \param state A pointer to the parent state
+     * \param world A pointer to the parent world
      */
-    void setState(const observing_ptr<State> state);
+    void setWorld(const observing_ptr<World> world);
 
     /*!
      * \brief Remove the entity from the world.
@@ -322,12 +322,12 @@ public:
     bool isRemoved() { return removed_; }
 
     /*!
-     * \brief Called when the entitiy is added to a State
+     * \brief Called when the entitiy is added to a World
      */
     virtual void onAdded() {}
 
     /*!
-     * \brief Called when the entity is removed from a State
+     * \brief Called when the entity is removed from a World
      */
     virtual void onRemoved() {}
 

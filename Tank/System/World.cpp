@@ -17,7 +17,7 @@
  * Copyright 2013 (©) Jamie Bayne, David Truby, David Watson.
  */
 
-#include "State.hpp"
+#include "World.hpp"
 
 #include <algorithm>
 #include <stdexcept>
@@ -31,13 +31,13 @@
 namespace tank
 {
 
-State::State() = default;
-State::~State()
+World::World() = default;
+World::~World()
 {
     connections_.clear();
 }
 
-void State::insertEntity(std::unique_ptr<Entity>&& entity)
+void World::insertEntity(std::unique_ptr<Entity>&& entity)
 {
     if (not entity)
     {
@@ -58,12 +58,12 @@ void State::insertEntity(std::unique_ptr<Entity>&& entity)
         throw std::invalid_argument("Entity already added");
     }
 
-    entity->setState(this);
+    entity->setWorld(this);
     entity->onAdded();
     entities_.push_back(std::move(entity));
 }
 
-void State::moveEntity(observing_ptr<State> state, observing_ptr<Entity> entity)
+void World::moveEntity(observing_ptr<World> world, observing_ptr<Entity> entity)
 {
     if (not entity)
     {
@@ -71,9 +71,9 @@ void State::moveEntity(observing_ptr<State> state, observing_ptr<Entity> entity)
         return;
     }
 
-    if (not state)
+    if (not world)
     {
-        Game::log << "Warning: attempted to move entity to null state."
+        Game::log << "Warning: attempted to move entity to null world."
                   << std::endl;
         return;
     }
@@ -84,7 +84,7 @@ void State::moveEntity(observing_ptr<State> state, observing_ptr<Entity> entity)
         return;
     }
 
-    toMove_.emplace_back(state, entity);
+    toMove_.emplace_back(world, entity);
 
     if(not updating_)
     {
@@ -92,7 +92,7 @@ void State::moveEntity(observing_ptr<State> state, observing_ptr<Entity> entity)
     }
 }
 
-std::unique_ptr<Entity> State::releaseEntity(observing_ptr<Entity> entity)
+std::unique_ptr<Entity> World::releaseEntity(observing_ptr<Entity> entity)
 {
     auto it = boost::range::find_if(entities_,
         [&entity](std::unique_ptr<Entity>& ent)
@@ -112,7 +112,7 @@ std::unique_ptr<Entity> State::releaseEntity(observing_ptr<Entity> entity)
     return ent;
 }
 
-void State::update()
+void World::update()
 {
     updating_ = true;
     for (auto& entity : entities_)
@@ -126,7 +126,7 @@ void State::update()
     updating_ = false;
 }
 
-void State::draw()
+void World::draw()
 {
     boost::range::stable_sort(entities_,
                      [](std::unique_ptr<Entity> const& e1,
@@ -141,18 +141,18 @@ void State::draw()
     }
 }
 
-void State::addEntities()
+void World::addEntities()
 {
     std::move(newEntities_.begin(), newEntities_.end(),
               std::back_inserter(entities_));
     newEntities_.clear();
 }
 
-void State::moveEntities()
+void World::moveEntities()
 {
     while (not toMove_.empty())
     {
-        observing_ptr<State> state = std::get<0>(toMove_.back());
+        observing_ptr<World> world = std::get<0>(toMove_.back());
         observing_ptr<Entity> entity = std::get<1>(toMove_.back());
         toMove_.pop_back();
 
@@ -163,11 +163,11 @@ void State::moveEntities()
             continue;
         }
 
-        state->insertEntity(std::move(entPtr));
+        world->insertEntity(std::move(entPtr));
     }
 }
 
-void State::deleteEntities()
+void World::deleteEntities()
 {
     boost::range::remove_erase_if(entities_,
         [](const std::unique_ptr<Entity>& ent)
@@ -181,7 +181,7 @@ void State::deleteEntities()
     );
 }
 
-tank::observing_ptr<tank::EventHandler::Connection> State::connect(
+tank::observing_ptr<tank::EventHandler::Connection> World::connect(
                                        EventHandler::Condition condition,
                                        EventHandler::Effect effect)
 {
