@@ -197,6 +197,8 @@ observing_ptr<T> World::makeEntity(Args&&... args)
 {
     static_assert(std::is_base_of<Entity, T>::value,
                   "Type must derive from Entity");
+    static_assert(std::is_convertible<T*, Entity*>::value,
+                  "Type must derive publically from Entity");
 
     std::unique_ptr<T> ent {new T(std::forward<Args>(args)...)};
     ent->setWorld(this);
