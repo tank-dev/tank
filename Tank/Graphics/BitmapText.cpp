@@ -33,15 +33,27 @@ BitmapText::BitmapText(Image const& font, Vectoru glyphDimensions,
     , rowWidth_(rowWidth)
     , clip_({0, 0, glyphDims_.x, glyphDims_.y})
 {
+    font_.setClip(clip_);
+    font_.setSize(glyphDims_);
 }
 
-void BitmapText::setSize(Vectorf size)
+void BitmapText::setGlyphSize(Vectorf size)
 {
     font_.setSize(size);
 }
-Vectorf BitmapText::getSize() const
+Vectorf BitmapText::getGlyphSize() const
 {
     return font_.getSize();
+}
+
+Vectorf BitmapText::getSize() const
+{
+    int nChars = text_.size();
+
+    auto size = getGlyphSize();
+    size.x *= nChars;
+
+    return size;
 }
 
 void BitmapText::draw(Vectorf parentPos, float parentRot, Camera const& cam)

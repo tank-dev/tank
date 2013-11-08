@@ -21,6 +21,7 @@
 #define TANK_BITMAPTEXT_HPP
 
 #include <climits>
+#include <string>
 #include "Graphic.hpp"
 #include "Image.hpp"
 
@@ -36,18 +37,18 @@ class BitmapText final : public Graphic
     Rectu clip_;
 
     // TODO: make std::string
-    char const* text_ {""};
+    std::string text_ {""};
     Vectorf origin_ {};
 
 public:
     BitmapText(Image const& font, Vectoru glyphDimensions,
                char asciiOffset = 32, unsigned int rowWidth = UINT_MAX);
 
-    void setText(char const* text)
+    void setText(std::string text)
     {
         text_ = text;
     }
-    char const* getText()
+    std::string getText()
     {
         return text_;
     }
@@ -70,11 +71,21 @@ public:
      *
      * \param size The size for each glyph
      */
-    virtual void setSize(Vectorf size) override;
+    virtual void setGlyphSize(Vectorf size);
     /*!
      * \brief Return the rendered glyph size
      *
      * \return The glyph size
+     */
+    virtual Vectorf getGlyphSize() const;
+
+    /*!
+     * \brief Not implemented
+     */
+    virtual void setSize(Vectorf size) override {};
+
+    /*!
+     * \brief Return the size of the current string
      */
     virtual Vectorf getSize() const override;
 

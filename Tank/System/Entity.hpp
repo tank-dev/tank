@@ -81,10 +81,10 @@ public:
      * \param pos The position of the entity
      */
     Entity(Vectorf pos = {0,0});
+
     /*!
      * \brief Run entity's per-frame game logic
      */
-
     virtual void update() {}
 
     /*!
@@ -100,7 +100,7 @@ public:
      *
      * Render the entity for the current frame
      * \param type The type of entity with which to detect collisions (defaults
-     * to all)
+     *        to all)
      * \return A list of all colliding entitities of type.
      * \see setType()
      */
@@ -331,20 +331,46 @@ public:
      */
     virtual void onRemoved() {}
 
+    /*!
+     * \brief Determine if entity is off the screen.
+     * \return If the entitiy is _fully_ off the screen.
+     */
     virtual bool offScreen() const;
 
+    /*!
+     * \brief Determine if entity is on the screen.
+     * \return If the entitiy is _fully_ on the screen.
+     */
     virtual bool onScreen() const;
 
+    /*!
+     * \brief For the event handler, determine if given entity is off the screen.
+     * \param e Entity to check for.
+     * \return A function that retuns true if the entity is _fully_ off the
+     *         screen in this frame.
+     */
     static std::function<bool()> offScreen(const tank::observing_ptr<Entity> e)
     {
         return [e]{return e->offScreen();};
     }
 
+    /*!
+     * \brief For the event handler, determine if given entity is on the screen.
+     * \param e Entity to check for.
+     * \return A function that retuns true if the entity is _fully_ on the
+     *         screen in this frame.
+     */
     static std::function<bool()> onScreen(const tank::observing_ptr<Entity> e)
     {
         return [e]{return e->onScreen();};
     }
 
+    /*!
+     * \brief Virtal destructor for Entity.
+     *
+     * Any class intended to be used as a base class needs a virtual destructor.
+     * For more information, see Item 7 in Scott Meyers' Effective C++.
+     */
     virtual ~Entity();
 
     tank::observing_ptr<tank::EventHandler::Connection> connect(

@@ -53,7 +53,7 @@ def install_linux_dependencies():
     distro,_,_ = platform.linux_distribution()
     if distro == "arch":
         subprocess.call(["sudo","pacman","-S","--needed","sfml","boost","git"])
-    if distro == "debian":
+    elif distro == "debian":
         subprocess.call(["sudo","apt-get","install","sfml-dev",
             "libboost-all-dev","git"])
     elif distro == "fedora":
