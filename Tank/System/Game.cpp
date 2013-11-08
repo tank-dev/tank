@@ -30,10 +30,11 @@ Logger Game::log {"log.txt"};
 unsigned int Game::fps {60};
 bool Game::initialized_ {false};
 bool Game::run_ {false};
-bool Game::popState_ {false};
-observing_ptr<State> Game::currentState_ {nullptr};
+bool Game::popWorld_ {false};
+observing_ptr<World> Game::currentWorld_ {nullptr};
 std::unique_ptr<Window> Game::window_ {nullptr};
-std::stack<std::unique_ptr<State>> Game::states_;
+std::stack<std::unique_ptr<World>> Game::worlds_;
+std::unique_ptr<World> Game::newWorld_ {nullptr};
 //Timer Game::frameTimer_;
 
 /* ---------------------------- *
@@ -69,22 +70,28 @@ void Game::run()
     log << "Entering main loop" << std::endl;
     while (run_)
     {
-        if (states_.empty())
+        if (newWorld_)
         {
-            log << "No game state" << std::endl;
+            worlds_.push(std::move(newWorld_));
+            newWorld_ = nullptr;
+        }
+
+        if (worlds_.empty())
+        {
+            log << "No game world" << std::endl;
             run_ = false;
             break;
         }
 
-        currentState_ = states_.top();
+        currentWorld_ = worlds_.top();
         handleEvents();
-        currentState_->update();
+        currentWorld_->update();
         draw();
 
-        if (popState_)
+        if (popWorld_)
         {
-            states_.pop();
-            popState_ = false;
+            worlds_.pop();
+            popWorld_ = false;
         }
     }
 }
@@ -140,16 +147,16 @@ void Game::handleEvents()
         }
     }
 
-    currentState_->eventHandler.propagate();
+    currentWorld_->eventHandler.propagate();
 }
 
 /* ----------------------------------- *
- * State management
+ * World management
  * ----------------------------------- */
 
-void Game::popState()
+void Game::popWorld()
 {
-    popState_ = true;
+    popWorld_ = true;
 }
 
 /* --------------------------- *
@@ -162,8 +169,8 @@ void Game::update()
 
 void Game::draw()
 {
-    //Draw current state
-    currentState_->draw();
+    //Draw current world
+    currentWorld_->draw();
 
     //Update the screen
     window_->flipDisplay();
