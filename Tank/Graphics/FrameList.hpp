@@ -127,6 +127,10 @@ public:
     }
     std::string currentAnimation()
     {
+        if (not playing())
+        {
+            return "";
+        }
         return currentAnimation_->name;
     }
 
