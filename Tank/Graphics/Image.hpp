@@ -52,10 +52,10 @@ public:
 
     virtual Vectorf getSize() const override
     {
-        auto rect = getClip();
-        return {rect.w, rect.h};
-        //auto rect = sprite_.getGlobalBounds();
-        //return {rect.width, rect.height};
+        /*auto rect = getClip();
+        return {rect.w, rect.h};*/
+        auto rect = sprite_.getGlobalBounds();
+        return {rect.width, rect.height};
     }
 
     virtual void setScale(float scale) override
