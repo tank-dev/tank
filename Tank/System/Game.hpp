@@ -56,6 +56,7 @@ class Game
 
     static std::stack<std::unique_ptr<World>> worlds_;
     static Timer frameTimer_;
+    static std::unique_ptr<World> newWorld_;
 
 public:
     /*!
@@ -126,7 +127,8 @@ observing_ptr<T> Game::makeWorld(Args&&... args)
 
     std::unique_ptr<T> world {new T(std::forward<Args>(args)...)};
     observing_ptr<T> ptr {world};
-    worlds_.push(std::move(world));
+    //worlds_.push(std::move(world));
+    newWorld_.reset(world.release());
     return ptr;
 }
 

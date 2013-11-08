@@ -34,6 +34,7 @@ bool Game::popWorld_ {false};
 observing_ptr<World> Game::currentWorld_ {nullptr};
 std::unique_ptr<Window> Game::window_ {nullptr};
 std::stack<std::unique_ptr<World>> Game::worlds_;
+std::unique_ptr<World> Game::newWorld_ {nullptr};
 //Timer Game::frameTimer_;
 
 /* ---------------------------- *
@@ -69,6 +70,12 @@ void Game::run()
     log << "Entering main loop" << std::endl;
     while (run_)
     {
+        if (newWorld_)
+        {
+            worlds_.push(std::move(newWorld_));
+            newWorld_ = nullptr;
+        }
+
         if (worlds_.empty())
         {
             log << "No game world" << std::endl;
