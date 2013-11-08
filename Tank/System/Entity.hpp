@@ -331,6 +331,13 @@ public:
      */
     virtual void onRemoved() {}
 
+    virtual bool offScreen() const;
+
+    static std::function<bool()> offScreen(const tank::observing_ptr<Entity> e)
+    {
+        return [e]{return e->offScreen();};
+    }
+
     virtual ~Entity();
 
     tank::observing_ptr<tank::EventHandler::Connection> connect(

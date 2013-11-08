@@ -210,13 +210,26 @@ void Entity::setWorld(const observing_ptr<World> world)
     world_ = world;
 }
 
-tank::observing_ptr<tank::EventHandler::Connection> Entity::connect(
+observing_ptr<EventHandler::Connection> Entity::connect(
                                        EventHandler::Condition condition,
                                        EventHandler::Effect effect)
 {
     auto cond = getWorld()->eventHandler.connect(condition, effect);
     connections_.push_back(std::move(cond));
     return connections_.back();
+}
+
+bool Entity::offScreen() const
+{
+    auto pos = getPos();
+    auto size = graphics_[0]->getSize();
+
+    if (pos.y + size.y < 0 || pos.y > Game::window()->getSize().y ||
+        pos.x + size.x < 0 || pos.x > Game::window()->getSize().x) {
+        return true;
+    }
+
+    return false;
 }
 
 }
