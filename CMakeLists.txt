@@ -74,11 +74,7 @@ if(DOXYGEN_FOUND)
     )
 endif(DOXYGEN_FOUND)
 
-add_library(tank 
-    $<TARGET_OBJECTS:tank_system>
-    $<TARGET_OBJECTS:tank_graphics>
-    $<TARGET_OBJECTS:tank_utility>
-    $<TARGET_OBJECTS:tank_audio>)
+add_library(tank ${audio_src} ${gfx_src} ${sys_src} ${util_src})
 target_link_libraries(tank ${SFML_LIBRARIES} ${CMAKE_THREAD_LIBS_INIT})
 
 if(TESTS)
