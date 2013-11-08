@@ -98,6 +98,9 @@ void Game::run()
 
 void Game::handleEvents()
 {
+    Keyboard::reset();
+    Mouse::reset();
+
     sf::Event event;
 
     while (window_->pollEvent(event))
@@ -145,7 +148,6 @@ void Game::handleEvents()
     }
 
     currentWorld_->eventHandler.propagate();
-    Keyboard::reset();
 }
 
 /* ----------------------------------- *
