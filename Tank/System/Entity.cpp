@@ -222,7 +222,7 @@ observing_ptr<EventHandler::Connection> Entity::connect(
 bool Entity::offScreen() const
 {
     auto pos = getPos();
-    auto size = graphics_[0]->getSize();
+    auto size = getGraphic()->getSize();
 
     if (pos.y + size.y < 0 || pos.y > Game::window()->getSize().y ||
         pos.x + size.x < 0 || pos.x > Game::window()->getSize().x) {
@@ -230,6 +230,18 @@ bool Entity::offScreen() const
     }
 
     return false;
+}
+
+bool Entity::onScreen() const
+{
+    auto pos = getPos();
+    auto size = getGraphic()->getSize();
+
+    if (pos.y < 0 || pos.y + size.y > Game::window()->getSize().y ||
+        pos.x < 0 || pos.x + size.x > Game::window()->getSize().x) {
+        return false;
+    }
+    return true;
 }
 
 }

@@ -122,4 +122,13 @@ inline std::function<bool()> operator|| (std::function<bool()> f1,
         return f1() or f2();
     };
 }
+
+inline std::function<bool()> operator! (std::function<bool()> f)
+{
+    return [f]()
+    {
+        return not f();
+    };
+}
+
 #endif //TANK_EVENTS_HPP

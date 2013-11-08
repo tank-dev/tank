@@ -333,9 +333,16 @@ public:
 
     virtual bool offScreen() const;
 
+    virtual bool onScreen() const;
+
     static std::function<bool()> offScreen(const tank::observing_ptr<Entity> e)
     {
         return [e]{return e->offScreen();};
+    }
+
+    static std::function<bool()> onScreen(const tank::observing_ptr<Entity> e)
+    {
+        return [e]{return e->onScreen();};
     }
 
     virtual ~Entity();
