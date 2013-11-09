@@ -29,6 +29,7 @@ FrameList::FrameList(Image const& i, Vector<unsigned int> frameDims)
     , frameDimensions_(frameDims)
 {
     image_.setClip({0,0,frameDims.x, frameDims.y});
+    //image_.setSize(frameDims);
 }
 
 void FrameList::add(std::string name,

@@ -34,7 +34,7 @@ BitmapText::BitmapText(Image const& font, Vectoru glyphDimensions,
     , clip_({0, 0, glyphDims_.x, glyphDims_.y})
 {
     font_.setClip(clip_);
-    font_.setSize(glyphDims_);
+    //font_.setSize(glyphDims_);
 }
 
 void BitmapText::setGlyphSize(Vectorf size)
