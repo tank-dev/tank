@@ -96,10 +96,9 @@ void Image::setClip(Vectoru dimensions, unsigned int index)
     // TODO: This needs testing with rectangular dimensions
     Rectu clip = { 0, 0, dimensions.x, dimensions.y };
 
-    Vectoru usefulSize = { getTextureSize().x -
-                                ( getTextureSize().x % dimensions.x ),
-                           getTextureSize().y -
-                                ( getTextureSize().y % dimensions.y )};
+    const auto textureSize = getTextureSize();
+    Vectoru usefulSize = {textureSize.x - (textureSize.x % dimensions.x),
+                          textureSize.y - (textureSize.y % dimensions.y)};
 
     clip.x = (dimensions.x * index) % usefulSize.x;
     clip.y = dimensions.y * ((dimensions.x * index) / usefulSize.x);
