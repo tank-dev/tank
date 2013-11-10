@@ -70,6 +70,17 @@ struct Vector
 		return x*x + y*y;
 	}
 
+    Vector rotate(double angle) const
+    {
+        constexpr float toRad = 3.14159265 / 180;
+        angle *= toRad;
+
+        return {
+            x * cos(angle) + y * sin(angle),
+            y * cos(angle) - x * sin(angle)
+        };
+    }
+
 	/*!
 	 * \brief Gets the signed angle in radians between the current vector and
 	 * the given vector.
