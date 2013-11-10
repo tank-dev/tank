@@ -76,8 +76,8 @@ struct Vector
         angle *= toRad;
 
         return {
-            x * cos(angle) + y * sin(angle),
-            y * cos(angle) - x * sin(angle)
+            x * cos(angle) - y * sin(angle),
+            y * cos(angle) + x * sin(angle)
         };
     }
 
@@ -91,7 +91,8 @@ struct Vector
 	 */
 	float getAngle(const Vector& vec) const
 	{
-		return std::atan2(x * vec.y - y * vec.x, dot(vec));
+        constexpr double radToDeg = 180 / 3.14159265;
+		return radToDeg*std::atan2(x * vec.y - y * vec.x, dot(vec));
 	}
 
     /*!
