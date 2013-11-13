@@ -21,7 +21,8 @@ if (${PROJECT_NAME} STREQUAL "Tank")
     include_directories(${TANK_INCLUDE_DIRS})
     option(TESTS "Build unit tests" ON)
 else()
-    set(TANK_INCLUDE_DIRS ${CMAKE_CURRENT_SOURCE_DIR} PARENT_SCOPE)
+    set(TANK_INCLUDE_DIRS ${CMAKE_CURRENT_SOURCE_DIR} ${SFML_INCLUDE_DIR} 
+        ${Boost_INCLUDE_DIR} PARENT_SCOPE)
 endif()
 
 if (NOT MSVC)
