@@ -99,6 +99,10 @@ public:
     {
         return p_ != other;
     }
+
+    T* get() {
+        return p_;
+    }
 };
 
 
