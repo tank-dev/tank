@@ -110,6 +110,10 @@ public:
      * \return The window.
      */
     static std::unique_ptr<Window> const& window() { return window_; };
+
+    static void stop() {
+        run_ = false;
+    }
 private:
     static void handleEvents();
     static void update();
