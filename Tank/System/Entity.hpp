@@ -376,6 +376,8 @@ public:
     tank::observing_ptr<tank::EventHandler::Connection> connect(
             tank::EventHandler::Condition condition,
             tank::EventHandler::Effect effect);
+
+    void clearConnections() {connections_.clear();}
 };
 
 template <typename T, typename... Args>
