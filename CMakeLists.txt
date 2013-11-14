@@ -7,7 +7,7 @@ enable_testing()
 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_CURRENT_SOURCE_DIR}/cmake/modules")
 
-find_package(SFML 2.0 REQUIRED system window graphics)
+find_package(SFML 2.0 REQUIRED system window graphics audio)
 find_package(Threads REQUIRED)
 find_package(Boost 1.53.0 REQUIRED)
 
@@ -74,7 +74,10 @@ if(DOXYGEN_FOUND)
     )
 endif(DOXYGEN_FOUND)
 
-add_library(tank ${audio_src} ${gfx_src} ${sys_src} ${util_src})
+#add_library(tank_static ${audio_src} ${gfx_src} ${sys_src} ${util_src})
+#target_link_libraries(tank_static ${SFML_LIBRARIES} ${CMAKE_THREAD_LIBS_INIT})
+
+add_library(tank SHARED ${audio_src} ${gfx_src} ${sys_src} ${util_src})
 target_link_libraries(tank ${SFML_LIBRARIES} ${CMAKE_THREAD_LIBS_INIT})
 
 if(TESTS)

@@ -34,6 +34,7 @@ class SoundEffect
     bool loaded_ = false;
 
 public:
+    using Status = sf::Sound::Status;
     SoundEffect(std::string fileName);
 
     bool load(std::string fileName);
@@ -44,6 +45,8 @@ public:
     {
         return loaded_;
     }
+
+    Status getStatus() {return sound_.getStatus();}
 
 };
 
