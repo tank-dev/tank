@@ -1,6 +1,5 @@
 #!/usr/bin/env runhaskell
 {-# LANGUAGE TemplateHaskell #-}
-{-# LANGUAGE LambdaCase #-}
 
 module Main where
 import System.Process (system)
@@ -41,7 +40,7 @@ makeDirectories projectName = do
     Dir.createDirectory "build"
 
 installTank :: String -> IO ()
-installTank projectName = Dir.findExecutable "git" >>= \case
+installTank projectName = Dir.findExecutable "git" >>= \x -> case x of
     -- Git not found
     Nothing -> exit projectName "Cannot find git" 
     -- Git found
@@ -49,7 +48,7 @@ installTank projectName = Dir.findExecutable "git" >>= \case
                        "git submodule add git@github.com:Gazok/Tank.git"]
 
 fileReplace :: String -> String -> FilePath -> IO()
-fileReplace s1 s2 file = modifyInPlace (replace s1 s2) file
+fileReplace s1 s2 = modifyInPlace (replace s1 s2) 
 
 initProject :: String -> IO ()
 initProject projectName = do
