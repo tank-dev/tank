@@ -69,22 +69,21 @@ public:
         sprite_.setScale(scale.x, scale.y);
     }
     virtual Vectorf getScale() const override
-    {
-        return {sprite_.getScale().x, sprite_.getScale().y};
+    { return {sprite_.getScale().x, sprite_.getScale().y};
     }
 
-    void setSize(Vectorf size) override;
+    void setSize(Vectorf size);
 
     virtual void setClip(Vectoru dimensions, unsigned int index);
 
-    virtual void setClip(Rectu clip) override
+    virtual void setClip(Rectu clip)
     {
         sprite_.setTextureRect({static_cast<int>(clip.x),
                                 static_cast<int>(clip.y),
                                 static_cast<int>(clip.w),
                                 static_cast<int>(clip.h)});
     }
-    virtual Rectu getClip() const override
+    virtual Rectu getClip() const
     {
         auto clip = sprite_.getTextureRect();
         return {static_cast<unsigned int>(clip.left),
@@ -93,7 +92,7 @@ public:
                 static_cast<unsigned int>(clip.height)};
     }
 
-    virtual Vectoru getTextureSize() const override
+    virtual Vectoru getTextureSize() const
     {
         return { texture_->getSize().x, texture_->getSize().y };
     }

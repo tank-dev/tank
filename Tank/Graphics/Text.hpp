@@ -81,13 +81,6 @@ public:
         text_.setColor(color);
     }
 
-    // Not implemented
-    virtual void setClip(Rectu) {}
-    virtual Rectu getClip() const {return {};}
-
-    virtual void setSize(Vectorf) {}
-    virtual Vector<unsigned int> getTextureSize() const {return {};}
-
     virtual void draw(Vectorf parentPos,
                       float parentRot,
                       Camera const& = Camera()) override;

@@ -80,11 +80,6 @@ public:
     virtual Vectorf getGlyphSize() const;
 
     /*!
-     * \brief Not implemented
-     */
-    virtual void setSize(Vectorf size) override {};
-
-    /*!
      * \brief Return the size of the current string
      */
     virtual Vectorf getSize() const override;
@@ -98,19 +93,7 @@ public:
         return origin_;
     }
 
-    /*!
-     * \brief Not implemented
-     */
-    virtual void setClip(Rectu) override {}
-
-    /*!
-     * \brief Not implemented
-     *
-     * \return {0,0,0,0}
-     */
-    virtual Rectu getClip() const override { return {}; }
-
-    virtual Vector<unsigned int> getTextureSize() const override
+    virtual Vector<unsigned int> getTextureSize() const
     {
         return font_.getTextureSize();
     }

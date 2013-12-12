@@ -73,20 +73,13 @@ public:
         visible_ = visibile;
     }
 
+    virtual Vectorf getSize() const = 0;
     virtual void setScale(float) = 0;
     virtual void setScale(Vectorf) = 0;
     virtual Vectorf getScale() const = 0;
 
-    virtual void setSize(Vectorf) = 0;
-    virtual Vectorf getSize() const = 0;
-
     virtual void setOrigin(Vectorf) = 0;
     virtual Vectorf getOrigin() const = 0;
-
-    virtual void setClip(Rectu) = 0;
-    virtual Rectu getClip() const = 0;
-
-    virtual Vector<unsigned int> getTextureSize() const = 0;
 
     // Make const?
     virtual void draw(Vectorf parentPos = {},

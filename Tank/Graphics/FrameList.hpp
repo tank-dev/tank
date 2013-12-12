@@ -148,13 +148,13 @@ public:
     virtual void setRotation(float angle) { image_.setRotation(angle); }
     virtual float getRotation() const { return image_.getRotation(); }
 
-    void setClip(Rectu clip) override { image_.setClip(clip); }
-    Rectu getClip() const override { return image_.getClip(); }
+    void setClip(Rectu clip) { image_.setClip(clip); }
+    Rectu getClip() const { return image_.getClip(); }
 
     void setOrigin(Vectorf origin) override { image_.setOrigin(origin); }
     Vectorf getOrigin() const override { return image_.getOrigin(); }
 
-    void setSize(Vectorf size) override { image_.setSize(size); }
+    void setSize(Vectorf size) { image_.setSize(size); }
     Vectorf getSize() const override { return image_.getSize(); }
 
 
@@ -175,7 +175,7 @@ public:
     {
         image_.drawRelativeToParent(relative);
     }
-    virtual Vectoru getTextureSize() const override
+    virtual Vectoru getTextureSize() const
     {
         return image_.getTextureSize();
     }
