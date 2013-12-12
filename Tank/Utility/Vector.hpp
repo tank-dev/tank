@@ -21,6 +21,7 @@
 #define TANK_VECTOR_HPP
 
 #include <cmath>
+#include <iostream>
 
 namespace tank
 {
@@ -277,6 +278,13 @@ template <typename T, typename U>
 inline bool operator!= (const Vector<T>& lhs, const Vector<U>& rhs)
 {
     return not operator==(lhs, rhs);
+}
+
+template <typename T>
+std::ostream& operator<< (std::ostream& os, Vector<T> const& vec)
+{
+    os << "(" << vec.x << ", " << vec.y << ")";
+    return os;
 }
 
 using Vectorf = Vector<float>;
