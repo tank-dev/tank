@@ -46,14 +46,14 @@ void World::insertEntity(std::unique_ptr<Entity>&& entity)
     }
 
     // Stops an entity being added several times
-    auto x = boost::range::find_if(entities_,
+    auto entityIter = boost::range::find_if(entities_,
         [&entity](std::unique_ptr<Entity>& existing)
         {
             return entity.get() == existing.get();
         }
     );
 
-    if (x != end(entities_))
+    if (entityIter != end(entities_))
     {
         throw std::invalid_argument("Entity already added");
     }
@@ -185,7 +185,7 @@ tank::observing_ptr<tank::EventHandler::Connection> World::connect(
                                        EventHandler::Condition condition,
                                        EventHandler::Effect effect)
 {
-    auto cond = this->eventHandler.connect(condition, effect);
+    auto cond = eventHandler_.connect(condition, effect);
     connections_.push_back(std::move(cond));
     return connections_.back();
 }

@@ -137,7 +137,7 @@ void Game::handleEvents()
         }
     }
 
-    currentWorld_->eventHandler.propagate();
+    currentWorld_->eventHandler().propagate();
     Keyboard::reset();
 }
 
