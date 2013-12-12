@@ -188,7 +188,7 @@ public:
      *
      * \return Const reference to Entity's graphic list
      */
-    std::vector<std::unique_ptr<Graphic>> const& getGraphicList()
+    std::vector<std::unique_ptr<Graphic>>& getGraphicList()
     {
         return graphics_;
     }
