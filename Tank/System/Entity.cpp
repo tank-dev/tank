@@ -214,7 +214,7 @@ observing_ptr<EventHandler::Connection> Entity::connect(
                                        EventHandler::Condition condition,
                                        EventHandler::Effect effect)
 {
-    auto cond = getWorld()->eventHandler.connect(condition, effect);
+    auto cond = getWorld()->eventHandler().connect(condition, effect);
     connections_.push_back(std::move(cond));
     return connections_.back();
 }

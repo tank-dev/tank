@@ -59,9 +59,10 @@ class World
     std::vector<std::tuple<observing_ptr<World>, observing_ptr<Entity>>> toMove_;
     std::vector<std::unique_ptr<Entity>> newEntities_;
     std::vector<std::unique_ptr<EventHandler::Connection>> connections_;
+    EventHandler eventHandler_;
 
 public:
-    EventHandler eventHandler;
+    EventHandler& eventHandler() { return eventHandler_; }
 
     /*!
      * \brief Creates an Entity and adds it to the World
@@ -183,7 +184,7 @@ public:
             tank::EventHandler::Effect effect);
 
 protected:
-    //TODO: Make private and add getter
+    // TODO: Make private and add getter
     std::vector<std::unique_ptr<Entity>> entities_;
 
 private:
@@ -197,6 +198,8 @@ observing_ptr<T> World::makeEntity(Args&&... args)
 {
     static_assert(std::is_base_of<Entity, T>::value,
                   "Type must derive from Entity");
+    static_assert(std::is_convertible<T*, Entity*>::value,
+                  "Type must derive publically from Entity");
 
     std::unique_ptr<T> ent {new T(std::forward<Args>(args)...)};
     ent->setWorld(this);
