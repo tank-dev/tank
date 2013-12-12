@@ -67,7 +67,7 @@ def install_tank():
         print("To get Tank, you need to install git first."
                 " If you have it installed, make sure it is in your PATH!")
         exit(1)
-    subprocess.call(["git","clone","https://github.com/Gazok/Tank"], 
+    subprocess.call(["git","clone","git@github.com:Gazok/Tank.git"], 
             stdout=open(os.devnull, 'wb'))
 
 def initialize_project(project_name):

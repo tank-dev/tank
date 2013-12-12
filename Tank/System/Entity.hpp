@@ -150,7 +150,7 @@ public:
         return types_;
     }
 
-    bool isType(std::string type)
+    bool isType(std::string type) const
     {
         return std::find(types_.begin(), types_.end(), type) != types_.end();
     }
@@ -376,6 +376,8 @@ public:
     tank::observing_ptr<tank::EventHandler::Connection> connect(
             tank::EventHandler::Condition condition,
             tank::EventHandler::Effect effect);
+
+    void clearConnections() {connections_.clear();}
 };
 
 template <typename T, typename... Args>

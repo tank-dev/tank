@@ -1,0 +1,6 @@
+[submodule "Test/Tank"]
+	path = Test/Tank
+	url = git@github.com:Gazok/Tank.git
+[submodule "dist/Test/Tank"]
+	path = dist/Test/Tank
+	url = git@github.com:Gazok/Tank.git
