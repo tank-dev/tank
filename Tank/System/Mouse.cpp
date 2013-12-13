@@ -49,7 +49,7 @@ tank::Vectord Mouse::getRelPos(Camera const& c)
     pos.y /= cScale.y;
     pos += cOgn;
 
-    pos += cPos;
+    pos += cPos.rotate(cRot);
 
     return pos;
 
