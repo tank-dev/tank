@@ -24,12 +24,17 @@ public:
     virtual float getOutlineThickness() const override;
 
     virtual Vectorf getSize() const override;
-    virtual void setScale(float scale) override;
-    virtual void setScale(Vectorf scale) override;
-    virtual Vectorf getScale() const override;
 
-    virtual void setOrigin(Vectorf o) override;
-    virtual Vectorf getOrigin() const override;
+    virtual void setOrigin(Vectorf o) override
+    {
+        circleShape_.setOrigin({o.x, o.y});
+    }
+
+    virtual Vectorf getOrigin() const override
+    {
+        auto origin = circleShape_.getOrigin();
+        return { origin.x, origin.y };
+    }
 
     virtual void draw(Vectorf parentPos = {},
                       float parentRot = 0,

@@ -43,13 +43,16 @@ public:
 
     virtual void setOrigin(Vectorf origin)
     {
-        auto scale = sprite_.getScale();
-        sprite_.setOrigin({origin.x / scale.x, origin.y / scale.y});
+        //auto scale = getScale();//sprite_.getScale();
+        //sprite_.setOrigin({origin.x / scale.x, origin.y / scale.y});
+        sprite_.setOrigin({origin.x, origin.y});
     }
     virtual Vectorf getOrigin() const
     {
-        auto scale = sprite_.getScale();
-        return {sprite_.getOrigin().x * scale.x, sprite_.getOrigin().y * scale.y};
+        //auto scale = getScale();// sprite_.getScale();
+        //return {sprite_.getOrigin().x * scale.x, sprite_.getOrigin().y * scale.y};
+        auto origin = sprite_.getOrigin();
+        return { origin.x, origin.y };
     }
 
     virtual Vectorf getSize() const override
@@ -60,6 +63,7 @@ public:
         return {rect.width, rect.height};
     }
 
+    /*
     virtual void setScale(float scale) override
     {
         sprite_.setScale(scale, scale);
@@ -69,8 +73,10 @@ public:
         sprite_.setScale(scale.x, scale.y);
     }
     virtual Vectorf getScale() const override
-    { return {sprite_.getScale().x, sprite_.getScale().y};
+    {
+        return {sprite_.getScale().x, sprite_.getScale().y};
     }
+    */
 
     void setSize(Vectorf size);
 

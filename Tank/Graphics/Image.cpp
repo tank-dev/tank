@@ -33,7 +33,7 @@ Image::Image(std::string file)
 
 void Image::load(std::string file)
 {
-    if(not loaded_)
+    if (not loaded_)
     {
         texture_.reset(new Texture());
         texture_->loadFromFile(file);
@@ -43,7 +43,8 @@ void Image::load(std::string file)
 
 void Image::draw(Vectorf parentPos, float parentRot, Camera const& cam)
 {
-    /* Model */
+    /*
+    /// Model ///
     const auto modelScale = getScale();
     auto modelPos = getPos();
     auto modelRot = getRotation();
@@ -53,10 +54,9 @@ void Image::draw(Vectorf parentPos, float parentRot, Camera const& cam)
         modelRot += parentRot;
     }
 
-    /* View */
+    /// View ///
     const auto viewScale = cam.getZoom();
     const auto viewRot = cam.getRotation();
-    const float viewRads = 3.14159265 * viewRot / 180.f;
     auto viewPos = cam.getPos();
     viewPos.x *= viewScale.x;
     viewPos.y *= viewScale.y;
@@ -66,27 +66,32 @@ void Image::draw(Vectorf parentPos, float parentRot, Camera const& cam)
 
     Vectorf modelViewPos;
     // Rotate
-    modelViewPos.x = modelPos.x * std::cos(viewRads) + modelPos.y * std::sin(viewRads);
-    modelViewPos.y = - modelPos.x * std::sin(viewRads) + modelPos.y * std::cos(viewRads);
+    modelViewPos = modelPos.rotate(viewRot);
     // Scale
     modelViewPos.x *= viewScale.x;
     modelViewPos.y *= viewScale.y;
     // Translate
+    modelViewPos -= viewPos.rotate(viewRot);
+
+    // Move from origin
     modelViewPos += cam.getOrigin();
-    modelViewPos -= viewPos;
 
-    float modelViewRot = modelRot - viewRot;
+    float modelViewRot = modelRot + viewRot;
 
-    setScale({modelScale.x*viewScale.x, modelScale.y * viewScale.y});
+    //setScale({modelScale.x*viewScale.x, modelScale.y * viewScale.y});
+    sprite_.setScale({modelScale.x*viewScale.x, modelScale.y * viewScale.y});
 
-    /* Change sprite settings */
+    /// Change sprite settings ///
     sprite_.setPosition({modelViewPos.x, modelViewPos.y});
     sprite_.setRotation(modelViewRot);
+    */
 
 
+    Graphic::transform(this, parentPos,parentRot, cam, sprite_);
     Game::window()->SFMLWindow().draw(sprite_);
 
-    setScale(modelScale);
+    //setScale(modelScale);
+    //sprite_.setScale({modelScale.x, modelScale.y});
 }
 
 void Image::setSize(Vectorf size)
