@@ -23,8 +23,9 @@
 #include <array>
 #include <functional>
 #include <SFML/Window/Mouse.hpp>
-#include "../../Tank/System/Camera.hpp"
 #include "../../Tank/Utility/Vector.hpp"
+#include "../../Tank/Utility/Rect.hpp"
+#include "../../Tank/System/Camera.hpp"
 
 namespace tank {
 
@@ -44,7 +45,7 @@ public:
     using Button = sf::Mouse::Button;
     static tank::Vectori const& getPos() { return currentPos_; }
     static int const& wheelDelta() { return wheelDelta_; }
-    static tank::Vectori getRelPos(Camera const&);
+    static tank::Vectord getRelPos(Camera const&);
     static tank::Vectori delta();
 
     static bool isButtonPressed(Button button);
@@ -66,7 +67,25 @@ public:
     static std::function<bool()> EnterWindow();
     static std::function<bool()> LeaveWindow();
 
-    static std::function<bool()> IsInEntity(Entity const&);
+    template <typename T>
+    static bool isInRect(Rect<T> const& rect)
+    {
+        auto mPos = getPos();
+
+        return rect.intersects(mPos);
+    }
+
+    template <typename T>
+    static std::function<bool()> InRect(Rect<T> const& rect)
+    {
+        return [&rect]
+        {
+            return isInRect(rect);
+        };
+
+    }
+
+    static std::function<bool()> InEntity(Entity const&);
 
     static std::function<bool()> MouseMovement();
 
