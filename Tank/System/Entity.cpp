@@ -166,7 +166,6 @@ bool Entity::moveBy(Vectorf disp, std::function<bool()> cond)
 
 void Entity::moveBy(Vectorf disp)
 {
-    //moveBy(disp, []{return false;}); // Really no need to do this
     setPos(getPos() + disp);
 }
 
