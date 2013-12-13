@@ -23,40 +23,7 @@ namespace tank
 {
 void Text::draw(Vectorf parentPos, float parentRot, Camera const& cam)
 {
-    const auto modelScale = getScale();
-    Vectorf modelPos = getPos();
-    float modelRot = getRotation();
-
-    if(isRelativeToParent())
-    {
-        modelPos += parentPos;
-        modelRot += parentRot;
-    }
-
-    const auto viewScale = cam.getZoom();
-    const float viewRot = cam.getRotation();
-    const float viewRads = 3.14159265 * viewRot / 180.f;
-    auto viewPos = cam.getPos();
-    viewPos.x *= viewScale.x;
-    viewPos.y *= viewScale.y;
-
-    modelPos -= cam.getOrigin();
-    Vectorf modelViewPos;
-    modelViewPos.x = modelPos.x * std::cos(viewRads) + modelPos.y * std::sin(viewRads);
-    modelViewPos.y = - modelPos.x * std::sin(viewRads) + modelPos.y * std::cos(viewRads);
-    modelViewPos.x *= viewScale.x;
-    modelViewPos.y *= viewScale.y;
-    modelViewPos += cam.getOrigin();
-    modelViewPos -= viewPos;
-
-    float modelViewRot = modelRot - viewRot;
-
-    setScale({modelScale.x*viewScale.x, modelScale.y * viewScale.y});
-
-    text_.setPosition({modelViewPos.x, modelViewPos.y});
-    text_.setRotation(modelViewRot);
-
+    Graphic::transform(this, parentPos, parentRot, cam, text_);
     Game::window()->SFMLWindow().draw(text_);
-    setScale(modelScale);
 }
 }
