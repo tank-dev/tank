@@ -101,7 +101,7 @@ void CircleShape::draw(tank::Vectorf parentPos,
     setScale({modelScale.x*viewScale.x, modelScale.y * viewScale.y});
 
     /* Change sprite settings */
-    setOrigin({modelOrigin.x + getRadius(), modelOrigin.y + getRadius()});
+    //setOrigin({modelOrigin.x + getRadius(), modelOrigin.y + getRadius()});
     circleShape_.setRotation(parentRot);
     circleShape_.setPosition({modelViewPos.x, modelViewPos.y});
 
