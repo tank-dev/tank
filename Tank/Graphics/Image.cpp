@@ -61,13 +61,17 @@ void Image::draw(Vectorf parentPos, float parentRot, Camera const& cam)
     viewPos.x *= viewScale.x;
     viewPos.y *= viewScale.y;
 
+    // Move to origin
     modelPos -= cam.getOrigin();
 
     Vectorf modelViewPos;
+    // Rotate
     modelViewPos.x = modelPos.x * std::cos(viewRads) + modelPos.y * std::sin(viewRads);
     modelViewPos.y = - modelPos.x * std::sin(viewRads) + modelPos.y * std::cos(viewRads);
+    // Scale
     modelViewPos.x *= viewScale.x;
     modelViewPos.y *= viewScale.y;
+    // Translate
     modelViewPos += cam.getOrigin();
     modelViewPos -= viewPos;
 
