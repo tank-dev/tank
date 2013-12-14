@@ -27,8 +27,8 @@ namespace tank {
 class Camera
 {
     float rot_ {0};
-    Vectorf pos_ {};
-    Vectorf origin_ {};
+    Vectorf pos_;
+    Vectorf origin_;
     Vectorf zoom_ {1,1};
 public:
     Vectorf getPos() const { return pos_; }

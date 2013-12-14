@@ -28,8 +28,8 @@ namespace tank {
 
 class Graphic
 {
-    Vectorf pos_ {};
-    float rot_ {};
+    Vectorf pos_;
+    float rot_{};
     bool relativeToParent_ {true};
     bool visible_ {true};
 
