@@ -43,13 +43,16 @@ public:
 
     virtual void setOrigin(Vectorf origin)
     {
-        auto scale = sprite_.getScale();
-        sprite_.setOrigin({origin.x / scale.x, origin.y / scale.y});
+        //auto scale = getScale();//sprite_.getScale();
+        //sprite_.setOrigin({origin.x / scale.x, origin.y / scale.y});
+        sprite_.setOrigin({origin.x, origin.y});
     }
     virtual Vectorf getOrigin() const
     {
-        auto scale = sprite_.getScale();
-        return {sprite_.getOrigin().x * scale.x, sprite_.getOrigin().y * scale.y};
+        //auto scale = getScale();// sprite_.getScale();
+        //return {sprite_.getOrigin().x * scale.x, sprite_.getOrigin().y * scale.y};
+        auto origin = sprite_.getOrigin();
+        return { origin.x, origin.y };
     }
 
     virtual Vectorf getSize() const override
@@ -60,6 +63,7 @@ public:
         return {rect.width, rect.height};
     }
 
+    /*
     virtual void setScale(float scale) override
     {
         sprite_.setScale(scale, scale);
@@ -72,19 +76,20 @@ public:
     {
         return {sprite_.getScale().x, sprite_.getScale().y};
     }
+    */
 
-    void setSize(Vectorf size) override;
+    void setSize(Vectorf size);
 
     virtual void setClip(Vectoru dimensions, unsigned int index);
 
-    virtual void setClip(Rectu clip) override
+    virtual void setClip(Rectu clip)
     {
         sprite_.setTextureRect({static_cast<int>(clip.x),
                                 static_cast<int>(clip.y),
                                 static_cast<int>(clip.w),
                                 static_cast<int>(clip.h)});
     }
-    virtual Rectu getClip() const override
+    virtual Rectu getClip() const
     {
         auto clip = sprite_.getTextureRect();
         return {static_cast<unsigned int>(clip.left),
@@ -93,7 +98,7 @@ public:
                 static_cast<unsigned int>(clip.height)};
     }
 
-    virtual Vectoru getTextureSize() const override
+    virtual Vectoru getTextureSize() const
     {
         return { texture_->getSize().x, texture_->getSize().y };
     }

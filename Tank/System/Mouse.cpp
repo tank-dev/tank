@@ -25,15 +25,34 @@ namespace tank {
 bool Mouse::stateChange_ {false};
 Vectori Mouse::currentPos_;
 Vectori Mouse::lastPos_;
+// TODO: Could set this at Game::initialize?
+Vectori Mouse::lockPos_ {5,5};
 int Mouse::wheelDelta_ {};
 bool Mouse::hasEntered_ {false};
 bool Mouse::hasLeft_ {false};
+bool Mouse::visible_ {true};
+bool Mouse::locked_ {false};
 std::array<bool, Mouse::Button::ButtonCount> Mouse::currentState_ {};
 std::array<bool, Mouse::Button::ButtonCount> Mouse::lastState_ {};
 
-tank::Vectori Mouse::getRelPos(Camera const& c)
+tank::Vectord Mouse::getRelPos(Camera const& c)
 {
-    return currentPos_ + c.getPos();
+    auto const& cPos = c.getPos();
+    const auto cRot = c.getRotation();
+    auto const& cOgn = c.getOrigin();
+    auto const& cScale = c.getZoom();
+
+
+    tank::Vectord pos = getPos() - cOgn;
+    pos = pos.rotate(cRot);
+    pos.x /= cScale.x;
+    pos.y /= cScale.y;
+    pos += cOgn;
+
+    pos += cPos.rotate(cRot);
+
+    return pos;
+
 }
 
 tank::Vectori Mouse::delta() { return currentPos_ - lastPos_; }
@@ -122,8 +141,7 @@ std::function<bool()> Mouse::WheelMovement()
     };
 }
 
-// TODO: Could neaten this up, draws attention to some obvious helper functions
-std::function<bool()> Mouse::IsInEntity(Entity const& e)
+std::function<bool()> Mouse::InEntity(Entity const& e)
 {
     return [&e]
     {
@@ -139,6 +157,7 @@ std::function<bool()> Mouse::IsInEntity(Entity const& e)
                mPos.y > hb.y and mPos.y < hb.h;
     };
 }
+
 
 void Mouse::setButtonPressed(Button button)
 {
@@ -180,12 +199,25 @@ void Mouse::reset()
     if (not stateChange_) return;
 
     std::copy(currentState_.begin(), currentState_.end(), lastState_.begin());
+
+    if (locked_)
+    {
+        sf::Mouse::setPosition({lockPos_.x, lockPos_.y}, Game::window()->SFMLWindow());
+        currentPos_ = lockPos_;
+    }
+
     lastPos_ = currentPos_;
     wheelDelta_ = 0;
     hasEntered_ = false;
     hasLeft_ = false;
 
     stateChange_ = false;
+}
+
+void Mouse::setVisibility(bool visible)
+{
+    Game::window()->SFMLWindow().setMouseCursorVisible(visible);
+    visible_ = visible;
 }
 
 }

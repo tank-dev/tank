@@ -24,12 +24,18 @@
 #include "../Utility/Vector.hpp"
 #include "../Utility/Rect.hpp"
 
+namespace sf
+{
+    class Transformable;
+}
+
 namespace tank {
 
 class Graphic
 {
     Vectorf pos_;
-    float rot_{};
+    float rot_ {0.f};
+    Vectorf scale_ {1.f, 1.f};
     bool relativeToParent_ {true};
     bool visible_ {true};
 
@@ -55,6 +61,21 @@ public:
         return rot_;
     }
 
+    virtual void setScale(float scale)
+    {
+        scale_.x = scale_.y = scale;
+    }
+
+    virtual void setScale(Vectorf scale)
+    {
+        scale_ = scale;
+    }
+
+    virtual Vectorf getScale() const
+    {
+        return scale_;
+    }
+
     void drawRelativeToParent(bool relative)
     {
         relativeToParent_ = relative;
@@ -73,25 +94,22 @@ public:
         visible_ = visibile;
     }
 
-    virtual void setScale(float) = 0;
-    virtual void setScale(Vectorf) = 0;
-    virtual Vectorf getScale() const = 0;
-
-    virtual void setSize(Vectorf) = 0;
     virtual Vectorf getSize() const = 0;
 
     virtual void setOrigin(Vectorf) = 0;
     virtual Vectorf getOrigin() const = 0;
 
-    virtual void setClip(Rectu) = 0;
-    virtual Rectu getClip() const = 0;
-
-    virtual Vector<unsigned int> getTextureSize() const = 0;
-
     // Make const?
     virtual void draw(Vectorf parentPos = {},
                       float parentRot = 0,
                       Camera const& = Camera()) = 0;
+
+protected:
+    static void transform(Graphic const* g,
+                          Vectorf parentPos,
+                          float parentRot,
+                          Camera const& cam,
+                          sf::Transformable& t);
 };
 
 }

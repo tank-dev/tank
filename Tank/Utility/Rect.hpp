@@ -20,6 +20,8 @@
 #ifndef TANK_RECT_HPP
 #define TANK_RECT_HPP
 
+#include "Vector.hpp"
+
 namespace tank
 {
 
@@ -37,6 +39,28 @@ struct Rect
     template <typename U> Rect(const Rect<U>& rect)
         : x(rect.x) , y(rect.y) , w(rect.w) , h(rect.h) {}
 
+    template<typename U>
+    bool intersects(Rect<U> const& rect) const
+    {
+        if (rect.x + rect.w < x or
+            rect.y + rect.h < y or
+            rect.x > x + w or
+            rect.y > x + h)
+        {
+            return false;
+        }
+        return true;
+    }
+
+    template<typename U>
+    bool intersects(Vector<U> const& point) const
+    {
+        if (point.x < x or point.x > x + w or point.y < y or point.y > y + h)
+        {
+            return false;
+        }
+        return true;
+    }
 };
 
 template <typename T, typename U>

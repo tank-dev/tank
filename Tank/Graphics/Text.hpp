@@ -50,19 +50,6 @@ public:
     void setText(std::string s) { text_.setString(s); }
     std::string getText() const { return text_.getString(); }
 
-    virtual void setScale(float scale)
-    {
-        text_.setScale(scale, scale);
-    }
-    virtual void setScale(Vectorf s)
-    {
-        text_.setScale(s.x, s.y);
-    }
-    virtual Vectorf getScale() const
-    {
-        return {text_.getScale().x, text_.getScale().y};
-    }
-
     virtual void setOrigin(Vectorf o)
     {
         text_.setOrigin(o.x,o.y);
@@ -80,13 +67,6 @@ public:
     virtual void setColor(const Color& color) {
         text_.setColor(color);
     }
-
-    // Not implemented
-    virtual void setClip(Rectu) {}
-    virtual Rectu getClip() const {return {};}
-
-    virtual void setSize(Vectorf) {}
-    virtual Vector<unsigned int> getTextureSize() const {return {};}
 
     virtual void draw(Vectorf parentPos,
                       float parentRot,

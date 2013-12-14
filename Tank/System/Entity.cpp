@@ -166,7 +166,6 @@ bool Entity::moveBy(Vectorf disp, std::function<bool()> cond)
 
 void Entity::moveBy(Vectorf disp)
 {
-    //moveBy(disp, []{return false;}); // Really no need to do this
     setPos(getPos() + disp);
 }
 
@@ -214,7 +213,7 @@ observing_ptr<EventHandler::Connection> Entity::connect(
                                        EventHandler::Condition condition,
                                        EventHandler::Effect effect)
 {
-    auto cond = getWorld()->eventHandler.connect(condition, effect);
+    auto cond = getWorld()->eventHandler().connect(condition, effect);
     connections_.push_back(std::move(cond));
     return connections_.back();
 }

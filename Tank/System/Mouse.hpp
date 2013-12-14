@@ -23,8 +23,9 @@
 #include <array>
 #include <functional>
 #include <SFML/Window/Mouse.hpp>
-#include "../../Tank/System/Camera.hpp"
 #include "../../Tank/Utility/Vector.hpp"
+#include "../../Tank/Utility/Rect.hpp"
+#include "../../Tank/System/Camera.hpp"
 
 namespace tank {
 
@@ -34,18 +35,21 @@ class Mouse {
     static bool stateChange_;
     static Vectori currentPos_;
     static Vectori lastPos_;
+    static Vectori lockPos_;
     static int wheelDelta_;
     static bool hasEntered_;
     static bool hasLeft_;
+    static bool visible_;
+    static bool locked_;
     static std::array<bool, sf::Mouse::Button::ButtonCount> currentState_;
     static std::array<bool, sf::Mouse::Button::ButtonCount> lastState_;
 
 public:
     using Button = sf::Mouse::Button;
     static tank::Vectori const& getPos() { return currentPos_; }
-    static int const& wheelDelta() { return wheelDelta_; }
-    static tank::Vectori getRelPos(Camera const&);
+    static tank::Vectord getRelPos(Camera const&);
     static tank::Vectori delta();
+    static int const& wheelDelta() { return wheelDelta_; }
 
     static bool isButtonPressed(Button button);
     static std::function<bool()> ButtonPress(Button button);
@@ -66,9 +70,37 @@ public:
     static std::function<bool()> EnterWindow();
     static std::function<bool()> LeaveWindow();
 
-    static std::function<bool()> IsInEntity(Entity const&);
+    template <typename T>
+    static bool isInRect(Rect<T> const& rect)
+    {
+        auto mPos = getPos();
+
+        return rect.intersects(mPos);
+    }
+
+    template <typename T>
+    static std::function<bool()> InRect(Rect<T> const& rect)
+    {
+        return [&rect]
+        {
+            return isInRect(rect);
+        };
+
+    }
+
+    static std::function<bool()> InEntity(Entity const&);
 
     static std::function<bool()> MouseMovement();
+
+    static bool isLocked() { return locked_; }
+    static void setLock(bool lock) { locked_ = lock; }
+    static void toggleLock() { setLock(!locked_); }
+    static void setLockPosition(Vectorf pos) { lockPos_ = pos; }
+    static Vectori const& getLockPosition() { return lockPos_; }
+
+    static bool isVisible() { return visible_; }
+    static void setVisibility(bool);
+    static void toggleVisibility() { setVisibility(!visible_); }
 
 private:
     static void setButtonPressed(Button);
