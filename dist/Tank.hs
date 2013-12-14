@@ -2,19 +2,21 @@
 {-# LANGUAGE TemplateHaskell #-}
 
 module Main where
+import Control.Applicative
 import System.Process (system)
 import System.Exit (exitFailure)
-import System.IO (hPutStrLn, stderr)
+import System.IO (hPutStrLn, stderr,withFile,IOMode(..))
 import System.FilePath.Manip (modifyInPlace)
 import Data.FileEmbed (embedDir)
 import Data.List.Utils (replace)
+import System.IO.Utils (hInteract)
 import Control.Monad (void)
 import qualified System.Directory as Dir
 import qualified Data.ByteString.Char8 as BS
 
 main :: IO ()
 main = do
-    projectName <- getStr "What is the name of your project? "
+    projectName <- input "What is the name of your project? "
     makeDirectories projectName
     installTank projectName
     initProject projectName
@@ -26,10 +28,8 @@ exit projectName err = do
     Dir.removeDirectoryRecursive projectName
     exitFailure
 
-getStr :: String -> IO String
-getStr putstr = do
-    putStrLn putstr 
-    getLine
+input :: String -> IO String
+input putstr = putStrLn putstr *> getLine
 
 makeDirectories :: String -> IO ()
 makeDirectories projectName = do
