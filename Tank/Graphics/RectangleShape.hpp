@@ -1,20 +1,17 @@
-#ifndef TANK_CIRCLESHAPE_HPP
-#define TANK_CIRCLESHAPE_HPP
+#ifndef TANK_RECTANGLESHAPE_HPP
+#define TANK_RECTANGLESHAPE_HPP
 
-#include <SFML/Graphics/CircleShape.hpp>
+#include <SFML/Graphics/RectangleShape.hpp>
 #include "Shape.hpp"
 
 namespace tank {
 
-class CircleShape : public Shape
+class RectangleShape : public Shape
 {
-    sf::CircleShape circleShape_;
+    sf::RectangleShape rectangleShape_;
 
 public:
-    CircleShape(float radius = 0);
-
-    void setRadius(float radius) { circleShape_.setRadius(radius); }
-    float getRadius() const { return circleShape_.getRadius(); }
+    RectangleShape(Vectorf size = {});
 
     virtual void setFillColor(Color colour) override;
     virtual void setOutlineColor(Color colour) override;
@@ -23,16 +20,17 @@ public:
     virtual Color const& getOutlineColor() const override;
     virtual float getOutlineThickness() const override;
 
+    virtual void setSize(Vectorf);
     virtual Vectorf getSize() const override;
 
     virtual void setOrigin(Vectorf o) override
     {
-        circleShape_.setOrigin({o.x, o.y});
+        rectangleShape_.setOrigin({o.x, o.y});
     }
 
     virtual Vectorf getOrigin() const override
     {
-        auto origin = circleShape_.getOrigin();
+        auto origin = rectangleShape_.getOrigin();
         return { origin.x, origin.y };
     }
 
@@ -43,4 +41,4 @@ public:
 
 }
 
-#endif /* TANK_CICLESHAPE_HPP */
+#endif /* TANK_RECTANGLESHAPE_HPP */
