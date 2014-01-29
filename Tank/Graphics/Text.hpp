@@ -34,7 +34,7 @@ namespace tank
 
 class Text : public Graphic
 {
-    sf::Text text_ {};
+    sf::Text text_;
 public:
     Text() = default;
     Text(const Text&) = default;

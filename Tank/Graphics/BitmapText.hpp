@@ -38,7 +38,7 @@ class BitmapText final : public Graphic
 
     // TODO: make std::string
     std::string text_ {""};
-    Vectorf origin_ {};
+    Vectorf origin_;
 
 public:
     BitmapText(Image const& font, Vectoru glyphDimensions,
