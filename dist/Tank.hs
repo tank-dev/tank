@@ -45,7 +45,7 @@ installTank projectName = Dir.findExecutable "git" >>= \x -> case x of
     Nothing -> exit projectName "Cannot find git" 
     -- Git found
     _ -> mapM_ system ["git init",
-                       "git submodule add git@github.com:Gazok/Tank.git"]
+                       "git submodule add https://github.com/Gazok/Tank.git"]
 
 fileReplace :: String -> String -> FilePath -> IO()
 fileReplace s1 s2 = modifyInPlace (replace s1 s2) 
