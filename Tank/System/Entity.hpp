@@ -61,7 +61,7 @@ class Entity
 {
     Vectorf pos_;
     float rot_ {};
-    Rectd hitbox_ {};
+    Rectd hitbox_;
     bool solid_ {false};
     int layer_ {};
     bool removed_ {false};
@@ -104,7 +104,7 @@ public:
      * \return A list of all colliding entitities of type.
      * \see setType()
      */
-    std::vector<observing_ptr<Entity>> collide(std::vector<std::string> types = {});
+    std::vector<observing_ptr<Entity>> collide(std::vector<std::string> types = std::vector<std::string>{});
 
     /*!
      * \brief Returns the entity's vector position
