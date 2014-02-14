@@ -52,7 +52,6 @@ tank::Vectord Mouse::getRelPos(Camera const& c)
     pos += cPos.rotate(cRot);
 
     return pos;
-
 }
 
 tank::Vectori Mouse::delta() { return currentPos_ - lastPos_; }

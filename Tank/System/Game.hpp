@@ -111,7 +111,8 @@ public:
      */
     static std::unique_ptr<Window> const& window() { return window_; };
 
-    static void stop() {
+    static void stop()
+    {
         run_ = false;
     }
 private:

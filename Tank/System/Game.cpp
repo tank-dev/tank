@@ -20,6 +20,7 @@
 #include "Game.hpp"
 
 #include <SFML/Window/Event.hpp>
+#include "Controller.hpp"
 #include "Keyboard.hpp"
 #include "Mouse.hpp"
 #include "Window.hpp"
@@ -48,8 +49,11 @@ bool Game::initialize(Vector<unsigned int> const& wSize, int fps)
     {
         initialized_ = true;
 
-        //Create window
+        // Create window
 		window_.reset(new Window(tank::Vectoru{wSize.x, wSize.y}));
+
+        // Initialize controllers (should happen after Window)
+        Controllers::initialize();
 
         // TODO: Make this reflect actual FPS
         Game::fps = fps;
@@ -100,6 +104,7 @@ void Game::handleEvents()
 {
     Keyboard::reset();
     Mouse::reset();
+    Controllers::reset();
 
     sf::Event event;
 
@@ -135,6 +140,25 @@ void Game::handleEvents()
             break;
         case sf::Event::MouseEntered:
             Mouse::setEntered();
+            break;
+        case sf::Event::JoystickConnected:
+            Controllers::setStatus(event.joystickConnect.joystickId, true);
+            break;
+        case sf::Event::JoystickDisconnected:
+            Controllers::setStatus(event.joystickConnect.joystickId, false);
+            break;
+        case sf::Event::JoystickMoved:
+            Controllers::setAxis(event.joystickMove.joystickId,
+                                 event.joystickMove.axis,
+                                 event.joystickMove.position);
+            break;
+        case sf::Event::JoystickButtonPressed:
+            Controllers::setButton(event.joystickButton.joystickId,
+                                   event.joystickButton.button, true);
+            break;
+        case sf::Event::JoystickButtonReleased:
+            Controllers::setButton(event.joystickButton.joystickId,
+                                   event.joystickButton.button, false);
             break;
         case sf::Event::GainedFocus:
             draw();
