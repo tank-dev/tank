@@ -63,9 +63,7 @@ Controllers::getConnectedControllers()
 {
     std::vector<tank::observing_ptr<Controller>> cs;
     std::copy_if(controllers_.begin(), controllers_.end(),
-                 std::back_inserter(cs), [](Controller const& c) {
-                    return c.isConnected();
-                 });
+                 std::back_inserter(cs), std::mem_fn(&Controller::isConnected));
     return cs;
 }
 
