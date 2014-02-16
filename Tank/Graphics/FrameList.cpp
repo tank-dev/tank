@@ -34,11 +34,11 @@ FrameList::FrameList(Image const& i, Vector<unsigned int> frameDims)
 
 void FrameList::add(std::string name,
                     std::vector<unsigned int> const& frames,
-                    unsigned int time)
+                    std::chrono::milliseconds time)
 {
     // TODO: validate arguments
     // Create new Animation
-    animations_.push_back({name, frames, std::chrono::milliseconds(time)});
+    animations_.push_back({name, frames, time});
 }
 
 void FrameList::remove(std::string name)
@@ -167,7 +167,7 @@ void FrameList::setImage(Image const& image, Vector<unsigned int> frameDims)
     image_ = image;
 }
 
-void addWalkingFrameList(FrameList& anim, unsigned int time)
+void addWalkingFrameList(FrameList& anim, std::chrono::milliseconds time)
 {
     unsigned int xFrames = anim.getTextureSize().x / anim.getFrameDimensions().x;
 

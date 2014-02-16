@@ -74,7 +74,7 @@ public:
      * \param frameTime Time between each frame in milliseconds (ms)
      */
     void add(std::string name, const std::vector<unsigned int>& frames,
-             unsigned int frameTime);
+             std::chrono::milliseconds frameTime);
 
     void remove(std::string name);
 
@@ -188,7 +188,7 @@ public:
  * Generates four animations: walk_up, walk_right, walk_down, walk_left.
  * Currently, they are generated from image rows going down in that order.
  */
-void addWalkingAnimation(FrameList& frames, unsigned int time);
+void addWalkingAnimation(FrameList& frames, std::chrono::milliseconds time);
 
 } // tank
 
