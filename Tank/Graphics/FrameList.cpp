@@ -38,17 +38,17 @@ void FrameList::add(std::string name,
 {
     // TODO: validate arguments
     // Create new Animation
-    animations_.push_back({name, frames, time});
+    animations_.push_back({name, frames, std::chrono::milliseconds(time)});
 }
 
 void FrameList::remove(std::string name)
 {
     // Find the animation by name
     auto iter = std::find_if_not(animations_.begin(), animations_.end(),
-                                 [&name](Animation& anim)
-    {
-        return anim.name == (name);
-    });
+            [&name](Animation& anim)
+            {
+            return anim.name == (name);
+            });
 
     //Remove the animation from the animations list
     if (iter != animations_.end())
@@ -58,7 +58,7 @@ void FrameList::remove(std::string name)
 }
 
 void FrameList::select(std::string name, bool loop,
-                       std::function<void()> callback)
+        std::function<void()> callback)
 {
     //Check that the requested animation is not already playing
     if (not currentAnimation_ || currentAnimation_->name != name)

@@ -42,7 +42,7 @@ class FrameList final : public Graphic
     {
         std::string name;
         std::vector<unsigned int> frameList;
-        unsigned int time;
+        std::chrono::milliseconds time;
     };
 
     Image image_;

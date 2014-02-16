@@ -77,12 +77,12 @@ public:
     bool isPaused() const;
 
     /*!
-     * \brief Gets the number of milliseconds since the timer was started or 0
-     * if it hasn't been started.
+     * \brief Gets the duration since the timer was started or 0 if it hasn't
+     * been started.
      *
-     * \return The number of millisecnds since the timer was started.
+     * \return The chrono::steady_clock::duration since the timer was started.
      */
-    unsigned long getTicks() const;
+    std::chrono::steady_clock::duration getTicks() const;
 
     /*!
      * \brief Get the time in a human readable format H:M:S.uuuuuu.
@@ -95,9 +95,9 @@ public:
     /*!
      * \brief Delays the current thread for a numeber of milliseconds.
      *
-     * \param millisecs The number of milliseconds to delay the thread for.
+     * \param delayTime The chrono::steady_clock::duration to delay the thread for.
      */
-    static void delay(unsigned long millisecs);
+    static void delay(std::chrono::steady_clock::duration timeDelay);
 };
 
 } // tank
