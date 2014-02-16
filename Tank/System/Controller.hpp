@@ -64,8 +64,9 @@ public:
     std::function<bool()> ButtonUp(unsigned button) const;
     std::function<bool()> ButtonUp(Button button) const;
 
-    std::function<bool()> AxisMoved(unsigned axis, double threshold = 0.5) const;
-    std::function<bool()> AxisMoved(Axis axis, double threshold = 0.5) const;
+    std::function<bool()> AxisMoved(unsigned axis,
+                                    double threshold = 0.05) const;
+    std::function<bool()> AxisMoved(Axis axis, double threshold = 0.05) const;
 
     bool isConnected() const { return connectedState_; }
     std::function<bool()> Connected() const;

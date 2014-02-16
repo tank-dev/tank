@@ -105,15 +105,13 @@ bool Controller::buttonPressed(Button button) const
 }
 std::function<bool()> Controller::ButtonPress(unsigned button) const
 {
-    return [&] {
+    return [=] {
         return buttonPressed(button);
     };
 }
 std::function<bool()> Controller::ButtonPress(Button button) const
 {
-    return [&] {
-        return buttonPressed(button);
-    };
+    return ButtonPress(static_cast<unsigned>(button));
 }
 
 bool Controller::buttonReleased(unsigned button) const
@@ -126,15 +124,13 @@ bool Controller::buttonReleased(Button button) const
 }
 std::function<bool()> Controller::ButtonRelease(unsigned button) const
 {
-    return [&] {
+    return [=] {
         return buttonReleased(button);
     };
 }
 std::function<bool()> Controller::ButtonRelease(Button button) const
 {
-    return [&] {
-        return buttonReleased(button);
-    };
+    return ButtonRelease(static_cast<unsigned>(button));
 }
 
 bool Controller::buttonDown(unsigned button) const
@@ -147,15 +143,13 @@ bool Controller::buttonDown(Button button) const
 }
 std::function<bool()> Controller::ButtonDown(unsigned button) const
 {
-    return [&] {
+    return [=] {
         return buttonDown(button);
     };
 }
 std::function<bool()> Controller::ButtonDown(Button button) const
 {
-    return [&] {
-        return buttonDown(button);
-    };
+    return ButtonDown(static_cast<unsigned>(button));
 }
 
 bool Controller::buttonUp(unsigned button) const
@@ -164,32 +158,28 @@ bool Controller::buttonUp(unsigned button) const
 }
 bool Controller::buttonUp(Button button) const
 {
-    return not buttonDown(button);
+    return buttonUp(static_cast<unsigned>(button));
 }
 std::function<bool()> Controller::ButtonUp(unsigned button) const
 {
-    return [&] {
+    return [=] {
         return buttonUp(button);
     };
 }
 std::function<bool()> Controller::ButtonUp(Button button) const
 {
-    return [&] {
-        return buttonUp(button);
-    };
+    return ButtonUp(static_cast<unsigned>(button));
 }
 
 std::function<bool()> Controller::AxisMoved(unsigned axis, double threshold) const
 {
-    return [&] {
+    return [=] {
         return std::fabs(axisDelta(axis)) > threshold;
     };
 }
 std::function<bool()> Controller::AxisMoved(Axis axis, double threshold) const
 {
-    return [&] {
-        return std::fabs(axisDelta(axis)) > threshold;
-    };
+    return AxisMoved(static_cast<unsigned>(axis), threshold);
 }
 
 std::function<bool()> Controller::Connected() const
@@ -211,7 +201,7 @@ double Controller::axisPosition(unsigned axis) const
 }
 double Controller::axisPosition(Axis axis) const
 {
-    return axisPosition(static_cast<int>(axis));
+    return axisPosition(static_cast<unsigned>(axis));
 }
 double Controller::axisDelta(unsigned axis) const
 {
@@ -219,7 +209,7 @@ double Controller::axisDelta(unsigned axis) const
 }
 double Controller::axisDelta(Axis axis) const
 {
-    return axisDelta(static_cast<int>(axis));
+    return axisDelta(static_cast<unsigned>(axis));
 }
 
 /* 360 specific */
