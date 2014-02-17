@@ -30,7 +30,6 @@
 #include "../Utility/Vector.hpp"
 #include "Camera.hpp"
 #include "EventHandler.hpp"
-#include "Game.hpp"
 
 namespace tank
 {
@@ -104,7 +103,13 @@ public:
      * \return A list of all colliding entitities of type.
      * \see setType()
      */
-    std::vector<observing_ptr<Entity>> collide(std::vector<std::string> types = std::vector<std::string>{});
+    std::vector<observing_ptr<Entity>>
+        collide(std::vector<std::string> types = std::vector<std::string>{});
+
+    std::vector<observing_ptr<Entity>> collide(std::string type)
+    {
+        return collide(std::vector<std::string>{type});
+    }
 
     /*!
      * \brief Returns the entity's vector position

@@ -19,6 +19,8 @@
 
 #include "Text.hpp"
 
+#include "../System/Game.hpp"
+
 namespace tank
 {
 void Text::draw(Vectorf parentPos, float parentRot, Camera const& cam)

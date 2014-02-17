@@ -19,6 +19,8 @@
 
 #include "Mouse.hpp"
 #include "../System/Entity.hpp"
+#include "../System/World.hpp"
+#include "../System/Game.hpp"
 
 namespace tank {
 

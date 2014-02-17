@@ -22,6 +22,7 @@
 #include <cmath>
 #include <stdexcept>
 #include <algorithm>
+#include "Game.hpp"
 #include "World.hpp"
 
 namespace tank {
@@ -35,7 +36,6 @@ Entity::Entity(Vectorf pos)
 
 Entity::~Entity() {}
 
-//Default draw function
 void Entity::draw(Camera const& cam)
 {
     for(auto& g : graphics_)
