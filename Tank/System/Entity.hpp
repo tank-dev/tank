@@ -145,6 +145,10 @@ public:
         return hitbox_;
     }
 
+    std::string getType(unsigned i = 0) const
+    {
+        return types_[i];
+    }
     /*!
      * \brief Returns the entity's types
      *
