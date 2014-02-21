@@ -66,37 +66,36 @@ bool Timer::isPaused() const
     return paused_;
 }
 
-unsigned long Timer::getTicks() const
+std::chrono::steady_clock::duration Timer::getTicks() const
 {
     if (not started_)
     {
-        return 0;
+        return std::chrono::steady_clock::duration::zero();
     }
     if (paused_)
     {
-        return std::chrono::duration_cast<std::chrono::milliseconds>
-                (pausedTick_).count();
+        return pausedTick_;
     }
-    return std::chrono::duration_cast<std::chrono::milliseconds>
-            (std::chrono::steady_clock::now() - startTick_).count();
+    return std::chrono::steady_clock::now() - startTick_;
 }
 
 std::string Timer::getHumanTime() const
 {
-    long int microsecs = getTicks();
+    long int millisecs =
+        std::chrono::duration_cast<std::chrono::milliseconds>
+        (getTicks()).count();
     // Returns time in H:M:S.uuuuuu
     std::stringstream s;
-    s << microsecs/3600000 << ":" <<
-            microsecs/60000 % 60 << ":" <<
-            (microsecs % 60000)/1000.0;
+    s << millisecs/3600000 << ":" <<
+            millisecs/60000 % 60 << ":" <<
+            (millisecs % 60000)/1000.0;
 
     return s.str();
 }
 
-void Timer::delay(unsigned long millisecs)
+void Timer::delay(std::chrono::steady_clock::duration timeDelay)
 {
-    std::chrono::milliseconds waitTime(millisecs);
-    std::this_thread::sleep_for(waitTime);
+    std::this_thread::sleep_for(timeDelay);
 }
 
 }

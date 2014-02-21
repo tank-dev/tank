@@ -34,7 +34,7 @@ FrameList::FrameList(Image const& i, Vector<unsigned int> frameDims)
 
 void FrameList::add(std::string name,
                     std::vector<unsigned int> const& frames,
-                    unsigned int time)
+                    std::chrono::milliseconds time)
 {
     // TODO: validate arguments
     // Create new Animation
@@ -45,10 +45,10 @@ void FrameList::remove(std::string name)
 {
     // Find the animation by name
     auto iter = std::find_if_not(animations_.begin(), animations_.end(),
-                                 [&name](Animation& anim)
-    {
-        return anim.name == (name);
-    });
+            [&name](Animation& anim)
+            {
+            return anim.name == (name);
+            });
 
     //Remove the animation from the animations list
     if (iter != animations_.end())
@@ -58,7 +58,7 @@ void FrameList::remove(std::string name)
 }
 
 void FrameList::select(std::string name, bool loop,
-                       std::function<void()> callback)
+        std::function<void()> callback)
 {
     //Check that the requested animation is not already playing
     if (not currentAnimation_ || currentAnimation_->name != name)
@@ -167,7 +167,7 @@ void FrameList::setImage(Image const& image, Vector<unsigned int> frameDims)
     image_ = image;
 }
 
-void addWalkingFrameList(FrameList& anim, unsigned int time)
+void addWalkingFrameList(FrameList& anim, std::chrono::milliseconds time)
 {
     unsigned int xFrames = anim.getTextureSize().x / anim.getFrameDimensions().x;
 
