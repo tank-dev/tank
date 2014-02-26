@@ -4,6 +4,7 @@
 //  http://www.boost.org/LICENSE_1_0.txt)
 
 #include <SFML/Graphics/Transformable.hpp>
+#include "Graphic.hpp"
 
 namespace tank {
 
