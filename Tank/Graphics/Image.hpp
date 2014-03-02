@@ -26,6 +26,13 @@ public:
     Image(std::string file);
 
     void load(std::string file);
+    /*!
+     * \brief This loads a texture from memory.
+     *
+     * \param data A pointer to the memory to load the data from.
+     * \param size The size of the section of memory.
+     */
+    void loadFromMemory(const void* data, size_t size);
 
     virtual void setOrigin(Vectorf origin)
     {

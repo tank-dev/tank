@@ -27,6 +27,16 @@ void Image::load(std::string file)
     }
 }
 
+void Image::loadFromMemory(const void* data, size_t size) 
+{
+    if (not loaded_)
+    {
+        texture_.reset(new Texture());
+        texture_->loadFromMemory(data, size);
+        sprite_.setTexture(*texture_);
+    }
+}
+
 void Image::draw(Vectorf parentPos, float parentRot, Camera const& cam)
 {
     /*
