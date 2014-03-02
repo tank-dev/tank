@@ -27,12 +27,12 @@ void Image::load(std::string file)
     }
 }
 
-void Image::loadFromMemory(const void* data, size_t size) 
+void Image::loadFromSfmlImage(const sf::Image& img)
 {
     if (not loaded_)
     {
         texture_.reset(new Texture());
-        texture_->loadFromMemory(data, size);
+        texture_->loadFromImage(img);
         sprite_.setTexture(*texture_);
     }
 }
