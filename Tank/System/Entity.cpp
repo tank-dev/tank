@@ -10,6 +10,7 @@
 #include <algorithm>
 #include <boost/range/algorithm.hpp>
 #include <boost/range/algorithm_ext.hpp>
+#include "Game.hpp"
 #include "World.hpp"
 
 namespace tank {
