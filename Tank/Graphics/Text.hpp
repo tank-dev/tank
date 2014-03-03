@@ -36,15 +36,6 @@ public:
     void setText(std::string s) { text_.setString(s); }
     std::string getText() const { return text_.getString(); }
 
-    virtual void setOrigin(Vectorf o)
-    {
-        text_.setOrigin(o.x,o.y);
-    }
-    virtual Vectorf getOrigin() const
-    {
-        return { text_.getOrigin().x, text_.getOrigin().y };
-    }
-
     virtual Vectorf getSize() const
     {
         return { text_.getLocalBounds().width, text_.getLocalBounds().height };
@@ -54,8 +45,9 @@ public:
         text_.setColor(color);
     }
 
-    virtual void draw(Vectorf parentPos,
-                      float parentRot,
+    virtual void draw(Vectorf parentPos = {},
+                      float parentRot = 0,
+                      Vectorf parentOri = {},
                       Camera const& = Camera()) override;
 };
 

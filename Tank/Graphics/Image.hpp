@@ -27,20 +27,6 @@ public:
 
     void load(std::string file);
 
-    virtual void setOrigin(Vectorf origin)
-    {
-        //auto scale = getScale();//sprite_.getScale();
-        //sprite_.setOrigin({origin.x / scale.x, origin.y / scale.y});
-        sprite_.setOrigin({origin.x, origin.y});
-    }
-    virtual Vectorf getOrigin() const
-    {
-        //auto scale = getScale();// sprite_.getScale();
-        //return {sprite_.getOrigin().x * scale.x, sprite_.getOrigin().y * scale.y};
-        auto origin = sprite_.getOrigin();
-        return { origin.x, origin.y };
-    }
-
     virtual Vectorf getSize() const override
     {
         /*auto rect = getClip();
@@ -91,6 +77,7 @@ public:
 
     virtual void draw(Vectorf parentPos = {},
                       float parentRot = 0,
+                      Vectorf parentOri = {},
                       Camera const& = Camera()) override;
 };
 

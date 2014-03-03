@@ -68,6 +68,13 @@ struct Vector
         };
     }
 
+    Vector rotateAbout(Vector p, double angle) const
+    {
+        Vector ans = *this - p;
+        ans = ans.rotate(angle);
+        return ans + p;
+    }
+
 	/*!
 	 * \brief Gets the signed angle in radians between the current vector and
 	 * the given vector.
@@ -92,6 +99,11 @@ struct Vector
 		// TODO: this can be improved
         const T mag = magnitude();
         return {x/mag, y/mag};
+    }
+
+    Vector normal() const
+    {
+        return {-y, x};
     }
 
     /*!

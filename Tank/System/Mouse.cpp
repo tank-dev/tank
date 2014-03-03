@@ -5,6 +5,8 @@
 
 #include "Mouse.hpp"
 #include "../System/Entity.hpp"
+#include "../System/World.hpp"
+#include "../System/Game.hpp"
 
 namespace tank {
 
@@ -38,7 +40,6 @@ tank::Vectord Mouse::getRelPos(Camera const& c)
     pos += cPos.rotate(cRot);
 
     return pos;
-
 }
 
 tank::Vectori Mouse::delta() { return currentPos_ - lastPos_; }
@@ -50,8 +51,7 @@ bool Mouse::isButtonPressed(Button button)
 
 std::function<bool()> Mouse::ButtonPress(Button button)
 {
-    return [button]
-    {
+    return [button] {
         return isButtonPressed(button);
     };
 }
@@ -63,8 +63,7 @@ bool Mouse::isButtonReleased(Button button)
 
 std::function<bool()> Mouse::ButtonRelease(Button button)
 {
-    return [button]
-    {
+    return [button] {
         return isButtonReleased(button);
     };
 }
@@ -76,8 +75,7 @@ bool Mouse::isButtonDown(Button button)
 
 std::function<bool()> Mouse::ButtonDown(Button button)
 {
-    return [button]
-    {
+    return [button] {
         return isButtonDown(button);
     };
 }
@@ -89,16 +87,14 @@ bool Mouse::isButtonUp(Button button)
 
 std::function<bool()> Mouse::ButtonUp(Button button)
 {
-    return [button]
-    {
+    return [button] {
         return isButtonUp(button);
     };
 }
 
 std::function<bool()> Mouse::MouseMovement()
 {
-    return []
-    {
+    return [] {
         auto dt = delta();
         return dt.x != 0 or dt.y != 0;
     };
@@ -106,31 +102,27 @@ std::function<bool()> Mouse::MouseMovement()
 
 std::function<bool()> Mouse::WheelUp()
 {
-    return []
-    {
+    return [] {
         return wheelDelta() > 0;
     };
 }
 
 std::function<bool()> Mouse::WheelDown()
 {
-    return []
-    {
+    return [] {
         return wheelDelta() < 0;
     };
 }
 std::function<bool()> Mouse::WheelMovement()
 {
-    return []
-    {
+    return [] {
         return wheelDelta() != 0;
     };
 }
 
 std::function<bool()> Mouse::InEntity(Entity const& e)
 {
-    return [&e]
-    {
+    return [&e] {
         auto mPos = getRelPos(e.getWorld()->camera());
         auto ePos = e.getPos();
         auto hb = e.getHitbox();

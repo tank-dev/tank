@@ -42,14 +42,19 @@ Vectorf BitmapText::getSize() const
     return size;
 }
 
-void BitmapText::draw(Vectorf parentPos, float parentRot, Camera const& cam)
+void BitmapText::draw(Vectorf parentPos,
+                      float parentRot,
+                      Vectorf parentOri,
+                      Camera const& cam)
 {
     Vectorf pos = getPos();
     float rot = getRotation();
+    Vectorf ori = getOrigin();
     if(isRelativeToParent())
     {
         pos += parentPos;
         rot += parentRot;
+        ori += parentOri;
     }
 
     for (unsigned int stringIndex = 0; text_[stringIndex] != '\0'; ++stringIndex)
@@ -68,7 +73,7 @@ void BitmapText::draw(Vectorf parentPos, float parentRot, Camera const& cam)
         font_.setClip(clip_);
         font_.setPos(displacement);
 
-        font_.draw(pos, rot, cam);
+        font_.draw(pos, rot, ori, cam);
     }
 }
 

@@ -16,7 +16,6 @@
 #include "../Utility/Vector.hpp"
 #include "Camera.hpp"
 #include "EventHandler.hpp"
-#include "Game.hpp"
 
 namespace tank
 {
@@ -47,6 +46,7 @@ class Entity
 {
     Vectorf pos_;
     float rot_ {};
+    Vectorf origin_ {};
     Rectd hitbox_;
     bool solid_ {false};
     int layer_ {};
@@ -90,7 +90,13 @@ public:
      * \return A list of all colliding entitities of type.
      * \see setType()
      */
-    std::vector<observing_ptr<Entity>> collide(std::vector<std::string> types = std::vector<std::string>{});
+    std::vector<observing_ptr<Entity>>
+        collide(std::vector<std::string> types = std::vector<std::string>{});
+
+    std::vector<observing_ptr<Entity>> collide(std::string type)
+    {
+        return collide(std::vector<std::string>{type});
+    }
 
     /*!
      * \brief Returns the entity's vector position
@@ -112,6 +118,11 @@ public:
         return rot_;
     }
 
+    Vectorf const& getOrigin() const
+    {
+        return origin_;
+    }
+
     /*!
      * \brief Returns the entity's hitbox
      *
@@ -126,6 +137,10 @@ public:
         return hitbox_;
     }
 
+    std::string getType(unsigned i = 0) const
+    {
+        return types_[i];
+    }
     /*!
      * \brief Returns the entity's types
      *
@@ -169,6 +184,8 @@ public:
      */
     std::unique_ptr<Graphic> const& getGraphic(unsigned int i = 0) const;
 
+    void clearGraphics();
+
     /*!
      * \brief Returns an Entity's graphic list
      *
@@ -205,16 +222,6 @@ public:
     }
 
     /*!
-     * \brief Returns the number of entities (deprecated)
-     *
-     * \return The number of entities that have been constructed
-     */
-    static int getNumEnts()
-    {
-        return numEnts_;
-    }
-
-    /*!
      * \brief Sets the entity's position
      *
      * \param pos The position to which to move
@@ -233,6 +240,7 @@ public:
 
     virtual void moveBy(Vectorf displacement);
 
+    virtual void setOrigin(Vectorf origin);
     /*!
      * \brief Sets the entity's rotation
      *
@@ -286,6 +294,16 @@ public:
      */
     template <typename T = tank::Image, typename... Args>
     observing_ptr<T> makeGraphic(Args&&... args);
+
+    void insertGraphic(std::unique_ptr<Graphic>&&);
+
+    void removeGraphic(observing_ptr<Graphic> ptr)
+    {
+        graphics_.erase(std::remove_if(graphics_.begin(), graphics_.end(),
+            [&] (std::unique_ptr<Graphic>& g) {
+                return ptr == g.get();
+            }), graphics_.end());
+    }
 
     /*!
      * \brief Sets the entity's parent world
@@ -363,7 +381,27 @@ public:
             tank::EventHandler::Condition condition,
             tank::EventHandler::Effect effect);
 
+    template <typename T, typename... Args>
+    tank::observing_ptr<tank::EventHandler::Connection> connect(
+            tank::EventHandler::Condition condition,
+            void(T::* effect)(Args...), T* ptr, Args&&... args);
+
+    template <typename T, typename... Args>
+    tank::observing_ptr<tank::EventHandler::Connection> connect(
+            tank::EventHandler::Condition condition,
+            void(T::* effect)(Args...), Args&&... args);
+
     void clearConnections() {connections_.clear();}
+
+    /*!
+     * \brief Returns the number of entities (deprecated)
+     *
+     * \return The number of entities that have been constructed
+     */
+    static int getNumEnts()
+    {
+        return numEnts_;
+    }
 };
 
 template <typename T, typename... Args>
@@ -384,6 +422,22 @@ observing_ptr<T> Entity::makeGraphic(Args&&... args)
 
     graphics_.push_back(std::move(g));
     return ptr;
+}
+
+template <typename T, typename... Args>
+tank::observing_ptr<tank::EventHandler::Connection> Entity::connect(
+        tank::EventHandler::Condition condition,
+        void(T::*effect)(Args...),T* ptr, Args&&... args)
+{
+    return connect(condition, std::bind(effect, ptr,std::forward<Args>(args)...));
+}
+
+template <typename T, typename... Args>
+tank::observing_ptr<tank::EventHandler::Connection> Entity::connect(
+        tank::EventHandler::Condition condition,
+        void(T::* effect)(Args...), Args&&... args)
+{
+    return connect(condition, std::bind(effect, static_cast<T*>(this), std::forward<Args>(args)...));
 }
 
 using EntityPtr = tank::observing_ptr<Entity>;
