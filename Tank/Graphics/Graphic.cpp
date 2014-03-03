@@ -10,18 +10,26 @@ namespace tank {
 void Graphic::transform(Graphic const* g,
                         Vectorf parentPos,
                         float parentRot,
+                        Vectorf parentOri,
                         Camera const& cam,
                         sf::Transformable& t)
 {
     /// Model ///
+
     const auto modelScale = g->getScale();
     auto modelPos = g->getPos();
     auto modelRot = g->getRotation();
+    auto modelOri = g->getOrigin();
+
     if(g->isRelativeToParent())
     {
+        modelPos = modelPos.rotate(parentRot);
         modelPos += parentPos;
         modelRot += parentRot;
+        //modelOri += parentOri;
     }
+
+
 
     /// View ///
     const auto viewScale = cam.getZoom();
@@ -51,6 +59,7 @@ void Graphic::transform(Graphic const* g,
     t.setScale({modelScale.x * viewScale.x, modelScale.y * viewScale.y});
     t.setPosition({modelViewPos.x, modelViewPos.y});
     t.setRotation(modelViewRot);
+    t.setOrigin({modelOri.x, modelOri.y});
 }
 
 } /* tank */

@@ -46,6 +46,7 @@ class Entity
 {
     Vectorf pos_;
     float rot_ {};
+    Vectorf origin_ {};
     Rectd hitbox_;
     bool solid_ {false};
     int layer_ {};
@@ -117,6 +118,11 @@ public:
         return rot_;
     }
 
+    Vectorf const& getOrigin() const
+    {
+        return origin_;
+    }
+
     /*!
      * \brief Returns the entity's hitbox
      *
@@ -178,6 +184,8 @@ public:
      */
     std::unique_ptr<Graphic> const& getGraphic(unsigned int i = 0) const;
 
+    void clearGraphics();
+
     /*!
      * \brief Returns an Entity's graphic list
      *
@@ -214,16 +222,6 @@ public:
     }
 
     /*!
-     * \brief Returns the number of entities (deprecated)
-     *
-     * \return The number of entities that have been constructed
-     */
-    static int getNumEnts()
-    {
-        return numEnts_;
-    }
-
-    /*!
      * \brief Sets the entity's position
      *
      * \param pos The position to which to move
@@ -242,6 +240,7 @@ public:
 
     virtual void moveBy(Vectorf displacement);
 
+    virtual void setOrigin(Vectorf origin);
     /*!
      * \brief Sets the entity's rotation
      *
@@ -295,6 +294,16 @@ public:
      */
     template <typename T = tank::Image, typename... Args>
     observing_ptr<T> makeGraphic(Args&&... args);
+
+    void insertGraphic(std::unique_ptr<Graphic>&&);
+
+    void removeGraphic(observing_ptr<Graphic> ptr)
+    {
+        graphics_.erase(std::remove_if(graphics_.begin(), graphics_.end(),
+            [&] (std::unique_ptr<Graphic>& g) {
+                return ptr == g.get();
+            }), graphics_.end());
+    }
 
     /*!
      * \brief Sets the entity's parent world
@@ -383,6 +392,16 @@ public:
             void(T::* effect)(Args...), Args&&... args);
 
     void clearConnections() {connections_.clear();}
+
+    /*!
+     * \brief Returns the number of entities (deprecated)
+     *
+     * \return The number of entities that have been constructed
+     */
+    static int getNumEnts()
+    {
+        return numEnts_;
+    }
 };
 
 template <typename T, typename... Args>

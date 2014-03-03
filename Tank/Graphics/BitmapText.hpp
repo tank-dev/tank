@@ -21,10 +21,7 @@ class BitmapText final : public Graphic
     char asciiOffset_;
     unsigned int rowWidth_;
     Rectu clip_;
-
-    // TODO: make std::string
     std::string text_ {""};
-    Vectorf origin_;
 
 public:
     BitmapText(Image const& font, Vectoru glyphDimensions,
@@ -70,15 +67,6 @@ public:
      */
     virtual Vectorf getSize() const override;
 
-    virtual void setOrigin(Vectorf origin) override
-    {
-        origin_ = origin;
-    }
-    virtual Vectorf getOrigin() const override
-    {
-        return origin_;
-    }
-
     virtual Vector<unsigned int> getTextureSize() const
     {
         return font_.getTextureSize();
@@ -86,6 +74,7 @@ public:
 
     virtual void draw(Vectorf parentPos = {},
                       float parentRot = 0,
+                      Vectorf parentOri = {},
                       Camera const& = Camera());
 };
 
