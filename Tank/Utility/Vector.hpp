@@ -234,7 +234,7 @@ inline auto operator+ (const Vector<T>& lhs, const U& rhs) ->
 /*!
  * \brief Multiplies a vector by a scalar.
  *
- * \param f The scalar to multiply by.
+ * \param f The scalar to add by.
  *
  * \return The result of the multiplication.
  */
@@ -276,7 +276,7 @@ inline auto operator- (const Vector<T>& lhs, const Vector<U>& rhs) ->
 /*!
  * \brief Multiplies a vector by a scalar.
  *
- * \param f The scalar to multiply by.
+ * \param f The scalar to subract from.
  *
  * \return The result of the multiplication.
  */
