@@ -123,6 +123,22 @@ struct Vector
     }
 
     /*!
+     * \brief Divides the vector by a scalar
+     *
+     * \param f The scalar to divide by.
+     *
+     * \return Returns a referance to itself.
+     */
+    template <typename U>
+    Vector& operator/=(U const& f)
+    {
+        x /= f;
+        y /= f;
+
+        return *this;
+    }
+
+    /*!
      * \brief Adds another vector to the vector.
      *
      * \param vect The vector to add.
