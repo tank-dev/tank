@@ -80,7 +80,8 @@ public:
      * \param pos Position at which to draw the texture.
      */
     void draw(Vectorf parentPos = {},
-              float parentRot = 0, 
+              float parentRot = 0,
+              Vectorf parentOri = {},
               Camera const& = Camera()) override;
 
     /*!

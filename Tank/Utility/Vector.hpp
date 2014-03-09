@@ -68,6 +68,13 @@ struct Vector
         };
     }
 
+    Vector rotateAbout(Vector p, double angle) const
+    {
+        Vector ans = *this - p;
+        ans = ans.rotate(angle);
+        return ans + p;
+    }
+
 	/*!
 	 * \brief Gets the signed angle in radians between the current vector and
 	 * the given vector.
@@ -94,6 +101,11 @@ struct Vector
         return {x/mag, y/mag};
     }
 
+    Vector normal() const
+    {
+        return {-y, x};
+    }
+
     /*!
      * \brief Multiplies the vector with a scalar
      *
@@ -106,6 +118,22 @@ struct Vector
     {
         x *= f;
         y *= f;
+
+        return *this;
+    }
+
+    /*!
+     * \brief Divides the vector by a scalar
+     *
+     * \param f The scalar to divide by.
+     *
+     * \return Returns a referance to itself.
+     */
+    template <typename U>
+    Vector& operator/=(U const& f)
+    {
+        x /= f;
+        y /= f;
 
         return *this;
     }
@@ -204,6 +232,20 @@ inline auto operator+ (const Vector<T>& lhs, const U& rhs) ->
 }
 
 /*!
+ * \brief Multiplies a vector by a scalar.
+ *
+ * \param f The scalar to add by.
+ *
+ * \return The result of the multiplication.
+ */
+template <typename T, typename U>
+inline auto operator+ (const T& lhs, const Vector<U>& rhs) ->
+                                                Vector<decltype(lhs + rhs.x)>
+{
+    return {lhs + rhs.x, lhs + rhs.y};
+}
+
+/*!
  * \brief Subtacts a vector from another.
  *
  * \param b The vector to subtract.
@@ -234,6 +276,20 @@ inline auto operator- (const Vector<T>& lhs, const Vector<U>& rhs) ->
 /*!
  * \brief Multiplies a vector by a scalar.
  *
+ * \param f The scalar to subract from.
+ *
+ * \return The result of the multiplication.
+ */
+template <typename T, typename U>
+inline auto operator- (const T& lhs, const Vector<U>& rhs) ->
+                                                Vector<decltype(lhs - rhs.x)>
+{
+    return {lhs - rhs.x, lhs - rhs.y};
+}
+
+/*!
+ * \brief Multiplies a vector by a scalar.
+ *
  * \param f The scalar to multiply by.
  *
  * \return The result of the multiplication.
@@ -243,6 +299,20 @@ inline auto operator* (const Vector<T>& lhs, const U& rhs) ->
                                                 Vector<decltype(lhs.x * rhs)>
 {
     return {lhs.x * rhs, lhs.y * rhs};
+}
+
+/*!
+ * \brief Multiplies a vector by a scalar.
+ *
+ * \param f The scalar to multiply by.
+ *
+ * \return The result of the multiplication.
+ */
+template <typename T, typename U>
+inline auto operator* (const T& lhs, const Vector<U>& rhs) ->
+                                                Vector<decltype(lhs * rhs.x)>
+{
+    return {lhs * rhs.x, lhs * rhs.y};
 }
 
 template <typename T, typename U>

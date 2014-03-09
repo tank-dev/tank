@@ -37,7 +37,10 @@ void Image::loadFromSfmlImage(const sf::Image& img)
     }
 }
 
-void Image::draw(Vectorf parentPos, float parentRot, Camera const& cam)
+void Image::draw(Vectorf parentPos,
+                 float parentRot,
+                 Vectorf parentOri,
+                 Camera const& cam)
 {
     /*
     /// Model ///
@@ -83,7 +86,7 @@ void Image::draw(Vectorf parentPos, float parentRot, Camera const& cam)
     */
 
 
-    Graphic::transform(this, parentPos,parentRot, cam, sprite_);
+    Graphic::transform(this, parentPos,parentRot, parentOri, cam, sprite_);
     Game::window()->SFMLWindow().draw(sprite_);
 
     //setScale(modelScale);
