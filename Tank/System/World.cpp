@@ -25,7 +25,7 @@ World::~World()
 
 void World::insertEntity(std::unique_ptr<Entity>&& entity)
 {
-    if (not entity)
+    if (!entity)
     {
         Game::log << "Warning: You can't add a null entity." << std::endl;
         return;
@@ -51,13 +51,13 @@ void World::insertEntity(std::unique_ptr<Entity>&& entity)
 
 void World::moveEntity(observing_ptr<World> world, observing_ptr<Entity> entity)
 {
-    if (not entity)
+    if (!entity)
     {
         Game::log << "Warning: attempted to move null entity." << std::endl;
         return;
     }
 
-    if (not world)
+    if (!world)
     {
         Game::log << "Warning: attempted to move entity to null world."
                   << std::endl;
@@ -72,7 +72,7 @@ void World::moveEntity(observing_ptr<World> world, observing_ptr<Entity> entity)
 
     toMove_.emplace_back(world, entity);
 
-    if(not updating_)
+    if(!updating_)
     {
         moveEntities();
     }
@@ -136,14 +136,14 @@ void World::addEntities()
 
 void World::moveEntities()
 {
-    while (not toMove_.empty())
+    while (!toMove_.empty())
     {
         observing_ptr<World> world = std::get<0>(toMove_.back());
         observing_ptr<Entity> entity = std::get<1>(toMove_.back());
         toMove_.pop_back();
 
         std::unique_ptr<Entity> entPtr = releaseEntity(entity);
-        if (not entPtr.get())
+        if (!entPtr.get())
         {
             Game::log << "Entity not found in move operation" << std::endl;
             continue;

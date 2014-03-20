@@ -59,7 +59,7 @@ struct Vector
 
     Vector rotate(double angle) const
     {
-        constexpr float toRad = 3.14159265 / 180;
+        const float toRad = 3.14159265f / 180;
         angle *= toRad;
 
         return {
@@ -332,7 +332,7 @@ inline auto operator/ (const Vector<T>& lhs, const U& rhs) ->
 template <typename T, typename U>
 inline bool operator== (const Vector<T>& lhs, const Vector<U>& rhs)
 {
-    return lhs.x == rhs.x and lhs.y == rhs.y;
+    return lhs.x == rhs.x && lhs.y == rhs.y;
 }
 
 /*!

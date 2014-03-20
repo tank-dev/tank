@@ -46,7 +46,7 @@ class Entity
 {
     Vectorf pos_;
     float rot_ {};
-    Vectorf origin_ {};
+    Vectorf origin_;
     Rectd hitbox_;
     bool solid_ {false};
     int layer_ {};
@@ -414,7 +414,7 @@ observing_ptr<T> Entity::makeGraphic(Args&&... args)
     observing_ptr<T> ptr {g};
 
     // If no hitbox, set to image bounds
-    if (getHitbox() == Rectd() and getGraphicList().empty())
+    if (getHitbox() == Rectd() && getGraphicList().empty())
     {
         auto hb = g->getSize();
         setHitbox(Rectd(0, 0, hb.x, hb.y));

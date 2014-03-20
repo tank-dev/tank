@@ -46,7 +46,7 @@ tank::Vectori Mouse::delta() { return currentPos_ - lastPos_; }
 
 bool Mouse::isButtonPressed(Button button)
 {
-    return currentState_[button] and not lastState_[button];
+    return currentState_[button] && !lastState_[button];
 }
 
 std::function<bool()> Mouse::ButtonPress(Button button)
@@ -58,7 +58,7 @@ std::function<bool()> Mouse::ButtonPress(Button button)
 
 bool Mouse::isButtonReleased(Button button)
 {
-    return lastState_[button] and not currentState_[button];
+    return lastState_[button] && !currentState_[button];
 }
 
 std::function<bool()> Mouse::ButtonRelease(Button button)
@@ -82,7 +82,7 @@ std::function<bool()> Mouse::ButtonDown(Button button)
 
 bool Mouse::isButtonUp(Button button)
 {
-    return not currentState_[button];
+    return !currentState_[button];
 }
 
 std::function<bool()> Mouse::ButtonUp(Button button)
@@ -96,7 +96,7 @@ std::function<bool()> Mouse::MouseMovement()
 {
     return [] {
         auto dt = delta();
-        return dt.x != 0 or dt.y != 0;
+        return dt.x != 0 || dt.y != 0;
     };
 }
 
@@ -131,8 +131,8 @@ std::function<bool()> Mouse::InEntity(Entity const& e)
         hb.y += ePos.y;
         hb.h += ePos.y;
 
-        return mPos.x > hb.x and mPos.x < hb.w and
-               mPos.y > hb.y and mPos.y < hb.h;
+        return mPos.x > hb.x && mPos.x < hb.w &&
+               mPos.y > hb.y && mPos.y < hb.h;
     };
 }
 
@@ -174,7 +174,7 @@ void Mouse::setEntered()
 
 void Mouse::reset()
 {
-    if (not stateChange_) return;
+    if (!stateChange_) return;
 
     std::copy(currentState_.begin(), currentState_.end(), lastState_.begin());
 

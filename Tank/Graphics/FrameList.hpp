@@ -114,7 +114,7 @@ public:
     }
     std::string currentAnimation()
     {
-        if (not playing())
+        if (!playing())
         {
             return "";
         }

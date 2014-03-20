@@ -19,7 +19,7 @@ Image::Image(std::string file)
 
 void Image::load(std::string file)
 {
-    if (not loaded_)
+    if (!loaded_)
     {
         texture_.reset(new Texture());
         texture_->loadFromFile(file);

@@ -33,10 +33,10 @@ class Controller
     friend class Controllers;
     bool connectedState_ , connectedLast_;
     unsigned id_;
-    std::array<double, sf::Joystick::AxisCount> axisStates_ {};
-    std::array<double, sf::Joystick::AxisCount> axisLast_ {};
-    std::array<bool, sf::Joystick::ButtonCount> buttonStates_ {};
-    std::array<bool, sf::Joystick::ButtonCount> buttonLast_ {};
+    std::array<double, sf::Joystick::AxisCount> axisStates_;
+    std::array<double, sf::Joystick::AxisCount> axisLast_;
+    std::array<bool, sf::Joystick::ButtonCount> buttonStates_;
+    std::array<bool, sf::Joystick::ButtonCount> buttonLast_;
 
 public:
     enum class Button;

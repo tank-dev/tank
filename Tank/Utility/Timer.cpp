@@ -26,7 +26,7 @@ void Timer::stop()
 
 void Timer::pause()
 {
-    if (started_ && not paused_)
+    if (started_ && !paused_)
     {
         pausedTick_ = std::chrono::steady_clock::now() - startTick_;
         paused_ = true;
@@ -54,7 +54,7 @@ bool Timer::isPaused() const
 
 std::chrono::steady_clock::duration Timer::getTicks() const
 {
-    if (not started_)
+    if (!started_)
     {
         return std::chrono::steady_clock::duration::zero();
     }

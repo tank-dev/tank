@@ -31,7 +31,7 @@ std::unique_ptr<World> Game::newWorld_ {nullptr};
 //TODO Handle errors with exceptions
 bool Game::initialize(Vector<unsigned int> const& wSize, int fps)
 {
-    if (not initialized_)
+    if (!initialized_)
     {
         initialized_ = true;
 

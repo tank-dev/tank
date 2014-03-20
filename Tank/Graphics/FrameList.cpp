@@ -47,7 +47,7 @@ void FrameList::select(std::string name, bool loop,
         std::function<void()> callback)
 {
     //Check that the requested animation is not already playing
-    if (not currentAnimation_ || currentAnimation_->name != name)
+    if (!currentAnimation_ || currentAnimation_->name != name)
     {
         //search for the name requested
         for (auto& anim : animations_)
@@ -88,7 +88,7 @@ void FrameList::refresh()
                 callback_();
 
                 //If the animation doesn't loop, stop it
-                if (not loop_)
+                if (!loop_)
                 {
                     //Reset all properties (callback, timer, currentFrame, etc)
                     stop();
@@ -110,7 +110,7 @@ void FrameList::refresh()
 
 void FrameList::start()
 {
-    if (not animTimer_.isStarted())
+    if (!animTimer_.isStarted())
     {
         animTimer_.start();
     }
@@ -123,7 +123,7 @@ void FrameList::pause()
 
 void FrameList::resume()
 {
-    if (animTimer_.isPaused() and currentAnimation_ != nullptr)
+    if (animTimer_.isPaused() && currentAnimation_ != nullptr)
     {
         animTimer_.resume();
     }

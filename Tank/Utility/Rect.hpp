@@ -52,8 +52,8 @@ struct Rect
 template <typename T, typename U>
 inline bool operator== (const Rect<T>& lhs, const Rect<U>& rhs)
 {
-    return lhs.x == rhs.x and lhs.y == rhs.y and
-           lhs.w == rhs.w and lhs.h == rhs.h;
+    return lhs.x == rhs.x && lhs.y == rhs.y &&
+           lhs.w == rhs.w && lhs.h == rhs.h;
 }
 
 template <typename T, typename U>

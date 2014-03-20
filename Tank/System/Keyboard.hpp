@@ -29,7 +29,7 @@ public:
 
     static std::function<bool()> KeyUp(Key key) {
         return [key]() {
-            return not isKeyDown(key);
+            return !isKeyDown(key);
         };
     }
 
@@ -52,17 +52,17 @@ public:
 
     static bool isKeyUp(Key key)
     {
-        return not isKeyDown(key);
+        return !isKeyDown(key);
     }
 
     static bool isKeyPressed(Key key)
     {
-        return stateChange_ and currentState_[key] and not lastState_[key];
+        return stateChange_ && currentState_[key] && !lastState_[key];
     }
 
     static bool isKeyReleased(Key key)
     {
-        return stateChange_ and not currentState_[key] and lastState_[key];
+        return stateChange_ && !currentState_[key] && lastState_[key];
     }
 
 private:

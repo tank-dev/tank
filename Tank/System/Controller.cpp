@@ -95,7 +95,7 @@ void Controller::reset()
 
 bool Controller::buttonPressed(unsigned button) const
 {
-    return buttonStates_[button] and not buttonLast_[button];
+    return buttonStates_[button] && !buttonLast_[button];
 }
 bool Controller::buttonPressed(Button button) const
 {
@@ -114,7 +114,7 @@ std::function<bool()> Controller::ButtonPress(Button button) const
 
 bool Controller::buttonReleased(unsigned button) const
 {
-    return buttonLast_[button] and not buttonStates_[button];
+    return buttonLast_[button] && !buttonStates_[button];
 }
 bool Controller::buttonReleased(Button button) const
 {
@@ -152,7 +152,7 @@ std::function<bool()> Controller::ButtonDown(Button button) const
 
 bool Controller::buttonUp(unsigned button) const
 {
-    return not buttonDown(button);
+    return !buttonDown(button);
 }
 bool Controller::buttonUp(Button button) const
 {
@@ -183,13 +183,13 @@ std::function<bool()> Controller::AxisMoved(Axis axis, double threshold) const
 std::function<bool()> Controller::Connected() const
 {
     return [&] {
-        return connectedState_ and not connectedLast_;
+        return connectedState_ && !connectedLast_;
     };
 }
 std::function<bool()> Controller::Disconnected() const
 {
     return [&] {
-        return connectedLast_ and not connectedState_;
+        return connectedLast_ && !connectedState_;
     };
 }
 

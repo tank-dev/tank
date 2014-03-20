@@ -40,13 +40,13 @@ std::vector<observing_ptr<Entity>> Entity::collide(std::vector<std::string> colT
 
     for (auto& unique : orig)
     {
-        if (not unique->getTypes().empty())
+        if (!unique->getTypes().empty())
         {
             ents.emplace_back(unique);
         }
     }
 
-    if (not colTypes.empty())
+    if (!colTypes.empty())
     {
         ents.erase(std::remove_if(ents.begin(), ents.end(),
             [&colTypes](observing_ptr<Entity> const& ent) {
@@ -73,8 +73,8 @@ std::vector<observing_ptr<Entity>> Entity::collide(std::vector<std::string> colT
             const double bottomA = topA + A.h;
             const double bottomB = topB + B.h;
 
-            if (leftA > rightB or topA > bottomB or
-                rightA < leftB or bottomA < topB)
+            if (leftA > rightB || topA > bottomB ||
+                rightA < leftB || bottomA < topB)
             {
                 continue;
             }
@@ -97,7 +97,7 @@ std::unique_ptr<Graphic> const& Entity::getGraphic(unsigned int i) const
 
 void Entity::insertGraphic(std::unique_ptr<Graphic>&& graphic)
 {
-    if (not graphic)
+    if (!graphic)
     {
         Game::log << "Warning: You can't add a null graphic." << std::endl;
         return;
@@ -117,7 +117,7 @@ void Entity::insertGraphic(std::unique_ptr<Graphic>&& graphic)
     }
 
     // If no hitbox, set to image bounds
-    if (getHitbox() == Rectd() and getGraphicList().empty())
+    if (getHitbox() == Rectd() && getGraphicList().empty())
     {
         auto hb = graphic->getSize();
         setHitbox(Rectd(0, 0, hb.x, hb.y));

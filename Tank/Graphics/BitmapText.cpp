@@ -34,7 +34,7 @@ Vectorf BitmapText::getGlyphSize() const
 
 Vectorf BitmapText::getSize() const
 {
-    int nChars = text_.size();
+    auto nChars = text_.size();
 
     auto size = getGlyphSize();
     size.x *= nChars;
@@ -64,8 +64,8 @@ void BitmapText::draw(Vectorf parentPos,
         clip_.x = (clipIndex % rowWidth_) * glyphDims_.x;
         clip_.y = (clipIndex / rowWidth_) * glyphDims_.y;
 
-        const float rads = 3.14159265 * rot / 180.f;
-        const float distance = stringIndex * glyphDims_.x;
+        const float rads = 3.14159265f * rot / 180.f;
+        const unsigned distance = stringIndex * glyphDims_.x;
         Vectorf displacement;
         displacement.x = distance * std::cos(rads);
         displacement.y = distance * std::sin(rads);
