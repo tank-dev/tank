@@ -151,29 +151,7 @@ void FrameList::draw(Vectorf parentPos,
     Image::draw(parentPos, parentRot, parentOri, cam);
 }
 
-void addWalkingFrameList(FrameList& anim, std::chrono::milliseconds time)
-{
-    unsigned int xFrames = anim.getTextureSize().x / anim.getFrameDimensions().x;
-
-    std::vector<unsigned int> up;
-    std::vector<unsigned int> right;
-    std::vector<unsigned int> down;
-    std::vector<unsigned int> left;
-
-    for (unsigned int i = 0; i < xFrames; ++i)
-    {
-        up.push_back(i);
-        right.push_back(i + xFrames);
-        down.push_back(i + xFrames * 2);
-        left.push_back(i + xFrames * 3);
-    }
-    anim.add("walk_up", up, time);
-    anim.add("walk_right", right, time);
-    anim.add("walk_down", down, time);
-    anim.add("walk_left", left, time);
-}
-
-void Image::setClip(Vectoru dimensions, unsigned int index, Rectu clip)
+void FrameList::setClip(Vectoru dimensions, unsigned int index, Rectu clip)
 {
     // TODO: This needs testing with rectangular dimensions
     Rectu new_clip = { 0, 0, dimensions.x, dimensions.y };
@@ -194,6 +172,28 @@ void Image::setClip(Vectoru dimensions, unsigned int index, Rectu clip)
     }
 
     setClip(clip);
+}
+
+void addWalkingFrameList(FrameList& anim, std::chrono::milliseconds time)
+{
+    unsigned int xFrames = anim.getTextureSize().x / anim.getFrameDimensions().x;
+
+    std::vector<unsigned int> up;
+    std::vector<unsigned int> right;
+    std::vector<unsigned int> down;
+    std::vector<unsigned int> left;
+
+    for (unsigned int i = 0; i < xFrames; ++i)
+    {
+        up.push_back(i);
+        right.push_back(i + xFrames);
+        down.push_back(i + xFrames * 2);
+        left.push_back(i + xFrames * 3);
+    }
+    anim.add("walk_up", up, time);
+    anim.add("walk_right", right, time);
+    anim.add("walk_down", down, time);
+    anim.add("walk_left", left, time);
 }
 
 }
