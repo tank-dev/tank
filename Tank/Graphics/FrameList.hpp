@@ -37,6 +37,9 @@ class FrameList final : public Graphic
     Timer animTimer_;
     bool loop_ {false};
     Vectoru frameDimensions_ {0, 0};
+    /*!
+     * \brief This is called when an animation finishes
+     */
     std::function<void()> callback_ = []{};
     std::vector<Animation>  animations_;
 
@@ -62,8 +65,20 @@ public:
     void add(std::string name, const std::vector<unsigned int>& frames,
              std::chrono::milliseconds frameTime);
 
+    /*!
+     * \brief Removes an animation.
+     *
+     * \param name Animation to remove.
+     */
     void remove(std::string name);
 
+    /*!
+     * \brief Selects an animation to play
+     *
+     * \param name Animation to play.
+     * \param loop If the animation should loop, defaults to true.
+     * \param callback A function to be called when the animation finishes.
+     */
     void select(std::string name, bool loop = true,
                 std::function<void()> callback = []{});
 
