@@ -47,10 +47,10 @@ public:
     FrameList() = default;
     /*!
      * \brief Construct an Animation with a Texture.
-     * \param t Image to give the animation.
+     * \param file the file to load the texture from.
      * \param frameDims size of each image in the Texture.
      */
-    FrameList(Image const&, Vector<unsigned int> frameDimensions);
+    FrameList(std::string file, Vector<unsigned int> frameDimensions);
 
     /*!
      * \brief Add an animation
