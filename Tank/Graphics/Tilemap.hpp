@@ -3,8 +3,8 @@
 // (See accompanying file LICENSE_1_0.txt or copy at
 //  http://www.boost.org/LICENSE_1_0.txt)
 
-#ifndef TANK_FRAMELIST_HPP
-#define TANK_FRAMELIST_HPP
+#ifndef TANK_TILEMAP_HPP
+#define TANK_TILEMAP_HPP
 
 #include <string>
 #include <vector>
@@ -125,4 +125,4 @@ public:
 
 } // tank
 
-#endif /* TANK_FRAMELIST_HPP */
+#endif /* TANK_TILEMAP_HPP */
