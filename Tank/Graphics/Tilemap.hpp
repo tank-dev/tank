@@ -13,7 +13,6 @@
 #include "Image.hpp"
 #include "../Utility/Vector.hpp"
 #include "../Utility/Rect.hpp"
-#include "../Utility/Timer.hpp"
 
 namespace tank
 {
