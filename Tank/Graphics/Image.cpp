@@ -109,7 +109,7 @@ void Image::setClip(Vectoru dimensions, unsigned int index, Rectu clip)
         new_clip.h = clip.h;
     }
 
-    setClip(clip);
+    Image::setClip(new_clip); // This needs to use the uninherited version
 }
 
 }
