@@ -19,6 +19,7 @@ class observing_ptr
 	T* p_ = nullptr;
 public:
     observing_ptr() = default;
+    observing_ptr(T& x) : p_(&x) {}
 
     template <typename U>
     observing_ptr(const std::unique_ptr<U>& ptr) : p_{ptr.get()} {}

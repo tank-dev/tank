@@ -21,6 +21,7 @@ class Graphic
 {
     Vectorf pos_;
     float rot_ {0.f};
+    Vectorf origin_;
     Vectorf scale_ {1.f, 1.f};
     bool relativeToParent_ {true};
     bool visible_ {true};
@@ -82,18 +83,31 @@ public:
 
     virtual Vectorf getSize() const = 0;
 
-    virtual void setOrigin(Vectorf) = 0;
-    virtual Vectorf getOrigin() const = 0;
+    virtual void setOrigin(Vectorf o)
+    {
+        origin_ = o;
+    }
+    virtual Vectorf getOrigin() const
+    {
+        return origin_;
+    }
 
-    // Make const?
+    void centreOrigin()
+    {
+        setOrigin(getSize()/2);
+    }
+
+    // TODO: Make const
     virtual void draw(Vectorf parentPos = {},
                       float parentRot = 0,
+                      Vectorf parentOri = {},
                       Camera const& = Camera()) = 0;
 
 protected:
     static void transform(Graphic const* g,
                           Vectorf parentPos,
                           float parentRot,
+                          Vectorf parentOri,
                           Camera const& cam,
                           sf::Transformable& t);
 };

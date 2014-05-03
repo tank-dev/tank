@@ -50,12 +50,14 @@ Vectorf RectangleShape::getSize() const
     return {rect.width, rect.height};
 }
 
-void RectangleShape::draw(tank::Vectorf parentPos,
+void RectangleShape::draw(Vectorf parentPos,
                           float parentRot,
-                          tank::Camera const& cam)
+                          Vectorf parentOri,
+                          Camera const& cam)
 {
-    Graphic::transform(this, parentPos, parentRot, cam, rectangleShape_);
-    tank::Game::window()->SFMLWindow().draw(rectangleShape_);
+    Graphic::transform(this, parentPos, parentRot, parentOri,
+                       cam, rectangleShape_);
+    Game::window()->SFMLWindow().draw(rectangleShape_);
 }
 
 

@@ -5,11 +5,14 @@
 
 #include "Text.hpp"
 
+#include "../System/Game.hpp"
+
 namespace tank
 {
-void Text::draw(Vectorf parentPos, float parentRot, Camera const& cam)
+void Text::draw(Vectorf parentPos, float parentRot, Vectorf parentOri,
+                Camera const& cam)
 {
-    Graphic::transform(this, parentPos, parentRot, cam, text_);
+    Graphic::transform(this, parentPos, parentRot, parentOri, cam, text_);
     Game::window()->SFMLWindow().draw(text_);
 }
 }
