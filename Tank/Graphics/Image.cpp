@@ -89,19 +89,27 @@ void Image::setSize(Vectorf size)
                      static_cast<float>(size.y/getClip().h));
 }
 
-void Image::setClip(Vectoru dimensions, unsigned int index)
+void Image::setClip(Vectoru dimensions, unsigned int index, Rectu clip)
 {
     // TODO: This needs testing with rectangular dimensions
-    Rectu clip = { 0, 0, dimensions.x, dimensions.y };
+    Rectu new_clip = { 0, 0, dimensions.x, dimensions.y };
 
     const auto textureSize = getTextureSize();
     Vectoru usefulSize = {textureSize.x - (textureSize.x % dimensions.x),
                           textureSize.y - (textureSize.y % dimensions.y)};
 
-    clip.x = (dimensions.x * index) % usefulSize.x;
-    clip.y = dimensions.y * ((dimensions.x * index) / usefulSize.x);
+    new_clip.x = (dimensions.x * index) % usefulSize.x;
+    new_clip.y = dimensions.y * ((dimensions.x * index) / usefulSize.x);
 
-    setClip(clip);
+    if (clip != Rectu{0,0,0,0})
+    {
+        new_clip.x += clip.x;
+        new_clip.y += clip.y;
+        new_clip.w = clip.w;
+        new_clip.h = clip.h;
+    }
+
+    Image::setClip(new_clip); // This needs to use the uninherited version
 }
 
 }
