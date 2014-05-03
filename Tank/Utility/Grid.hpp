@@ -15,6 +15,9 @@
 namespace tank
 {
 
+/*!
+ * /brief This store a grid
+ */
 template<typename T>
 class Grid
 {
