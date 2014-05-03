@@ -7,12 +7,12 @@
 #define TANK_TILEMAP_HPP
 
 #include <string>
-#include <vector>
 #include <functional>
 #include "Graphic.hpp"
 #include "Image.hpp"
 #include "../Utility/Vector.hpp"
 #include "../Utility/Rect.hpp"
+#include "../Utility/Grid.hpp"
 
 namespace tank
 {
@@ -23,38 +23,6 @@ namespace tank
  */
 class Tilemap final : public Image
 {
-    template<typename T>
-    class Grid
-    {
-        std::vector<T> data;
-        Vectoru dimensions;
-
-    public:
-        Grid(const Vectoru& dims);
-        Grid(const Vectoru& dims, T intialValue);
-
-        T& operator[](const Vectoru& location);
-        const T& operator[](const Vectoru& location) const;
-
-        T& at(const Vectoru& location);
-        const T& at(const Vectoru& location) const;
-
-        unsigned getWidth() const
-        {
-            return dimensions.x;
-        }
-
-        unsigned getHeight() const
-        {
-            return dimensions.y;
-        }
-
-        const Vectoru& getDimensions() const
-        {
-            return dimensions;
-        }
-    };
-
     Vectoru frameDimensions_ {0, 0};
     Rectu clipRect_ {0,0,0,0};
     Grid<unsigned> tiles_;
