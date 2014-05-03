@@ -47,6 +47,8 @@ public:
     }
 
     void setLine(const Vectoru& start, const Vectoru& end, T value);
+    void fillBox(const Vectoru& start, const Vectoru& end, T value);
+    void outlineBox(const Vectoru& start, const Vectoru& end, T value);
 };
 
 template<typename T>
@@ -124,6 +126,39 @@ void Grid<T>::setLine(const Vectoru& start, const Vectoru& end, T value)
             pos.y += offset.y;
         }
         operator[](pos) = value;
+    }
+}
+
+template<typename T>
+void Grid<T>::fillBox(const Vectoru& start, const Vectoru& end, T value)
+{
+    Vectoru topLeft{std::min(start.x, end.x), std::min(start.y, end.y)};
+    Vectoru bottomRight{std::max(start.x, end.x), std::max(start.y, end.y)};
+
+    for (unsigned i = topLeft.x; i <= bottomRight.x; ++i)
+    {
+        for (unsigned j = topLeft.y; j <= bottomRight.y; ++j)
+        {
+            operator[](Vectoru{i,j}) = value;
+        }
+    }
+}
+
+template<typename T>
+void Grid<T>::outlineBox(const Vectoru& start, const Vectoru& end, T value)
+{
+    Vectoru topLeft{std::min(start.x, end.x), std::min(start.y, end.y)};
+    Vectoru bottomRight{std::max(start.x, end.x), std::max(start.y, end.y)};
+
+    for (unsigned i = topLeft.x; i <= bottomRight.x; ++i)
+    {
+        operator[](Vectoru{i,topLeft.y}) = value;
+        operator[](Vectoru{i,bottomRight.y}) = value;
+    }
+    for (unsigned j = topLeft.y; j <= bottomRight.y; ++j)
+    {
+        operator[](Vectoru{topLeft.x,j}) = value;
+        operator[](Vectoru{bottomRight.x,j}) = value;
     }
 }
 

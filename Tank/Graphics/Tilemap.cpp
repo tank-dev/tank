@@ -76,9 +76,4 @@ void Tilemap::setClip(Vectoru dimensions, unsigned int index, Rectu clip)
     setClip(clip);
 }
 
-void Tilemap::setLine(const Vectoru& start, const Vectoru& end, unsigned value)
-{
-    tiles_.setLine(start, end, value);
-}
-
 }

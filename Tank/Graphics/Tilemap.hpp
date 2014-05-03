@@ -87,7 +87,18 @@ public:
         return clipRect_;
     }
 
-    void setLine(const Vectoru& start, const Vectoru& end, unsigned value);
+    void setLine(const Vectoru& start, const Vectoru& end, unsigned value)
+    {
+        tiles_.setLine(start,end,value);
+    }
+    void fillBox(const Vectoru& start, const Vectoru& end, unsigned value)
+    {
+        tiles_.fillBox(start,end,value);
+    }
+    void outlineBox(const Vectoru& start, const Vectoru& end, unsigned value)
+    {
+        tiles_.outlineBox(start,end,value);
+    }
 };
 
 } // tank
