@@ -87,6 +87,8 @@ public:
         return clipRect_;
     }
 
+    void getTile(const Vectoru& worldCoords);
+
     /*!
      * \brief This sets a line in the Tilemap
      *

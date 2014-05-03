@@ -83,6 +83,12 @@ public:
 
     virtual Vectorf getSize() const = 0;
 
+    Vectorf graphicFromParentCoords(const Vectorf& parentCoords)
+    {
+        return (parentCoords - getOrigin()).rotate(-getRotation())
+            / getScale();
+    }
+
     virtual void setOrigin(Vectorf o)
     {
         origin_ = o;

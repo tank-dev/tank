@@ -152,6 +152,11 @@ public:
         return camera_;
     }
 
+    Vectorf worldFromScreenCoords(Vectorf const& screenCoords)
+    {
+        return camera().worldFromScreenCoords(screenCoords);
+    }
+
     /*!
      * \brief Get the list of entities
      *

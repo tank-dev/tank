@@ -77,7 +77,7 @@ public:
      * \brief Render the entity
      *
      * Render the entity for the current frame
-     * \param render The Render instance with which to render the entity
+     * \param cam The camera to draw relative to
      */
     virtual void draw(Camera const&);
 
@@ -116,6 +116,18 @@ public:
     float getRotation() const
     {
         return rot_;
+    }
+
+    /*!
+     * \brief Gets the local coordinates for the inputed world coordinates
+     *
+     * \param worldCoords The world coordinates to get the local coordinates of
+     *
+     * \return The local coordinates.
+     */
+    Vectorf localFromWorldCoords(Vectorf const& worldCoords)
+    {
+        return (worldCoords - getOrigin()).rotate(-getRotation());
     }
 
     Vectorf const& getOrigin() const

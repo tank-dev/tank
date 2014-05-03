@@ -30,10 +30,16 @@ public:
     void setZoom(float z) { zoom_.x = z; zoom_.y = z; }
     void setZoom(Vectorf z) { zoom_ = z; }
 
+    Vectorf worldFromScreenCoords(Vectorf const& screenCoords)
+    {
+        return (screenCoords - getOrigin()).rotate(-getRotation())
+            / getZoom();
+    }
+
     Camera();
 private:
 };
 
 } /* tank */
 
-#endif /* TANK_CA<ERA_HPP */
+#endif /* TANK_CAMERA_HPP */
