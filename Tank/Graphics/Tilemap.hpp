@@ -57,9 +57,20 @@ public:
     void setFrameDimensions(Vectoru frameDims)
     {
         frameDimensions_ = frameDims;
+        clipRect_ = {0,0,frameDims.x,frameDims.y};
     }
 
     Vectoru getFrameDimensions() const { return frameDimensions_; }
+    Vectoru getTileDimensions() const
+    {
+        return {clipRect_.w, clipRect_.h};
+    }
+
+    virtual Vectorf getSize() const override
+    {
+        Vectorf size = Image::getSize();
+        return {size.x * tiles_.getWidth(), size.y * tiles_.getHeight()};
+    }
 
     /*!
      * \brief This sets the clip rectangle by tiling the region and selecting
@@ -87,7 +98,17 @@ public:
         return clipRect_;
     }
 
-    void getTile(const Vectoru& worldCoords);
+    /*!
+     * \brief This gets the tile position from the local coordinates.
+     *
+     * It fail silently, so don't forget to check that the point is within the
+     * bounds of the shape using checkWithin.
+     *
+     * \param localCoords The point to convert into tile coordinates.
+     *
+     * \return The tile coordinates of the specified point.
+     */
+    Vectoru getTile(const Vectorf& localCoords);
 
     /*!
      * \brief This sets a line in the Tilemap

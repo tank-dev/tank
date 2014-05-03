@@ -6,6 +6,7 @@
 #include "Tilemap.hpp"
 
 #include <algorithm>
+#include <stdexcept>
 
 namespace tank
 {
@@ -14,10 +15,10 @@ Tilemap::Tilemap(std::string file, Vector<unsigned> gridDims,
                  Vector<unsigned int> frameDims)
     : Image(file)
     , frameDimensions_(frameDims)
+    , clipRect_{0,0,frameDims.x,frameDims.y}
     , tiles_(gridDims)
 {
     Image::setClip({0,0,frameDims.x, frameDims.y});
-    //image_.setSize(frameDims);
 }
 
 void Tilemap::draw(Vectorf parentPos,
@@ -26,16 +27,7 @@ void Tilemap::draw(Vectorf parentPos,
                      Camera const& cam)
 {
     auto originalPos = getPos();
-    Vectoru dims;
-    // Get the dimensions of the draw area
-    if (clipRect_ == Rectu{0,0,0,0}) 
-    {
-        dims = frameDimensions_;
-    }
-    else
-    {
-        dims = Vectoru{clipRect_.w, clipRect_.h};
-    }
+    Vectoru dims = getTileDimensions();
 
     // Go through all of the tiles
     for (unsigned i = 0; i < tiles_.getWidth(); ++i)
@@ -74,6 +66,12 @@ void Tilemap::setClip(Vectoru dimensions, unsigned int index, Rectu clip)
     }
 
     setClip(clip);
+}
+
+Vectoru Tilemap::getTile(const Vectorf& localCoords)
+{
+    Vectoru dims = getTileDimensions();
+    return { std::floor(localCoords.x / dims.x), std::floor(localCoords.y / dims.y) };
 }
 
 }
