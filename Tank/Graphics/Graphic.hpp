@@ -83,12 +83,6 @@ public:
 
     virtual Vectorf getSize() const = 0;
 
-    Vectorf graphicFromParentCoords(const Vectorf& parentCoords)
-    {
-        return (parentCoords - getOrigin()).rotate(-getRotation())
-            / getScale();
-    }
-
     virtual void setOrigin(Vectorf o)
     {
         origin_ = o;
@@ -101,6 +95,34 @@ public:
     void centreOrigin()
     {
         setOrigin(getSize()/2);
+    }
+
+    /*!
+     * \brief Coverts the parent coordinates to local coordinates.
+     *
+     * \param parentCoords The coordinates to convert.
+     *
+     * \return Coordinates local to the graphic
+     */
+    Vectorf graphicFromParentCoords(const Vectorf& parentCoords)
+    {
+        return (parentCoords - getOrigin()).rotate(-getRotation())
+            / getScale();
+    }
+
+    /*!
+     * \brief Get whether the specified point (in local coordinates) in inside
+     * the bounds of the graphic.
+     *
+     * \param localCoords The point in local coordinates to check.
+     *
+     * \return True if the point is within the area of the graphic
+     */
+    bool getWithin(const Vectorf& localCoords)
+    {
+        Vectorf size = getSize();
+        return (localCoords.x < 0 or localCoords.x > size.x
+                or localCoords.y < 0 or localCoords.y > size.y);
     }
 
     // TODO: Make const
