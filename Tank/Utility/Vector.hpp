@@ -322,6 +322,13 @@ inline auto operator/ (const Vector<T>& lhs, const U& rhs) ->
     return {lhs.x / rhs, lhs.y / rhs};
 }
 
+template <typename T, typename U>
+inline auto operator/ (const Vector<T>& lhs, const Vector<U>& rhs) ->
+                                                Vector<decltype(lhs.x / rhs.x)>
+{
+    return {lhs.x / rhs.x, lhs.y / rhs.y};
+}
+
 /*!
  * \brief Checks if the vector is equal to another vector.
  *
