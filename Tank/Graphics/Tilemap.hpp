@@ -87,7 +87,7 @@ public:
         return clipRect_;
     }
 
-
+    void setLine(const Vectoru& start, const Vectoru& end, unsigned value);
 };
 
 } // tank

@@ -102,7 +102,7 @@ void Grid<T>::setLine(const Vectoru& start, const Vectoru& end, T value)
 {
     // This uses Bresenham's line algorithm see wikipedea for an explaination
     Vectori offset{end.x < start.x ? -1: 1, end.y < start.y ? -1 : 1};
-    Vectoru slope{
+    Vectori slope{
         (end.x < start.x) ? (start.x - end.x) : (end.x - start.x),
         (end.y < start.y) ? (start.y - end.y) : (end.y - start.y)};
     int error = slope.x - slope.y;
@@ -118,7 +118,7 @@ void Grid<T>::setLine(const Vectoru& start, const Vectoru& end, T value)
             error -= slope.y;
             pos.x += offset.x;
         }
-        if (e2 > -slope.x)
+        if (e2 < slope.x)
         {
             error += slope.x;
             pos.y += offset.y;
@@ -126,7 +126,6 @@ void Grid<T>::setLine(const Vectoru& start, const Vectoru& end, T value)
         operator[](pos) = value;
     }
 }
-
 
 } // namespace tank
 
