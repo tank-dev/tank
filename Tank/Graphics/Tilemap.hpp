@@ -74,9 +74,9 @@ public:
     virtual void setClip(Vectoru dimensions, unsigned int index, Rectu clip = {0,0,0,0}) override;
 
     /*!
-     * \brief Sets the clip rectangle of the image
+     * \brief Sets an internal clip rectangle for each tile
      *
-     * \param clip The rectangle to clip the image to
+     * \param clip The rectangle to clip each tile to
      */
     virtual void setClip(Rectu clip) override
     {
@@ -87,14 +87,35 @@ public:
         return clipRect_;
     }
 
+    /*!
+     * \brief This sets a line in the Tilemap
+     *
+     * \param start The start of the line to set
+     * \param end The end of the line to set
+     * \param value The value to set the line to
+     */
     void setLine(const Vectoru& start, const Vectoru& end, unsigned value)
     {
         tiles_.setLine(start,end,value);
     }
+    /*!
+     * \brief This fills a box in the Tilemap with the specifed value
+     *
+     * \param start One corner of the box
+     * \param end The diagonal cormer to the box
+     * \param value The value to set
+     */
     void fillBox(const Vectoru& start, const Vectoru& end, unsigned value)
     {
         tiles_.fillBox(start,end,value);
     }
+    /*!
+     * \brief This outlines a box in the Tilemap with the specifed value
+     *
+     * \param start One corner of the box
+     * \param end The diagonal cormer to the box
+     * \param value The value to set
+     */
     void outlineBox(const Vectoru& start, const Vectoru& end, unsigned value)
     {
         tiles_.outlineBox(start,end,value);
