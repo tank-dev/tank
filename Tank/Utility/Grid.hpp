@@ -10,6 +10,8 @@
 #include "Vector.hpp"
 #include "Rect.hpp"
 
+#include <stdexcept>
+
 namespace tank
 {
 
@@ -43,7 +45,88 @@ public:
     {
         return dimensions;
     }
+
+    void setLine(const Vectoru& start, const Vectoru& end, T value);
 };
+
+template<typename T>
+Grid<T>::Grid(const Vectoru& dims)
+    : data(dims.x * dims.y)
+    , dimensions(dims)
+{}
+
+template<typename T>
+Grid<T>::Grid(const Vectoru& dims, T intialValue) 
+    : data(dims.x * dims.y, intialValue)
+    , dimensions(dims)
+{}
+
+template<typename T>
+T& Grid<T>::operator[](const Vectoru& location)
+{
+    return data[dimensions.x * location.y + location.x];
+}
+template<typename T>
+const T& Grid<T>::operator[](const Vectoru& location) const
+{
+    return data[dimensions.x * location.y + location.x];
+}
+
+template<typename T>
+T& Grid<T>::at(const Vectoru& location)
+{
+    if (location.x < dimensions.x and location.y < dimensions.y)
+    {
+        return data[dimensions.x * location.y + location.x];
+    }
+    else
+    {
+        throw std::out_of_range("Invalid Argument");
+    }
+}
+template<typename T>
+const T& Grid<T>::at(const Vectoru& location) const
+{
+    if (location.x < dimensions.x and location.y < dimensions.y)
+    {
+        return data[dimensions.x * location.y + location.x];
+    }
+    else
+    {
+        throw std::out_of_range("Invalid Argument");
+    }
+}
+
+template<typename T>
+void Grid<T>::setLine(const Vectoru& start, const Vectoru& end, T value)
+{
+    // This uses Bresenham's line algorithm see wikipedea for an explaination
+    Vectori offset{end.x < start.x ? -1: 1, end.y < start.y ? -1 : 1};
+    Vectoru slope{
+        (end.x < start.x) ? (start.x - end.x) : (end.x - start.x),
+        (end.y < start.y) ? (start.y - end.y) : (end.y - start.y)};
+    int error = slope.x - slope.y;
+
+    Vectoru pos = start;
+
+    operator[](pos) = value;
+    while (pos != end)
+    {
+        int e2 = 2 * error;
+        if (e2 > -slope.y)
+        {
+            error -= slope.y;
+            pos.x += offset.x;
+        }
+        if (e2 > -slope.x)
+        {
+            error += slope.x;
+            pos.y += offset.y;
+        }
+        operator[](pos) = value;
+    }
+}
+
 
 } // namespace tank
 
