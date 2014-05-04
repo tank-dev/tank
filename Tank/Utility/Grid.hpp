@@ -28,11 +28,49 @@ public:
     Grid(const Vectoru& dims);
     Grid(const Vectoru& dims, T intialValue);
 
-    T& operator[](const Vectoru& location);
-    const T& operator[](const Vectoru& location) const;
+    using ref = typename std::vector<T>::reference;
+    using const_ref = typename std::vector<T>::const_reference;
 
-    T& at(const Vectoru& location);
-    const T& at(const Vectoru& location) const;
+    ref operator[](const Vectoru& location)
+    {
+        return data[dimensions.x * location.y + location.x];
+    }
+    const_ref operator[](const Vectoru& location) const
+    {
+        return data[dimensions.x * location.y + location.x];
+    }
+
+    ref operator[](size_t pos)
+    {
+        return data[pos];
+    }
+    const_ref operator[](size_t pos) const
+    {
+        return data[pos];
+    }
+
+    ref at(const Vectoru& location)
+    {
+        if (location.x < dimensions.x and location.y < dimensions.y)
+        {
+            return data[dimensions.x * location.y + location.x];
+        }
+        else
+        {
+            throw std::out_of_range("Invalid Argument");
+        }
+    }
+    const_ref at(const Vectoru& location) const
+    {
+        if (location.x < dimensions.x and location.y < dimensions.y)
+        {
+            return data[dimensions.x * location.y + location.x];
+        }
+        else
+        {
+            throw std::out_of_range("Invalid Argument");
+        }
+    }
 
     unsigned getWidth() const
     {
@@ -65,42 +103,6 @@ Grid<T>::Grid(const Vectoru& dims, T intialValue)
     : data(dims.x * dims.y, intialValue)
     , dimensions(dims)
 {}
-
-template<typename T>
-T& Grid<T>::operator[](const Vectoru& location)
-{
-    return data[dimensions.x * location.y + location.x];
-}
-template<typename T>
-const T& Grid<T>::operator[](const Vectoru& location) const
-{
-    return data[dimensions.x * location.y + location.x];
-}
-
-template<typename T>
-T& Grid<T>::at(const Vectoru& location)
-{
-    if (location.x < dimensions.x and location.y < dimensions.y)
-    {
-        return data[dimensions.x * location.y + location.x];
-    }
-    else
-    {
-        throw std::out_of_range("Invalid Argument");
-    }
-}
-template<typename T>
-const T& Grid<T>::at(const Vectoru& location) const
-{
-    if (location.x < dimensions.x and location.y < dimensions.y)
-    {
-        return data[dimensions.x * location.y + location.x];
-    }
-    else
-    {
-        throw std::out_of_range("Invalid Argument");
-    }
-}
 
 template<typename T>
 void Grid<T>::setLine(const Vectoru& start, const Vectoru& end, T value)
