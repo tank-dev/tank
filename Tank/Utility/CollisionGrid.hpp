@@ -62,7 +62,7 @@ void CollisionGrid::loadFromGrid(const Grid<T>& g, const std::unordered_set<T>& 
     size_t size = getWidth() * getHeight();
     for (size_t i = 0; i < size; ++i)
     {
-        operator[](i) = (std::find(collidable.begin(), collidable.end(), g[i]) != collidable.end());
+        operator[](i) = collidable.find(g[i]) == collidable.end();
     }
 }
 

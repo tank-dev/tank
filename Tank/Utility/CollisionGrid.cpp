@@ -9,12 +9,12 @@ namespace tank
 {
 
 // Retraces the path until we reach the start then reverse it
-inline std::vector<Vectoru> retracePath(const std::unordered_map<Vectoru, std::pair<Vectoru, float>>& cameFrom, const Vectoru& start, Vectoru currentNode)
+inline std::vector<Vectoru> retracePath(const std::unordered_map<Vectoru, std::pair<Vectoru, float>>& cameFrom, Vectoru currentNode)
 {
     std::vector<Vectoru> path{currentNode};
 
     auto nextNode = cameFrom.find(currentNode);
-    while (nextNode->second.first != start)
+    while (nextNode->second.first != nextNode->first)
     {
         currentNode = nextNode->second.first;
         path.push_back(currentNode);
@@ -48,58 +48,57 @@ std::vector<Vectoru> CollisionGrid::getPath(const Vectoru& start, const Vectoru&
     // Look until we've ran out of places to look
     while (currentNode != open.end())
     {
-        // If we've already dealt with this node remove it. I don't think this
-        // should ever happen though.
-        //
+        // If we've already dealt with this node ignore it.
         // Having this here is to aviod having to search and remove old values
         // for an open point if we find new ones.
-        if (closed.find(currentNode->second) != closed.end())
-        {
-            open.erase(currentNode);
-        }
-        else
+        if (closed.find(currentNode->second) == closed.end())
         {
             Vectoru point = currentNode->second;
             if (point == end)
             {
                 // We have found a path so return it.
-                return retracePath(cameFrom, start, end);
+                return retracePath(cameFrom, end);
             }
             float costSoFar = cameFrom.find(point)->second.second;
 
             if (point.y != 0)
             {
-                checkDirection(closed, open , cameFrom, end, point, Vectoru{0,-1}, costSoFar);
+                checkDirection(closed, open, cameFrom, end, point, Vectoru{0,-1}, costSoFar);
             }
             if (point.y + 1 != getHeight())
             {
-                checkDirection(closed, open , cameFrom, end, point, Vectoru{0,1}, costSoFar);
+                checkDirection(closed, open, cameFrom, end, point, Vectoru{0,1}, costSoFar);
             }
             if (point.x != 0)
             {
-                checkDirection(closed, open , cameFrom, end, point, Vectoru{-1,0}, costSoFar);
+                checkDirection(closed, open, cameFrom, end, point, Vectoru{-1,0}, costSoFar);
                 if (point.y != 0)
                 {
-                    checkDirection(closed, open , cameFrom, end, point, Vectoru{-1,-1}, costSoFar);
+                    checkDirection(closed, open, cameFrom, end, point, Vectoru{-1,-1}, costSoFar);
                 }
                 if (point.y + 1 != getHeight())
                 {
-                    checkDirection(closed, open , cameFrom, end, point, Vectoru{-1,1}, costSoFar);
+                    checkDirection(closed, open, cameFrom, end, point, Vectoru{-1,1}, costSoFar);
                 }
             }
             if (point.x + 1 != getWidth())
             {
-                checkDirection(closed, open , cameFrom, end, point, Vectoru{1,0}, costSoFar);
+                checkDirection(closed, open, cameFrom, end, point, Vectoru{1,0}, costSoFar);
                 if (point.y != 0)
                 {
-                    checkDirection(closed, open , cameFrom, end, point, Vectoru{1,-1}, costSoFar);
+                    checkDirection(closed, open, cameFrom, end, point, Vectoru{1,-1}, costSoFar);
                 }
                 if (point.y + 1 != getHeight())
                 {
-                    checkDirection(closed, open , cameFrom, end, point, Vectoru{1,1}, costSoFar);
+                    checkDirection(closed, open, cameFrom, end, point, Vectoru{1,1}, costSoFar);
                 }
             }
+
+            // Add the point to the set of closed vetrices
+            closed.insert(currentNode->second);
         }
+        // Remove the point from the set of open vetrices
+        open.erase(currentNode);
         // Go to the next node
         currentNode = open.upper_bound(-1.0f);
     }
