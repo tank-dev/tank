@@ -369,4 +369,19 @@ using Vectoru = Vector<unsigned int>;
 
 }
 
+namespace std
+{
+template <typename T>
+struct hash<tank::Vector<T>>
+{
+    using argument_type = tank::Vector<T>;
+    using value_type = std::size_t;
+
+    value_type operator()(const argument_type& v) const
+    {
+        return std::hash<T>(v.x) ^ (std::hash<T>(v.y) << 1);
+    }
+};
+}
+
 #endif
