@@ -26,7 +26,7 @@ class CollisionGrid : public Grid<bool>
             std::multimap<float, Vectoru>& open,
             std::unordered_map<Vectoru, std::pair<Vectoru, float>>& cameFrom,
             Vectoru const& end, const Vectoru& point, const Vectoru& direction,
-            float costSoFar);
+            float costSoFar) const;
 
 public:
     CollisionGrid(const Vectoru& dims);
@@ -38,10 +38,10 @@ public:
     template<typename T>
     void loadFromGrid(const Grid<T>& g, const std::vector<T>& collidable);
 
-    std::vector<Vectoru> getPath(const Vectoru& start, const Vectoru& end);
+    std::vector<Vectoru> getPath(const Vectoru& start, const Vectoru& end) const;
 
-    float pathHeuristic(const Vectorf& start, const Vectorf& end);
-    float getCost(const Vectorf& start, const Vectorf& end);
+    float pathHeuristic(const Vectorf& start, const Vectorf& end) const;
+    float getCost(const Vectorf& start, const Vectorf& end) const;
 };
 
 template<typename T>
@@ -67,15 +67,12 @@ void CollisionGrid::loadFromGrid(const Grid<T>& g, const std::vector<T>& collida
 }
 
 // This is run on every node to add new points to the open set.
-//
-// It is written as a lambda to make it easier to change if necessary and
-// to avoid having to input lots of parameters.
-void CollisionGrid::checkDirection(
+inline void CollisionGrid::checkDirection(
         const std::unordered_set<Vectoru>& closed,
         std::multimap<float, Vectoru>& open,
         std::unordered_map<Vectoru, std::pair<Vectoru, float>>& cameFrom,
         Vectoru const& end, const Vectoru& point, const Vectoru& direction,
-        float costSoFar)
+        float costSoFar) const
 {
     Vectoru checkPoint = point + direction;
     // check that the point isn't closed and we can travel through

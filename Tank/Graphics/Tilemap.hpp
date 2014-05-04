@@ -6,13 +6,16 @@
 #ifndef TANK_TILEMAP_HPP
 #define TANK_TILEMAP_HPP
 
-#include <string>
-#include <functional>
 #include "Graphic.hpp"
 #include "Image.hpp"
 #include "../Utility/Vector.hpp"
 #include "../Utility/Rect.hpp"
 #include "../Utility/Grid.hpp"
+#include "../Utility/CollisionGrid.hpp"
+
+#include <string>
+#include <functional>
+#include <vector>
 
 namespace tank
 {
@@ -109,6 +112,11 @@ public:
      * \return The tile coordinates of the specified point.
      */
     Vectoru getTile(const Vectorf& localCoords);
+
+    CollisionGrid getCollisionGrid(const std::vector<unsigned>& collidable)
+    {
+        return CollisionGrid(tiles_, collidable);
+    }
 
     /*!
      * \brief This sets a line in the Tilemap

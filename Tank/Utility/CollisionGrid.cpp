@@ -26,7 +26,7 @@ inline std::vector<Vectoru> retracePath(const std::unordered_map<Vectoru, std::p
     return path;
 }
 
-std::vector<Vectoru> CollisionGrid::getPath(const Vectoru& start, const Vectoru& end)
+std::vector<Vectoru> CollisionGrid::getPath(const Vectoru& start, const Vectoru& end) const
 {
     // This use's the A* algorithm to find a path between to points on the grid.
 
@@ -108,12 +108,12 @@ std::vector<Vectoru> CollisionGrid::getPath(const Vectoru& start, const Vectoru&
     return std::vector<Vectoru>{};
 }
 
-float CollisionGrid::pathHeuristic(const Vectorf& start, const Vectorf& end)
+float CollisionGrid::pathHeuristic(const Vectorf& start, const Vectorf& end) const
 {
     return (start - end).magnitude();
 }
 
-float CollisionGrid::getCost(const Vectorf& start, const Vectorf& end)
+float CollisionGrid::getCost(const Vectorf& start, const Vectorf& end) const
 {
     return (start - end).magnitude();
 }
