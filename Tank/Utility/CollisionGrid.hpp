@@ -33,10 +33,10 @@ public:
     CollisionGrid(const Vectoru& dims, bool intialValue);
 
     template<typename T>
-    CollisionGrid(const Grid<T>& g, const std::vector<T>& collidable);
+    CollisionGrid(const Grid<T>& g, const std::unordered_set<T>& collidable);
 
     template<typename T>
-    void loadFromGrid(const Grid<T>& g, const std::vector<T>& collidable);
+    void loadFromGrid(const Grid<T>& g, const std::unordered_set<T>& collidable);
 
     std::vector<Vectoru> getPath(const Vectoru& start, const Vectoru& end) const;
 
@@ -45,18 +45,18 @@ public:
 };
 
 template<typename T>
-CollisionGrid::CollisionGrid(const Grid<T>& g, const std::vector<T>& collidable)
+CollisionGrid::CollisionGrid(const Grid<T>& g, const std::unordered_set<T>& collidable)
     : Grid(g.getDimensions())
 {
     loadFromGrid(g, collidable);
 }
 
 template<typename T>
-void CollisionGrid::loadFromGrid(const Grid<T>& g, const std::vector<T>& collidable)
+void CollisionGrid::loadFromGrid(const Grid<T>& g, const std::unordered_set<T>& collidable)
 {
     if (getDimensions() != g.getDimensions())
     {
-        throw std::out_of_range("The grid must be the same size as the collision grid");
+        throw std::out_of_range("The grid must be the same size as the collision grid.");
     }
 
     size_t size = getWidth() * getHeight();

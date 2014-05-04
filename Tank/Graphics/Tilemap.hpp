@@ -113,7 +113,7 @@ public:
      */
     Vectoru getTile(const Vectorf& localCoords);
 
-    CollisionGrid getCollisionGrid(const std::vector<unsigned>& collidable)
+    CollisionGrid getCollisionGrid(const std::unordered_set<unsigned>& collidable)
     {
         return CollisionGrid(tiles_, collidable);
     }
