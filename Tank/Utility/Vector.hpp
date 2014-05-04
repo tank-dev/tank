@@ -379,7 +379,7 @@ struct hash<tank::Vector<T>>
 
     value_type operator()(const argument_type& v) const
     {
-        return std::hash<T>(v.x) ^ (std::hash<T>(v.y) << 1);
+        return std::hash<T>()(v.x) ^ (std::hash<T>()(v.y) << 1);
     }
 };
 }
