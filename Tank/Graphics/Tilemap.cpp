@@ -27,7 +27,7 @@ void Tilemap::draw(Vectorf parentPos,
                      Camera const& cam)
 {
     auto originalPos = getPos();
-    Vectoru dims = getTileDimensions();
+    Vectorf dims = getTileDimensions();
 
     // Go through all of the tiles
     for (unsigned i = 0; i < tiles_.getWidth(); ++i)

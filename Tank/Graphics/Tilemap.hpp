@@ -64,9 +64,9 @@ public:
     }
 
     Vectoru getFrameDimensions() const { return frameDimensions_; }
-    Vectoru getTileDimensions() const
+    Vectorf getTileDimensions() const
     {
-        return {clipRect_.w, clipRect_.h};
+        return Image::getSize();
     }
 
     virtual Vectorf getSize() const override
