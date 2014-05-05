@@ -21,8 +21,6 @@ inline std::vector<Vectoru> retracePath(const std::unordered_map<Vectoru, std::p
         nextNode = cameFrom.find(currentNode);
     }
 
-    std::reverse(path.begin(), path.end());
-
     return path;
 }
 
