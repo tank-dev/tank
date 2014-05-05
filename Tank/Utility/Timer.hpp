@@ -42,6 +42,13 @@ public:
     void resume();
 
     /*!
+     * \brief This Offsets the timer back by the desired amount.
+     *
+     * \param change The duration to change the timer by.
+     */
+    void offset(std::chrono::milliseconds change);
+
+    /*!
      * \brief Get where the timer has been started.
      *
      * \return True if the timer has been started.

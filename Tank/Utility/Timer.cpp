@@ -42,6 +42,19 @@ void Timer::resume()
     }
 }
 
+void Timer::offset(std::chrono::milliseconds change)
+{
+    if (started_ && not paused_)
+    {
+        startTick_ -= change;
+    }
+    else if (paused_)
+    {
+        // The paused tick is an offset backwards already
+        pausedTick_ += change;
+    }
+}
+
 bool Timer::isStarted() const
 {
     return started_;
