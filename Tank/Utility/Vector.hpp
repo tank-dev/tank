@@ -204,7 +204,7 @@ struct Vector
 
     Vector operator-()
     {
-        return { -x, -y }z
+        return { -x, -y };
     }
 };
 
