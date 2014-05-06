@@ -3,10 +3,11 @@
 // (See accompanying file LICENSE_1_0.txt or copy at
 //  http://www.boost.org/LICENSE_1_0.txt)
 
-#ifndef TANK_STEADYFUNC_HPP
-#define TANK_STEADYFUNC_HPP
+#ifndef TANK_LINEARFUNC_HPP
+#define TANK_LINEARFUNC_HPP
 
 #include "TweenFunc.hpp"
+#include "../Utility/Timer.hpp"
 
 #include <chrono>
 #include <functional>
@@ -15,13 +16,18 @@ namespace tank
 {
 
 template<typename T>
-class SteadyFunc final : public TweenFunc<T>
+class LinearFunc final : public TweenFunc<T>
 {
     T value_;
+    T target_;
+    std::chrono::milliseconds duration_;
+    Timer timer_;
+
 protected:    
     virtual void setValue(T value);
+
 public:
-    SteadyFunc() = default;
+    LinearFunc(T const& target, std::chrono::milliseconds const& duration);
 
     /*!
      * \brief Gets the current value of the tween
@@ -52,35 +58,58 @@ public:
 };
 
 template<typename T>
-T SteadyFunc<T>::getValue() const
+LinearFunc<T>::LinearFunc(T const& target, std::chrono::milliseconds const& duration)
+    : target_(target)
+    , duration_(duration)
 {
-    return value_;
+    timer_.start();
 }
 
 template<typename T>
-T SteadyFunc<T>::getLastValue() const
+T LinearFunc<T>::getValue() const
 {
-    return value_;
+    std::chrono::milliseconds currentTime = std::chrono::duration_cast<std::chrono::milliseconds>(timer_.getTicks());
+    if (duration_ > currentTime)
+    {
+        return value_ + currentTime.count() * (target_ - value_) / duration_.count();
+    }
+    else
+    {
+        std::chrono::milliseconds delay = currentTime - duration_;
+        return TweenFunc<T>::end(delay);
+    }
 }
 
 template<typename T>
-void SteadyFunc<T>::pause()
-{}
+T LinearFunc<T>::getLastValue() const
+{
+    return target_;
+}
 
 template<typename T>
-void SteadyFunc<T>::resume()
-{}
+void LinearFunc<T>::pause()
+{
+    timer_.pause();
+}
 
 template<typename T>
-void SteadyFunc<T>::offset(std::chrono::milliseconds const& delay)
-{}
+void LinearFunc<T>::resume()
+{
+    timer_.resume();
+}
 
 template<typename T>
-void SteadyFunc<T>::setValue(T value)
+void LinearFunc<T>::offset(std::chrono::milliseconds const& delay)
+{
+    timer_.offset(delay);
+}
+
+template<typename T>
+void LinearFunc<T>::setValue(T value)
 {
     value_ = value;
 }
 
 } // tank
 
-#endif // TANK_STEADYFUNC_HPP
+#endif // TANK_LINEARFUNC_HPP

@@ -44,7 +44,7 @@ class Tween
      *
      * \return The value of the newly set up tween.
      */
-    T tweenEnd(std::chrono::microseconds const& overrun);
+    T tweenEnd(std::chrono::milliseconds const& overrun);
 
     /*!
      * \brief This sets the tween funciton `S` to be used, with value
@@ -118,7 +118,7 @@ Tween<T>::Tween(T const& initalValue)
 }
 
 template<typename T>
-T Tween<T>::tweenEnd(std::chrono::microseconds const& overrun)
+T Tween<T>::tweenEnd(std::chrono::milliseconds const& overrun)
 {
     inberTween_ = true;
     // We get the last value of our tween function to use as our initial value.

@@ -28,7 +28,7 @@ class TweenFunc
     void setCallback(std::function<T(std::chrono::milliseconds const&)> finishedCallback);
 
 protected:
-    void end(std::chrono::milliseconds const& overrun);
+    T end(std::chrono::milliseconds const& overrun) const;
     virtual void setValue(T) = 0;
     
 public:
@@ -60,7 +60,7 @@ public:
     /*!
      * \brief This offsets the tween by the designated ammount
      */
-    virtual void offset(std::chrono::microseconds delay) = 0;
+    virtual void offset(std::chrono::milliseconds const& delay) = 0;
 };
 
 template<typename T>
@@ -70,9 +70,9 @@ void TweenFunc<T>::setCallback(std::function<T(std::chrono::milliseconds const&)
 }
 
 template<typename T>
-void TweenFunc<T>::end(std::chrono::milliseconds const& overrun)
+T TweenFunc<T>::end(std::chrono::milliseconds const& overrun) const
 {
-    finishedCallback_(getLastValue(), overrun);
+    return finishedCallback_(overrun);
 }
 
 } // tank
