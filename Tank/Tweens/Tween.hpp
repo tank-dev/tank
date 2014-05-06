@@ -22,15 +22,13 @@ namespace tank
  * Using Tweens
  * ============
  *
- * Setting up the tween is simply a matter of calling
- *     Tween(T const& initialValue)
- * with the initial value that the tween is to be set at.
- * You may then choose a Tween function using 
- *     use<TweenFuncion<T>>(args)
- * where args are the arguments to the tween function.
+ * Setting up the tween is simply a matter of calling `Tween()` with the
+ * initial value that the tween is to be set at.  You may then choose a Tween
+ * function using `use()` where args are the arguments to the tween function.
  *
  * So for example if you wanted to set up a Tween to go between the floats 0
  * and 1 in 0.5 seconds you would do something like this
+ *
  *     // the tween with its inital value
  *     tank::Tween<float> twn(0.0f);
  *     // Go to 1.0f in 500ms = 0.5s
@@ -38,6 +36,7 @@ namespace tank
  *
  * To get the value of the tween run `getValue()`. So in the above example if
  * it was the variable `x` that we wanted to tween. In update we would write
+ *
  *     void update()
  *     {
  *         x = twn.getValue();
@@ -51,13 +50,16 @@ namespace tank
  *
  * So in the above example, after we have tweened to 1.0f we would like to go
  * back to 0.0f in 2s we would do the following
+ *  
  *     setCallback([]() {
  *         // Set the new tween
  *         twn.use<LinearFunc<float>>(0.0f, std::chrono::milliseconds(2000));
  *         // We only want to tween back to 0.0f once
  *         twn.setCallback();
  *     });
- * Of course here we could set a new callback if we wanted. 
+ *      
+ * Of course here we could set a new callback if we wanted, instead of only
+ * removing the current one. 
  *
  * We can jump to a particular place using `setValue()` at present this stops
  * the current tween function, which can also be achieved using `stop()`. It is
