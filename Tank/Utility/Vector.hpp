@@ -201,6 +201,11 @@ struct Vector
 
         return *this;
     }
+
+    Vector operator-()
+    {
+        return { -x, -y }z
+    }
 };
 
 /*!
