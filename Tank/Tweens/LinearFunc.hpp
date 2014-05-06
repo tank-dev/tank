@@ -75,8 +75,7 @@ T LinearFunc<T>::getValue() const
     }
     else
     {
-        std::chrono::milliseconds delay = currentTime - duration_;
-        return TweenFunc<T>::end(delay);
+        return TweenFunc<T>::end(currentTime - duration_);
     }
 }
 
