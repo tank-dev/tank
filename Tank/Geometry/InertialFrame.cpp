@@ -17,28 +17,34 @@ Transform InertialFrame::getTransform(InertialFrame const* iner) const
     // The transformation from root to this
     Transform t;
 
-    // Get the transforamation from root to iner and the root of iner
-    InertialFrame const* currentFrame = iner;
-    InertialFrame const* nextFrame = currentFrame->getParentFrame();
-    while (nextFrame != currentFrame)
-    {
-        tInv = currentFrame->getTransformFromParent();
-        currentFrame = nextFrame;
-        nextFrame = currentFrame->getParentFrame();
-    }
-    InertialFrame const* inertialFrameRoot = currentFrame;
-
     // Get the transforamation from root to this and the root of this
-    currentFrame = this;
-    nextFrame = currentFrame->getParentFrame();
+    InertialFrame const* currentFrame = this;
+    InertialFrame const* nextFrame = currentFrame->getParentFrame();
     while (nextFrame != currentFrame)
     {
         t = currentFrame->getTransformFromParent();
         currentFrame = nextFrame;
         nextFrame = currentFrame->getParentFrame();
     }
+    InertialFrame const* thisRoot = currentFrame;
 
-    if (inertialFrameRoot != currentFrame)
+    if (iner != nullptr)
+    {
+        // Get the transforamation from root to iner and the root of iner
+        currentFrame = iner;
+        nextFrame = currentFrame->getParentFrame();
+        while (nextFrame != currentFrame)
+        {
+            tInv = currentFrame->getTransformFromParent();
+            currentFrame = nextFrame;
+            nextFrame = currentFrame->getParentFrame();
+        }
+    }
+    // We set the inerRoot to be either the root of iner if it isn't null or to
+    // the same a thisRoot if it is.
+    InertialFrame const* inerRoot = currentFrame;
+
+    if (inerRoot != thisRoot)
     {
         throw std::domain_error("Incompatible universes");
     }

@@ -34,13 +34,14 @@ public:
 
     /*!
      * \brief This gets the transformation that converts from this inertial
-     * frame to the inertial frame `inertialFrame`
+     * frame to the inertial frame `iner` or the root inertial frame it iner is
+     * null.
      *
-     * \param iner The inertial frame to transform to
+     * \param iner The inertial frame to transform to, this defaults to null.
      *
      * \return The transformation.
      */
-    Transform getTransform(InertialFrame const* inertialFrame) const;
+    Transform getTransform(InertialFrame const* iner= nullptr) const;
 };
 
 } // tank
