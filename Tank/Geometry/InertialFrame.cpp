@@ -26,7 +26,7 @@ Transform InertialFrame::getTransform(InertialFrame const* iner) const
         {
             throw std::logic_error("A parent is null");
         }
-        t = currentFrame->getTransformFromParent();
+        t = currentFrame->getTransformFromParent()(t);
         currentFrame = nextFrame;
         nextFrame = currentFrame->getParentFrame();
     }
@@ -43,7 +43,7 @@ Transform InertialFrame::getTransform(InertialFrame const* iner) const
             {
                 throw std::logic_error("A parent is null");
             }
-            tInv = currentFrame->getTransformFromParent();
+            tInv = currentFrame->getTransformFromParent()(tInv);
             currentFrame = nextFrame;
             nextFrame = currentFrame->getParentFrame();
         }
