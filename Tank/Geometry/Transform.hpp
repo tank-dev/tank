@@ -87,6 +87,17 @@ public:
     void transform(sf::Transformable& t) const;
 
     /*!
+     * \brief This transforms a size property. So only changes based on zoom
+     * and scale.
+     *
+     * \param size The size to transform.
+     *
+     * \return A vector of vector of the x-size and y-size in the new
+     * coordinates.
+     */
+    Vector<Vectorf> transformSize(Vectorf const& size) const;
+
+    /*!
      * \brief This applies the transformation to a point.
      *
      * \param vec The point to apply the transformation to.
