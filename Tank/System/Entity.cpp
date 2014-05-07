@@ -18,17 +18,17 @@ namespace tank {
 int Entity::numEnts_ = 0;
 
 Entity::Entity(Vectorf pos)
-    : pos_(pos)
+    : CoordinateFrame(pos)
     , actorID_(numEnts_++)
 {}
 
 Entity::~Entity() {}
 
-void Entity::draw(Camera const& cam)
+void Entity::draw(Camera const* cam)
 {
     for(auto& g : graphics_)
     {
-        g->draw(getPos(), getRotation(), getOrigin(), cam);
+        g->draw(cam);
     }
 }
 
@@ -49,12 +49,12 @@ std::vector<observing_ptr<Entity>> Entity::collide(std::vector<std::string> colT
     if (not colTypes.empty())
     {
         ents.erase(std::remove_if(ents.begin(), ents.end(),
-            [&colTypes](observing_ptr<Entity> const& ent) {
-                 auto& entTypes = ent->getTypes();
-                 return std::find_first_of(entTypes.begin(), entTypes.end(),
-                                           colTypes.begin(), colTypes.end()) 
-                     == entTypes.end();}),
-                   ents.end());
+                    [&colTypes](observing_ptr<Entity> const& ent) {
+                    auto& entTypes = ent->getTypes();
+                    return std::find_first_of(entTypes.begin(), entTypes.end(),
+                        colTypes.begin(), colTypes.end()) 
+                    == entTypes.end();}),
+                ents.end());
     }
 
     for (auto& ent : ents)
@@ -64,17 +64,17 @@ std::vector<observing_ptr<Entity>> Entity::collide(std::vector<std::string> colT
             Rectd const& A = hitbox_;
             Rectd const& B = ent->getHitbox();
 
-            const double leftA   = A.x + pos_.x;
+            const double leftA   = A.x + getPos().x;
             const double leftB   = B.x + ent->getPos().x;
             const double rightA  = leftA + A.w;
             const double rightB  = leftB + B.w;
-            const double topA    = A.y + pos_.y;
+            const double topA    = A.y + getPos().y;
             const double topB    = B.y + ent->getPos().y;
             const double bottomA = topA + A.h;
             const double bottomB = topB + B.h;
 
             if (leftA > rightB or topA > bottomB or
-                rightA < leftB or bottomA < topB)
+                    rightA < leftB or bottomA < topB)
             {
                 continue;
             }
@@ -105,11 +105,11 @@ void Entity::insertGraphic(std::unique_ptr<Graphic>&& graphic)
 
     // Stops an entity being added several times
     auto entityIter = boost::range::find_if(graphics_,
-        [&graphic](std::unique_ptr<Graphic>& existing)
-        {
+            [&graphic](std::unique_ptr<Graphic>& existing)
+            {
             return graphic.get() == existing.get();
-        }
-    );
+            }
+            );
 
     if (entityIter != end(graphics_))
     {
@@ -123,19 +123,14 @@ void Entity::insertGraphic(std::unique_ptr<Graphic>&& graphic)
         setHitbox(Rectd(0, 0, hb.x, hb.y));
     }
 
+    graphic->setParentFrameIfNotSameRoot(this);
+
     graphics_.push_back(std::move(graphic));
-
-
 }
 
 void Entity::clearGraphics()
 {
     graphics_.clear();
-}
-
-void Entity::setPos(Vectorf pos)
-{
-    pos_ = pos;
 }
 
 // Note: In hindsight, this isn't such a good idea. The only useful condition
@@ -195,16 +190,6 @@ void Entity::moveBy(Vectorf disp)
     setPos(getPos() + disp);
 }
 
-void Entity::setRotation(float rot)
-{
-    rot_ = rot;
-}
-
-void Entity::setOrigin(Vectorf origin)
-{
-    origin_ = origin;
-}
-
 void Entity::setHitbox(Rectd hitbox)
 {
     hitbox_ = hitbox;
@@ -237,6 +222,11 @@ void Entity::setLayer(int layer)
 
 void Entity::setWorld(const observing_ptr<World> world)
 {
+    setParentFrame(world);
+    for(auto& g : graphics_)
+    {
+        g->setParentFrameIfNotSameRoot(this);
+    }
     world_ = world;
 }
 

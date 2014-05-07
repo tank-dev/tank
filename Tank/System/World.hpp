@@ -15,6 +15,8 @@
 #include "../Utility/Vector.hpp"
 #include "../Utility/observing_ptr.hpp"
 
+#include "../Geometry/CoordinateFrame.hpp"
+
 namespace tank {
 
 class Entity;
@@ -38,10 +40,10 @@ class Game;
  * \see Entity
  * \see EventHandler
  */
-class World
+class World : public RootFrame
 {
     bool updating_ {false};
-    Camera camera_;
+    std::unique_ptr<Camera> camera_;
     std::vector<std::tuple<observing_ptr<World>, observing_ptr<Entity>>> toMove_;
     std::vector<std::unique_ptr<Entity>> newEntities_;
     std::vector<std::unique_ptr<EventHandler::Connection>> connections_;
@@ -147,14 +149,9 @@ public:
      */
     virtual void draw();
 
-    Camera& camera()
+    observing_ptr<Camera> camera()
     {
         return camera_;
-    }
-
-    Vectorf worldFromScreenCoords(Vectorf const& screenCoords)
-    {
-        return camera().worldFromScreenCoords(screenCoords);
     }
 
     /*!

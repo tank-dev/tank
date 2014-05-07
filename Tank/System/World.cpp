@@ -17,7 +17,11 @@
 namespace tank
 {
 
-World::World() = default;
+World::World()
+    : camera_(new Camera())
+{
+    camera_->setParentFrame(this);
+}
 World::~World()
 {
     connections_.clear();
@@ -123,7 +127,7 @@ void World::draw()
 
     for (auto& entity : entities_)
     {
-        entity->draw(camera());
+        entity->draw(camera().get());
     }
 }
 

@@ -42,21 +42,8 @@ Vectorf BitmapText::getSize() const
     return size;
 }
 
-void BitmapText::draw(Vectorf parentPos,
-                      float parentRot,
-                      Vectorf parentOri,
-                      Camera const& cam)
+void BitmapText::draw(Transform const& t)
 {
-    Vectorf pos = getPos();
-    float rot = getRotation();
-    Vectorf ori = getOrigin();
-    if(isRelativeToParent())
-    {
-        pos += parentPos;
-        rot += parentRot;
-        ori += parentOri;
-    }
-
     for (unsigned int stringIndex = 0; text_[stringIndex] != '\0'; ++stringIndex)
     {
         unsigned int clipIndex = static_cast<unsigned int>(text_[stringIndex]
@@ -64,16 +51,12 @@ void BitmapText::draw(Vectorf parentPos,
         clip_.x = (clipIndex % rowWidth_) * glyphDims_.x;
         clip_.y = (clipIndex / rowWidth_) * glyphDims_.y;
 
-        const float rads = 3.14159265 * rot / 180.f;
-        const float distance = stringIndex * glyphDims_.x;
-        Vectorf displacement;
-        displacement.x = distance * std::cos(rads);
-        displacement.y = distance * std::sin(rads);
+        Transform characterOffset(Vectorf{stringIndex * glyphDims_.x * t.getScale().x, 0.0f});
+        characterOffset.setScale(t.getScale());
 
         font_.setClip(clip_);
-        font_.setPos(displacement);
 
-        font_.draw(pos, rot, ori, cam);
+        font_.draw(t(characterOffset));
     }
 }
 

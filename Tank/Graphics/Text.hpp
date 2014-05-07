@@ -21,6 +21,7 @@ namespace tank
 class Text : public Graphic
 {
     sf::Text text_;
+
 public:
     Text() = default;
     Text(const Text&) = default;
@@ -45,10 +46,7 @@ public:
         text_.setColor(color);
     }
 
-    virtual void draw(Vectorf parentPos = {},
-                      float parentRot = 0,
-                      Vectorf parentOri = {},
-                      Camera const& = Camera()) override;
+    virtual void draw(Transform const& t) override;
 };
 
 }

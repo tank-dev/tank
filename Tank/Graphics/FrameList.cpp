@@ -141,14 +141,12 @@ void FrameList::stop()
     currentAnimation_ = nullptr;
 }
 
-void FrameList::draw(Vectorf parentPos,
-                     float parentRot,
-                     Vectorf parentOri,
-                     Camera const& cam)
+void FrameList::draw(Camera const* cam)
 {
     // TODO: Move this somewhere else and make draw const
     refresh();
-    Image::draw(parentPos, parentRot, parentOri, cam);
+    // Apparently in needs some help to find this function
+    Image::draw(getTransform(cam));
 }
 
 void FrameList::setClip(Vectoru dimensions, unsigned int index, Rectu clip)

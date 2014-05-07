@@ -9,6 +9,7 @@
 #include <vector>
 #include <string>
 #include <memory>
+#include "../Geometry/CoordinateFrame.hpp"
 #include "../Graphics/Graphic.hpp"
 #include "../Graphics/Image.hpp"
 #include "../Utility/observing_ptr.hpp"
@@ -42,11 +43,8 @@ class World;
  * \see Animation
  * \see IRender
  */
-class Entity
+class Entity : public CoordinateFrame
 {
-    Vectorf pos_;
-    float rot_ {};
-    Vectorf origin_ {};
     Rectd hitbox_;
     bool solid_ {false};
     int layer_ {};
@@ -79,7 +77,7 @@ public:
      * Render the entity for the current frame
      * \param cam The camera to draw relative to
      */
-    virtual void draw(Camera const&);
+    virtual void draw(Camera const* = nullptr);
 
     /*!
      * \brief Check for collisions with the entity (deprecated?)
@@ -96,43 +94,6 @@ public:
     std::vector<observing_ptr<Entity>> collide(std::string type)
     {
         return collide(std::vector<std::string>{type});
-    }
-
-    /*!
-     * \brief Returns the entity's vector position
-     *
-     * \return Entity's position
-     */
-    Vectorf const& getPos() const
-    {
-        return pos_;
-    }
-
-    /*!
-     * \brief Returns the entity's rotation
-     *
-     * \return Entity's rotation in degrees
-     */
-    float getRotation() const
-    {
-        return rot_;
-    }
-
-    /*!
-     * \brief Gets the local coordinates for the inputed world coordinates
-     *
-     * \param worldCoords The world coordinates to get the local coordinates of
-     *
-     * \return The local coordinates.
-     */
-    Vectorf localFromWorldCoords(Vectorf const& worldCoords)
-    {
-        return (worldCoords - getOrigin()).rotate(-getRotation());
-    }
-
-    Vectorf const& getOrigin() const
-    {
-        return origin_;
     }
 
     /*!
@@ -234,13 +195,6 @@ public:
     }
 
     /*!
-     * \brief Sets the entity's position
-     *
-     * \param pos The position to which to move
-     */
-    virtual void setPos(Vectorf pos);
-
-    /*!
      * \brief Moves the entity pixel by pixel while cond is false
      *
      * \param displacement Vectorial distance to move entity
@@ -251,14 +205,6 @@ public:
     virtual bool moveBy(Vectorf displacement, std::function<bool()> cond);
 
     virtual void moveBy(Vectorf displacement);
-
-    virtual void setOrigin(Vectorf origin);
-    /*!
-     * \brief Sets the entity's rotation
-     *
-     * \param pos The entity's new rotation in degrees
-     */
-    virtual void setRotation(float rot);
 
     /*!
      * \brief Sets the entity's hitbox

@@ -55,13 +55,9 @@ void ConvexShape::setPoints(std::vector<Vectorf> const& points)
     }
 }
 
-void ConvexShape::draw(Vectorf parentPos,
-                       float parentRot,
-                       Vectorf parentOri,
-                       Camera const& cam)
+void ConvexShape::draw(Transform const& t)
 {
-    Graphic::transform(this, parentPos, parentRot, parentOri,
-                       cam, convexShape_);
+    t.transform(convexShape_);
     tank::Game::window()->SFMLWindow().draw(convexShape_);
 }
 

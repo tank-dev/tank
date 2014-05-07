@@ -23,8 +23,9 @@ bool Mouse::locked_ {false};
 std::array<bool, Mouse::Button::ButtonCount> Mouse::currentState_ {};
 std::array<bool, Mouse::Button::ButtonCount> Mouse::lastState_ {};
 
-tank::Vectord Mouse::getRelPos(Camera const& c)
+tank::Vectord Mouse::getRelPos(Camera const* c)
 {
+    /*
     auto const& cPos = c.getPos();
     const auto cRot = c.getRotation();
     auto const& cOgn = c.getOrigin();
@@ -38,8 +39,9 @@ tank::Vectord Mouse::getRelPos(Camera const& c)
     pos += cOgn;
 
     pos += cPos.rotate(cRot);
+    */
 
-    return pos;
+    return c->getTransform()(getPos());
 }
 
 tank::Vectori Mouse::delta() { return currentPos_ - lastPos_; }
@@ -123,7 +125,7 @@ std::function<bool()> Mouse::WheelMovement()
 std::function<bool()> Mouse::InEntity(Entity const& e)
 {
     return [&e] {
-        auto mPos = getRelPos(e.getWorld()->camera());
+        auto mPos = getRelPos(e.getWorld()->camera().get());
         auto ePos = e.getPos();
         auto hb = e.getHitbox();
         hb.x += ePos.x;

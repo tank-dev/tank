@@ -36,11 +36,11 @@ public:
         return text_;
     }
 
-    virtual void setScale(float scale) override
+    virtual void setZoom(float zoom) override
     {
-        font_.setScale(scale);
+        font_.setZoom(zoom);
     }
-    virtual void setScale(Vectorf scale) override
+    virtual void setScale(Vectorf const& scale) override
     {
         font_.setScale(scale);
     }
@@ -72,10 +72,7 @@ public:
         return font_.getTextureSize();
     }
 
-    virtual void draw(Vectorf parentPos = {},
-                      float parentRot = 0,
-                      Vectorf parentOri = {},
-                      Camera const& = Camera());
+    virtual void draw(Transform const& t) override;
 };
 
 }

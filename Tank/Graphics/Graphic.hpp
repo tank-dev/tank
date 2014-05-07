@@ -6,6 +6,7 @@
 #ifndef TANK_GRAPHIC_HPP
 #define TANK_GRAPHIC_HPP
 
+#include "../Geometry/CoordinateFrame.hpp"
 #include "../System/Camera.hpp"
 #include "../Utility/Vector.hpp"
 #include "../Utility/Rect.hpp"
@@ -17,60 +18,13 @@ namespace sf
 
 namespace tank {
 
-class Graphic
+class Graphic : public GraphicalCoordinateFrame
 {
-    Vectorf pos_;
-    float rot_ {0.f};
-    Vectorf origin_;
-    Vectorf scale_ {1.f, 1.f};
-    bool relativeToParent_ {true};
     bool visible_ {true};
 
 public:
     Graphic() = default;
     virtual ~Graphic() {}
-
-    virtual void setPos(Vectorf pos)
-    {
-        pos_ = pos;
-    }
-    virtual Vectorf getPos() const
-    {
-        return pos_;
-    }
-
-    virtual void setRotation(float angle)
-    {
-        rot_ = angle;
-    }
-    virtual float getRotation() const
-    {
-        return rot_;
-    }
-
-    virtual void setScale(float scale)
-    {
-        scale_.x = scale_.y = scale;
-    }
-
-    virtual void setScale(Vectorf scale)
-    {
-        scale_ = scale;
-    }
-
-    virtual Vectorf getScale() const
-    {
-        return scale_;
-    }
-
-    void drawRelativeToParent(bool relative)
-    {
-        relativeToParent_ = relative;
-    }
-    bool isRelativeToParent() const
-    {
-        return relativeToParent_;
-    }
 
     bool isVisible() const
     {
@@ -83,31 +37,9 @@ public:
 
     virtual Vectorf getSize() const = 0;
 
-    virtual void setOrigin(Vectorf o)
-    {
-        origin_ = o;
-    }
-    virtual Vectorf getOrigin() const
-    {
-        return origin_;
-    }
-
     void centreOrigin()
     {
         setOrigin(getSize()/2);
-    }
-
-    /*!
-     * \brief Coverts the parent coordinates to local coordinates.
-     *
-     * \param parentCoords The coordinates to convert.
-     *
-     * \return Coordinates local to the graphic
-     */
-    Vectorf graphicFromParentCoords(const Vectorf& parentCoords)
-    {
-        return (parentCoords - getOrigin()).rotate(-getRotation())
-            / getScale();
     }
 
     /*!
@@ -126,18 +58,9 @@ public:
     }
 
     // TODO: Make const
-    virtual void draw(Vectorf parentPos = {},
-                      float parentRot = 0,
-                      Vectorf parentOri = {},
-                      Camera const& = Camera()) = 0;
-
-protected:
-    static void transform(Graphic const* g,
-                          Vectorf parentPos,
-                          float parentRot,
-                          Vectorf parentOri,
-                          Camera const& cam,
-                          sf::Transformable& t);
+    virtual void draw(Transform const& t) = 0;
+    // TODO: Make const
+    virtual void draw(Camera const* = nullptr);
 };
 
 }

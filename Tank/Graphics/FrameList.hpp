@@ -88,18 +88,6 @@ public:
     void refresh();
 
     /*!
-     * \brief Draw the animation.
-     *
-     * Trying to draw an animation without a texture will crash the game!
-     *
-     * \param pos Position at which to draw the texture.
-     */
-    virtual void draw(Vectorf parentPos = {},
-                      float parentRot = 0,
-                      Vectorf parentOri = {},
-                      Camera const& = Camera()) override;
-
-    /*!
      * \brief Start the animation
      */
     void start();
@@ -174,7 +162,16 @@ public:
         return clipRect_;
     }
 
-
+    // We are not overriding draw(Transform) as at that point there is no way
+    // to call refresh
+    /*!
+     * \brief Draw the animation.
+     *
+     * Trying to draw an animation without a texture will crash the game!
+     *
+     * \param pos Position at which to draw the texture.
+     */
+    virtual void draw(Camera const* cam = nullptr) override;
 };
 
 // TODO: Use enum to specify image format

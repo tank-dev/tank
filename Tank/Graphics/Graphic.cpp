@@ -8,6 +8,12 @@
 
 namespace tank {
 
+void Graphic::draw(Camera const* cam)
+{
+    draw(getTransform(cam));
+}
+
+/*
 void Graphic::transform(Graphic const* g,
                         Vectorf parentPos,
                         float parentRot,
@@ -62,5 +68,6 @@ void Graphic::transform(Graphic const* g,
     t.setRotation(modelViewRot);
     t.setOrigin({modelOri.x, modelOri.y});
 }
+*/
 
 } /* tank */

@@ -42,17 +42,6 @@ public:
             Vector<unsigned int> frameDims);
 
     /*!
-     * \brief Draw the animation.
-     *
-     * Trying to draw an animation without a texture will crash the game!
-     *
-     * \param pos Position at which to draw the texture.
-     */
-    virtual void draw(Vectorf parentPos = {},
-                      float parentRot = 0,
-                      Vectorf parentOri = {},
-                      Camera const& = Camera()) override;
-    /*!
      * \brief Set the dimensions of the image in the texture.
      *
      * \param frameDims the dimensions of each image in the texture.
@@ -151,6 +140,8 @@ public:
     {
         tiles_.outlineBox(start,end,value);
     }
+
+    virtual void draw(Transform const& t) override;
 };
 
 } // tank
