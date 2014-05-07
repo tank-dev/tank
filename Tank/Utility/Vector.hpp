@@ -11,7 +11,7 @@
 
 #ifndef MSVC
 #define CONSTEXPR constexpr
-#elif
+#else
 #define CONSTEXPR
 #endif
 

@@ -81,7 +81,7 @@ endif(DOXYGEN_FOUND)
 #add_library(tank_static ${audio_src} ${gfx_src} ${sys_src} ${util_src})
 #target_link_libraries(tank_static ${SFML_LIBRARIES} ${CMAKE_THREAD_LIBS_INIT})
 
-add_library(tank SHARED ${audio_src} ${gfx_src} ${sys_src} ${util_src})
+add_library(tank ${audio_src} ${gfx_src} ${sys_src} ${util_src})
 target_link_libraries(tank ${SFML_LIBRARIES} ${CMAKE_THREAD_LIBS_INIT})
 
 if(TESTS)
