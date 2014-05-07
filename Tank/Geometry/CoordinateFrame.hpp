@@ -14,6 +14,9 @@
 namespace tank
 {
 
+/*!
+ * \brief This is a root inertial frame, it is the ether.
+ */
 class RootFrame : public InertialFrame
 {
 public:
@@ -22,6 +25,10 @@ public:
     virtual Transform getTransformFromParent() const override;
 };
 
+/*!
+ * \brief This stores an intertial frame. It should be used for everything with
+ * its own coordinate system.
+ */
 class CoordinateFrame : public InertialFrame
 {
     observing_ptr<InertialFrame> parentFrame_;
@@ -35,17 +42,68 @@ public:
     CoordinateFrame() = default;
     CoordinateFrame(Vectorf const& position);
 
+    /*!
+     * \brief Sets the inertial frame that this is relative to.
+     *
+     * \param frame The frame it is relative to.
+     */
     void setParentFrame(observing_ptr<InertialFrame> frame);
+    /*!
+     * \brief This checks to see if this inertial frame has the same root as
+     * `frame`. If it doesn't then it sets frame as the parent.
+     *
+     * \param frame The potential candidate for parent.
+     */
     void setParentFrameIfNotSameRoot(observing_ptr<InertialFrame> frame);
 
+    /*!
+     * \brief This gets the position of the inertial frame relative to its parent.
+     *
+     * \return The position relative to its parent.
+     */
     virtual Vectorf getPos() const;
+    /*!
+     * \brief This gets the rotation of the inertial frame relative to its parent.
+     *
+     * \return The rotation relative to its parent.
+     */
     virtual float getRotation() const;
+    /*!
+     * \brief This gets the origin of the inertial frame.
+     *
+     * \return The origin relative to itself.
+     */
     virtual Vectorf getOrigin() const;
+    /*!
+     * \brief This gets the zoom of the inertial frame relative to its parent.
+     *
+     * \return The zoom relative to its parent.
+     */
     virtual float getZoom() const;
 
+    /*!
+     * \brief This sets the position of the inertial frame relative to its parent.
+     *
+     * \param pos The position relative to its parent.
+     */
     virtual void setPos(Vectorf const& pos);
+    /*!
+     * \brief This sets the rotation of the inertial frame relative to its parent.
+     *
+     * \param rotation The rotation relative to its parent.
+     */
     virtual void setRotation(float rotation);
+    /*!
+     * \brief This sets the origin of the inertial frame.
+     *
+     * \param o The origin in its own coordinates (ignoring the previous setting of the origin).
+     */
     virtual void setOrigin(Vectorf const& o);
+    /*!
+     * \brief This sets the zoom of the inertial frame relative to its parent.
+     *
+     * \param zoom The zoom relative to its parent.
+     */
     virtual void setZoom(float zoom);
     
     virtual InertialFrame const* getRootFrame() const override;
@@ -53,6 +111,10 @@ public:
     virtual Transform getTransformFromParent() const override;
 };
 
+/*!
+ * \brief This is an inertial frame specifically for graphics as they can set
+ * their x-scale and y-scale independently.
+ */
 class GraphicalCoordinateFrame : public CoordinateFrame
 {
     Vectorf scale_{1.0f, 1.0f};
@@ -60,11 +122,19 @@ class GraphicalCoordinateFrame : public CoordinateFrame
 public:
     GraphicalCoordinateFrame() = default;
 
+    /*!
+     * \brief Gets the scale of the coordinate frame.
+     *
+     * \return The scale of the coordinate frame.
+     */
     virtual Vectorf getScale() const;
 
+    /*!
+     * \brief Sets the scale of the coordinate frame.
+     *
+     * \param scale The scale of the coordinate frame.
+     */
     virtual void setScale(Vectorf const& scale);
-
-    void transform(InertialFrame const* cam, sf::Transformable& t) const;
 
     virtual Transform getTransformFromParent() const override;
 };

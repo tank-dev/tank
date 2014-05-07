@@ -12,15 +12,24 @@
 namespace tank
 {
 
+/*!
+ * /brief This is a templates of an intertial frame.
+ */
 class InertialFrame
 {
 public:
     InertialFrame() = default;
 
+    /*!
+     * \brief This gets the root frame for this inertial frame.
+     *
+     * \return The root of the inertial frame.
+     */
     virtual InertialFrame const* getRootFrame() const = 0;
 
     /*!
-     * \brief This gets the parent frame. 
+     * \brief This gets the frame that coordinates in this frame are measured
+     * relative to.
      *
      * \return The parent inertial frame.
      */
