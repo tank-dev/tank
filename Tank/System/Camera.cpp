@@ -14,6 +14,7 @@ Camera::Camera()
     if (Game::window())
     {
         setOrigin(Game::window()->getSize() / 2);
+        setPos(Game::window()->getSize() / 2);
     }
 }
 
