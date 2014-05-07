@@ -21,6 +21,10 @@ Transform RootFrame::getTransformFromParent() const
 
 ////////////////////////////////////////////////////////////////////////////////
 
+CoordinateFrame::CoordinateFrame(Vectorf const& position)
+    : pos_(position)
+{}
+
 void CoordinateFrame::setParentFrame(observing_ptr<InertialFrame> frame)
 {
     parentFrame_ = frame;
@@ -68,7 +72,10 @@ void CoordinateFrame::setZoom(float zoom)
 
 InertialFrame const* CoordinateFrame::getParentFrame() const
 {
-    return parentFrame_.get();
+    if (parentFrame_ == nullptr)
+        throw std::logic_error("Parent frame is null");
+    else
+        return parentFrame_.get();
 }
 
 Transform CoordinateFrame::getTransformFromParent() const
