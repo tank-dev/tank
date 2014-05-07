@@ -33,7 +33,8 @@ if (NOT MSVC)
 endif(NOT MSVC)
 
 if (MSVC)
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /Za")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}")
+    add_definitions(-DMSVC)
 endif()
 
 if (APPLE)
