@@ -22,7 +22,7 @@ public:
      *
      * \return The parent inertial frame.
      */
-    virtual observing_ptr<InertialFrame> getParentFrame() = 0;
+    virtual InertialFrame const* getParentFrame() const = 0;
 
     /*!
      * \brief This gets the transformation that converts from this inertial
@@ -30,7 +30,7 @@ public:
      *
      * \return The transformation.
      */
-    virtual Transform getTransformFromParent() = 0;
+    virtual Transform getTransformFromParent() const = 0;
 
     /*!
      * \brief This gets the transformation that converts from this inertial
@@ -40,7 +40,7 @@ public:
      *
      * \return The transformation.
      */
-    Transform getTransform(observing_ptr<InertialFrame> inertialFrame);
+    Transform getTransform(InertialFrame const* inertialFrame) const;
 };
 
 } // tank

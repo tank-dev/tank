@@ -68,7 +68,7 @@ void CoordinateFrame::setZoom(float zoom)
 
 InertialFrame const* CoordinateFrame::getParentFrame() const
 {
-    return parentFrame_;
+    return parentFrame_.get();
 }
 
 Transform CoordinateFrame::getTransformFromParent() const

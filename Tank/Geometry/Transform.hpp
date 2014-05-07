@@ -39,16 +39,52 @@ class Transform
 
 public:
     Transform() = default;
+    Transform(Vectorf const& offset);
+    Transform(float rotation);
     Transform(float rotation, Vectorf const& offset);
     Transform(float rotation, Vectorf const& offset, float zoom);
     Transform(float rotation, Vectorf const& offset, float zoom, Vectorf scale);
+
+    float getRotation() const
+    {
+        return rotation_;
+    }
+    Vectorf getOffset() const
+    {
+        return offset_;
+    }
+    float getZoom() const
+    {
+        return zoom_;
+    }
+    Vectorf getScale() const
+    {
+        return scale_;
+    }
+
+    void getRotation(float rotation)
+    {
+        rotation_ = rotation;
+    }
+    void getOffset(Vectorf const& offset)
+    {
+        offset_ = offset;
+    }
+    void getZoom(float zoom)
+    {
+        zoom_ = zoom;
+    }
+    void getScale(Vectorf const& scale)
+    {
+        scale_ = scale;
+    }
 
     /*!
      * \brief This applies the transform to a sprite.
      *
      * \param t The sprite apply the transform to.
      */
-    void transform(sf::Transformable& t);
+    void transform(sf::Transformable& t) const;
 
     /*!
      * \brief This applies the transformation to a point.
@@ -57,7 +93,7 @@ public:
      *
      * \return The transformed point.
      */
-    Vectorf operator()(Vectorf const& vec);
+    Vectorf operator()(Vectorf const& vec) const;
     /*!
      * \brief This applies the transformation to another tranformation. Composing the two.
      *
@@ -68,14 +104,14 @@ public:
      *
      * \return The composed transformation.
      */
-    Transform operator()(Transform const& t);
+    Transform operator()(Transform const& t) const;
 
     /*!
      * \brief This gets the inverse transformation. Note it ignores the scale property.
      *
      * \return The inverse transfromation.
      */
-    Transform inverse();
+    Transform inverse() const;
 };
 
 } // tank

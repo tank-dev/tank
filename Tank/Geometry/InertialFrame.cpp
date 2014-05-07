@@ -3,13 +3,14 @@
 // (See accompanying file LICENSE_1_0.txt or copy at
 //  http://www.boost.org/LICENSE_1_0.txt)
 
-#include "CoordinateSystem.hpp"
+#include "InertialFrame.hpp"
+#include "Transform.hpp"
 #include <SFML/Graphics/Transformable.hpp>
 
 namespace tank
 {
 
-Transform InertialFrame::getTransform(observing_ptr<InertialFrame> iner)
+Transform InertialFrame::getTransform(InertialFrame const* iner) const
 {
     // The transformation from root to iner
     Transform tInv;
@@ -17,15 +18,15 @@ Transform InertialFrame::getTransform(observing_ptr<InertialFrame> iner)
     Transform t;
 
     // Get the transforamation from root to iner and the root of iner
-    observing_ptr<InertialFrame> currentFrame = iner;
-    observing_ptr<InertialFrame> nextFrame = currentFrame->getParentFrame();
+    InertialFrame const* currentFrame = iner;
+    InertialFrame const* nextFrame = currentFrame->getParentFrame();
     while (nextFrame != currentFrame)
     {
         tInv = currentFrame->getTransformFromParent();
         currentFrame = nextFrame;
         nextFrame = currentFrame->getParentFrame();
     }
-    observing_ptr<InertialFrame> inertialFrameRoot = currentFrame;
+    InertialFrame const* inertialFrameRoot = currentFrame;
 
     // Get the transforamation from root to this and the root of this
     currentFrame = this;

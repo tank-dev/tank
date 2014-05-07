@@ -35,15 +35,15 @@ public:
 
     void setParentFrame(observing_ptr<InertialFrame> frame);
 
-    Vectorf getPos() const;
-    float getRotation() const;
-    Vectorf getOrigin() const;
-    float getZoom() const;
+    virtual Vectorf getPos() const;
+    virtual float getRotation() const;
+    virtual Vectorf getOrigin() const;
+    virtual float getZoom() const;
 
-    void setPos(Vectorf const& pos);
-    void setRotation(float rotation);
-    void setOrigin(Vectorf const& o);
-    void setZoom(float zoom);
+    virtual void setPos(Vectorf const& pos);
+    virtual void setRotation(float rotation);
+    virtual void setOrigin(Vectorf const& o);
+    virtual void setZoom(float zoom);
 
     virtual InertialFrame const* getParentFrame() const override;
     virtual Transform getTransformFromParent() const override;
@@ -56,9 +56,9 @@ class GraphicalCoordinateFrame : public CoordinateFrame
 public:
     GraphicalCoordinateFrame() = default;
 
-    Vectorf getScale() const;
+    virtual Vectorf getScale() const;
 
-    void setScale(Vectorf const& scale);
+    virtual void setScale(Vectorf const& scale);
 
     void transform(InertialFrame const* cam, sf::Transformable& t) const;
 
