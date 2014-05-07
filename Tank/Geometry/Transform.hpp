@@ -62,19 +62,19 @@ public:
         return scale_;
     }
 
-    void getRotation(float rotation)
+    void setRotation(float rotation)
     {
         rotation_ = rotation;
     }
-    void getOffset(Vectorf const& offset)
+    void setOffset(Vectorf const& offset)
     {
         offset_ = offset;
     }
-    void getZoom(float zoom)
+    void setZoom(float zoom)
     {
         zoom_ = zoom;
     }
-    void getScale(Vectorf const& scale)
+    void setScale(Vectorf const& scale)
     {
         scale_ = scale;
     }
