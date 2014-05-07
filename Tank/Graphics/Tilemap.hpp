@@ -53,14 +53,15 @@ public:
     }
 
     Vectoru getFrameDimensions() const { return frameDimensions_; }
+
     Vectorf getTileDimensions() const
     {
-        return Image::getSize();
+        return { clipRect_.w * getZoom() * getScale().x, clipRect_.h * getZoom() * getScale().y};
     }
 
     virtual Vectorf getSize() const override
     {
-        Vectorf size = Image::getSize();
+        Vectorf size = getTileDimensions();
         return {size.x * tiles_.getWidth(), size.y * tiles_.getHeight()};
     }
 
