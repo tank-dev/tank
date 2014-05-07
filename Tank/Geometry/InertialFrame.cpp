@@ -15,7 +15,7 @@ Transform InertialFrame::getTransform(InertialFrame const* iner) const
     // The transformation from root to iner
     Transform tInv;
     // The transformation from root to this
-    Transform t;
+    Transform t = this->getTransformFromParent();
 
     // Get the transforamation from root to this and the root of this
     InertialFrame const* currentFrame = this;
@@ -26,9 +26,9 @@ Transform InertialFrame::getTransform(InertialFrame const* iner) const
         {
             throw std::logic_error("A parent is null");
         }
-        t = currentFrame->getTransformFromParent()(t);
         currentFrame = nextFrame;
         nextFrame = currentFrame->getParentFrame();
+        t = currentFrame->getTransformFromParent()(t);
     }
     InertialFrame const* thisRoot = currentFrame;
 
@@ -37,15 +37,16 @@ Transform InertialFrame::getTransform(InertialFrame const* iner) const
         // Get the transforamation from root to iner and the root of iner
         currentFrame = iner;
         nextFrame = currentFrame->getParentFrame();
+        tInv = currentFrame->getTransformFromParent();
         while (nextFrame != currentFrame)
         {
             if (nextFrame == nullptr)
             {
                 throw std::logic_error("A parent is null");
             }
-            tInv = currentFrame->getTransformFromParent()(tInv);
             currentFrame = nextFrame;
             nextFrame = currentFrame->getParentFrame();
+            tInv = currentFrame->getTransformFromParent()(tInv);
         }
     }
     // We set the inerRoot to be either the root of iner if it isn't null or to
