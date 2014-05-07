@@ -32,6 +32,7 @@ class CoordinateFrame : public InertialFrame
 
 public:
     CoordinateFrame() = default;
+    CoordinateFrame(Vectorf const& position);
 
     void setParentFrame(observing_ptr<InertialFrame> frame);
 
