@@ -149,7 +149,7 @@ public:
      */
     virtual void draw();
 
-    observing_ptr<Camera> camera()
+    observing_ptr<Camera> camera() const
     {
         return camera_;
     }
