@@ -43,11 +43,6 @@ void Transform::transform(sf::Transformable& t) const
     t.setRotation(rotation_);
 }
 
-Vector<Vectorf> Transform::transformSize(Vectorf const& size) const
-{
-    return { Vectorf{size.x * zoom_ * scale_.x}.rotate(rotation_), Vectorf{size.x * zoom_ * scale_.x}.rotate(rotation_) };
-}
-
 Vectorf Transform::operator()(Vectorf const& vec) const
 {
     Vectorf rot = vec.rotate(rotation_);
