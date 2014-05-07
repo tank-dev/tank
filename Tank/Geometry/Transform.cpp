@@ -51,7 +51,7 @@ Vectorf Transform::operator()(Vectorf const& vec) const
 
 Transform Transform::operator()(Transform const& t) const
 {
-    // This works out what T'T(x) =  T'(T(x)) 
+    // This works so that T'(T)(x) =  T'(T(x)) 
     return Transform(rotation_ + t.rotation_, offset_ + t.offset_.rotate(rotation_), zoom_ * t.zoom_, t.scale_);
 }
 
