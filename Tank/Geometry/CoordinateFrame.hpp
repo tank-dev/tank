@@ -26,10 +26,10 @@ class CoordinateFrame : public InertialFrame
 {
     observing_ptr<InertialFrame> parentFrame_;
 
-    Vectorf pos_;
-    float rotation_;
-    Vectorf origin_;
-    float zoom_;
+    Vectorf pos_{0.0f,0.0f};
+    float rotation_{0.0f};
+    Vectorf origin_{0.0f,0.0f};
+    float zoom_{1.0f};
 
 public:
     CoordinateFrame() = default;
@@ -47,7 +47,6 @@ public:
     virtual void setRotation(float rotation);
     virtual void setOrigin(Vectorf const& o);
     virtual void setZoom(float zoom);
-
     
     virtual InertialFrame const* getRootFrame() const override;
     virtual InertialFrame const* getParentFrame() const override;
@@ -56,7 +55,7 @@ public:
 
 class GraphicalCoordinateFrame : public CoordinateFrame
 {
-    Vectorf scale_;
+    Vectorf scale_{1.0f, 1.0f};
 
 public:
     GraphicalCoordinateFrame() = default;
