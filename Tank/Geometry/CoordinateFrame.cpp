@@ -9,6 +9,11 @@
 namespace tank
 {
 
+InertialFrame const* RootFrame::getRootFrame() const
+{
+    return this;
+}
+
 InertialFrame const* RootFrame::getParentFrame() const
 {
     return this;
@@ -24,11 +29,6 @@ Transform RootFrame::getTransformFromParent() const
 CoordinateFrame::CoordinateFrame(Vectorf const& position)
     : pos_(position)
 {}
-
-void CoordinateFrame::setParentFrame(observing_ptr<InertialFrame> frame)
-{
-    parentFrame_ = frame;
-}
 
 Vectorf CoordinateFrame::getPos() const
 {
@@ -70,12 +70,37 @@ void CoordinateFrame::setZoom(float zoom)
     zoom_ = zoom;
 }
 
+void CoordinateFrame::setParentFrame(observing_ptr<InertialFrame> frame)
+{
+    parentFrame_ = frame;
+}
+
+void CoordinateFrame::setParentFrameIfNotSameRoot(observing_ptr<InertialFrame> frame)
+{
+    InertialFrame const* frameRoot = frame->getRootFrame();
+    InertialFrame const* thisRoot = getRootFrame();
+    if (frameRoot != thisRoot or thisRoot == nullptr)
+    {
+        parentFrame_ = frame;
+    }
+}
+
+InertialFrame const* CoordinateFrame::getRootFrame() const
+{
+    InertialFrame const* parentFrame_ = getParentFrame();
+    if (parentFrame_)
+    {
+        return getParentFrame()->getRootFrame();
+    }
+    else
+    {
+        return nullptr;
+    }
+}
+
 InertialFrame const* CoordinateFrame::getParentFrame() const
 {
-    if (parentFrame_ == nullptr)
-        throw std::logic_error("Parent frame is null");
-    else
-        return parentFrame_.get();
+    return parentFrame_.get();
 }
 
 Transform CoordinateFrame::getTransformFromParent() const

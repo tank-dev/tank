@@ -17,6 +17,8 @@ class InertialFrame
 public:
     InertialFrame() = default;
 
+    virtual InertialFrame const* getRootFrame() const = 0;
+
     /*!
      * \brief This gets the parent frame. 
      *

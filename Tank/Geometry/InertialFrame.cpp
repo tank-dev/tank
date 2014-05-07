@@ -22,6 +22,10 @@ Transform InertialFrame::getTransform(InertialFrame const* iner) const
     InertialFrame const* nextFrame = currentFrame->getParentFrame();
     while (nextFrame != currentFrame)
     {
+        if (nextFrame == nullptr)
+        {
+            throw std::logic_error("A parent is null");
+        }
         t = currentFrame->getTransformFromParent();
         currentFrame = nextFrame;
         nextFrame = currentFrame->getParentFrame();
@@ -35,6 +39,10 @@ Transform InertialFrame::getTransform(InertialFrame const* iner) const
         nextFrame = currentFrame->getParentFrame();
         while (nextFrame != currentFrame)
         {
+            if (nextFrame == nullptr)
+            {
+                throw std::logic_error("A parent is null");
+            }
             tInv = currentFrame->getTransformFromParent();
             currentFrame = nextFrame;
             nextFrame = currentFrame->getParentFrame();

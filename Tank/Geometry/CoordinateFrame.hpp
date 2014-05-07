@@ -17,6 +17,7 @@ namespace tank
 class RootFrame : public InertialFrame
 {
 public:
+    virtual InertialFrame const* getRootFrame() const override;
     virtual InertialFrame const* getParentFrame() const override;
     virtual Transform getTransformFromParent() const override;
 };
@@ -35,6 +36,7 @@ public:
     CoordinateFrame(Vectorf const& position);
 
     void setParentFrame(observing_ptr<InertialFrame> frame);
+    void setParentFrameIfNotSameRoot(observing_ptr<InertialFrame> frame);
 
     virtual Vectorf getPos() const;
     virtual float getRotation() const;
@@ -46,6 +48,8 @@ public:
     virtual void setOrigin(Vectorf const& o);
     virtual void setZoom(float zoom);
 
+    
+    virtual InertialFrame const* getRootFrame() const override;
     virtual InertialFrame const* getParentFrame() const override;
     virtual Transform getTransformFromParent() const override;
 };
