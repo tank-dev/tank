@@ -32,6 +32,11 @@ if (NOT MSVC)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 endif(NOT MSVC)
 
+if (MSVC)
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}")
+    add_definitions(-DMSVC)
+endif()
+
 if (APPLE)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -stdlib=libc++")
     set(CMAKE_LD_FLAGS "${CMAKE_LD_FLAGS} -stdlib=libc++")

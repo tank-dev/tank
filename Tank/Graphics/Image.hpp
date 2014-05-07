@@ -15,7 +15,7 @@
 
 namespace tank {
 
-class Image final : public Graphic
+class Image : public Graphic
 {
     bool loaded_ {false};
     sf::Sprite sprite_;
@@ -52,8 +52,23 @@ public:
 
     void setSize(Vectorf size);
 
-    virtual void setClip(Vectoru dimensions, unsigned int index);
+    /*!
+     * \brief This sets the clip rectangle by tiling the region and selecting
+     * the tile designated by index. It has an option of setting an additional
+     * clip within that area.
+     *
+     * \param dimensions The dimensions of the tile.
+     * \param index The index of the tile to select.
+     * \param clip An optional parameter for additional clipping within the
+     * designated area.
+     */
+    virtual void setClip(Vectoru dimensions, unsigned int index, Rectu clip = {0,0,0,0});
 
+    /*!
+     * \brief Sets the clip rectangle of the image
+     *
+     * \param clip The rectangle to clip the image to
+     */
     virtual void setClip(Rectu clip)
     {
         sprite_.setTextureRect({static_cast<int>(clip.x),

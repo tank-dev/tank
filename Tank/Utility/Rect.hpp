@@ -59,7 +59,7 @@ inline bool operator== (const Rect<T>& lhs, const Rect<U>& rhs)
 template <typename T, typename U>
 inline bool operator!= (const Rect<T>& lhs, const Rect<U>& rhs)
 {
-    return not operator==(lhs,rhs);
+    return !operator==(lhs,rhs);
 }
 
 using Rectf = Rect<float>;
