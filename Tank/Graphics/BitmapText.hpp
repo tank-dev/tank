@@ -40,6 +40,11 @@ public:
     {
         font_.setZoom(zoom);
     }
+    virtual float getZoom() const override
+    {
+        return font_.getZoom();
+    }
+
     virtual void setScale(Vectorf const& scale) override
     {
         font_.setScale(scale);
