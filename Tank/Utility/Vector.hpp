@@ -207,6 +207,11 @@ struct Vector
 
         return *this;
     }
+
+    Vector operator-()
+    {
+        return { -x, -y };
+    }
 };
 
 template <typename T>
