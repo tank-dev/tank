@@ -27,19 +27,12 @@ void World::insertEntity(std::unique_ptr<Entity>&& entity)
 {
     if (not entity)
     {
-        Game::log << "Warning: You can't add a null entity." << std::endl;
-        return;
+        throw std::runtime_error("Warning: You can't add a null entity.");
     }
 
     // Stops an entity being added several times
-    auto entityIter = boost::range::find_if(entities_,
-        [&entity](std::unique_ptr<Entity>& existing)
-        {
-            return entity.get() == existing.get();
-        }
-    );
 
-    if (entityIter != end(entities_))
+    if (boost::find(entities_, entity) != std::end(entities_))
     {
         throw std::invalid_argument("Entity already added");
     }
@@ -155,7 +148,7 @@ void World::moveEntities()
 
 void World::deleteEntities()
 {
-    boost::range::remove_erase_if(entities_,
+    boost::remove_erase_if(entities_,
         [](const std::unique_ptr<Entity>& ent)
         {
             if (ent->isRemoved()) {
