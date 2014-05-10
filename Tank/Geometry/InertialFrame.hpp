@@ -13,7 +13,7 @@ namespace tank
 {
 
 /*!
- * /brief This is a templates of an intertial frame.
+ * /brief Abstract base class for inertial frames
  */
 class InertialFrame
 {
@@ -37,7 +37,7 @@ public:
 
     /*!
      * \brief This gets the transformation that converts from this inertial
-     * frame to the parent inertial frame.
+     * frame to the parent frame.
      *
      * \return The transformation.
      */
@@ -45,14 +45,14 @@ public:
 
     /*!
      * \brief This gets the transformation that converts from this inertial
-     * frame to the inertial frame `iner` or the root inertial frame it iner is
+     * frame to the inertial frame `iner` or the root inertial frame if iner is
      * null.
      *
-     * \param iner The inertial frame to transform to, this defaults to null.
+     * \param iner The inertial frame to transform to (defaults to nullptr).
      *
      * \return The transformation.
      */
-    Transform getTransform(observing_ptr<const InertialFrame> iner= nullptr) const;
+    Transform getTransform(observing_ptr<const InertialFrame> iner = nullptr) const;
 };
 
 } // tank

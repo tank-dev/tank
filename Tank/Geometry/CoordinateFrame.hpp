@@ -13,7 +13,6 @@
 
 namespace tank
 {
-
 /*!
  * \brief This is a root inertial frame, it is the ether.
  */
@@ -57,13 +56,15 @@ public:
     void setParentFrameIfNotSameRoot(observing_ptr<InertialFrame> frame);
 
     /*!
-     * \brief This gets the position of the inertial frame relative to its parent.
+     * \brief This gets the position of the inertial frame relative to its
+     * parent.
      *
      * \return The position relative to its parent.
      */
     virtual Vectorf getPos() const;
     /*!
-     * \brief This gets the rotation of the inertial frame relative to its parent.
+     * \brief This gets the rotation of the inertial frame relative to its
+     * parent.
      *
      * \return The rotation relative to its parent.
      */
@@ -82,13 +83,15 @@ public:
     virtual float getZoom() const;
 
     /*!
-     * \brief This sets the position of the inertial frame relative to its parent.
+     * \brief This sets the position of the inertial frame relative to its
+     * parent.
      *
      * \param pos The position relative to its parent.
      */
     virtual void setPos(Vectorf const& pos);
     /*!
-     * \brief This sets the rotation of the inertial frame relative to its parent.
+     * \brief This sets the rotation of the inertial frame relative to its
+     * parent.
      *
      * \param rotation The rotation relative to its parent.
      */
@@ -96,7 +99,8 @@ public:
     /*!
      * \brief This sets the origin of the inertial frame.
      *
-     * \param o The origin in its own coordinates (ignoring the previous setting of the origin).
+     * \param o The origin in its own coordinates (ignoring the previous
+     * setting of the origin).
      */
     virtual void setOrigin(Vectorf const& o);
     /*!

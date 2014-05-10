@@ -28,7 +28,10 @@ Transform::Transform(float rotation, Vectorf const& offset, float zoom)
     , zoom_(zoom)
 {}
 
-Transform::Transform(float rotation, Vectorf const& offset, float zoom, Vectorf scale)
+Transform::Transform(float rotation,
+                     Vectorf const& offset,
+                     float zoom,
+                     Vectorf scale)
     : rotation_(rotation)
     , offset_(offset)
     , zoom_(zoom)
@@ -46,13 +49,17 @@ void Transform::transform(sf::Transformable& t) const
 Vectorf Transform::operator()(Vectorf const& vec) const
 {
     Vectorf rot = vec.rotate(rotation_);
-    return {zoom_ * (rot.x + offset_.x) * scale_.x, zoom_ * (rot.y + offset_.y) * scale_.y};
+    return {zoom_ * (rot.x + offset_.x) * scale_.x,
+            zoom_ * (rot.y + offset_.y) * scale_.y};
 }
 
 Transform Transform::operator()(Transform const& t) const
 {
-    // This works so that T'(T)(x) =  T'(T(x)) 
-    return Transform(rotation_ + t.rotation_, offset_ + t.offset_.rotate(rotation_), zoom_ * t.zoom_, t.scale_);
+    // This works so that T'(T)(x) =  T'(T(x))
+    return Transform(rotation_ + t.rotation_,
+                     offset_ + t.offset_.rotate(rotation_),
+                     zoom_ * t.zoom_,
+                     t.scale_);
 }
 
 Transform Transform::inverse() const

@@ -184,7 +184,9 @@ observing_ptr<const InertialFrame> GraphicalCoordinateFrame::getParentFrame() co
 
 Transform GraphicalCoordinateFrame::getTransformFromParent() const
 {
-    return Transform(getRotation(), getPos() - getOrigin().rotate(getRotation()), getZoom(), getScale());
+    return Transform(getRotation(),
+                     getPos() - getOrigin().rotate(getRotation()),
+                     getZoom(), getScale());
 }
 
 Transform GraphicalCoordinateFrame::getTransform(observing_ptr<const InertialFrame> iner) const
