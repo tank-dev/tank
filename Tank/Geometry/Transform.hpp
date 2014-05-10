@@ -21,7 +21,7 @@ class CoordinateSystem;
 class GraphicalCoordinateSystem;
 
 /*!
- * \brief This store a transformation.
+ * \brief This stores a transformation.
  */
 class Transform
 {
@@ -95,10 +95,11 @@ public:
      */
     Vectorf operator()(Vectorf const& vec) const;
     /*!
-     * \brief This applies the transformation to another tranformation. Composing the two.
+     * \brief This applies the transformation to another transformation,
+     * composing the two.
      *
-     * If T and T' are the trasfomations then this is such that T(T')(x) =
-     * T(T'(x)). It ignores the scale of the first transformation.
+     * If T and T' are the transformations then this is such that T'(T)(x) =
+     * T'(T(x)). It ignores the scale of the first transformation.
      *
      * \param t The transform to be applied to.
      *
@@ -107,9 +108,10 @@ public:
     Transform operator()(Transform const& t) const;
 
     /*!
-     * \brief This gets the inverse transformation. Note it ignores the scale property.
+     * \brief This gets the inverse transformation.
+     * Note it ignores the scale property.
      *
-     * \return The inverse transfromation.
+     * \return The inverse transformation.
      */
     Transform inverse() const;
 };

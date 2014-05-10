@@ -122,7 +122,9 @@ void GraphicalCoordinateFrame::setScale(Vectorf const& scale)
 
 Transform GraphicalCoordinateFrame::getTransformFromParent() const
 {
-    return Transform(getRotation(), getPos() - getOrigin().rotate(getRotation()), getZoom(), getScale());
+    return Transform(getRotation(),
+                     getPos() - getOrigin().rotate(getRotation()),
+                     getZoom(), getScale());
 }
 
 } // tank
