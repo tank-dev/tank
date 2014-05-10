@@ -149,6 +149,13 @@ public:
      */
     virtual void draw();
 
+    /*!
+     * \brief This returns a pointer to the camera.
+     *
+     * Note: multiple cameras aren't supported.
+     *
+     * \return The only camera.
+     */
     observing_ptr<Camera> camera() const
     {
         return camera_;

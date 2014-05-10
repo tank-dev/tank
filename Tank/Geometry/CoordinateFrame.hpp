@@ -123,6 +123,30 @@ public:
     GraphicalCoordinateFrame() = default;
 
     /*!
+     * \brief This gets the position of the inertial frame relative to its parent.
+     *
+     * \return The position relative to its parent.
+     */
+    virtual Vectorf getPos() const;
+    /*!
+     * \brief This gets the rotation of the inertial frame relative to its parent.
+     *
+     * \return The rotation relative to its parent.
+     */
+    virtual float getRotation() const;
+    /*!
+     * \brief This gets the origin of the inertial frame.
+     *
+     * \return The origin relative to itself.
+     */
+    virtual Vectorf getOrigin() const;
+    /*!
+     * \brief This gets the zoom of the inertial frame relative to its parent.
+     *
+     * \return The zoom relative to its parent.
+     */
+    virtual float getZoom() const;
+    /*!
      * \brief Gets the scale of the coordinate frame.
      *
      * \return The scale of the coordinate frame.
@@ -130,13 +154,80 @@ public:
     virtual Vectorf getScale() const;
 
     /*!
+     * \brief This sets the position of the inertial frame relative to its parent.
+     *
+     * \param pos The position relative to its parent.
+     */
+    virtual void setPos(Vectorf const& pos);
+    /*!
+     * \brief This sets the rotation of the inertial frame relative to its parent.
+     *
+     * \param rotation The rotation relative to its parent.
+     */
+    virtual void setRotation(float rotation);
+    /*!
+     * \brief This sets the origin of the inertial frame.
+     *
+     * \param o The origin in its own coordinates (ignoring the previous setting of the origin).
+     */
+    virtual void setOrigin(Vectorf const& o);
+    /*!
+     * \brief This sets the zoom of the inertial frame relative to its parent.
+     *
+     * \param zoom The zoom relative to its parent.
+     */
+    virtual void setZoom(float zoom);
+    /*!
      * \brief Sets the scale of the coordinate frame.
      *
      * \param scale The scale of the coordinate frame.
      */
     virtual void setScale(Vectorf const& scale);
 
-    virtual Transform getTransformFromParent() const override;
+    /*!
+     * \brief Sets the inertial frame that this is relative to.
+     *
+     * \param frame The frame it is relative to.
+     */
+    void setParentFrame(observing_ptr<InertialFrame> frame);
+    /*!
+     * \brief This checks to see if this inertial frame has the same root as
+     * `frame`. If it doesn't then it sets frame as the parent.
+     *
+     * \param frame The potential candidate for parent.
+     */
+    void setParentFrameIfNotSameRoot(observing_ptr<InertialFrame> frame);
+    
+    /*!
+     * \brief This gets the root frame for this inertial frame.
+     *
+     * \return The root of the inertial frame.
+     */
+    InertialFrame const* getRootFrame() const;
+    /*!
+     * \brief This gets the frame that coordinates in this frame are measured
+     * relative to.
+     *
+     * \return The parent inertial frame.
+     */
+    InertialFrame const* getParentFrame() const;
+    /*!
+     * \brief This gets the transformation that converts from this inertial
+     * frame to the parent inertial frame.
+     *
+     * \return The transformation.
+     */
+    Transform getTransformFromParent() const;
+    /*!
+     * \brief This gets the transformation that converts from this inertial
+     * frame to the inertial frame `iner` or the root inertial frame it iner is
+     * null.
+     *
+     * \param iner The inertial frame to transform to, this defaults to null.
+     *
+     * \return The transformation.
+     */
+    Transform getTransform(InertialFrame const* iner= nullptr) const;
 };
 
 } // tank

@@ -110,9 +110,50 @@ Transform CoordinateFrame::getTransformFromParent() const
 
 ////////////////////////////////////////////////////////////////////////////////
 
+Vectorf GraphicalCoordinateFrame::getPos() const
+{
+    return CoordinateFrame::getPos();
+}
+
+float GraphicalCoordinateFrame::getRotation() const
+{
+    return CoordinateFrame::getRotation();
+}
+
+Vectorf GraphicalCoordinateFrame::getOrigin() const
+{
+    return CoordinateFrame::getOrigin();
+}
+
+float GraphicalCoordinateFrame::getZoom() const
+{
+    return CoordinateFrame::getZoom();
+}
+
 Vectorf GraphicalCoordinateFrame::getScale() const
 {
     return scale_;
+}
+
+
+void GraphicalCoordinateFrame::setPos(Vectorf const& pos)
+{
+    return CoordinateFrame::setPos(pos);
+}
+
+void GraphicalCoordinateFrame::setRotation(float rotation)
+{
+    return CoordinateFrame::setRotation(rotation);
+}
+
+void GraphicalCoordinateFrame::setOrigin(Vectorf const& o)
+{
+    return CoordinateFrame::setOrigin(o);
+}
+
+void GraphicalCoordinateFrame::setZoom(float zoom)
+{
+    return CoordinateFrame::setZoom(zoom);
 }
 
 void GraphicalCoordinateFrame::setScale(Vectorf const& scale)
@@ -120,9 +161,35 @@ void GraphicalCoordinateFrame::setScale(Vectorf const& scale)
     scale_ = scale;
 }
 
+
+void GraphicalCoordinateFrame::setParentFrame(observing_ptr<InertialFrame> frame)
+{
+    return CoordinateFrame::setParentFrame(frame);
+}
+
+void GraphicalCoordinateFrame::setParentFrameIfNotSameRoot(observing_ptr<InertialFrame> frame)
+{
+    return CoordinateFrame::setParentFrameIfNotSameRoot(frame);
+}
+
+InertialFrame const* GraphicalCoordinateFrame::getRootFrame() const
+{
+    return CoordinateFrame::getRootFrame();
+}
+
+InertialFrame const* GraphicalCoordinateFrame::getParentFrame() const
+{
+    return CoordinateFrame::getParentFrame();
+}
+
 Transform GraphicalCoordinateFrame::getTransformFromParent() const
 {
     return Transform(getRotation(), getPos() - getOrigin().rotate(getRotation()), getZoom(), getScale());
+}
+
+Transform GraphicalCoordinateFrame::getTransform(InertialFrame const* iner) const
+{
+    return CoordinateFrame::getTransform(iner);
 }
 
 } // tank
