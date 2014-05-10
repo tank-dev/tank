@@ -24,7 +24,7 @@ Entity::Entity(Vectorf pos)
 
 Entity::~Entity() {}
 
-void Entity::draw(Camera const* cam)
+void Entity::draw(observing_ptr<const Camera> cam)
 {
     for(auto& g : graphics_)
     {

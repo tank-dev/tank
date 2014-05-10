@@ -25,7 +25,7 @@ public:
      *
      * \return The root of the inertial frame.
      */
-    virtual InertialFrame const* getRootFrame() const = 0;
+    virtual observing_ptr<const InertialFrame> getRootFrame() const = 0;
 
     /*!
      * \brief This gets the frame that coordinates in this frame are measured
@@ -33,7 +33,7 @@ public:
      *
      * \return The parent inertial frame.
      */
-    virtual InertialFrame const* getParentFrame() const = 0;
+    virtual observing_ptr<const InertialFrame> getParentFrame() const = 0;
 
     /*!
      * \brief This gets the transformation that converts from this inertial
@@ -52,7 +52,7 @@ public:
      *
      * \return The transformation.
      */
-    Transform getTransform(InertialFrame const* iner= nullptr) const;
+    Transform getTransform(observing_ptr<const InertialFrame> iner= nullptr) const;
 };
 
 } // tank

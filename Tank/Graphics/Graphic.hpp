@@ -60,7 +60,7 @@ public:
     // TODO: Make const
     virtual void draw(Transform const& t) = 0;
     // TODO: Make const
-    virtual void draw(Camera const* = nullptr);
+    virtual void draw(observing_ptr<const Camera> = nullptr);
 };
 
 }

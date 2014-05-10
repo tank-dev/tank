@@ -8,7 +8,7 @@
 
 namespace tank {
 
-void Graphic::draw(Camera const* cam)
+void Graphic::draw(observing_ptr<const Camera> cam)
 {
     draw(getTransform(cam));
 }

@@ -171,7 +171,7 @@ public:
      *
      * \param pos Position at which to draw the texture.
      */
-    virtual void draw(Camera const* cam = nullptr) override;
+    virtual void draw(observing_ptr<const Camera> cam = nullptr) override;
 };
 
 // TODO: Use enum to specify image format

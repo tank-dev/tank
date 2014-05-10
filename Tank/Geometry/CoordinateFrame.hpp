@@ -20,8 +20,8 @@ namespace tank
 class RootFrame : public InertialFrame
 {
 public:
-    virtual InertialFrame const* getRootFrame() const override;
-    virtual InertialFrame const* getParentFrame() const override;
+    virtual observing_ptr<const InertialFrame> getRootFrame() const override;
+    virtual observing_ptr<const InertialFrame> getParentFrame() const override;
     virtual Transform getTransformFromParent() const override;
 };
 
@@ -106,8 +106,8 @@ public:
      */
     virtual void setZoom(float zoom);
     
-    virtual InertialFrame const* getRootFrame() const override;
-    virtual InertialFrame const* getParentFrame() const override;
+    virtual observing_ptr<const InertialFrame> getRootFrame() const override;
+    virtual observing_ptr<const InertialFrame> getParentFrame() const override;
     virtual Transform getTransformFromParent() const override;
 };
 
@@ -203,14 +203,14 @@ public:
      *
      * \return The root of the inertial frame.
      */
-    InertialFrame const* getRootFrame() const;
+    observing_ptr<const InertialFrame> getRootFrame() const;
     /*!
      * \brief This gets the frame that coordinates in this frame are measured
      * relative to.
      *
      * \return The parent inertial frame.
      */
-    InertialFrame const* getParentFrame() const;
+    observing_ptr<const InertialFrame> getParentFrame() const;
     /*!
      * \brief This gets the transformation that converts from this inertial
      * frame to the parent inertial frame.
@@ -227,7 +227,7 @@ public:
      *
      * \return The transformation.
      */
-    Transform getTransform(InertialFrame const* iner= nullptr) const;
+    Transform getTransform(observing_ptr<const InertialFrame> iner= nullptr) const;
 };
 
 } // tank

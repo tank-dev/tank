@@ -23,7 +23,7 @@ bool Mouse::locked_ {false};
 std::array<bool, Mouse::Button::ButtonCount> Mouse::currentState_ {};
 std::array<bool, Mouse::Button::ButtonCount> Mouse::lastState_ {};
 
-tank::Vectord Mouse::getRelPos(Camera const* c)
+tank::Vectord Mouse::getRelPos(observing_ptr<const Camera> c)
 {
     /*
     auto const& cPos = c.getPos();

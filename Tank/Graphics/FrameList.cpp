@@ -141,7 +141,7 @@ void FrameList::stop()
     currentAnimation_ = nullptr;
 }
 
-void FrameList::draw(Camera const* cam)
+void FrameList::draw(observing_ptr<const Camera> cam)
 {
     // TODO: Move this somewhere else and make draw const
     refresh();

@@ -77,7 +77,7 @@ public:
      * Render the entity for the current frame
      * \param cam The camera to draw relative to
      */
-    virtual void draw(Camera const* = nullptr);
+    virtual void draw(observing_ptr<const Camera> = nullptr);
 
     /*!
      * \brief Check for collisions with the entity (deprecated?)

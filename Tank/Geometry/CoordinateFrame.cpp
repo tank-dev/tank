@@ -9,12 +9,12 @@
 namespace tank
 {
 
-InertialFrame const* RootFrame::getRootFrame() const
+observing_ptr<const InertialFrame> RootFrame::getRootFrame() const
 {
     return this;
 }
 
-InertialFrame const* RootFrame::getParentFrame() const
+observing_ptr<const InertialFrame> RootFrame::getParentFrame() const
 {
     return this;
 }
@@ -77,17 +77,17 @@ void CoordinateFrame::setParentFrame(observing_ptr<InertialFrame> frame)
 
 void CoordinateFrame::setParentFrameIfNotSameRoot(observing_ptr<InertialFrame> frame)
 {
-    InertialFrame const* frameRoot = frame->getRootFrame();
-    InertialFrame const* thisRoot = getRootFrame();
+    observing_ptr<const InertialFrame> frameRoot = frame->getRootFrame();
+    observing_ptr<const InertialFrame> thisRoot = getRootFrame();
     if (frameRoot != thisRoot or thisRoot == nullptr)
     {
         parentFrame_ = frame;
     }
 }
 
-InertialFrame const* CoordinateFrame::getRootFrame() const
+observing_ptr<const InertialFrame> CoordinateFrame::getRootFrame() const
 {
-    InertialFrame const* parentFrame_ = getParentFrame();
+    observing_ptr<const InertialFrame> parentFrame_ = getParentFrame();
     if (parentFrame_)
     {
         return getParentFrame()->getRootFrame();
@@ -98,9 +98,9 @@ InertialFrame const* CoordinateFrame::getRootFrame() const
     }
 }
 
-InertialFrame const* CoordinateFrame::getParentFrame() const
+observing_ptr<const InertialFrame> CoordinateFrame::getParentFrame() const
 {
-    return parentFrame_.get();
+    return parentFrame_;
 }
 
 Transform CoordinateFrame::getTransformFromParent() const
@@ -172,12 +172,12 @@ void GraphicalCoordinateFrame::setParentFrameIfNotSameRoot(observing_ptr<Inertia
     return CoordinateFrame::setParentFrameIfNotSameRoot(frame);
 }
 
-InertialFrame const* GraphicalCoordinateFrame::getRootFrame() const
+observing_ptr<const InertialFrame> GraphicalCoordinateFrame::getRootFrame() const
 {
     return CoordinateFrame::getRootFrame();
 }
 
-InertialFrame const* GraphicalCoordinateFrame::getParentFrame() const
+observing_ptr<const InertialFrame> GraphicalCoordinateFrame::getParentFrame() const
 {
     return CoordinateFrame::getParentFrame();
 }
@@ -187,7 +187,7 @@ Transform GraphicalCoordinateFrame::getTransformFromParent() const
     return Transform(getRotation(), getPos() - getOrigin().rotate(getRotation()), getZoom(), getScale());
 }
 
-Transform GraphicalCoordinateFrame::getTransform(InertialFrame const* iner) const
+Transform GraphicalCoordinateFrame::getTransform(observing_ptr<const InertialFrame> iner) const
 {
     return CoordinateFrame::getTransform(iner);
 }

@@ -10,7 +10,7 @@
 namespace tank
 {
 
-Transform InertialFrame::getTransform(InertialFrame const* iner) const
+Transform InertialFrame::getTransform(observing_ptr<const InertialFrame> iner) const
 {
     // The transformation from root to iner
     Transform tInv;
@@ -18,8 +18,8 @@ Transform InertialFrame::getTransform(InertialFrame const* iner) const
     Transform t = this->getTransformFromParent();
 
     // Get the transforamation from root to this and the root of this
-    InertialFrame const* currentFrame = this;
-    InertialFrame const* nextFrame = currentFrame->getParentFrame();
+    observing_ptr<const InertialFrame> currentFrame = this;
+    observing_ptr<const InertialFrame> nextFrame = currentFrame->getParentFrame();
     while (nextFrame != currentFrame)
     {
         if (nextFrame == nullptr)
@@ -30,7 +30,7 @@ Transform InertialFrame::getTransform(InertialFrame const* iner) const
         nextFrame = currentFrame->getParentFrame();
         t = currentFrame->getTransformFromParent()(t);
     }
-    InertialFrame const* thisRoot = currentFrame;
+    observing_ptr<const InertialFrame> thisRoot = currentFrame;
 
     if (iner != nullptr)
     {
@@ -51,7 +51,7 @@ Transform InertialFrame::getTransform(InertialFrame const* iner) const
     }
     // We set the inerRoot to be either the root of iner if it isn't null or to
     // the same a thisRoot if it is.
-    InertialFrame const* inerRoot = currentFrame;
+    observing_ptr<const InertialFrame> inerRoot = currentFrame;
 
     if (inerRoot != thisRoot)
     {

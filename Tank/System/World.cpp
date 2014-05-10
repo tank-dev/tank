@@ -127,7 +127,7 @@ void World::draw()
 
     for (auto& entity : entities_)
     {
-        entity->draw(camera().get());
+        entity->draw(camera());
     }
 }
 
