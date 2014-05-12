@@ -83,6 +83,28 @@ public:
     virtual float getZoom() const;
 
     /*!
+     * \brief This gets the absolute position of the inertial frame relative to
+     * the root frame.
+     *
+     * \return The position relative to its parent.
+     */
+    virtual Vectorf getAbsolutePos() const;
+    /*!
+     * \brief This gets the absolute rotation of the inertial frame relative to
+     * the root frame.
+     *
+     * \return The rotation relative to its parent.
+     */
+    virtual float getAbsoluteRotation() const;
+    /*!
+     * \brief This gets absolute the zoom of the inertial frame relative to the
+     * root frame.
+     *
+     * \return The zoom relative to its parent.
+     */
+    virtual float getAbsoluteZoom() const;
+
+    /*!
      * \brief This sets the position of the inertial frame relative to its
      * parent.
      *
@@ -156,6 +178,28 @@ public:
      * \return The scale of the coordinate frame.
      */
     virtual Vectorf getScale() const;
+
+    /*!
+     * \brief This gets the absolute position of the inertial frame relative to
+     * the root frame.
+     *
+     * \return The position relative to its parent.
+     */
+    virtual Vectorf getAbsolutePos() const;
+    /*!
+     * \brief This gets the absolute rotation of the inertial frame relative to
+     * the root frame.
+     *
+     * \return The rotation relative to its parent.
+     */
+    virtual float getAbsoluteRotation() const;
+    /*!
+     * \brief This gets absolute the zoom of the inertial frame relative to the
+     * root frame.
+     *
+     * \return The zoom relative to its parent.
+     */
+    virtual float getAbsoluteZoom() const;
 
     /*!
      * \brief This sets the position of the inertial frame relative to its parent.

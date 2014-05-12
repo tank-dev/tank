@@ -50,6 +50,26 @@ float CoordinateFrame::getZoom() const
     return zoom_;
 }
 
+
+Vectorf CoordinateFrame::getAbsolutePos() const
+{
+    Transform t = getParentFrame()->getTransform();
+    return t(getPos());
+}
+
+float CoordinateFrame::getAbsoluteRotation() const
+{
+    Transform t = getParentFrame()->getTransform();
+    return t.getRotation() + getRotation();
+}
+
+float CoordinateFrame::getAbsoluteZoom() const
+{
+    Transform t = getParentFrame()->getTransform();
+    return t.getZoom() * getZoom();
+}
+
+
 void CoordinateFrame::setPos(Vectorf const& pos)
 {
     pos_ = pos;
@@ -69,6 +89,7 @@ void CoordinateFrame::setZoom(float zoom)
 {
     zoom_ = zoom;
 }
+
 
 void CoordinateFrame::setParentFrame(observing_ptr<InertialFrame> frame)
 {
@@ -136,24 +157,40 @@ Vectorf GraphicalCoordinateFrame::getScale() const
 }
 
 
+Vectorf GraphicalCoordinateFrame::getAbsolutePos() const
+{
+    return CoordinateFrame::getAbsolutePos();
+}
+
+float GraphicalCoordinateFrame::getAbsoluteRotation() const
+{
+    return CoordinateFrame::getAbsoluteRotation();
+}
+
+float GraphicalCoordinateFrame::getAbsoluteZoom() const
+{
+    return CoordinateFrame::getAbsoluteZoom();
+}
+
+
 void GraphicalCoordinateFrame::setPos(Vectorf const& pos)
 {
-    return CoordinateFrame::setPos(pos);
+    CoordinateFrame::setPos(pos);
 }
 
 void GraphicalCoordinateFrame::setRotation(float rotation)
 {
-    return CoordinateFrame::setRotation(rotation);
+    CoordinateFrame::setRotation(rotation);
 }
 
 void GraphicalCoordinateFrame::setOrigin(Vectorf const& o)
 {
-    return CoordinateFrame::setOrigin(o);
+    CoordinateFrame::setOrigin(o);
 }
 
 void GraphicalCoordinateFrame::setZoom(float zoom)
 {
-    return CoordinateFrame::setZoom(zoom);
+    CoordinateFrame::setZoom(zoom);
 }
 
 void GraphicalCoordinateFrame::setScale(Vectorf const& scale)
@@ -164,12 +201,12 @@ void GraphicalCoordinateFrame::setScale(Vectorf const& scale)
 
 void GraphicalCoordinateFrame::setParentFrame(observing_ptr<InertialFrame> frame)
 {
-    return CoordinateFrame::setParentFrame(frame);
+    CoordinateFrame::setParentFrame(frame);
 }
 
 void GraphicalCoordinateFrame::setParentFrameIfNotSameRoot(observing_ptr<InertialFrame> frame)
 {
-    return CoordinateFrame::setParentFrameIfNotSameRoot(frame);
+    CoordinateFrame::setParentFrameIfNotSameRoot(frame);
 }
 
 observing_ptr<const InertialFrame> GraphicalCoordinateFrame::getRootFrame() const
