@@ -378,6 +378,8 @@ observing_ptr<T> Entity::makeGraphic(Args&&... args)
         setHitbox(Rectd(0, 0, hb.x, hb.y));
     }
 
+    // Defaultly attach the graphic to the entity
+    g->setParentFrame(this);
     graphics_.push_back(std::move(g));
     return ptr;
 }

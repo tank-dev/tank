@@ -6,29 +6,27 @@
 #include "CoordinateFrame.hpp"
 #include <SFML/Graphics/Transformable.hpp>
 
+#include <boost/range/algorithm.hpp>
+#include <boost/range/algorithm_ext.hpp>
+
 namespace tank
 {
 
-observing_ptr<const InertialFrame> RootFrame::getRootFrame() const
+CoordinateFrame::~CoordinateFrame()
 {
-    return this;
+    removeFromHigherachy();
 }
-
-observing_ptr<const InertialFrame> RootFrame::getParentFrame() const
-{
-    return this;
-}
-
-Transform RootFrame::getTransformFromParent() const
-{
-    return Transform();
-}
-
-////////////////////////////////////////////////////////////////////////////////
 
 CoordinateFrame::CoordinateFrame(Vectorf const& position)
     : pos_(position)
 {}
+
+void CoordinateFrame::applyTransform(Transform const& t)
+{
+    setPos(t(getPos()));
+    setRotation(t.getRotation() + getRotation());
+    setZoom(t.getZoom() * getZoom());
+}
 
 Vectorf CoordinateFrame::getPos() const
 {
@@ -90,36 +88,48 @@ void CoordinateFrame::setZoom(float zoom)
     zoom_ = zoom;
 }
 
+////////////////////////////////////////////////////////////////////////////////
 
-void CoordinateFrame::setParentFrame(observing_ptr<InertialFrame> frame)
+void CoordinateFrame::removeFromHigherachy() noexcept
 {
-    parentFrame_ = frame;
-}
-
-void CoordinateFrame::setParentFrameIfNotSameRoot(observing_ptr<InertialFrame> frame)
-{
-    observing_ptr<const InertialFrame> frameRoot = frame->getRootFrame();
-    observing_ptr<const InertialFrame> thisRoot = getRootFrame();
-    if (frameRoot != thisRoot or thisRoot == nullptr)
-    {
-        parentFrame_ = frame;
-    }
-}
-
-observing_ptr<const InertialFrame> CoordinateFrame::getRootFrame() const
-{
-    observing_ptr<const InertialFrame> parentFrame_ = getParentFrame();
     if (parentFrame_)
     {
-        return getParentFrame()->getRootFrame();
+        parentFrame_->removeChild(this);
     }
-    else
+    Transform t = getTransformFromParent();
+    for (auto itr = children_.begin(); itr != children_.end(); ++itr)
     {
-        return nullptr;
+        (*itr)->applyTransform(t);
+        (*itr)->setParentFrame(parentFrame_);
     }
 }
 
-observing_ptr<const InertialFrame> CoordinateFrame::getParentFrame() const
+void CoordinateFrame::addChild(observing_ptr<CoordinateFrame> child)
+{
+    children_.push_back(child);
+}
+
+void CoordinateFrame::removeChild(observing_ptr<CoordinateFrame> child)
+{
+    boost::remove_erase(children_, child);
+}
+
+
+void CoordinateFrame::setParentFrame(observing_ptr<CoordinateFrame> frame)
+{
+    if (parentFrame_)
+    {
+        parentFrame_->removeChild(this);
+    }
+    parentFrame_ = frame;
+    if (frame)
+    {
+        frame->addChild(this);
+    }
+    
+}
+
+observing_ptr<CoordinateFrame> CoordinateFrame::getParentFrame() const
 {
     return parentFrame_;
 }
@@ -129,106 +139,40 @@ Transform CoordinateFrame::getTransformFromParent() const
     return Transform(getRotation(), getPos() - getOrigin().rotate(getRotation()), getZoom());
 }
 
-////////////////////////////////////////////////////////////////////////////////
-
-Vectorf GraphicalCoordinateFrame::getPos() const
+Transform CoordinateFrame::getTransformFromRoot() const
 {
-    return CoordinateFrame::getPos();
+    // TODO: implement caching
+    if (parentFrame_ == nullptr)
+    {
+        // If we don't have a parent get the transform that this represents
+        return getTransformFromParent();
+    }
+    else
+    {
+        // If we do have a parent we apply the root from parent transform to
+        // the parent from this transform
+        return getParentFrame()->getTransformFromRoot()(getTransformFromParent());
+    }
 }
 
-float GraphicalCoordinateFrame::getRotation() const
+Transform CoordinateFrame::getTransform(
+        observing_ptr<const CoordinateFrame> iner) const
 {
-    return CoordinateFrame::getRotation();
+    // The transformation from root to iner
+    Transform tInv;
+    // The transformation from root to this
+    Transform t = this->getTransformFromRoot();
+
+    if (iner != nullptr)
+    {
+        tInv = iner->getTransformFromRoot();
+    }
+
+    return tInv.inverse()(t);
 }
 
-Vectorf GraphicalCoordinateFrame::getOrigin() const
-{
-    return CoordinateFrame::getOrigin();
-}
-
-float GraphicalCoordinateFrame::getZoom() const
-{
-    return CoordinateFrame::getZoom();
-}
-
-Vectorf GraphicalCoordinateFrame::getScale() const
-{
-    return scale_;
-}
-
-
-Vectorf GraphicalCoordinateFrame::getAbsolutePos() const
-{
-    return CoordinateFrame::getAbsolutePos();
-}
-
-float GraphicalCoordinateFrame::getAbsoluteRotation() const
-{
-    return CoordinateFrame::getAbsoluteRotation();
-}
-
-float GraphicalCoordinateFrame::getAbsoluteZoom() const
-{
-    return CoordinateFrame::getAbsoluteZoom();
-}
-
-
-void GraphicalCoordinateFrame::setPos(Vectorf const& pos)
-{
-    CoordinateFrame::setPos(pos);
-}
-
-void GraphicalCoordinateFrame::setRotation(float rotation)
-{
-    CoordinateFrame::setRotation(rotation);
-}
-
-void GraphicalCoordinateFrame::setOrigin(Vectorf const& o)
-{
-    CoordinateFrame::setOrigin(o);
-}
-
-void GraphicalCoordinateFrame::setZoom(float zoom)
-{
-    CoordinateFrame::setZoom(zoom);
-}
-
-void GraphicalCoordinateFrame::setScale(Vectorf const& scale)
-{
-    scale_ = scale;
-}
-
-
-void GraphicalCoordinateFrame::setParentFrame(observing_ptr<InertialFrame> frame)
-{
-    CoordinateFrame::setParentFrame(frame);
-}
-
-void GraphicalCoordinateFrame::setParentFrameIfNotSameRoot(observing_ptr<InertialFrame> frame)
-{
-    CoordinateFrame::setParentFrameIfNotSameRoot(frame);
-}
-
-observing_ptr<const InertialFrame> GraphicalCoordinateFrame::getRootFrame() const
-{
-    return CoordinateFrame::getRootFrame();
-}
-
-observing_ptr<const InertialFrame> GraphicalCoordinateFrame::getParentFrame() const
-{
-    return CoordinateFrame::getParentFrame();
-}
-
-Transform GraphicalCoordinateFrame::getTransformFromParent() const
-{
-    return Transform(getRotation(),
-                     getPos() - getOrigin().rotate(getRotation()),
-                     getZoom(), getScale());
-}
-
-Transform GraphicalCoordinateFrame::getTransform(observing_ptr<const InertialFrame> iner) const
-{
-    return CoordinateFrame::getTransform(iner);
-}
-
+//std::vector<observing_ptr<CoordinateFrame>> const& CoordinateFrame::getChildren() 
+//{
+//    return children_;
+//}
 } // tank

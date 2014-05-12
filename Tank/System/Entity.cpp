@@ -123,7 +123,7 @@ void Entity::insertGraphic(std::unique_ptr<Graphic>&& graphic)
         setHitbox(Rectd(0, 0, hb.x, hb.y));
     }
 
-    graphic->setParentFrameIfNotSameRoot(this);
+    graphic->setParentFrame(this);
 
     graphics_.push_back(std::move(graphic));
 }
@@ -222,11 +222,7 @@ void Entity::setLayer(int layer)
 
 void Entity::setWorld(const observing_ptr<World> world)
 {
-    setParentFrame(world);
-    for(auto& g : graphics_)
-    {
-        g->setParentFrameIfNotSameRoot(this);
-    }
+    setParentFrame(nullptr);
     world_ = world;
 }
 

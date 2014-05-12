@@ -10,7 +10,9 @@ namespace tank {
 
 void Graphic::draw(observing_ptr<const Camera> cam)
 {
-    draw(getTransform(cam));
+    Transform t = getTransform(cam);
+    t.setScale(getScale());
+    draw(t);
 }
 
 /*

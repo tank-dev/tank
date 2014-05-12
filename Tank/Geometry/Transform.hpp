@@ -17,6 +17,9 @@ namespace sf
 namespace tank
 {
 
+class CoordinateSystem;
+class GraphicalCoordinateSystem;
+
 /*!
  * \brief This stores a transformation.
  */

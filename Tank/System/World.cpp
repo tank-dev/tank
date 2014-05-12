@@ -20,7 +20,6 @@ namespace tank
 World::World()
     : camera_(new Camera())
 {
-    camera_->setParentFrame(this);
 }
 World::~World()
 {

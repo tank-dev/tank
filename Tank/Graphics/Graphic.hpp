@@ -18,9 +18,10 @@ namespace sf
 
 namespace tank {
 
-class Graphic : public GraphicalCoordinateFrame
+class Graphic : public CoordinateFrame
 {
     bool visible_ {true};
+    Vectorf scale_{1.0f,1.0f};
 
 public:
     Graphic() = default;
@@ -36,6 +37,16 @@ public:
     }
 
     virtual Vectorf getSize() const = 0;
+
+    virtual Vectorf getScale() const
+    {
+        return scale_;
+    }
+
+    virtual void setScale(Vectorf const& scale)
+    {
+        scale_ = scale;
+    }
 
     void centreOrigin()
     {

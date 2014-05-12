@@ -40,7 +40,7 @@ class Game;
  * \see Entity
  * \see EventHandler
  */
-class World : public RootFrame
+class World
 {
     bool updating_ {false};
     std::unique_ptr<Camera> camera_;
