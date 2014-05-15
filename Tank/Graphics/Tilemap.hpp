@@ -113,6 +113,16 @@ public:
     }
 
     /*!
+     * \brief This sets the grid to be used for this tilemap.
+     *
+     * \param grid The grid to be used for the tilemap.
+     */
+    void setGrid(Grid<unsigned> const& grid);
+    {
+        grid_ = grid;
+    }
+
+    /*!
      * \brief This sets a line in the Tilemap
      *
      * \param start The start of the line to set
