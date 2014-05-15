@@ -9,6 +9,12 @@
 #include <cmath>
 #include <iostream>
 
+#ifndef MSVC
+#define CONSTEXPR constexpr
+#else
+#define CONSTEXPR
+#endif
+
 namespace tank
 {
 
@@ -17,10 +23,10 @@ struct Vector
 {
     T x, y;
 
-    Vector(T x = 0, T y = 0) : x{x}, y{y} {}
-    Vector(const Vector& vec) : x{vec.x}, y{vec.y} {}
-    template <typename U> Vector(U x, U y) : x(x), y(y) {}
-    template <typename U> Vector(const Vector<U>& vec) : x(vec.x), y(vec.y) {}
+    CONSTEXPR Vector(T x = 0, T y = 0) : x{x}, y{y} {}
+    CONSTEXPR Vector(const Vector& vec) : x{vec.x}, y{vec.y} {}
+    template <typename U> CONSTEXPR Vector(U x, U y) : x(x), y(y) {}
+    template <typename U> CONSTEXPR Vector(const Vector<U>& vec) : x(vec.x), y(vec.y) {}
 
     /*!
      * \brief Performs the dot product of the vector and the input vector.
@@ -59,7 +65,7 @@ struct Vector
 
     Vector rotate(double angle) const
     {
-        constexpr float toRad = 3.14159265 / 180;
+        CONSTEXPR float toRad = 3.14159265 / 180;
         angle *= toRad;
 
         return {
@@ -85,7 +91,7 @@ struct Vector
 	 */
 	float getAngle(const Vector& vec) const
 	{
-        constexpr double radToDeg = 180 / 3.14159265;
+        CONSTEXPR double radToDeg = 180 / 3.14159265;
 		return radToDeg*std::atan2(x * vec.y - y * vec.x, dot(vec));
 	}
 
@@ -207,6 +213,12 @@ struct Vector
         return { -x, -y };
     }
 };
+
+template <typename T>
+inline CONSTEXPR Vector<T> operator-(Vector<T> vec)
+{
+    return {-vec.x, -vec.y};
+}
 
 /*!
  * \brief Adds two vectors.
@@ -371,6 +383,60 @@ using Vectorf = Vector<float>;
 using Vectord = Vector<double>;
 using Vectori = Vector<int>;
 using Vectoru = Vector<unsigned int>;
+
+#ifndef MSVC
+namespace literals {
+CONSTEXPR Vectorf operator""_x (long double x)
+{
+    return Vectorf(x,0);
+}
+
+CONSTEXPR Vectorf operator""_y (long double y)
+{
+    return Vectorf(0, y);
+}
+
+CONSTEXPR Vectorf operator""_x (unsigned long long x)
+{
+    return Vectorf(x,0);
+}
+
+CONSTEXPR Vectorf operator""_y (unsigned long long y)
+{
+    return Vectorf(0, y);
+}
+
+CONSTEXPR Vectord operator""_xd (long double x)
+{
+    return Vectord(x,0);
+}
+
+CONSTEXPR Vectord operator""_yd (long double y)
+{
+    return Vectord(0,y);
+}
+
+CONSTEXPR Vectori operator""_xi (unsigned long long x)
+{
+    return Vectori(x,0);
+}
+
+CONSTEXPR Vectori operator""_yi (unsigned long long y)
+{
+    return Vectori(0,y);
+}
+
+CONSTEXPR Vectoru operator""_xu (unsigned long long x)
+{
+    return Vectori(x,0);
+}
+
+CONSTEXPR Vectoru operator""_yu (unsigned long long y)
+{
+    return Vectoru(0,y);
+}
+}
+#endif
 
 }
 
