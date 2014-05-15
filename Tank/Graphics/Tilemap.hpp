@@ -117,7 +117,7 @@ public:
      *
      * \param grid The grid to be used for the tilemap.
      */
-    void setGrid(Grid<unsigned> const& grid);
+    void setGrid(Grid<unsigned> const& grid)
     {
         grid_ = grid;
     }
