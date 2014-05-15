@@ -21,8 +21,7 @@ namespace tank
 {
 
 /*!
- * \brief Represents an image with multiple frames and stores animations for
- * that image.
+ * \brief This is a tilemap.
  */
 class Tilemap final : public Image
 {
@@ -31,9 +30,14 @@ class Tilemap final : public Image
     Grid<unsigned> tiles_;
 
 public:
+    /*!
+     * \brief Constructs a tilemap, a texture will need to be loaded and the
+     * tile and grid dimensions will have to set before it can be used.
+     */
     Tilemap() = default;
     /*!
-     * \brief Construct an Animation with a Texture.
+     * \brief Construct an Tilemap with a Texture.
+     *
      * \param file the file to load the texture from.
      * \param gridDims size of the grid.
      * \param frameDims size of each image in the Texture.
