@@ -17,15 +17,17 @@ namespace sf
 namespace tank
 {
 
-class CoordinateSystem;
-class GraphicalCoordinateSystem;
-
 /*!
- * \brief This stores a transformation.
+ * \brief This stores a transformation. It is stored is 3 componenets; Zoom,
+ * Offset and Rotation. They are ordered so that the zoom and rotation are
+ * applied first and then the offset. (As this is the way SFML does it.)
+ *
+ * A scale compenent is also included but this is strictly for working with
+ * graphics and full affine transformations aren't supported.
  */
 class Transform
 {
-    // Order of operations on vector x is Z(O(R(x))), Z-zoom, O-offset,
+    // Order of operations on vector x is O(Z(R(x))), Z-zoom, O-offset,
     // R-rotation
     float rotation_ = 0.0f;
     Vectorf offset_ = {0.0f,0.0f};
@@ -33,9 +35,6 @@ class Transform
 
     // This is incase a graphic is involved, this is ignored for most purposes.
     Vectorf scale_ = {1.0f, 1.0f};
-
-    friend class CoordinateSystem;
-    friend class GraphicalCoordinateSystem;
 
 public:
     Transform() = default;

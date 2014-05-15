@@ -49,15 +49,15 @@ void Transform::transform(sf::Transformable& t) const
 Vectorf Transform::operator()(Vectorf const& vec) const
 {
     Vectorf rot = vec.rotate(rotation_);
-    return {zoom_ * (rot.x + offset_.x) * scale_.x,
-            zoom_ * (rot.y + offset_.y) * scale_.y};
+    return {zoom_ * scale_.x * rot.x + offset_.x,
+            zoom_ * scale_.y * rot.y + offset_.y};
 }
 
 Transform Transform::operator()(Transform const& t) const
 {
     // This works so that T'(T)(x) =  T'(T(x))
     return Transform(rotation_ + t.rotation_,
-                     offset_ + t.offset_.rotate(rotation_),
+                     offset_ + zoom_ * t.offset_.rotate(rotation_),
                      zoom_ * t.zoom_,
                      t.scale_);
 }
