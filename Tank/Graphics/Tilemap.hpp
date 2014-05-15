@@ -129,7 +129,7 @@ public:
      */
     void setGrid(Grid<unsigned> const& grid)
     {
-        grid_ = grid;
+        tiles_ = grid;
     }
 
     /*!
