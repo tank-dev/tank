@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 2.8.9)
+(VERSION 2.8.9)
 if (NOT DEFINED PROJECT_NAME)
     project (Tank)
 endif()
@@ -20,7 +20,6 @@ set(TANK_INCLUDE_DIRS ${CMAKE_CURRENT_SOURCE_DIR})
 if (${PROJECT_NAME} STREQUAL "Tank")
     set(TANK_INCLUDE_DIRS ${CMAKE_CURRENT_SOURCE_DIR})
     include_directories(${TANK_INCLUDE_DIRS})
-    option(TESTS "Build unit tests" ON)
 else()
     set(TANK_INCLUDE_DIRS ${CMAKE_CURRENT_SOURCE_DIR} ${SFML_INCLUDE_DIR} 
         ${Boost_INCLUDE_DIR} PARENT_SCOPE)
@@ -60,8 +59,6 @@ endif(WARN)
 
 set(COMPILE_DEFINITIONS_DEBUG "${COMPILE_DEFINITIONS_DEBUG} -DDEBUG")
 
-add_subdirectory(deps)
-
 add_subdirectory(Tank/Audio)
 add_subdirectory(Tank/Graphics)
 add_subdirectory(Tank/System)
@@ -84,8 +81,4 @@ endif(DOXYGEN_FOUND)
 
 add_library(tank ${audio_src} ${gfx_src} ${sys_src} ${tweens_src} ${util_src})
 target_link_libraries(tank ${SFML_LIBRARIES} ${CMAKE_THREAD_LIBS_INIT})
-
-if(TESTS)
-    add_subdirectory(tests)
-endif()
 
