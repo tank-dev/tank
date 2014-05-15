@@ -22,9 +22,10 @@ template<typename T>
 class Grid
 {
     std::vector<T> data;
-    Vectoru dimensions;
+    Vectoru dimensions{0,0};
 
 public:
+    Grid() = default;
     Grid(const Vectoru& dims);
     Grid(const Vectoru& dims, T intialValue);
 
