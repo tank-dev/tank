@@ -64,7 +64,7 @@ Transform Transform::operator()(Transform const& t) const
 
 Transform Transform::inverse() const
 {
-    return Transform(-rotation_, -offset_.rotate(-rotation_), 1/zoom_);
+    return Transform(-rotation_, -offset_.rotate(-rotation_)/zoom_, 1/zoom_);
 }
 
 } // tank
