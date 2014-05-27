@@ -90,6 +90,16 @@ public:
     T* get() {
         return p_;
     }
+
+    operator T&()
+    {
+        return *p_;
+    }
+
+    operator T&() const
+    {
+        return *p_;
+    }
 };
 
 

@@ -18,11 +18,11 @@ template <typename T>
 struct Rect
 {
     T x, y, w, h;
-    Rect(T x = 0, T y = 0, T w = 0, T h = 0)
+    constexpr Rect(T x = 0, T y = 0, T w = 0, T h = 0)
         : x(x) , y(y) , w(w) , h(h) {}
-    template <typename U> Rect(U x, U y, U h, U w)
+    template <typename U> constexpr Rect(U x, U y, U h, U w)
         : x(x) , y(y) , w(w) , h(h) {}
-    template <typename U> Rect(const Rect<U>& rect)
+    template <typename U> constexpr Rect(const Rect<U>& rect)
         : x(rect.x) , y(rect.y) , w(rect.w) , h(rect.h) {}
 
     template<typename U>
@@ -50,14 +50,14 @@ struct Rect
 };
 
 template <typename T, typename U>
-inline bool operator== (const Rect<T>& lhs, const Rect<U>& rhs)
+constexpr inline bool operator== (const Rect<T>& lhs, const Rect<U>& rhs)
 {
     return lhs.x == rhs.x and lhs.y == rhs.y and
            lhs.w == rhs.w and lhs.h == rhs.h;
 }
 
 template <typename T, typename U>
-inline bool operator!= (const Rect<T>& lhs, const Rect<U>& rhs)
+constexpr inline bool operator!= (const Rect<T>& lhs, const Rect<U>& rhs)
 {
     return not operator==(lhs,rhs);
 }
