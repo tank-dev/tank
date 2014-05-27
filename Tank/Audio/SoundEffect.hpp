@@ -32,8 +32,10 @@ public:
         return loaded_;
     }
 
-    Status getStatus() {return sound_.getStatus();}
-
+    Status getStatus()
+    {
+        return sound_.getStatus();
+    }
 };
 
 }
