@@ -91,10 +91,17 @@ public:
         return p_;
     }
 
-    T const* get() const {
-        return p_;
+    operator T&()
+    {
+        return *p_;
+    }
+
+    operator T&() const
+    {
+        return *p_;
     }
 };
+
 
 template <typename T, typename U>
 bool operator==(const T& lhs, const observing_ptr<U>& rhs)

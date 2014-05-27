@@ -9,12 +9,6 @@
 #include <cmath>
 #include <iostream>
 
-#ifndef MSVC
-#define CONSTEXPR constexpr
-#else
-#define CONSTEXPR
-#endif
-
 namespace tank
 {
 
@@ -23,10 +17,10 @@ struct Vector
 {
     T x, y;
 
-    CONSTEXPR Vector(T x = 0, T y = 0) : x{x}, y{y} {}
-    CONSTEXPR Vector(const Vector& vec) : x{vec.x}, y{vec.y} {}
-    template <typename U> CONSTEXPR Vector(U x, U y) : x(x), y(y) {}
-    template <typename U> CONSTEXPR Vector(const Vector<U>& vec) : x(vec.x), y(vec.y) {}
+    constexpr Vector(T x = 0, T y = 0) : x{x}, y{y} {}
+    constexpr Vector(const Vector& vec) : x{vec.x}, y{vec.y} {}
+    template <typename U> constexpr Vector(U x, U y) : x(x), y(y) {}
+    template <typename U> constexpr Vector(const Vector<U>& vec) : x(vec.x), y(vec.y) {}
 
     /*!
      * \brief Performs the dot product of the vector and the input vector.
@@ -35,7 +29,7 @@ struct Vector
      *
      * \return The result of the dot product.
      */
-    T dot(Vector const& b) const
+    constexpr T dot(Vector const& b) const
     {
         return x*b.x + y*b.y;
     }
@@ -45,7 +39,7 @@ struct Vector
      *
      * \return The length of the vector.
      */
-    T magnitude() const
+    constexpr T magnitude() const
     {
         return sqrt(x*x+y*y);
     }
@@ -58,14 +52,14 @@ struct Vector
      *
      * \return The length squared of the vector.
      */
-	T magnitudeSquared() const
+    constexpr T magnitudeSquared() const
 	{
 		return x*x + y*y;
 	}
 
     Vector rotate(double angle) const
     {
-        CONSTEXPR float toRad = 3.14159265 / 180;
+        constexpr float toRad = 3.14159265 / 180;
         angle *= toRad;
 
         return {
@@ -89,10 +83,10 @@ struct Vector
 	 *
 	 * \return The angle between the vectors.
 	 */
-	float getAngle(const Vector& vec) const
+    float getAngle(const Vector& vec) const
 	{
-        CONSTEXPR double radToDeg = 180 / 3.14159265;
-		return radToDeg*std::atan2(x * vec.y - y * vec.x, dot(vec));
+        constexpr double radToDeg = 180 / 3.14159265;
+        return radToDeg * std::atan2(x * vec.y - y * vec.x, dot(vec));
 	}
 
     /*!
@@ -107,7 +101,7 @@ struct Vector
         return {x/mag, y/mag};
     }
 
-    Vector normal() const
+    constexpr Vector normal() const
     {
         return {-y, x};
     }
@@ -207,15 +201,10 @@ struct Vector
 
         return *this;
     }
-
-    Vector operator-()
-    {
-        return { -x, -y };
-    }
 };
 
 template <typename T>
-inline CONSTEXPR Vector<T> operator-(Vector<T> vec)
+inline constexpr Vector<T> operator-(Vector<T> vec)
 {
     return {-vec.x, -vec.y};
 }
@@ -228,7 +217,7 @@ inline CONSTEXPR Vector<T> operator-(Vector<T> vec)
  * \return The result of the addition.
  */
 template <typename T, typename U>
-inline auto operator+ (const Vector<T>& lhs, const Vector<U>& rhs) ->
+constexpr inline auto operator+ (const Vector<T>& lhs, const Vector<U>& rhs) ->
                                                 Vector<decltype(lhs.x + rhs.x)>
 {
     return {lhs.x + rhs.x, lhs.y + rhs.y};
@@ -242,7 +231,7 @@ inline auto operator+ (const Vector<T>& lhs, const Vector<U>& rhs) ->
  * \return The result of the addition.
  */
 template <typename T, typename U>
-inline auto operator+ (const Vector<T>& lhs, const U& rhs) ->
+constexpr inline auto operator+ (const Vector<T>& lhs, const U& rhs) ->
                                                 Vector<decltype(lhs.x + rhs)>
 {
     return {lhs.x + rhs, lhs.y + rhs};
@@ -256,7 +245,7 @@ inline auto operator+ (const Vector<T>& lhs, const U& rhs) ->
  * \return The result of the multiplication.
  */
 template <typename T, typename U>
-inline auto operator+ (const T& lhs, const Vector<U>& rhs) ->
+constexpr inline auto operator+ (const T& lhs, const Vector<U>& rhs) ->
                                                 Vector<decltype(lhs + rhs.x)>
 {
     return {lhs + rhs.x, lhs + rhs.y};
@@ -270,7 +259,7 @@ inline auto operator+ (const T& lhs, const Vector<U>& rhs) ->
  * \return The result of the subtraction.
  */
 template <typename T, typename U>
-inline auto operator- (const Vector<T>& lhs, const Vector<U>& rhs) ->
+constexpr inline auto operator- (const Vector<T>& lhs, const Vector<U>& rhs) ->
                                                 Vector<decltype(lhs.x - rhs.x)>
 {
     return {lhs.x - rhs.x, lhs.y - rhs.y};
@@ -284,7 +273,7 @@ inline auto operator- (const Vector<T>& lhs, const Vector<U>& rhs) ->
  * \return The result of the subtraction.
  */
  template <typename T, typename U>
- inline auto operator- (const Vector<T>& lhs, const U& rhs) ->
+ constexpr inline auto operator- (const Vector<T>& lhs, const U& rhs) ->
                                                 Vector<decltype(lhs.x - rhs)>
 {
     return {lhs.x - rhs, lhs.y - rhs};
@@ -298,7 +287,7 @@ inline auto operator- (const Vector<T>& lhs, const Vector<U>& rhs) ->
  * \return The result of the multiplication.
  */
 template <typename T, typename U>
-inline auto operator- (const T& lhs, const Vector<U>& rhs) ->
+constexpr inline auto operator- (const T& lhs, const Vector<U>& rhs) ->
                                                 Vector<decltype(lhs - rhs.x)>
 {
     return {lhs - rhs.x, lhs - rhs.y};
@@ -312,7 +301,7 @@ inline auto operator- (const T& lhs, const Vector<U>& rhs) ->
  * \return The result of the multiplication.
  */
 template <typename T, typename U>
-inline auto operator* (const Vector<T>& lhs, const U& rhs) ->
+constexpr inline auto operator* (const Vector<T>& lhs, const U& rhs) ->
                                                 Vector<decltype(lhs.x * rhs)>
 {
     return {lhs.x * rhs, lhs.y * rhs};
@@ -326,14 +315,14 @@ inline auto operator* (const Vector<T>& lhs, const U& rhs) ->
  * \return The result of the multiplication.
  */
 template <typename T, typename U>
-inline auto operator* (const T& lhs, const Vector<U>& rhs) ->
+constexpr inline auto operator* (const T& lhs, const Vector<U>& rhs) ->
                                                 Vector<decltype(lhs * rhs.x)>
 {
     return {lhs * rhs.x, lhs * rhs.y};
 }
 
 template <typename T, typename U>
-inline auto operator/ (const Vector<T>& lhs, const U& rhs) ->
+constexpr inline auto operator/ (const Vector<T>& lhs, const U& rhs) ->
                                                 Vector<decltype(lhs.x / rhs)>
 {
     return {lhs.x / rhs, lhs.y / rhs};
@@ -354,7 +343,7 @@ inline auto operator/ (const Vector<T>& lhs, const Vector<U>& rhs) ->
  * \return true if the vectors are equal.
  */
 template <typename T, typename U>
-inline bool operator== (const Vector<T>& lhs, const Vector<U>& rhs)
+constexpr inline bool operator== (const Vector<T>& lhs, const Vector<U>& rhs)
 {
     return lhs.x == rhs.x and lhs.y == rhs.y;
 }
@@ -367,9 +356,9 @@ inline bool operator== (const Vector<T>& lhs, const Vector<U>& rhs)
  * \return true if the vectors are not equal.
  */
 template <typename T, typename U>
-inline bool operator!= (const Vector<T>& lhs, const Vector<U>& rhs)
+constexpr inline bool operator!= (const Vector<T>& lhs, const Vector<U>& rhs)
 {
-    return not operator==(lhs, rhs);
+    return !operator==(lhs, rhs);
 }
 
 template <typename T>
@@ -384,59 +373,58 @@ using Vectord = Vector<double>;
 using Vectori = Vector<int>;
 using Vectoru = Vector<unsigned int>;
 
-#ifndef MSVC
-namespace literals {
-CONSTEXPR Vectorf operator""_x (long double x)
+namespace literals
+{
+constexpr Vectorf operator""_x (long double x)
 {
     return Vectorf(x,0);
 }
 
-CONSTEXPR Vectorf operator""_y (long double y)
+constexpr Vectorf operator""_y (long double y)
 {
     return Vectorf(0, y);
 }
 
-CONSTEXPR Vectorf operator""_x (unsigned long long x)
+constexpr Vectorf operator""_x (unsigned long long x)
 {
     return Vectorf(x,0);
 }
 
-CONSTEXPR Vectorf operator""_y (unsigned long long y)
+constexpr Vectorf operator""_y (unsigned long long y)
 {
     return Vectorf(0, y);
 }
 
-CONSTEXPR Vectord operator""_xd (long double x)
+constexpr Vectord operator""_xd (long double x)
 {
     return Vectord(x,0);
 }
 
-CONSTEXPR Vectord operator""_yd (long double y)
+constexpr Vectord operator""_yd (long double y)
 {
     return Vectord(0,y);
 }
 
-CONSTEXPR Vectori operator""_xi (unsigned long long x)
+constexpr Vectori operator""_xi (unsigned long long x)
 {
     return Vectori(x,0);
 }
 
-CONSTEXPR Vectori operator""_yi (unsigned long long y)
+constexpr Vectori operator""_yi (unsigned long long y)
 {
     return Vectori(0,y);
 }
 
-CONSTEXPR Vectoru operator""_xu (unsigned long long x)
+constexpr Vectoru operator""_xu (unsigned long long x)
 {
     return Vectori(x,0);
 }
 
-CONSTEXPR Vectoru operator""_yu (unsigned long long y)
+constexpr Vectoru operator""_yu (unsigned long long y)
 {
     return Vectoru(0,y);
 }
 }
-#endif
 
 }
 
@@ -448,7 +436,7 @@ struct hash<tank::Vector<T>>
     using argument_type = tank::Vector<T>;
     using value_type = std::size_t;
 
-    value_type operator()(const argument_type& v) const
+    constexpr value_type operator()(const argument_type& v) const
     {
         return std::hash<T>()(v.x) ^ (std::hash<T>()(v.y) << 1);
     }
