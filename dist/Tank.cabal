@@ -21,6 +21,5 @@ executable Tank
   -- other-modules:       
   other-extensions:    TemplateHaskell
   build-depends:       base, process, directory, bytestring, MissingH, file-embed, filemanip
-  ld-options:          -static -pthread
   -- hs-source-dirs:      
   default-language:    Haskell2010

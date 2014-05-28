@@ -3,13 +3,12 @@
 
 module Main where
 import Control.Applicative
+import Data.List.Utils (replace)
 import System.Process (system)
 import System.Exit (exitFailure)
-import System.IO (hPutStrLn, stderr,withFile,IOMode(..))
+import System.IO (hPutStrLn, stderr)
 import System.FilePath.Manip (modifyInPlace)
 import Data.FileEmbed (embedDir)
-import Data.List.Utils (replace)
-import System.IO.Utils (hInteract)
 import Control.Monad (void)
 import qualified System.Directory as Dir
 import qualified Data.ByteString.Char8 as BS
@@ -45,7 +44,7 @@ installTank projectName = Dir.findExecutable "git" >>= \x -> case x of
     Nothing -> exit projectName "Cannot find git" 
     -- Git found
     _ -> mapM_ system ["git init",
-                       "git submodule add https://github.com/Gazok/Tank.git"]
+                       "git submodule add https://github.com/qualia/Tank.git"]
 
 fileReplace :: String -> String -> FilePath -> IO()
 fileReplace s1 s2 = modifyInPlace (replace s1 s2) 
