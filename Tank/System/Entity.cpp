@@ -274,4 +274,9 @@ bool Entity::onScreen() const
     return true;
 }
 
+bool Entity::partOffScreen() const
+{
+    return (!onScreen()) && (!offScreen());
+}
+
 }

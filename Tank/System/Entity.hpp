@@ -359,6 +359,8 @@ public:
      */
     virtual bool onScreen() const;
 
+    virtual bool partOffScreen() const;
+
     /*!
      * \brief For the event handler, determine if given entity is off the screen.
      * \param e Entity to check for.
@@ -379,6 +381,11 @@ public:
     static std::function<bool()> onScreen(const tank::observing_ptr<Entity> e)
     {
         return [e]{return e->onScreen();};
+    }
+
+    static std::function<bool()> partOffScreen(const tank::observing_ptr<Entity> e)
+    {
+        return [e]{return e->partOffScreen();};
     }
 
     /*!
