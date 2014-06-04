@@ -22,10 +22,13 @@ class Logger;
 class Logger_buf : public std::stringbuf
 {
     std::function<void(const std::string&)> log_fn;
-public:
 
-    Logger_buf(std::function<void(const std::string&)> log_fn) : log_fn(log_fn) {}
-    int sync() override {
+public:
+    Logger_buf(std::function<void(const std::string&)> log_fn) : log_fn(log_fn)
+    {
+    }
+    int sync() override
+    {
         log_fn(str());
         str("");
         return 0;
@@ -38,12 +41,14 @@ class Logger : public std::ostream
     Timer timer_;
     std::ofstream logFile_;
     Logger_buf buf_;
+
 public:
     Logger(std::string file);
     void log(const std::string& s);
-	~Logger() throw() {}
+    ~Logger() throw()
+    {
+    }
 };
-
 }
 
-#endif //LOGGER_HPP
+#endif // LOGGER_HPP

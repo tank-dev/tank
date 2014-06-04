@@ -14,7 +14,8 @@
 #include "Window.hpp"
 #include "World.hpp"
 
-namespace tank {
+namespace tank
+{
 
 /*!
  * \brief Static Game class containing main loop and current world.
@@ -59,7 +60,8 @@ public:
      * \param windowSize The window canvas size in pixels.
      * \return True on success.
      */
-    static bool initialize(Vector<unsigned int> const& windowSize, int fps = 60);
+    static bool initialize(Vector<unsigned int> const& windowSize,
+                           int fps = 60);
 
     /*!
      * \brief Starts the game loop
@@ -80,7 +82,7 @@ public:
      *
      * \return A pointer to the world.
      */
-    template<typename T, typename... Args>
+    template <typename T, typename... Args>
     static observing_ptr<T> makeWorld(Args&&... args);
 
     /*!
@@ -88,19 +90,26 @@ public:
      *
      * \return A pointer to the active world.
      */
-    static observing_ptr<World> world() { return currentWorld_; }
+    static observing_ptr<World> world()
+    {
+        return currentWorld_;
+    }
 
     /*!
      * \brief Return a reference to a pointer to the Window.
      *
      * \return The window.
      */
-    static std::unique_ptr<Window> const& window() { return window_; };
+    static std::unique_ptr<Window> const& window()
+    {
+        return window_;
+    };
 
     static void stop()
     {
         run_ = false;
     }
+
 private:
     static void handleEvents();
     static void update();
@@ -110,19 +119,18 @@ private:
     ~Game();
 };
 
-template<typename T, typename... Args>
+template <typename T, typename... Args>
 observing_ptr<T> Game::makeWorld(Args&&... args)
 {
     static_assert(std::is_base_of<World, T>::value,
                   "Class must derive from World");
 
-    std::unique_ptr<T> world {new T(std::forward<Args>(args)...)};
-    observing_ptr<T> ptr {world};
-    //worlds_.push(std::move(world));
+    std::unique_ptr<T> world{new T(std::forward<Args>(args)...)};
+    observing_ptr<T> ptr{world};
+    // worlds_.push(std::move(world));
     newWorld_.reset(world.release());
     return ptr;
 }
-
 }
 
 #endif

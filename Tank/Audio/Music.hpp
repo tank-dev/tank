@@ -30,7 +30,6 @@ public:
         return loaded_;
     }
 };
-
 }
 
-#endif //TANK_MUSIC_HPP
+#endif // TANK_MUSIC_HPP

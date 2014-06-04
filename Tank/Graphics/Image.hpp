@@ -13,13 +13,14 @@
 #include "Texture.hpp"
 #include "Graphic.hpp"
 
-namespace tank {
+namespace tank
+{
 
 class Image : public Graphic
 {
-    bool loaded_ {false};
+    bool loaded_{false};
     sf::Sprite sprite_;
-    std::shared_ptr<Texture> texture_ {nullptr};
+    std::shared_ptr<Texture> texture_{nullptr};
 
 public:
     Image() = default;
@@ -62,7 +63,8 @@ public:
      * \param clip An optional parameter for additional clipping within the
      * designated area.
      */
-    virtual void setClip(Vectoru dimensions, unsigned int index, Rectu clip = {0,0,0,0});
+    virtual void setClip(Vectoru dimensions, unsigned int index,
+                         Rectu clip = {0, 0, 0, 0});
 
     /*!
      * \brief Sets the clip rectangle of the image
@@ -71,10 +73,9 @@ public:
      */
     virtual void setClip(Rectu clip)
     {
-        sprite_.setTextureRect({static_cast<int>(clip.x),
-                                static_cast<int>(clip.y),
-                                static_cast<int>(clip.w),
-                                static_cast<int>(clip.h)});
+        sprite_.setTextureRect(
+                {static_cast<int>(clip.x), static_cast<int>(clip.y),
+                 static_cast<int>(clip.w), static_cast<int>(clip.h)});
     }
     virtual Rectu getClip() const
     {
@@ -87,14 +88,12 @@ public:
 
     virtual Vectoru getTextureSize() const
     {
-        return { texture_->getSize().x, texture_->getSize().y };
+        return {texture_->getSize().x, texture_->getSize().y};
     }
 
-    virtual void draw(Vectorf parentPos = {},
-                      float parentRot = 0,
+    virtual void draw(Vectorf parentPos = {}, float parentRot = 0,
                       Vectorf parentOri = {},
                       Camera const& = Camera()) override;
 };
-
 }
 #endif /* TANK_IMAGE_HPP */

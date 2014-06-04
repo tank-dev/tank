@@ -21,7 +21,7 @@ class BitmapText final : public Graphic
     char asciiOffset_;
     unsigned int rowWidth_;
     Rectu clip_;
-    std::string text_ {""};
+    std::string text_;
 
 public:
     BitmapText(Image const& font, Vectoru glyphDimensions,
@@ -72,12 +72,9 @@ public:
         return font_.getTextureSize();
     }
 
-    virtual void draw(Vectorf parentPos = {},
-                      float parentRot = 0,
-                      Vectorf parentOri = {},
-                      Camera const& = Camera());
+    virtual void draw(Vectorf parentPos = {}, float parentRot = 0,
+                      Vectorf parentOri = {}, Camera const& = Camera());
 };
-
 }
 
 #endif /* TANK_BITMAPTEXT_HPP */

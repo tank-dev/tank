@@ -6,11 +6,11 @@
 #include "RectangleShape.hpp"
 #include "../System/Game.hpp"
 
-namespace tank {
+namespace tank
+{
 
 RectangleShape::RectangleShape(Vectorf size)
-    : Shape()
-    , rectangleShape_({size.x, size.y})
+        : Shape(), rectangleShape_({size.x, size.y})
 {
 }
 
@@ -50,15 +50,11 @@ Vectorf RectangleShape::getSize() const
     return {rect.width, rect.height};
 }
 
-void RectangleShape::draw(Vectorf parentPos,
-                          float parentRot,
-                          Vectorf parentOri,
+void RectangleShape::draw(Vectorf parentPos, float parentRot, Vectorf parentOri,
                           Camera const& cam)
 {
-    Graphic::transform(this, parentPos, parentRot, parentOri,
-                       cam, rectangleShape_);
+    Graphic::transform(this, parentPos, parentRot, parentOri, cam,
+                       rectangleShape_);
     Game::window()->SFMLWindow().draw(rectangleShape_);
 }
-
-
 }

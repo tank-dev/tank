@@ -12,10 +12,10 @@
 #include <chrono>
 #include <functional>
 
-namespace tank 
+namespace tank
 {
 
-template<typename T>
+template <typename T>
 class LinearFunc final : public TweenFunc<T>
 {
     T value_;
@@ -23,7 +23,7 @@ class LinearFunc final : public TweenFunc<T>
     std::chrono::milliseconds duration_;
     Timer timer_;
 
-protected:    
+protected:
     virtual void setValue(T value);
 
 public:
@@ -57,53 +57,53 @@ public:
     virtual void offset(std::chrono::milliseconds const& delay) override;
 };
 
-template<typename T>
-LinearFunc<T>::LinearFunc(T const& target, std::chrono::milliseconds const& duration)
-    : target_(target)
-    , duration_(duration)
+template <typename T>
+LinearFunc<T>::LinearFunc(T const& target,
+                          std::chrono::milliseconds const& duration)
+        : target_(target), duration_(duration)
 {
     timer_.start();
 }
 
-template<typename T>
+template <typename T>
 T LinearFunc<T>::getValue() const
 {
-    std::chrono::milliseconds currentTime = std::chrono::duration_cast<std::chrono::milliseconds>(timer_.getTicks());
-    if (duration_ > currentTime)
-    {
-        return value_ + currentTime.count() * (target_ - value_) / duration_.count();
-    }
-    else
-    {
+    std::chrono::milliseconds currentTime =
+            std::chrono::duration_cast<std::chrono::milliseconds>(
+                    timer_.getTicks());
+    if (duration_ > currentTime) {
+        return value_ +
+               currentTime.count() * (target_ - value_) / duration_.count();
+    } else {
         return TweenFunc<T>::end(currentTime - duration_);
     }
 }
 
-template<typename T>
+template <typename T>
 T LinearFunc<T>::getLastValue() const
 {
     return target_;
 }
 
-template<typename T>
+template <typename T>
 void LinearFunc<T>::pause()
 {
     timer_.pause();
 }
 
-template<typename T>
+template <typename T>
 void LinearFunc<T>::resume()
 {
     timer_.resume();
 }
 
-template<typename T>
+template <typename T>
 void LinearFunc<T>::offset(std::chrono::milliseconds const& delay)
 {
     timer_.offset(delay);
 }
 
-template<typename T>
+template <typename T>
 void LinearFunc<T>::setValue(T value)
 {
     value_ = value;

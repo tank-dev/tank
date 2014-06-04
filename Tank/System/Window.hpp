@@ -12,10 +12,11 @@
 
 namespace sf
 {
-    class Event;
+class Event;
 }
 
-namespace tank {
+namespace tank
+{
 
 class Window
 {
@@ -28,13 +29,15 @@ public:
 
     virtual void flipDisplay();
 
-    virtual sf::RenderWindow& SFMLWindow() { return window_; }
+    virtual sf::RenderWindow& SFMLWindow()
+    {
+        return window_;
+    }
 
     virtual void resize(Vector<unsigned int> const& size);
     virtual void setCaption(std::string caption);
 
-    virtual void setBackgroundColor(float r, float g, float b,
-                                    float a = 1.f);
+    virtual void setBackgroundColor(float r, float g, float b, float a = 1.f);
 
     /*!
      * \brief SFML-specific polling code (temporary)
@@ -45,20 +48,20 @@ public:
      * \brief Not implemented
      */
     virtual void setIcon(std::string path);
+
 private:
     sf::RenderWindow window_;
     std::string caption_;
     Vector<unsigned int> size_;
 
-    //Is this window instance the current window?
+    // Is this window instance the current window?
     bool valid_;
 
     sf::Color backgroundColor_;
 
-    //Unfortunately we can only have one window right now
+    // Unfortunately we can only have one window right now
     static bool windowExists_;
 };
-
 }
 
 #endif /* WINDOW_H */

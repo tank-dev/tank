@@ -9,7 +9,8 @@
 #include "Graphic.hpp"
 #include "Color.hpp"
 
-namespace tank {
+namespace tank
+{
 
 class Shape : public Graphic
 {
@@ -21,6 +22,5 @@ public:
     virtual Color const& getOutlineColor() const = 0;
     virtual float getOutlineThickness() const = 0;
 };
-
 }
 #endif /* TANK_SHAPE_HPP */

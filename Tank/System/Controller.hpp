@@ -26,17 +26,18 @@
 #include "../Utility/Vector.hpp"
 #include "../Utility/observing_ptr.hpp"
 
-namespace tank {
+namespace tank
+{
 
 class Controller
 {
     friend class Controllers;
-    bool connectedState_ , connectedLast_;
+    bool connectedState_, connectedLast_;
     unsigned id_;
-    std::array<double, sf::Joystick::AxisCount> axisStates_ {};
-    std::array<double, sf::Joystick::AxisCount> axisLast_ {};
-    std::array<bool, sf::Joystick::ButtonCount> buttonStates_ {};
-    std::array<bool, sf::Joystick::ButtonCount> buttonLast_ {};
+    std::array<double, sf::Joystick::AxisCount> axisStates_{};
+    std::array<double, sf::Joystick::AxisCount> axisLast_{};
+    std::array<bool, sf::Joystick::ButtonCount> buttonStates_{};
+    std::array<bool, sf::Joystick::ButtonCount> buttonLast_{};
 
 public:
     enum class Button;
@@ -68,7 +69,10 @@ public:
                                     double threshold = 0.05) const;
     std::function<bool()> AxisMoved(Axis axis, double threshold = 0.05) const;
 
-    bool isConnected() const { return connectedState_; }
+    bool isConnected() const
+    {
+        return connectedState_;
+    }
     std::function<bool()> Connected() const;
     std::function<bool()> Disconnected() const;
 
@@ -90,11 +94,13 @@ public:
 
 private:
     void reset();
-    void setStatus(bool connected) { connectedState_ = connected; }
+    void setStatus(bool connected)
+    {
+        connectedState_ = connected;
+    }
 };
 
-enum class Controller::Button
-{
+enum class Controller::Button {
     A = 0,
     B = 1,
     X = 2,
@@ -108,8 +114,7 @@ enum class Controller::Button
     STICK_RIGHT = 10
 };
 
-enum class Controller::Axis
-{
+enum class Controller::Axis {
     STICK_LEFT_X = 0,
     STICK_LEFT_Y = 1,
     TRIGGER_LEFT = 2,
@@ -127,7 +132,7 @@ class Controllers
 
 public:
     static std::vector<tank::observing_ptr<Controller>>
-        getConnectedControllers();
+            getConnectedControllers();
 
     static std::vector<Controller> const& getAllControllers();
 

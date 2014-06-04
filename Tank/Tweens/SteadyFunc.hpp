@@ -11,15 +11,17 @@
 #include <chrono>
 #include <functional>
 
-namespace tank 
+namespace tank
 {
 
-template<typename T>
+template <typename T>
 class SteadyFunc final : public TweenFunc<T>
 {
     T value_;
-protected:    
+
+protected:
     virtual void setValue(T value);
+
 public:
     SteadyFunc() = default;
 
@@ -51,31 +53,34 @@ public:
     virtual void offset(std::chrono::milliseconds const& delay) override;
 };
 
-template<typename T>
+template <typename T>
 T SteadyFunc<T>::getValue() const
 {
     return value_;
 }
 
-template<typename T>
+template <typename T>
 T SteadyFunc<T>::getLastValue() const
 {
     return value_;
 }
 
-template<typename T>
+template <typename T>
 void SteadyFunc<T>::pause()
-{}
+{
+}
 
-template<typename T>
+template <typename T>
 void SteadyFunc<T>::resume()
-{}
+{
+}
 
-template<typename T>
+template <typename T>
 void SteadyFunc<T>::offset(std::chrono::milliseconds const& delay)
-{}
+{
+}
 
-template<typename T>
+template <typename T>
 void SteadyFunc<T>::setValue(T value)
 {
     value_ = value;

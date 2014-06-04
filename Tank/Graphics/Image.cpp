@@ -9,27 +9,24 @@
 #include <SFML/Graphics/RenderWindow.hpp>
 #include "../System/Game.hpp"
 
-namespace tank {
+namespace tank
+{
 
-Image::Image(std::string file)
-    : Image()
+Image::Image(std::string file) : Image()
 {
     load(file);
 }
 
 void Image::load(std::string file)
 {
-    if (not loaded_)
-    {
+    if (not loaded_) {
         texture_.reset(new Texture());
         texture_->loadFromFile(file);
         sprite_.setTexture(*texture_);
     }
 }
 
-void Image::draw(Vectorf parentPos,
-                 float parentRot,
-                 Vectorf parentOri,
+void Image::draw(Vectorf parentPos, float parentRot, Vectorf parentOri,
                  Camera const& cam)
 {
     /*
@@ -75,24 +72,23 @@ void Image::draw(Vectorf parentPos,
     sprite_.setRotation(modelViewRot);
     */
 
-
-    Graphic::transform(this, parentPos,parentRot, parentOri, cam, sprite_);
+    Graphic::transform(this, parentPos, parentRot, parentOri, cam, sprite_);
     Game::window()->SFMLWindow().draw(sprite_);
 
-    //setScale(modelScale);
-    //sprite_.setScale({modelScale.x, modelScale.y});
+    // setScale(modelScale);
+    // sprite_.setScale({modelScale.x, modelScale.y});
 }
 
 void Image::setSize(Vectorf size)
 {
-    sprite_.setScale(static_cast<float>(size.x/getClip().w),
-                     static_cast<float>(size.y/getClip().h));
+    sprite_.setScale(static_cast<float>(size.x / getClip().w),
+                     static_cast<float>(size.y / getClip().h));
 }
 
 void Image::setClip(Vectoru dimensions, unsigned int index, Rectu clip)
 {
     // TODO: This needs testing with rectangular dimensions
-    Rectu new_clip = { 0, 0, dimensions.x, dimensions.y };
+    Rectu new_clip = {0, 0, dimensions.x, dimensions.y};
 
     const auto textureSize = getTextureSize();
     Vectoru usefulSize = {textureSize.x - (textureSize.x % dimensions.x),
@@ -101,8 +97,7 @@ void Image::setClip(Vectoru dimensions, unsigned int index, Rectu clip)
     new_clip.x = (dimensions.x * index) % usefulSize.x;
     new_clip.y = dimensions.y * ((dimensions.x * index) / usefulSize.x);
 
-    if (clip != Rectu{0,0,0,0})
-    {
+    if (clip != Rectu{0, 0, 0, 0}) {
         new_clip.x += clip.x;
         new_clip.y += clip.y;
         new_clip.w = clip.w;
@@ -111,5 +106,4 @@ void Image::setClip(Vectoru dimensions, unsigned int index, Rectu clip)
 
     Image::setClip(new_clip); // This needs to use the uninherited version
 }
-
 }

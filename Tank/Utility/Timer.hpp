@@ -10,16 +10,17 @@
 #include <cstring>
 #include <string>
 
-namespace tank {
+namespace tank
+{
 
 class Timer
 {
     std::chrono::steady_clock::time_point startTick_;
     std::chrono::steady_clock::duration pausedTick_;
-    bool started_ {false};
-    bool paused_ {false};
+    bool started_{false};
+    bool paused_{false};
 
-public: 
+public:
     Timer() = default;
     Timer(const Timer& orig) = default;
     ~Timer() = default;
@@ -81,11 +82,12 @@ public:
     /*!
      * \brief Delays the current thread for a numeber of milliseconds.
      *
-     * \param delayTime The chrono::steady_clock::duration to delay the thread for.
+     * \param delayTime The chrono::steady_clock::duration to delay the thread
+     *for.
      */
     static void delay(std::chrono::steady_clock::duration timeDelay);
 };
 
 } // tank
 
-#endif    /* TIMER_H */
+#endif /* TIMER_H */

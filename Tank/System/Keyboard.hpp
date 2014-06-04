@@ -9,7 +9,8 @@
 #include <functional>
 #include <array>
 
-namespace tank {
+namespace tank
+{
 
 using Key = sf::Keyboard::Key;
 
@@ -21,28 +22,24 @@ class Keyboard
     static std::array<bool, Key::KeyCount> lastState_;
 
 public:
-    static std::function<bool()> KeyDown(Key key) {
-        return [key]() {
-            return isKeyDown(key);
-        };
+    static std::function<bool()> KeyDown(Key key)
+    {
+        return [key]() { return isKeyDown(key); };
     }
 
-    static std::function<bool()> KeyUp(Key key) {
-        return [key]() {
-            return not isKeyDown(key);
-        };
+    static std::function<bool()> KeyUp(Key key)
+    {
+        return [key]() { return not isKeyDown(key); };
     }
 
-    static std::function<bool()> KeyPress(Key key) {
-        return [key]() {
-            return isKeyPressed(key);
-        };
+    static std::function<bool()> KeyPress(Key key)
+    {
+        return [key]() { return isKeyPressed(key); };
     }
 
-    static std::function<bool()> KeyRelease(Key key) {
-        return [key]() {
-            return isKeyReleased(key);
-        };
+    static std::function<bool()> KeyRelease(Key key)
+    {
+        return [key]() { return isKeyReleased(key); };
     }
 
     static bool isKeyDown(Key key)
@@ -71,7 +68,6 @@ private:
     static void setKeyPressed(Key key);
     static void setKeyReleased(Key key);
 };
-
 }
 
 #endif /* TANK_KEYBOARD_HPP */

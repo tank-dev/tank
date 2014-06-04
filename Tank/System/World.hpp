@@ -15,7 +15,8 @@
 #include "../Utility/Vector.hpp"
 #include "../Utility/observing_ptr.hpp"
 
-namespace tank {
+namespace tank
+{
 
 class Entity;
 class Game;
@@ -40,15 +41,19 @@ class Game;
  */
 class World
 {
-    bool updating_ {false};
+    bool updating_{false};
     Camera camera_;
-    std::vector<std::tuple<observing_ptr<World>, observing_ptr<Entity>>> toMove_;
+    std::vector<std::tuple<observing_ptr<World>, observing_ptr<Entity>>>
+            toMove_;
     std::vector<std::unique_ptr<Entity>> newEntities_;
     std::vector<std::unique_ptr<EventHandler::Connection>> connections_;
     EventHandler eventHandler_;
 
 public:
-    EventHandler& eventHandler() { return eventHandler_; }
+    EventHandler& eventHandler()
+    {
+        return eventHandler_;
+    }
 
     /*!
      * \brief Creates an Entity and adds it to the World
@@ -111,7 +116,7 @@ public:
      * \see draw()
      * \see Game
      */
-    //virtual void handleEvents(sf::Keyboard::Key) {}
+    // virtual void handleEvents(sf::Keyboard::Key) {}
 
     /*!
      * \brief Update all entities in the state's entities list
@@ -163,16 +168,18 @@ public:
      * \return A reference to the list of unique_ptrs to entities
      */
     virtual const std::vector<std::unique_ptr<Entity>>& getEntities()
-    { return entities_; }
+    {
+        return entities_;
+    }
 
     World();
     virtual ~World();
     World(World const&) = delete;
     World& operator=(World const&) = delete;
 
-    tank::observing_ptr<tank::EventHandler::Connection> connect(
-            tank::EventHandler::Condition condition,
-            tank::EventHandler::Effect effect);
+    tank::observing_ptr<tank::EventHandler::Connection>
+            connect(tank::EventHandler::Condition condition,
+                    tank::EventHandler::Effect effect);
 
 protected:
     // TODO: Make private and add getter
@@ -192,14 +199,13 @@ observing_ptr<T> World::makeEntity(Args&&... args)
     static_assert(std::is_convertible<T*, Entity*>::value,
                   "Type must derive publically from Entity");
 
-    std::unique_ptr<T> ent {new T(std::forward<Args>(args)...)};
+    std::unique_ptr<T> ent{new T(std::forward<Args>(args)...)};
     ent->setWorld(this);
     ent->onAdded();
-    observing_ptr<T> ptr {ent};
+    observing_ptr<T> ptr{ent};
     newEntities_.push_back(std::move(ent));
     return ptr;
 }
-
 }
 
 #endif

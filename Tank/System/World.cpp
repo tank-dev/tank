@@ -25,15 +25,13 @@ World::~World()
 
 void World::insertEntity(std::unique_ptr<Entity>&& entity)
 {
-    if (not entity)
-    {
+    if (not entity) {
         throw std::runtime_error("Warning: You can't add a null entity.");
     }
 
     // Stops an entity being added several times
 
-    if (boost::find(entities_, entity) != std::end(entities_))
-    {
+    if (boost::find(entities_, entity) != std::end(entities_)) {
         throw std::invalid_argument("Entity already added");
     }
 
@@ -44,14 +42,12 @@ void World::insertEntity(std::unique_ptr<Entity>&& entity)
 
 void World::moveEntity(observing_ptr<World> world, observing_ptr<Entity> entity)
 {
-    if (not entity)
-    {
+    if (not entity) {
         Game::log << "Warning: attempted to move null entity." << std::endl;
         return;
     }
 
-    if (not world)
-    {
+    if (not world) {
         Game::log << "Warning: attempted to move entity to null world."
                   << std::endl;
         return;
@@ -60,8 +56,7 @@ void World::moveEntity(observing_ptr<World> world, observing_ptr<Entity> entity)
     // REVIEW: Shouldn't you warn somehow that you haven't actually moved
     //         this entity? AFAICT this is just aborting if the entity was
     //         going to be deleted this frame but won't attemt the move again?
-    if (entity->isRemoved())
-    {
+    if (entity->isRemoved()) {
         // Don't let an entity escape deletion
         return;
     }
@@ -71,8 +66,7 @@ void World::moveEntity(observing_ptr<World> world, observing_ptr<Entity> entity)
     // REVIEW: Ok so here's where updating_ is being checked!
     //         But, is this actually necessary? moveEntities() is going to get
     //         called at the end of a frame anyway...
-    if(!updating_)
-    {
+    if (!updating_) {
         moveEntities();
     }
 }
@@ -83,8 +77,7 @@ std::unique_ptr<Entity> World::releaseEntity(observing_ptr<Entity> entity)
 
     // REVIEW: Shouldn't this throw an exception?
     //         (Possibly std::invalid_argument)
-    if (iter == end(entities_))
-    {
+    if (iter == end(entities_)) {
         return nullptr;
     }
 
@@ -98,8 +91,7 @@ void World::update()
 {
     // REVIEW: What is this? It's totally not thread safe or exception safe.
     updating_ = true;
-    for (auto& entity : entities_)
-    {
+    for (auto& entity : entities_) {
         entity->update();
     }
 
@@ -111,14 +103,12 @@ void World::update()
 
 void World::draw()
 {
-    boost::stable_sort(entities_,
-                     [](std::unique_ptr<Entity> const& e1,
-                        std::unique_ptr<Entity> const& e2) {
+    boost::stable_sort(entities_, [](std::unique_ptr<Entity> const& e1,
+                                     std::unique_ptr<Entity> const& e2) {
         return e1->getLayer() < e2->getLayer();
     });
 
-    for (auto& entity : entities_)
-    {
+    for (auto& entity : entities_) {
         entity->draw(camera());
     }
 }
@@ -132,15 +122,13 @@ void World::addEntities()
 
 void World::moveEntities()
 {
-    while (!toMove_.empty())
-    {
+    while (!toMove_.empty()) {
         observing_ptr<World> world = std::get<0>(toMove_.back());
         observing_ptr<Entity> entity = std::get<1>(toMove_.back());
         toMove_.pop_back();
 
         std::unique_ptr<Entity> entPtr = releaseEntity(entity);
-        if (!entPtr.get())
-        {
+        if (!entPtr.get()) {
             Game::log << "Entity not found in move operation" << std::endl;
             continue;
         }
@@ -151,25 +139,21 @@ void World::moveEntities()
 
 void World::deleteEntities()
 {
-    boost::remove_erase_if(entities_,
-        [](const std::unique_ptr<Entity>& ent)
-        {
-            if (ent->isRemoved()) {
-                ent->onRemoved();
-                return true;
-            }
-            return false;
+    boost::remove_erase_if(entities_, [](const std::unique_ptr<Entity>& ent) {
+        if (ent->isRemoved()) {
+            ent->onRemoved();
+            return true;
         }
-    );
+        return false;
+    });
 }
 
-tank::observing_ptr<tank::EventHandler::Connection> World::connect(
-                                       EventHandler::Condition condition,
-                                       EventHandler::Effect effect)
+tank::observing_ptr<tank::EventHandler::Connection>
+        World::connect(EventHandler::Condition condition,
+                       EventHandler::Effect effect)
 {
     auto cond = eventHandler_.connect(condition, effect);
     connections_.push_back(std::move(cond));
     return connections_.back();
 }
-
 }

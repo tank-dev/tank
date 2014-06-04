@@ -7,5 +7,5 @@
 
 namespace tank
 {
-    using Texture = sf::Texture;
+using Texture = sf::Texture;
 }

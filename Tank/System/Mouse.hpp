@@ -13,10 +13,12 @@
 #include "../../Tank/Utility/Rect.hpp"
 #include "../../Tank/System/Camera.hpp"
 
-namespace tank {
+namespace tank
+{
 
 class Entity;
-class Mouse {
+class Mouse
+{
     friend class Game;
     static bool stateChange_;
     static Vectori currentPos_;
@@ -32,10 +34,16 @@ class Mouse {
 
 public:
     using Button = sf::Mouse::Button;
-    static tank::Vectori const& getPos() { return currentPos_; }
+    static tank::Vectori const& getPos()
+    {
+        return currentPos_;
+    }
     static tank::Vectord getRelPos(Camera const&);
     static tank::Vectori delta();
-    static int const& wheelDelta() { return wheelDelta_; }
+    static int const& wheelDelta()
+    {
+        return wheelDelta_;
+    }
 
     static bool isButtonPressed(Button button);
     static std::function<bool()> ButtonPress(Button button);
@@ -67,26 +75,43 @@ public:
     template <typename T>
     static std::function<bool()> InRect(Rect<T> const& rect)
     {
-        return [&rect]
-        {
-            return isInRect(rect);
-        };
-
+        return [&rect] { return isInRect(rect); };
     }
 
     static std::function<bool()> InEntity(Entity const&);
 
     static std::function<bool()> MouseMovement();
 
-    static bool isLocked() { return locked_; }
-    static void setLock(bool lock) { locked_ = lock; }
-    static void toggleLock() { setLock(!locked_); }
-    static void setLockPosition(Vectorf pos) { lockPos_ = pos; }
-    static Vectori const& getLockPosition() { return lockPos_; }
+    static bool isLocked()
+    {
+        return locked_;
+    }
+    static void setLock(bool lock)
+    {
+        locked_ = lock;
+    }
+    static void toggleLock()
+    {
+        setLock(!locked_);
+    }
+    static void setLockPosition(Vectorf pos)
+    {
+        lockPos_ = pos;
+    }
+    static Vectori const& getLockPosition()
+    {
+        return lockPos_;
+    }
 
-    static bool isVisible() { return visible_; }
+    static bool isVisible()
+    {
+        return visible_;
+    }
     static void setVisibility(bool);
-    static void toggleVisibility() { setVisibility(!visible_); }
+    static void toggleVisibility()
+    {
+        setVisibility(!visible_);
+    }
 
 private:
     static void setButtonPressed(Button);
@@ -100,4 +125,4 @@ private:
 };
 }
 
-#endif //TANK_MOUSE_HPP
+#endif // TANK_MOUSE_HPP

@@ -6,9 +6,10 @@
 #include "CircleShape.hpp"
 #include "../System/Game.hpp"
 
-namespace tank {
+namespace tank
+{
 
-CircleShape::CircleShape(float radius):Shape(), circleShape_(radius)
+CircleShape::CircleShape(float radius) : Shape(), circleShape_(radius)
 {
 }
 
@@ -43,15 +44,11 @@ Vectorf CircleShape::getSize() const
     return {rect.width, rect.height};
 }
 
-void CircleShape::draw(tank::Vectorf parentPos,
-                       float parentRot,
-                       Vectorf parentOri,
-                       tank::Camera const& cam)
+void CircleShape::draw(tank::Vectorf parentPos, float parentRot,
+                       Vectorf parentOri, tank::Camera const& cam)
 {
-    Graphic::transform(this, parentPos, parentRot, parentOri,
-                       cam, circleShape_);
+    Graphic::transform(this, parentPos, parentRot, parentOri, cam,
+                       circleShape_);
     Game::window()->SFMLWindow().draw(circleShape_);
 }
-
-
 }

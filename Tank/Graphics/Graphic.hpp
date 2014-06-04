@@ -12,23 +12,26 @@
 
 namespace sf
 {
-    class Transformable;
+class Transformable;
 }
 
-namespace tank {
+namespace tank
+{
 
 class Graphic
 {
     Vectorf pos_;
-    float rot_ {0.f};
+    float rot_{0.f};
     Vectorf origin_;
-    Vectorf scale_ {1.f, 1.f};
-    bool relativeToParent_ {true};
-    bool visible_ {true};
+    Vectorf scale_{1.f, 1.f};
+    bool relativeToParent_{true};
+    bool visible_{true};
 
 public:
     Graphic() = default;
-    virtual ~Graphic() {}
+    virtual ~Graphic()
+    {
+    }
 
     virtual void setPos(Vectorf pos)
     {
@@ -94,7 +97,7 @@ public:
 
     void centreOrigin()
     {
-        setOrigin(getSize()/2);
+        setOrigin(getSize() / 2);
     }
 
     /*!
@@ -106,8 +109,7 @@ public:
      */
     Vectorf graphicFromParentCoords(const Vectorf& parentCoords)
     {
-        return (parentCoords - getOrigin()).rotate(-getRotation())
-            / getScale();
+        return (parentCoords - getOrigin()).rotate(-getRotation()) / getScale();
     }
 
     /*!
@@ -121,25 +123,19 @@ public:
     bool getWithin(const Vectorf& localCoords)
     {
         Vectorf size = getSize();
-        return (localCoords.x < 0 or localCoords.x > size.x
-                or localCoords.y < 0 or localCoords.y > size.y);
+        return (localCoords.x<0 or localCoords.x> size.x or
+                        localCoords.y<0 or localCoords.y> size.y);
     }
 
     // TODO: Make const
-    virtual void draw(Vectorf parentPos = {},
-                      float parentRot = 0,
-                      Vectorf parentOri = {},
-                      Camera const& = Camera()) = 0;
+    virtual void draw(Vectorf parentPos = {}, float parentRot = 0,
+                      Vectorf parentOri = {}, Camera const& = Camera()) = 0;
 
 protected:
-    static void transform(Graphic const* g,
-                          Vectorf parentPos,
-                          float parentRot,
-                          Vectorf parentOri,
-                          Camera const& cam,
+    static void transform(Graphic const* g, Vectorf parentPos, float parentRot,
+                          Vectorf parentOri, Camera const& cam,
                           sf::Transformable& t);
 };
-
 }
 
 #endif /* TANK_GRAPHIC_HPP */

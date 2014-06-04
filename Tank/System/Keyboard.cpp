@@ -10,17 +10,18 @@
 #include <iterator>
 #include <SFML/Window/Keyboard.hpp>
 
-namespace tank {
+namespace tank
+{
 
-bool Keyboard::stateChange_ {false};
-std::array<bool, Key::KeyCount> Keyboard::currentState_ {};
-std::array<bool, Key::KeyCount> Keyboard::lastState_ {};
+bool Keyboard::stateChange_{false};
+std::array<bool, Key::KeyCount> Keyboard::currentState_{};
+std::array<bool, Key::KeyCount> Keyboard::lastState_{};
 
 void Keyboard::reset()
 {
-    if (stateChange_)
-    {
-        std::copy(currentState_.begin(), currentState_.end(), lastState_.begin());
+    if (stateChange_) {
+        std::copy(currentState_.begin(), currentState_.end(),
+                  lastState_.begin());
     }
 
     stateChange_ = false;

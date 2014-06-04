@@ -31,17 +31,17 @@ class FrameList final : public Image
         std::chrono::milliseconds time;
     };
 
-    Animation* currentAnimation_ {nullptr};
-    unsigned int currentFrame_ {0};
+    Animation* currentAnimation_{nullptr};
+    unsigned int currentFrame_{0};
     Timer animTimer_;
-    bool loop_ {false};
-    Vectoru frameDimensions_ {0, 0};
-    Rectu clipRect_ {0,0,0,0};
+    bool loop_{false};
+    Vectoru frameDimensions_{0, 0};
+    Rectu clipRect_{0, 0, 0, 0};
     /*!
      * \brief This is called when an animation finishes
      */
-    std::function<void()> callback_ = []{};
-    std::vector<Animation>  animations_;
+    std::function<void()> callback_ = [] {};
+    std::vector<Animation> animations_;
 
 public:
     FrameList() = default;
@@ -80,7 +80,7 @@ public:
      * \param callback A function to be called when the animation finishes.
      */
     void select(std::string name, bool loop = true,
-                std::function<void()> callback = []{});
+                std::function<void()> callback = [] {});
 
     /*!
      * \brief Update the animation to the current frame. Called by draw
@@ -94,8 +94,7 @@ public:
      *
      * \param pos Position at which to draw the texture.
      */
-    virtual void draw(Vectorf parentPos = {},
-                      float parentRot = 0,
+    virtual void draw(Vectorf parentPos = {}, float parentRot = 0,
                       Vectorf parentOri = {},
                       Camera const& = Camera()) override;
 
@@ -129,8 +128,7 @@ public:
     }
     std::string currentAnimation()
     {
-        if (not playing())
-        {
+        if (not playing()) {
             return "";
         }
         return currentAnimation_->name;
@@ -146,7 +144,10 @@ public:
         frameDimensions_ = frameDims;
     }
 
-    Vectoru getFrameDimensions() const { return frameDimensions_; }
+    Vectoru getFrameDimensions() const
+    {
+        return frameDimensions_;
+    }
 
     /*!
      * \brief This sets the clip rectangle by tiling the region and selecting
@@ -158,7 +159,8 @@ public:
      * \param clip An optional parameter for additional clipping within the
      * designated area.
      */
-    virtual void setClip(Vectoru dimensions, unsigned int index, Rectu clip = {0,0,0,0}) override;
+    virtual void setClip(Vectoru dimensions, unsigned int index,
+                         Rectu clip = {0, 0, 0, 0}) override;
 
     /*!
      * \brief Sets the clip rectangle of the image
@@ -173,8 +175,6 @@ public:
     {
         return clipRect_;
     }
-
-
 };
 
 // TODO: Use enum to specify image format

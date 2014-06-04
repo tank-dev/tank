@@ -9,10 +9,10 @@
 #include <chrono>
 #include <functional>
 
-namespace tank 
+namespace tank
 {
 
-template<typename T>
+template <typename T>
 class Tween;
 
 /*!
@@ -24,7 +24,7 @@ class Tween;
  * Firstly it goes without saying that you must public inherit from TweenFunc.
  * I will go through the function that need to be overloading in the order that
  * the will be used.
- * 
+ *
  * The constructor
  * ---------------
  *
@@ -33,7 +33,7 @@ class Tween;
  *
  * Getting the initial value
  * -------------------------
- *  
+ *
  *  The initial value of the function is provided by `setValue(T)`
  *
  *  At this point `offset()` is called with how much time the previous function
@@ -68,7 +68,7 @@ class Tween;
  *
  * \tparam T The type that the tween function operates on.
  */
-template<typename T>
+template <typename T>
 class TweenFunc
 {
     std::function<T(std::chrono::milliseconds const&)> finishedCallback_;
@@ -82,7 +82,7 @@ class TweenFunc
      * \brief This is the function that set's up the tween functions, it need
      * access to do that.
      */
-    template<typename S, typename... Args>
+    template <typename S, typename... Args>
     friend void Tween<T>::useWithValue(T const& value, Args... args);
 
     /*!
@@ -90,7 +90,8 @@ class TweenFunc
      *
      * \param finishedCallback The callback.
      */
-    void setCallback(std::function<T(std::chrono::milliseconds const&)> finishedCallback);
+    void setCallback(std::function<T(std::chrono::milliseconds const&)>
+                             finishedCallback);
 
 protected:
     /*!
@@ -108,7 +109,7 @@ protected:
      * \param T the inital value of the tween
      */
     virtual void setValue(T) = 0;
-    
+
 public:
     TweenFunc() = default;
 
@@ -141,13 +142,14 @@ public:
     virtual void offset(std::chrono::milliseconds const& delay) = 0;
 };
 
-template<typename T>
-void TweenFunc<T>::setCallback(std::function<T(std::chrono::milliseconds const&)> finishedCallback)
+template <typename T>
+void TweenFunc<T>::setCallback(
+        std::function<T(std::chrono::milliseconds const&)> finishedCallback)
 {
     finishedCallback_ = finishedCallback;
 }
 
-template<typename T>
+template <typename T>
 T TweenFunc<T>::end(std::chrono::milliseconds const& overrun) const
 {
     return finishedCallback_(overrun);

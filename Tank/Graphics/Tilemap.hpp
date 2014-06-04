@@ -25,8 +25,8 @@ namespace tank
  */
 class Tilemap final : public Image
 {
-    Vectoru frameDimensions_ {0, 0};
-    Rectu clipRect_ {0,0,0,0};
+    Vectoru frameDimensions_{0, 0};
+    Rectu clipRect_{0, 0, 0, 0};
     Grid<unsigned> tiles_;
 
 public:
@@ -52,8 +52,7 @@ public:
      *
      * \param pos Position at which to draw the texture.
      */
-    virtual void draw(Vectorf parentPos = {},
-                      float parentRot = 0,
+    virtual void draw(Vectorf parentPos = {}, float parentRot = 0,
                       Vectorf parentOri = {},
                       Camera const& = Camera()) override;
     /*!
@@ -64,10 +63,13 @@ public:
     void setFrameDimensions(Vectoru frameDims)
     {
         frameDimensions_ = frameDims;
-        clipRect_ = {0,0,frameDims.x,frameDims.y};
+        clipRect_ = {0, 0, frameDims.x, frameDims.y};
     }
 
-    Vectoru getFrameDimensions() const { return frameDimensions_; }
+    Vectoru getFrameDimensions() const
+    {
+        return frameDimensions_;
+    }
     Vectorf getTileDimensions() const
     {
         return Image::getSize();
@@ -89,7 +91,8 @@ public:
      * \param clip An optional parameter for additional clipping within the
      * designated area.
      */
-    virtual void setClip(Vectoru dimensions, unsigned int index, Rectu clip = {0,0,0,0}) override;
+    virtual void setClip(Vectoru dimensions, unsigned int index,
+                         Rectu clip = {0, 0, 0, 0}) override;
 
     /*!
      * \brief Sets an internal clip rectangle for each tile
@@ -117,7 +120,8 @@ public:
      */
     Vectoru getTile(const Vectorf& localCoords);
 
-    CollisionGrid getCollisionGrid(const std::unordered_set<unsigned>& collidable)
+    CollisionGrid
+            getCollisionGrid(const std::unordered_set<unsigned>& collidable)
     {
         return CollisionGrid(tiles_, collidable);
     }
@@ -141,7 +145,7 @@ public:
      */
     void setLine(const Vectoru& start, const Vectoru& end, unsigned value)
     {
-        tiles_.setLine(start,end,value);
+        tiles_.setLine(start, end, value);
     }
     /*!
      * \brief This fills a box in the Tilemap with the specifed value
@@ -152,7 +156,7 @@ public:
      */
     void fillBox(const Vectoru& start, const Vectoru& end, unsigned value)
     {
-        tiles_.fillBox(start,end,value);
+        tiles_.fillBox(start, end, value);
     }
     /*!
      * \brief This outlines a box in the Tilemap with the specifed value
@@ -163,7 +167,7 @@ public:
      */
     void outlineBox(const Vectoru& start, const Vectoru& end, unsigned value)
     {
-        tiles_.outlineBox(start,end,value);
+        tiles_.outlineBox(start, end, value);
     }
 };
 

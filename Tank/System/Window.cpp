@@ -8,17 +8,15 @@
 #include <iostream>
 #include "Game.hpp"
 
-namespace tank {
+namespace tank
+{
 
 bool Window::windowExists_ = false;
 
 Window::Window(Vector<unsigned int> const& size, std::string caption)
-    : caption_(caption)
-    , size_(size)
-    , valid_(false)
+        : caption_(caption), size_(size), valid_(false)
 {
-    if(!windowExists_)
-    {
+    if (!windowExists_) {
         valid_ = true;
 
         Game::log << "Opening Window" << std::endl;
@@ -28,27 +26,23 @@ Window::Window(Vector<unsigned int> const& size, std::string caption)
         sf::VideoMode vMode = sf::VideoMode::getDesktopMode();
         vMode.width = size.x;
         vMode.height = size.y;
-        window_.create(vMode, caption,
-                      sf::Style::Close | sf::Style::Titlebar,
-                      settings);
+        window_.create(vMode, caption, sf::Style::Close | sf::Style::Titlebar,
+                       settings);
 
         window_.setFramerateLimit(60);
         window_.setVerticalSyncEnabled(true);
-        setBackgroundColor(0.f,0.f,0.f);
+        setBackgroundColor(0.f, 0.f, 0.f);
 
         valid_ = true;
         windowExists_ = true;
-    }
-    else
-    {
+    } else {
         Game::log << "Window already exists" << std::endl;
     }
 }
 
 Window::~Window()
 {
-    if (windowExists_ && valid_)
-    {
+    if (windowExists_ && valid_) {
         Game::log << "Closing Window" << std::endl;
         windowExists_ = false;
     }
@@ -80,16 +74,14 @@ void Window::setBackgroundColor(float r, float g, float b, float a)
 
 void Window::setIcon(std::string path)
 {
-    if(windowExists_ && valid_)
-    {
-        //SDL_WM_SetIcon(IMG_Load(path.c_str()), nullptr);
+    if (windowExists_ && valid_) {
+        // SDL_WM_SetIcon(IMG_Load(path.c_str()), nullptr);
     }
 }
 
 void Window::setCaption(std::string caption)
 {
-    if(windowExists_ && valid_)
-    {
+    if (windowExists_ && valid_) {
         caption_ = caption;
         window_.setTitle(caption);
     }
@@ -104,5 +96,4 @@ std::string Window::getCaption()
 {
     return caption_;
 }
-
 }

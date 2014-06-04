@@ -13,12 +13,12 @@
 #include <functional>
 #include <memory>
 
-namespace tank 
+namespace tank
 {
 
 /*!
  * \brief This is a manager class for tweening variables.
- * 
+ *
  * Using Tweens
  * ============
  *
@@ -50,16 +50,16 @@ namespace tank
  *
  * So in the above example, after we have tweened to 1.0f we would like to go
  * back to 0.0f in 2s we would do the following
- *  
+ *
  *     setCallback([]() {
  *         // Set the new tween
  *         twn.use<LinearFunc<float>>(0.0f, std::chrono::milliseconds(2000));
  *         // We only want to tween back to 0.0f once
  *         twn.setCallback();
  *     });
- *      
+ *
  * Of course here we could set a new callback if we wanted, instead of only
- * removing the current one. 
+ * removing the current one.
  *
  * We can jump to a particular place using `setValue()` at present this stops
  * the current tween function, which can also be achieved using `stop()`. It is
@@ -69,7 +69,7 @@ namespace tank
  *
  * \tparam T The type of variable being tweened.
  */
-template<typename T>
+template <typename T>
 class Tween
 {
     /*!
@@ -107,8 +107,9 @@ class Tween
      * \param value The value to start the tween function at.
      * \param args The arguments to set up the tween function.
      */
-    template<typename S, typename... Args>
+    template <typename S, typename... Args>
     void useWithValue(T const& value, Args... args);
+
 public:
     Tween(T const& initalValue);
 
@@ -119,7 +120,7 @@ public:
      * \tparam S The classname of the tween function to be used.
      * \param args The arguments to set up the tween function.
      */
-    template<typename S, typename... Args>
+    template <typename S, typename... Args>
     void use(Args... args);
 
     /*!
@@ -160,39 +161,36 @@ public:
     void resume();
 };
 
-template<typename T>
+template <typename T>
 Tween<T>::Tween(T const& initalValue)
-    : tweenFunction_{new SteadyFunc<T>()}
+        : tweenFunction_{new SteadyFunc<T>()}
 {
     tweenFunction_->setValue(initalValue);
-    tweenFunction_->setCallback([this](std::chrono::milliseconds const& overrun) -> T {
-            return tweenEnd(overrun);
-            });
+    tweenFunction_->setCallback([this](std::chrono::milliseconds const &
+                                       overrun)
+                                        ->T { return tweenEnd(overrun); });
 }
 
-template<typename T>
+template <typename T>
 T Tween<T>::tweenEnd(std::chrono::milliseconds const& overrun)
 {
     inberTween_ = true;
     // We get the last value of our tween function to use as our initial value.
     callback_();
     // We check if we have attached a new tween function
-    if (inberTween_)
-    {
+    if (inberTween_) {
         // We haven't attached a new tween funciton, so add a steady tween
         // function.
         useWithValue<SteadyFunc<T>>(tweenFunction_->getLastValue());
-    }
-    else
-    {
+    } else {
         // We offset the tween to avoid stuttering
         tweenFunction_->offset(overrun);
     }
     return tweenFunction_->getValue();
 }
 
-template<typename T>
-template<typename S, typename... Args>
+template <typename T>
+template <typename S, typename... Args>
 void Tween<T>::useWithValue(T const& value, Args... args)
 {
     static_assert(std::is_base_of<TweenFunc<T>, S>::value,
@@ -202,57 +200,56 @@ void Tween<T>::useWithValue(T const& value, Args... args)
 
     tweenFunction_.reset(new S(std::forward<Args>(args)...));
     tweenFunction_->setValue(value);
-    tweenFunction_->setCallback([this](std::chrono::milliseconds const& overrun) -> T {
-            return tweenEnd(overrun);
-            });
+    tweenFunction_->setCallback([this](std::chrono::milliseconds const &
+                                       overrun)
+                                        ->T { return tweenEnd(overrun); });
     inberTween_ = false;
 }
 
-template<typename T>
-template<typename S, typename... Args>
+template <typename T>
+template <typename S, typename... Args>
 void Tween<T>::use(Args... args)
 {
-    if (inberTween_)
-    {
-        useWithValue<S>(tweenFunction_->getLastValue(), std::forward<Args>(args)...);
-    }
-    else
-    {
-        useWithValue<S>(tweenFunction_->getValue(), std::forward<Args>(args)...);
+    if (inberTween_) {
+        useWithValue<S>(tweenFunction_->getLastValue(),
+                        std::forward<Args>(args)...);
+    } else {
+        useWithValue<S>(tweenFunction_->getValue(),
+                        std::forward<Args>(args)...);
     }
 }
 
-template<typename T>
+template <typename T>
 void Tween<T>::setValue(T const& value)
 {
     useWithValue<SteadyFunc>(value);
 }
 
-template<typename T>
+template <typename T>
 T Tween<T>::getValue()
 {
     return tweenFunction_->getValue();
 }
 
-template<typename T>
+template <typename T>
 void Tween<T>::setCallback(std::function<void()> callback)
 {
     callback_ = callback;
 }
 
-template<typename T>
+template <typename T>
 void Tween<T>::stop()
 {
     use<SteadyFunc>();
 }
 
-template<typename T>
+template <typename T>
 void Tween<T>::pause()
 {
     tweenFunction_->pause();
 }
 
-template<typename T>
+template <typename T>
 void Tween<T>::resume()
 {
     tweenFunction_->resume();
