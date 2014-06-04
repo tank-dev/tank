@@ -1,3 +1,0 @@
-add_executable(eventhandler_test eventhandler_test.cpp)
-target_link_libraries(eventhandler_test gtest gtest_main tank)
-add_test(eventhandler_test ${EXECUTABLE_OUTPUT_PATH}/eventhandler_test)
