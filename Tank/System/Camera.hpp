@@ -36,4 +36,4 @@ private:
 
 } /* tank */
 
-#endif /* TANK_CA<ERA_HPP */
+#endif /* TANK_CAMERA_HPP */
