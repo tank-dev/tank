@@ -14,7 +14,7 @@ FrameList::FrameList(Image const& i, Vector<unsigned int> frameDims)
     : image_ (i)
     , frameDimensions_(frameDims)
 {
-    Image::setClip({0,0,frameDims.x, frameDims.y});
+    image_.setClip({0,0,frameDims.x, frameDims.y});
     //image_.setSize(frameDims);
 }
 
@@ -104,7 +104,7 @@ void FrameList::refresh()
         unsigned int frame = currentAnimation_->frameList[currentFrame_];
 
         //Set clipping rectangle according to current frame
-        Image::setClip(frameDimensions_, frame, clipRect_);
+        image_.setClip(frameDimensions_, frame);
     }
 }
 
@@ -148,7 +148,13 @@ void FrameList::draw(Vectorf parentPos,
 {
     // TODO: Move this somewhere else and make draw const
     refresh();
-    Image::draw(parentPos, parentRot, parentOri, cam);
+    image_.draw(parentPos, parentRot, parentOri, cam);
+}
+
+void FrameList::setImage(Image const& image, Vector<unsigned int> frameDims)
+{
+    frameDimensions_ = frameDims;
+    image_ = image;
 }
 
 void addWalkingFrameList(FrameList& anim, std::chrono::milliseconds time)
@@ -171,29 +177,6 @@ void addWalkingFrameList(FrameList& anim, std::chrono::milliseconds time)
     anim.add("walk_right", right, time);
     anim.add("walk_down", down, time);
     anim.add("walk_left", left, time);
-}
-
-void Image::setClip(Vectoru dimensions, unsigned int index, Rectu clip)
-{
-    // TODO: This needs testing with rectangular dimensions
-    Rectu new_clip = { 0, 0, dimensions.x, dimensions.y };
-
-    const auto textureSize = getTextureSize();
-    Vectoru usefulSize = {frameDimensions_.x - (frameDimensions_.x % dimensions.x),
-                          frameDimensions_.y - (frameDimensions_.y % dimensions.y)};
-
-    new_clip.x = (dimensions.x * index) % usefulSize.x;
-    new_clip.y = dimensions.y * ((dimensions.x * index) / usefulSize.x);
-
-    if (clip != {0,0,0,0})
-    {
-        new_clip.x += clip.x;
-        new_clip.y += clip.y;
-        new_clip.w = clip.w;
-        new_clip.h = clip.h;
-    }
-
-    setClip(clip);
 }
 
 }
