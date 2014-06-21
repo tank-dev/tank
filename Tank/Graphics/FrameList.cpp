@@ -163,7 +163,7 @@ void FrameList::setClip(Vectoru dimensions, unsigned int index, Rectu clip)
     new_clip.x = (dimensions.x * index) % usefulSize.x;
     new_clip.y = dimensions.y * ((dimensions.x * index) / usefulSize.x);
 
-    if (clip != Rectu{0,0,0,0})
+    if (clip != {0,0,0,0})
     {
         new_clip.x += clip.x;
         new_clip.y += clip.y;
