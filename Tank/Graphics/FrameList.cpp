@@ -156,6 +156,7 @@ void FrameList::setClip(Vectoru dimensions, unsigned int index, Rectu clip)
     // TODO: This needs testing with rectangular dimensions
     Rectu new_clip = { 0, 0, dimensions.x, dimensions.y };
 
+    const auto textureSize = getTextureSize();
     Vectoru usefulSize = {frameDimensions_.x - (frameDimensions_.x % dimensions.x),
                           frameDimensions_.y - (frameDimensions_.y % dimensions.y)};
 
