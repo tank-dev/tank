@@ -10,8 +10,8 @@
 namespace tank
 {
 
-FrameList::FrameList(std::string file, Vector<unsigned int> frameDims)
-    : Image(file)
+FrameList::FrameList(Image const& i, Vector<unsigned int> frameDims)
+    : image_ (i)
     , frameDimensions_(frameDims)
 {
     Image::setClip({0,0,frameDims.x, frameDims.y});
