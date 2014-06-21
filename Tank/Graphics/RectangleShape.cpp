@@ -57,7 +57,7 @@ void RectangleShape::draw(Vectorf parentPos,
 {
     Graphic::transform(this, parentPos, parentRot, parentOri,
                        cam, rectangleShape_);
-    Game::window()->SFMLWindow().draw(rectangleShape_);
+    Game::window()->SFMLWindow().draw(rectangleShape_, getShader().get());
 }
 
 

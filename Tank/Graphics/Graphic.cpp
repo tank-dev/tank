@@ -3,10 +3,37 @@
 // (See accompanying file LICENSE_1_0.txt or copy at
 //  http://www.boost.org/LICENSE_1_0.txt)
 
+#include <exception>
 #include <SFML/Graphics/Transformable.hpp>
+#include <SFML/Graphics/Shader.hpp>
 #include "Graphic.hpp"
 
 namespace tank {
+
+void Graphic::attachShader(observing_ptr<sf::Shader> shader)
+{
+    shader_ = shader;
+}
+
+void Graphic::detachShader(observing_ptr<sf::Shader> shader)
+{
+    if (shader_ == shader) {
+        detachShader();
+    } else {
+        throw std::invalid_argument("Shader was not attached to graphic");
+    }
+}
+
+void Graphic::detachShader()
+{
+    shader_ = nullptr;
+}
+
+observing_ptr<sf::Shader> Graphic::getShader()
+{
+    return shader_;
+}
+
 
 void Graphic::transform(Graphic const* g,
                         Vectorf parentPos,

@@ -9,9 +9,11 @@
 #include "../System/Camera.hpp"
 #include "../Utility/Vector.hpp"
 #include "../Utility/Rect.hpp"
+#include "../Utility/observing_ptr.hpp"
 
 namespace sf
 {
+    class Shader;
     class Transformable;
 }
 
@@ -25,6 +27,7 @@ class Graphic
     Vectorf scale_ {1.f, 1.f};
     bool relativeToParent_ {true};
     bool visible_ {true};
+    observing_ptr<sf::Shader> shader_ {nullptr};
 
 public:
     Graphic() = default;
@@ -102,6 +105,11 @@ public:
                       float parentRot = 0,
                       Vectorf parentOri = {},
                       Camera const& = Camera()) = 0;
+
+    void attachShader(observing_ptr<sf::Shader>);
+    void detachShader();
+    void detachShader(observing_ptr<sf::Shader>);
+    observing_ptr<sf::Shader> getShader();
 
 protected:
     static void transform(Graphic const* g,
