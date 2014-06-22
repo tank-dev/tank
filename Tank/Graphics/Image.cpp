@@ -77,7 +77,7 @@ void Image::draw(Vectorf parentPos,
 
 
     Graphic::transform(this, parentPos,parentRot, parentOri, cam, sprite_);
-    Game::window()->SFMLWindow().draw(sprite_);
+    Game::window()->SFMLWindow().draw(sprite_, getShader().get());
 
     //setScale(modelScale);
     //sprite_.setScale({modelScale.x, modelScale.y});
