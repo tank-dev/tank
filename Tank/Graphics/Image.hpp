@@ -13,14 +13,13 @@
 #include "Texture.hpp"
 #include "Graphic.hpp"
 
-namespace tank
-{
+namespace tank {
 
-class Image : public Graphic
+class Image final : public Graphic
 {
-    bool loaded_{false};
+    bool loaded_ {false};
     sf::Sprite sprite_;
-    std::shared_ptr<Texture> texture_{nullptr};
+    std::shared_ptr<Texture> texture_ {nullptr};
 
 public:
     Image() = default;
@@ -53,18 +52,7 @@ public:
 
     void setSize(Vectorf size);
 
-    /*!
-     * \brief This sets the clip rectangle by tiling the region and selecting
-     * the tile designated by index. It has an option of setting an additional
-     * clip within that area.
-     *
-     * \param dimensions The dimensions of the tile.
-     * \param index The index of the tile to select.
-     * \param clip An optional parameter for additional clipping within the
-     * designated area.
-     */
-    virtual void setClip(Vectoru dimensions, unsigned int index,
-                         Rectu clip = {0, 0, 0, 0});
+    virtual void setClip(Vectoru dimensions, unsigned int index);
 
     /*!
      * \brief Sets the clip rectangle of the image
@@ -73,9 +61,10 @@ public:
      */
     virtual void setClip(Rectu clip)
     {
-        sprite_.setTextureRect(
-                {static_cast<int>(clip.x), static_cast<int>(clip.y),
-                 static_cast<int>(clip.w), static_cast<int>(clip.h)});
+        sprite_.setTextureRect({static_cast<int>(clip.x),
+                                static_cast<int>(clip.y),
+                                static_cast<int>(clip.w),
+                                static_cast<int>(clip.h)});
     }
     virtual Rectu getClip() const
     {
@@ -91,9 +80,11 @@ public:
         return {texture_->getSize().x, texture_->getSize().y};
     }
 
-    virtual void draw(Vectorf parentPos = {}, float parentRot = 0,
+    virtual void draw(Vectorf parentPos = {},
+                      float parentRot = 0,
                       Vectorf parentOri = {},
                       Camera const& = Camera()) override;
 };
+
 }
 #endif /* TANK_IMAGE_HPP */

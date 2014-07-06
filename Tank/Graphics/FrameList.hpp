@@ -22,7 +22,7 @@ namespace tank
  * \brief Represents an image with multiple frames and stores animations for
  * that image.
  */
-class FrameList final : public Image
+class FrameList final : public Graphic
 {
     struct Animation
     {
@@ -31,26 +31,27 @@ class FrameList final : public Image
         std::chrono::milliseconds time;
     };
 
-    Animation* currentAnimation_{nullptr};
-    unsigned int currentFrame_{0};
+    Image image_;
+    Animation* currentAnimation_ {nullptr};
+    unsigned int currentFrame_ {0};
     Timer animTimer_;
-    bool loop_{false};
-    Vectoru frameDimensions_{0, 0};
-    Rectu clipRect_{0, 0, 0, 0};
+    bool loop_ {false};
+    Vectoru frameDimensions_ {0, 0};
+    Rectu clipRect_ {0,0,0,0};
     /*!
      * \brief This is called when an animation finishes
      */
     std::function<void()> callback_ = [] {};
-    std::vector<Animation> animations_;
+    std::vector<Animation>  animations_;
 
 public:
     FrameList() = default;
     /*!
      * \brief Construct an Animation with a Texture.
-     * \param file the file to load the texture from.
+     * \param t Image to give the animation.
      * \param frameDims size of each image in the Texture.
      */
-    FrameList(std::string file, Vector<unsigned int> frameDimensions);
+    FrameList(Image const&, Vector<unsigned int> frameDimensions);
 
     /*!
      * \brief Add an animation
@@ -94,7 +95,8 @@ public:
      *
      * \param pos Position at which to draw the texture.
      */
-    virtual void draw(Vectorf parentPos = {}, float parentRot = 0,
+    virtual void draw(Vectorf parentPos = {},
+                      float parentRot = 0,
                       Vectorf parentOri = {},
                       Camera const& = Camera()) override;
 
@@ -135,45 +137,49 @@ public:
     }
 
     /*!
-     * \brief Set the dimensions of the image in the texture.
-     *
+     * \brief Set the texture of the FrameList.
+     * \param texture the Texture to set.
      * \param frameDims the dimensions of each image in the texture.
      */
-    void setFrameDimensions(Vectoru frameDims)
-    {
-        frameDimensions_ = frameDims;
-    }
+    void setImage(Image const&, Vectoru frameDims);
 
-    Vectoru getFrameDimensions() const
-    {
-        return frameDimensions_;
-    }
+    virtual void setPos(Vectorf pos) { image_.setPos(pos); }
+    virtual Vectorf getPos() const { return image_.getPos(); }
+    virtual bool isRelativeToParent() { return image_.isRelativeToParent(); }
 
-    /*!
-     * \brief This sets the clip rectangle by tiling the region and selecting
-     * the tile designated by index. It has an option of setting an additional
-     * clip within that area.
-     *
-     * \param dimensions The dimensions of the tile.
-     * \param index The index of the tile to select.
-     * \param clip An optional parameter for additional clipping within the
-     * designated area.
-     */
-    virtual void setClip(Vectoru dimensions, unsigned int index,
-                         Rectu clip = {0, 0, 0, 0}) override;
+    virtual void setRotation(float angle) { image_.setRotation(angle); }
+    virtual float getRotation() const { return image_.getRotation(); }
 
-    /*!
-     * \brief Sets the clip rectangle of the image
-     *
-     * \param clip The rectangle to clip the image to
-     */
-    virtual void setClip(Rectu clip) override
+    void setClip(Rectu clip) { image_.setClip(clip); }
+    Rectu getClip() const { return image_.getClip(); }
+
+    void setOrigin(Vectorf origin) override { image_.setOrigin(origin); }
+    Vectorf getOrigin() const override { return image_.getOrigin(); }
+
+    void setSize(Vectorf size) { image_.setSize(size); }
+    Vectorf getSize() const override { return image_.getSize(); }
+
+
+    Vectoru getFrameDimensions() const { return frameDimensions_; }
+    virtual void setScale(float scale) override
     {
-        clipRect_ = clip;
+        image_.setScale(scale);
     }
-    virtual Rectu getClip() const
+    virtual void setScale(Vectorf scale) override
     {
-        return clipRect_;
+        image_.setScale(scale);
+    }
+    virtual Vectorf getScale() const override
+    {
+        return image_.getScale();
+    }
+    virtual void drawRelativeToParent(bool relative)
+    {
+        image_.drawRelativeToParent(relative);
+    }
+    virtual Vectoru getTextureSize() const
+    {
+        return image_.getTextureSize();
     }
 };
 
