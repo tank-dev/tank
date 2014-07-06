@@ -91,14 +91,16 @@ public:
      * \param clip An optional parameter for additional clipping within the
      * designated area.
      */
+    // TODO: work out what anstow's doing here
     virtual void setClip(Vectoru dimensions, unsigned int index,
-                         Rectu clip = {0, 0, 0, 0}) override;
+                         Rectu clip = {});
 
     /*!
      * \brief Sets an internal clip rectangle for each tile
      *
      * \param clip The rectangle to clip each tile to
      */
+    // TODO: work out what anstow's doing here
     virtual void setClip(Rectu clip) override
     {
         clipRect_ = clip;

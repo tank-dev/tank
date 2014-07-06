@@ -86,6 +86,7 @@ void Image::setSize(Vectorf size)
                      static_cast<float>(size.y / getClip().h));
 }
 
+/*
 void Image::setClip(Vectoru dimensions, unsigned int index)
 {
     // TODO: This needs testing with rectangular dimensions
@@ -99,6 +100,30 @@ void Image::setClip(Vectoru dimensions, unsigned int index)
     clip.y = dimensions.y * ((dimensions.x * index) / usefulSize.x);
 
     setClip(clip);
+}
+*/
+
+// TODO: work out what anstow's doing here
+void Image::setClip(Vectoru dimensions, unsigned int index, Rectu clip)
+{
+    // TODO: This needs testing with rectangular dimensions
+    Rectu new_clip = {0, 0, dimensions.x, dimensions.y};
+
+    const auto textureSize = getTextureSize();
+    Vectoru usefulSize = {textureSize.x - (textureSize.x % dimensions.x),
+                          textureSize.y - (textureSize.y % dimensions.y)};
+
+    new_clip.x = (dimensions.x * index) % usefulSize.x;
+    new_clip.y = dimensions.y * ((dimensions.x * index) / usefulSize.x);
+
+    if (clip != Rectu{0, 0, 0, 0}) {
+        new_clip.x += clip.x;
+        new_clip.y += clip.y;
+        new_clip.w = clip.w;
+        new_clip.h = clip.h;
+    }
+
+    setClip(new_clip);
 }
 
 }

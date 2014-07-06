@@ -15,7 +15,7 @@
 
 namespace tank {
 
-class Image final : public Graphic
+class Image : public Graphic
 {
     bool loaded_ {false};
     sf::Sprite sprite_;
@@ -52,7 +52,10 @@ public:
 
     void setSize(Vectorf size);
 
-    virtual void setClip(Vectoru dimensions, unsigned int index);
+    // TODO: work out what anstow's doing here
+    virtual void setClip(Vectoru dimensions, unsigned int index,
+                         Rectu clip = {});
+    //virtual void setClip(Vectoru dimensions, unsigned int index);
 
     /*!
      * \brief Sets the clip rectangle of the image
@@ -66,6 +69,7 @@ public:
                                 static_cast<int>(clip.w),
                                 static_cast<int>(clip.h)});
     }
+
     virtual Rectu getClip() const
     {
         auto clip = sprite_.getTextureRect();

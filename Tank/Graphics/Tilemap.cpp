@@ -42,6 +42,7 @@ void Tilemap::draw(Vectorf parentPos, float parentRot, Vectorf parentOri,
     setPos(originalPos);
 }
 
+// TODO: work out what anstow's doing here
 void Tilemap::setClip(Vectoru dimensions, unsigned int index, Rectu clip)
 {
     // TODO: This needs testing with rectangular dimensions
