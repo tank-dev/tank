@@ -18,6 +18,7 @@ class RectangleShape : public Shape
 
 public:
     RectangleShape(Vectorf size = {});
+    RectangleShape(Rectf);
 
     virtual void setFillColor(Color colour) override;
     virtual void setOutlineColor(Color colour) override;
