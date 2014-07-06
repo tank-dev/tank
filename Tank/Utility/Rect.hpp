@@ -22,7 +22,7 @@ struct Rect
     {
     }
     template <typename U>
-    constexpr Rect(U x, U y, U h, U w)
+    constexpr Rect(U x, U y, U w, U h)
             : x(x), y(y), w(w), h(h)
     {
     }
@@ -35,8 +35,8 @@ struct Rect
     template <typename U>
     bool intersects(Rect<U> const& rect) const
     {
-        if (rect.x +
-            rect.w<x or rect.y + rect.h<y or rect.x> x + w or rect.y> x + h) {
+        if (rect.x + rect.w < x or rect.y + rect.h < y 
+                or rect.x > x + w or rect.y > x + h) {
             return false;
         }
         return true;
