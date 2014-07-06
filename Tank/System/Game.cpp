@@ -15,14 +15,15 @@ namespace tank
 {
 
 Logger Game::log{"log.txt"};
-unsigned int Game::fps{60};
-bool Game::initialized_{false};
-bool Game::run_{false};
-bool Game::popWorld_{false};
-observing_ptr<World> Game::currentWorld_{nullptr};
-std::unique_ptr<Window> Game::window_{nullptr};
+// TODO allow variable frame rate
+unsigned int Game::fps {60};
+bool Game::initialized_ {false};
+bool Game::run_ {false};
+bool Game::popWorld_ {false};
+observing_ptr<World> Game::currentWorld_ {nullptr};
+std::unique_ptr<Window> Game::window_ {nullptr};
 std::stack<std::unique_ptr<World>> Game::worlds_;
-std::unique_ptr<World> Game::newWorld_{nullptr};
+std::unique_ptr<World> Game::newWorld_ {nullptr};
 // Timer Game::frameTimer_;
 
 /* ---------------------------- *
@@ -30,7 +31,7 @@ std::unique_ptr<World> Game::newWorld_{nullptr};
  * ---------------------------- */
 
 // TODO Handle errors with exceptions
-bool Game::initialize(Vector<unsigned int> const& wSize, int fps)
+bool Game::initialize(Vectoru wSize, int fps)
 {
     if (not initialized_) {
         initialized_ = true;
@@ -59,14 +60,12 @@ void Game::run()
     }
 
     run_ = true;
-    log << "Entering main loop" << std::endl;
+    log << "Entering game loop" << std::endl;
     while (run_) {
         if (newWorld_) {
             worlds_.push(std::move(newWorld_));
             newWorld_ = nullptr;
-        }
-
-        if (worlds_.empty()) {
+        } else if (worlds_.empty()) {
             log << "No game world" << std::endl;
             run_ = false;
             break;
@@ -82,6 +81,7 @@ void Game::run()
             popWorld_ = false;
         }
     }
+    log << "Exiting game loop" << std::endl;
 }
 
 void Game::handleEvents()

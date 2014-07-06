@@ -18,15 +18,48 @@ namespace tank
 {
 
 /*!
- * \brief Static Game class containing main loop and current world.
+ * \brief Static class containing game loop, Window and current World.
  *
- * To start the game engine, call Game::initialize(). This will create the
+ * # Game
+ * 
+ * The Game class allows you to initialize, start and stop the game. It
+ * provides control over the main game loop and the Worlds in the game.
+ *
+ * ## Starting a game
+ *
+ * To start the engine, call Game::initialize(). This will create the
  * window, and initialize rendering.
  *
- * Once started, you should create a World with Game::makeWorld<>(). This will
- * both create a world and add it to the top of the world stack.
+ * Before starting the game, you should create a World with Game::makeWorld<>().
+ * This will create a world and prepare to add it to the top of the world stack.
+ * You can then call Game::run() to enter the main loop.
  *
- * Once there is a world to run, call Game::run() to start the main loop.
+ * Example Main.cpp:
+ *
+ * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~{.cpp}
+ *     int main()
+ *     {
+ *         if (tank::Game::initialize({windowX,windowY}, desiredFPS)) {
+ *            tank::Game::makeWorld<MyMenuWorld>(); // Create a new world
+ *            tank::Game::run(); // enter the game loop, which will add the
+ *                               // created world to the top of the world stack
+ *         }
+ *     }
+ * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ *
+ * One iteration of the main loop is equivalent to a frame.
+ * At the beginning of a frame, the last of any worlds created in the last frame 
+ * with makeWorld() will be added to the top of the world stack. If the world
+ * stack is empty, the loop will exit. Otherwise, the top of the stack will
+ * become the active world. The active world will then be updated and drawn.
+ * Finally, if popWorld() has been called, the active world will be destroyed,
+ * and the next frame will begin.
+ *
+ * ##Managing Worlds
+ *
+ * Tank currently uses a simple World stack to manage worlds. In a frame, you
+ * can add one world to the top of the stack, and pop the currently active
+ * world from the stack, destroying it.
  *
  * \see World
  * \see Logger
@@ -46,65 +79,134 @@ class Game
     static std::unique_ptr<World> newWorld_;
 
 public:
+
+    Game() = delete;
+    ~Game() = delete;
     /*!
-     * \brief The log. This acts like a standard stream (cout), remember to
-     * finish your log with std::endl.
+     * \brief A log stream.
+     *
+     * This acts like a standard stream (_e.g._ `std::cout`), and writes to the
+     * file `log.txt` in the directory in which the game was run.
+     * If `DEBUG` is defined, it also outputs to `std::clog`.
+     *
+     * Tank writes to Game::log when initializing and closing, so `log.txt` can
+     * show you if the engine is failing at some point.
+     *
+     * **NB:** remember to finish your log with `std::endl`.
+     *
+     * Example code:
+     *
+     * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~{.cpp}
+     *     MyEnt() : tank::Entity({0, 0})
+     *     {
+     *         Game::log << "Created MyEnt at position (0, 0)" << std::endl;
+     *     }
+     * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     *
+     * Example `log.txt`:
+     *
+     *     [00:00:00.231] Log file created
+     *     [00:00:00.400] Opening Window
+     *     [00:00:00.641] Loading main state
+     *     [00:00:00.700] Loading World...
+     *     [00:00:00.710] Created MyEnt at position (0, 0)
+     *     [00:00:00.714] Entering main loop
+     *     [00:00:33.227] Unloading World...
+     *     [00:00:33.230] Closing Window
+     *     [00:00:33.233] Closing log file
+     *
      */
     static Logger log;
+
+    /*!
+     * \brief Frame-rate of the game (60)
+     *
+     * \return Value passed to Game::initialize()
+     */
     static unsigned int fps;
 
+    // TODO work out why Controllers::initialize() doesn't auto-link
     /*!
      * \brief Initializes the game.
      *
-     * Creates a window and a rendering context.
+     * Creates a window of usable size `windowSize` with an OpenGL rendering
+     * context, and calls Controllers::initialize().
+     *
      * \param windowSize The window canvas size in pixels.
-     * \return True on success.
+     * \return `true` on success.
      */
-    static bool initialize(Vector<unsigned int> const& windowSize,
-                           int fps = 60);
+    static bool initialize(Vectoru windowSize, int fps = 60);
 
-    /*!
-     * \brief Starts the game loop
-     */
+    /*! \brief Starts the game loop */
     static void run();
 
     /*!
      * \brief This removes the current world at the end of the frame.
+     *
+     * At the beginning of the next frame, one of two things will happen:
+     *
+     * - There is a world on top of the world stack: it will become active.
+     * - The world stack is empty: the game loop will end.
      */
     static void popWorld();
 
     /*!
-     * \brief This creates a game world.
+     * \brief Creates a World, which will become the active world next frame.
      *
-     * \tparam T The type of world.
-     * \tparam Args The arguments to pass to create the world.
-     * \param args The arguments to create the world.
+     * This is a factory function which creates an instance of a class deriving
+     * from World. The world is constructed immediately, passing the `args`
+     * provided. At the beginning of the next frame, the world is pushed on top
+     * of the world stack, making it the active world.
      *
-     * \return A pointer to the world.
+     * **NB:** a second world created in a single frame will destroy the first.
+     *
+     * Example code:
+     *
+     * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~{.cpp}
+     *     class MyWorld : public tank::World
+     *     {
+     *     public:
+     *         MyWorld(int a, char b) : tank::World() {}
+     *     };
+     *
+     *     Game::makeWorld<MyWorld>(42, 'z');
+     * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     *
+     * \tparam T The type of world to create.
+     * \tparam Args Inferred - can be ignored.
+     * \param args Arguments here will be passed to T's constructor.
+     *
+     * \return A pointer of type T to the newly created World.
      */
     template <typename T, typename... Args>
     static observing_ptr<T> makeWorld(Args&&... args);
 
-    /*!
-     * \brief Return a pointer to the active world.
-     *
-     * \return A pointer to the active world.
-     */
+    /*! \brief Returns a pointer to the active world. */
     static observing_ptr<World> world()
     {
         return currentWorld_;
     }
 
-    /*!
-     * \brief Return a reference to a pointer to the Window.
-     *
-     * \return The window.
-     */
+    /*! \brief Returns a `const unique_ptr&` to the Window. */
     static std::unique_ptr<Window> const& window()
     {
         return window_;
     };
 
+    /*!
+     * \brief Stops the game loop
+     *
+     * This exits the game loop, but does not close the Window. This will effectively freeze your
+     * window application, and may result in it being killed by the operating
+     * system. The loop can be restarted (continuing the game where it left off)
+     * by calling Game::run() again.
+     *
+     * You can avoid your application being killed by polling its events
+     * manually with `Game::window.pollEvent()`.
+     *
+     * \see Window
+     */
+    //TODO: check the os will kill the app
     static void stop()
     {
         run_ = false;
@@ -114,9 +216,6 @@ private:
     static void handleEvents();
     static void update();
     static void draw();
-
-    Game();
-    ~Game();
 };
 
 template <typename T, typename... Args>
@@ -125,8 +224,8 @@ observing_ptr<T> Game::makeWorld(Args&&... args)
     static_assert(std::is_base_of<World, T>::value,
                   "Class must derive from World");
 
-    std::unique_ptr<T> world{new T(std::forward<Args>(args)...)};
-    observing_ptr<T> ptr{world};
+    std::unique_ptr<T> world {new T(std::forward<Args>(args)...)};
+    observing_ptr<T> ptr {world};
     // worlds_.push(std::move(world));
     newWorld_.reset(world.release());
     return ptr;
