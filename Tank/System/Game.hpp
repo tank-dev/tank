@@ -18,7 +18,7 @@ namespace tank
 {
 
 /*!
- * \brief Static class containing game loop, Window and current World.
+ * \brief Static class controlling game loop, Window and World stack.
  *
  * # Game
  * 
