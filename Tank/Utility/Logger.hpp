@@ -3,7 +3,6 @@
 // (See accompanying file LICENSE_1_0.txt or copy at
 //  http://www.boost.org/LICENSE_1_0.txt)
 
-#pragma once
 #ifndef TANK_LOGGER_HPP
 #define TANK_LOGGER_HPP
 
@@ -45,10 +44,8 @@ class Logger : public std::ostream
 public:
     Logger(std::string file);
     void log(const std::string& s);
-    ~Logger() throw()
-    {
-    }
+    ~Logger() throw();
 };
 }
 
-#endif // LOGGER_HPP
+#endif /* TANK_LOGGER_HPP */
