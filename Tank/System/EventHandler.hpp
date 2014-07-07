@@ -14,6 +14,7 @@
 namespace tank
 {
 
+// REVIEW: This should probably have a deleted copy constructor?
 class EventHandler
 {
 public:
@@ -77,7 +78,7 @@ public:
     {
         if (not connected) {
             return;
-        } // Jamie: Will this ever happen?
+        } // REVIEW: This will never happen
         connected = false;
         events.disconnect(*this);
     }
