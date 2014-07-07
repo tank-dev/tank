@@ -60,6 +60,7 @@ void Game::run()
     }
 
     run_ = true;
+    popWorld_ = false;
     log << "Entering game loop" << std::endl;
     while (run_) {
         if (newWorld_) {
@@ -78,7 +79,6 @@ void Game::run()
 
         if (popWorld_) {
             worlds_.pop();
-            popWorld_ = false;
         }
     }
     log << "Exiting game loop" << std::endl;
