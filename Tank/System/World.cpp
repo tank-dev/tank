@@ -30,7 +30,6 @@ void World::insertEntity(std::unique_ptr<Entity>&& entity)
     }
 
     // Stops an entity being added several times
-
     if (boost::find(entities_, entity) != std::end(entities_)) {
         throw std::invalid_argument("Entity already added");
     }
@@ -55,7 +54,14 @@ void World::moveEntity(observing_ptr<World> world, observing_ptr<Entity> entity)
 
     // REVIEW: Shouldn't you warn somehow that you haven't actually moved
     //         this entity? AFAICT this is just aborting if the entity was
-    //         going to be deleted this frame but won't attemt the move again?
+    //         going to be deleted this frame but won't attempt the move again?
+    //
+    // Response: if there are various events that could trigger an entity
+    //           moving, and this coincides with an entity being removed, it's
+    //           unlikely you want the entity to persist. It
+    //           would be unpleasant to warn about this in an obstreperous
+    //           manner. Could log to log.txt though.
+    //           How could it attempt to move it again if it's been deleted?
     if (entity->isRemoved()) {
         // Don't let an entity escape deletion
         return;
@@ -66,6 +72,8 @@ void World::moveEntity(observing_ptr<World> world, observing_ptr<Entity> entity)
     // REVIEW: Ok so here's where updating_ is being checked!
     //         But, is this actually necessary? moveEntities() is going to get
     //         called at the end of a frame anyway...
+    //
+    // Response: Maybe not. Should look at this a bit more later.
     if (!updating_) {
         moveEntities();
     }
@@ -89,7 +97,7 @@ std::unique_ptr<Entity> World::releaseEntity(observing_ptr<Entity> entity)
 
 void World::update()
 {
-    // REVIEW: What is this? It's totally not thread safe or exception safe.
+    // REVIEW: What is this? It's not thread safe or exception safe.
     updating_ = true;
     for (auto& entity : entities_) {
         entity->update();
