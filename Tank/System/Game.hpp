@@ -61,6 +61,30 @@ namespace tank
  * can add one world to the top of the stack, and pop the currently active
  * world from the stack, destroying it.
  *
+ * In the following example, rows below **Function** represent sequential
+ * function calls in that frame, while rows above **Function** represent the
+ * World stack at the beginning of each frame, going from the bottom up. 
+ * A World item in italics indicates that it is the current World.
+ *
+ * |      Start        |      Frame 1      |      Frame 2       |    Frame 3        | Frame 4
+ * | :---------------: | :---------------: | :----------------: | :----------:      | :-:
+ * |        -          |         -         |       *Main*       |       -           |  -
+ * |        -          |      *Menu*       |        Menu        |    *Menu*         |  *Main*
+ * |   **Function**    |   **Function**    |    **Function**    | **Function**      |  -
+ * | makeWorld<Main>() | makeWorld<Main>() |     popWorld()     | makeWorld<Main>() |  -
+ * | makeWorld<Menu>() |         -         |     popWorld()     |   popWorld()      |  -
+ *
+ * There are some important things to note: 
+ *
+ *  - only the last makeWorld() call before the next frame will add that world
+ *    to the stack; however, all makeWorld calls will *create* a world,
+ *    calling its constructor, but all but the last will be destroyed.
+ *  - multiple calls to popWorld() have no additional effect
+ *  - calling popWorld() pops the *currently active* World, regardless of
+ *    whether makeWorld() has been called.
+ *  - if the World stack is empty at the beginning of a frame, the game loop
+ *    ends.
+ *
  * \see World
  * \see Logger
  */
