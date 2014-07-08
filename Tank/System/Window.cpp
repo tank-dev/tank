@@ -13,7 +13,7 @@ namespace tank
 
 bool Window::windowExists_ = false;
 
-Window::Window(Vector<unsigned int> const& size, std::string caption)
+Window::Window(Vector<unsigned int> size, std::string caption)
         : caption_(caption), size_(size), valid_(false)
 {
     if (!windowExists_) {
@@ -59,9 +59,10 @@ void Window::flipDisplay()
     window_.clear(backgroundColor_);
 }
 
-void Window::resize(Vector<unsigned int> const& size)
+void Window::resize(Vector<unsigned int> size)
 {
     window_.setSize({size.x, size.y});
+    size_ = size;
 }
 
 void Window::setBackgroundColor(float r, float g, float b, float a)
@@ -87,7 +88,7 @@ void Window::setCaption(std::string caption)
     }
 }
 
-Vector<unsigned int> const& Window::getSize()
+Vector<unsigned int> Window::getSize()
 {
     return size_;
 }
