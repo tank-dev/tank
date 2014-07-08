@@ -27,6 +27,8 @@ using Key = sf::Keyboard::Key;
  * {
  *     tank::EventHandler::Connection c;
  * public:
+ *     // Must manage connections in onAdded, as setWorld() is not called at
+ *     // construction
  *     virtual void onAdded() override
  *     {
  *         using Kbd = tank::Keyboard;
