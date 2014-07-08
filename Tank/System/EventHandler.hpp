@@ -148,6 +148,10 @@ public:
      * need to call it yourself.
      */
     void propagate();
+
+    EventHandler() = default;
+    EventHandler(EventHandler const&) = delete;
+    EventHandler& operator=(EventHandler const&) = delete;
 };
 
 class EventHandler::Connection
