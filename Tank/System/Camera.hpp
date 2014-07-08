@@ -66,6 +66,8 @@ public:
     }
 
     Camera();
+    Camera(Camera const&) = default;
+    Camera& operator=(Camera const&) = default;
 
 private:
 };
