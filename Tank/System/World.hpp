@@ -131,7 +131,6 @@ public:
      * Override this to add frame logic specific to the world, but be sure to
      * update the entity list by calling World::update().
      *
-     * \see handleEvents()
      * \see draw()
      * \see Game
      */
@@ -157,7 +156,6 @@ public:
      * }
      * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
      *
-     * \see handleEvents()
      * \see update()
      * \see Game
      */
