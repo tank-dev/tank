@@ -23,9 +23,9 @@ namespace tank
 class World;
 
 /*!
- * \brief Base class for all in-game entities.
+ * \brief Base class for all game entities.
  *
- * Entities should be added to worlds via World::addEntity(Entity)
+ * Entities should be added to worlds via World::addEntity<EntityType>(args...)
  *
  * All derived classes contain a Vectorf position and a reference to a
  * texture (loaded via IRender), as well as a string type.
@@ -48,7 +48,6 @@ class Entity
     float rot_{};
     Vectorf origin_{};
     Rectd hitbox_;
-    bool solid_{false};
     int layer_{};
     bool removed_{false};
     observing_ptr<World> world_{nullptr}; // Set by parent World
@@ -172,16 +171,6 @@ public:
     }
 
     /*!
-     * \brief Returns whether the entity is solid (deprecated)
-     *
-     * \return Whether or not the entity is solid
-     */
-    bool isSolid() const
-    {
-        return solid_;
-    }
-
-    /*!
      * \brief Returns the entity's z-layer
      *
      * \return Entity's z-layer
@@ -283,13 +272,6 @@ public:
      * \param type The type to add
      */
     void addType(std::string type);
-
-    /*!
-     * \brief Sets the entity's solidity (deprecated)
-     *
-     * \param solid Whether the entity should be solid or not
-     */
-    void setSolid(bool solid);
 
     /*!
      * \brief Sets the entity's z-layer
