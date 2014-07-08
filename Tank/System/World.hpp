@@ -22,18 +22,22 @@ class Entity;
 class Game;
 
 /*!
- * \brief Base class for game worlds ("Worlds")
+ * \brief Class for managing entities, encapsulating game states.
  *
- * Handles Entity creation, destruction, rendering and updating. You can derive
- * from this class to add your own world-specific logic - it can also be useful
- * to handle world initialization in the constructor as opposed to from the
- * outside (e.g. in main).
+ * Worlds handle Entity creation, destruction, rendering and updating. Often
+ * each class deriving World will represent a different state of the game, *e.g.*
+ * Menu, Main, Paused.
  *
- * Worlds should be created via Game::makeWorld<T>(Args... args) for memory
- * safety. All worlds are stored within Game as a stack.
+ * You should derive from this class to add your own world-specific logic - it 
+ * is also advised to handle world initialization in World() as opposed
+ * to externally (e.g. in main).
  *
- * All entities should be created using the similar method available from
- * World, makeEntity<T>(Args... args).
+ * A World should be created via Game::makeWorld<WorldType>(), which
+ * constructs it, adds it to the top of the World stack, and returns an
+ * observing_ptr to it.
+ *
+ * All entities should be created using the similar method available on
+ * World instances, World::makeEntity<EntityType>().
  *
  * \see Game
  * \see Entity
@@ -41,7 +45,7 @@ class Game;
  */
 class World
 {
-    bool updating_{false};
+    bool updating_ {false};
     Camera camera_;
     std::vector<std::tuple<observing_ptr<World>, observing_ptr<Entity>>>
             toMove_;
@@ -50,27 +54,44 @@ class World
     EventHandler eventHandler_;
 
 public:
+    /*! \brief Returns a reference to the world's unique EventHandler */
     EventHandler& eventHandler()
     {
         return eventHandler_;
     }
 
     /*!
-     * \brief Creates an Entity and adds it to the World
+     * \brief Creates an Entity to be added to the world at the beginning of the
+     * next frame.
      *
-     * Creates an Entity, setting its world pointer to point to it.
-     * Adds a unique_ptr to the entity to the entity list.
-     * Returns an observing_ptr<T> to the Entity created.
+     * This is a factory function which creates an instance of a class deriving
+     * from Entity. The entity is constructed immediately, passing the `args`
+     * provided. The entity's world pointer is then set, and Entity::onAdded()
+     * is called. At the beginning of the next frame, the entity is added to the 
+     * entity list.
      *
-     * \tparam T The type of Entity to construct
-     * \param args the arguments to send to the entity's constructor
-     * \return A raw pointer to the created Entity (NEVER DELETE IT)
+     * Example code:
+     *
+     * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~{.cpp}
+     *     class MyEnt : public tank::Entity
+     *     {
+     *     public:
+     *         MyEnt(tank::Vectorf pos, int a) : tank::Entity(pos) {}
+     *     };
+     *
+     *     auto myWorld = Game::makeWorld();
+     *     myWorld->makeEntity<MyEnt>(tank::Vectorf {20, 30}, 2);
+     * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     *
+     * \tparam T The type of entity to create.
+     * \param args Arguments to pass to T's constructor.
+     * \return An observing_ptr of type T to the newly created World
      */
     template <typename T, typename... Args>
     observing_ptr<T> makeEntity(Args&&... args);
 
     /*!
-     * \brief Inserts a unique_ptr to an Entity into the entity list
+     * \brief Inserts an Entity into the entity list
      *
      * This method provides a way to add entities that have
      * * been released from their original World via releaseEntity()
@@ -82,51 +103,33 @@ public:
     void insertEntity(std::unique_ptr<Entity>&&);
 
     /*!
-     * \brief Moves an Entity from one World to another
+     * \brief Moves an Entity from one world to another
      *
      * This is essentially a shorthand for
      * world->insertEntity(this->releaseEntity(entity))
      *
-     * \param world The World to which to move the Entity
-     * \param entity A raw pointer to the Entity to be moved
+     * \param world The world to which to move the entity
+     * \param entity A raw pointer to the entity to be moved
      * \see insertEntity()
      * \see releaseEntity()
      */
     void moveEntity(observing_ptr<World>, observing_ptr<Entity>);
 
     /*!
-     * \brief Removes an Entity from the entity list and returns a unique_ptr
-     * to it
+     * \brief Removes an Entity from the entity list and returns it
      *
-     * \param entity A raw pointer to the Entity to be released
+     * \param entity An observing_ptr pointer to the entity to be released
      * \see insertEntity()
      */
     std::unique_ptr<Entity> releaseEntity(observing_ptr<Entity>);
 
-    /*
-     * \brief Handle keyboard input on a per-frame basis (deprecated)
-     *
-     * When World is the active world, Game calls this once per frame, before
-     * update() and draw().
-     *
-     * Override this to send keyboard input to entities that need it
-     *
-     * \param key SDL_KeyboardEvent representing the change in keyboard world
-     * \see update()
-     * \see draw()
-     * \see Game
-     */
-    // virtual void handleEvents(sf::Keyboard::Key) {}
-
     /*!
-     * \brief Update all entities in the state's entities list
+     * \brief Update all Entity instances in the entity list
      *
-     * When State is the active state, Game calls this once per frame, between
-     * handleEvents() and draw()
+     * Game calls this on the current world once per frame, before calling draw().
      *
-     * Override this to specify new logic for updates, but be sure to update the
-     * entity list, either by looping over and calling update, or by calling
-     * State::update()
+     * Override this to add frame logic specific to the world, but be sure to
+     * update the entity list by calling World::update().
      *
      * \see handleEvents()
      * \see draw()
@@ -135,16 +138,24 @@ public:
     virtual void update();
 
     /*!
-     * \brief Draw all entities in the state's entities list
+     * \brief Draw all Entity instances in the entity list
      *
-     * When State is the active state, Game calls this once per frame, after
-     * handleEvents() and update()
+     * When world is the active World, the game loop calls this once per
+     * iteration, after update().
      *
-     * Override this to specify new drawing operations, or to sort the entities
-     * list before drawing, but be sure to then draw all entities by either
-     * looping over the entities list or calling State::draw()
+     * By default, it will sort the entity list by Entity::getLayer() before
+     * drawing.
      *
-     * \param render The render context to draw to
+     * Override this to specify new behaviour when drawing the entire world each
+     * frame, *e.g.* to sort the entity list some other way, but be sure to then
+     * draw all entities by either calling
+     * World::draw() or looping over the entities list:
+     *
+     * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~{.cpp}
+     * for (auto& e : entities_) {
+     *     e->draw(camera());
+     * }
+     * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
      *
      * \see handleEvents()
      * \see update()
@@ -152,18 +163,20 @@ public:
      */
     virtual void draw();
 
+    /*! \brief Returns a reference to the world's Camera */
     Camera& camera()
     {
         return camera_;
     }
 
+    // TODO: This function is really unclear. Will have a further look later
     Vectorf worldFromScreenCoords(Vectorf const& screenCoords)
     {
         return camera().worldFromScreenCoords(screenCoords);
     }
 
     /*!
-     * \brief Get the list of entities
+     * \brief Returns the entity list
      *
      * \return A reference to the list of unique_ptrs to entities
      */
@@ -172,16 +185,37 @@ public:
         return entities_;
     }
 
-    World();
+    //TODO Finish documentation
+    /*!
+     * In derived classes, the constructor is where you should create and load
+     * resources such as music, graphics and entities specific to the world.
+     */
+    World() = default;
     virtual ~World();
     World(World const&) = delete;
     World& operator=(World const&) = delete;
 
+    /*!
+     * \brief Helper function to create and store EventHandler connections for
+     * the world.
+     *
+     * Equivalent to a call to EventHandler::connect() on the world's
+     * EventHandler, except the returned EventHandler::Connection is stored 
+     * in a list data member of the world, and an observing_ptr to
+     * it is returned instead.
+     *
+     * This should be used for registering events with lifetimes equal to the
+     * world's, and is not suitable for Entity specific events -- see
+     * Entity::connect() instead.
+     *
+     * \see EventHandler
+     */
     tank::observing_ptr<tank::EventHandler::Connection>
             connect(tank::EventHandler::Condition condition,
                     tank::EventHandler::Effect effect);
 
 protected:
+    /*! \brief list of Entity instances in the World */
     // TODO: Make private and add getter
     std::vector<std::unique_ptr<Entity>> entities_;
 
