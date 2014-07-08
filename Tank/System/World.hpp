@@ -45,21 +45,19 @@ class Game;
  */
 class World
 {
+public:
+    /*! \brief The world's EventHandler */
+    EventHandler eventHandler;
+
+private:
     bool updating_ {false};
     Camera camera_;
     std::vector<std::tuple<observing_ptr<World>, observing_ptr<Entity>>>
             toMove_;
     std::vector<std::unique_ptr<Entity>> newEntities_;
     std::vector<std::unique_ptr<EventHandler::Connection>> connections_;
-    EventHandler eventHandler_;
 
 public:
-    /*! \brief Returns a reference to the world's unique EventHandler */
-    EventHandler& eventHandler()
-    {
-        return eventHandler_;
-    }
-
     /*!
      * \brief Creates an Entity to be added to the world at the beginning of the
      * next frame.
