@@ -190,11 +190,6 @@ void Entity::setHitbox(Rectd hitbox)
     hitbox_ = hitbox;
 }
 
-void Entity::setSolid(bool solid)
-{
-    solid_ = solid;
-}
-
 void Entity::setType(std::string type)
 {
     types_.clear();
