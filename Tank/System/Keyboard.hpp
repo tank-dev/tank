@@ -27,13 +27,13 @@ using Key = sf::Keyboard::Key;
  * {
  *     tank::EventHandler::Connection c;
  * public:
- *     // Must manage connections in onAdded, as setWorld() is not called at
+ *     // Must manage connections in onAdded, as getWorld() is not set at
  *     // construction
  *     virtual void onAdded() override
  *     {
  *         using Kbd = tank::Keyboard;
  *         using Key = tank::Key;
- *         c = getWorld().eventHandler.connect(Kbd::KeyDown(Key::Left), move());
+ *         c = getWorld().eventHandler.connect(Kbd::KeyDown(Key::Left), move);
  *     }
  *
  *     // is equivalent to...

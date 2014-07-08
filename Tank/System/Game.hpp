@@ -149,7 +149,6 @@ public:
      */
     static unsigned int fps;
 
-    // TODO work out why Controllers::initialize() doesn't auto-link
     /*!
      * \brief Initializes the Window and game
      *
