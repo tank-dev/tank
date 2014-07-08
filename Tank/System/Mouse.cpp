@@ -112,7 +112,7 @@ std::function<bool()> Mouse::WheelMovement()
 std::function<bool()> Mouse::InEntity(Entity const& e)
 {
     return [&e] {
-        auto mPos = getRelPos(e.getWorld()->camera());
+        auto mPos = getRelPos(e.getWorld()->camera);
         auto ePos = e.getPos();
         auto hb = e.getHitbox();
         hb.x += ePos.x;

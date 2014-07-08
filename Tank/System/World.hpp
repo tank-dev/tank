@@ -48,10 +48,10 @@ class World
 public:
     /*! \brief The world's EventHandler */
     EventHandler eventHandler;
+    Camera camera;
 
 private:
     bool updating_ {false};
-    Camera camera_;
     std::vector<std::tuple<observing_ptr<World>, observing_ptr<Entity>>>
             toMove_;
     std::vector<std::unique_ptr<Entity>> newEntities_;
@@ -150,7 +150,7 @@ public:
      *
      * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~{.cpp}
      * for (auto& e : entities_) {
-     *     e->draw(camera());
+     *     e->draw(camera);
      * }
      * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
      *
@@ -159,16 +159,10 @@ public:
      */
     virtual void draw();
 
-    /*! \brief Returns a reference to the world's Camera */
-    Camera& camera()
-    {
-        return camera_;
-    }
-
     // TODO: This function is really unclear. Will have a further look later
     Vectorf worldFromScreenCoords(Vectorf const& screenCoords)
     {
-        return camera().worldFromScreenCoords(screenCoords);
+        return camera.worldFromScreenCoords(screenCoords);
     }
 
     /*!
