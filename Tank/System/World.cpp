@@ -17,7 +17,6 @@
 namespace tank
 {
 
-World::World() = default;
 World::~World()
 {
     connections_.clear();
@@ -99,13 +98,15 @@ void World::update()
 {
     // REVIEW: What is this? It's not thread safe or exception safe.
     updating_ = true;
-    for (auto& entity : entities_) {
-        entity->update();
-    }
 
     addEntities();
     moveEntities();
     deleteEntities();
+
+    for (auto& entity : entities_) {
+        entity->update();
+    }
+
     updating_ = false;
 }
 
