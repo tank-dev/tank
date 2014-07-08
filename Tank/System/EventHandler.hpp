@@ -88,7 +88,7 @@ public:
      * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~{.cpp}
      * class MyEnt : public tank::Entity
      * {
-     *     tank::EventHandler::Connection a,b,c;
+     *     std::unique_ptr<tank::EventHandler::Connection> a,b,c;
      *
      * public:
      *     // Must manage connections in onAdded, as getWorld() is not set at

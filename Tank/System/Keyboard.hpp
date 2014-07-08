@@ -25,7 +25,7 @@ using Key = sf::Keyboard::Key;
  * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~{.cpp}
  * class MyEnt : public tank::Entity
  * {
- *     tank::EventHandler::Connection c;
+ *     std::unique_ptr<tank::EventHandler::Connection> c;
  * public:
  *     // Must manage connections in onAdded, as getWorld() is not set at
  *     // construction
