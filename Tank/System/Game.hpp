@@ -21,7 +21,7 @@ namespace tank
  * \brief Static class controlling game loop, Window and World stack.
  *
  * # Game
- * 
+ *
  * The Game class allows you to initialize, start and stop the game. It
  * provides control over the main game loop and the Worlds in the game.
  *
@@ -48,7 +48,7 @@ namespace tank
  * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
  *
  * One iteration of the main loop is equivalent to a frame.
- * At the beginning of a frame, the last of any worlds created in the last frame 
+ * At the beginning of a frame, the last of any worlds created in the last frame
  * with makeWorld() will be added to the top of the world stack. If the world
  * stack is empty, the loop will exit. Otherwise, the top of the stack will
  * become the active world. The active world will then be updated and drawn.
@@ -57,24 +57,24 @@ namespace tank
  *
  * ##Managing Worlds
  *
- * Tank currently uses a simple World stack to manage worlds. In a frame, you
+ * Tank currently uses a simple stack to manage worlds. In a frame, you
  * can add one world to the top of the stack, and pop the currently active
  * world from the stack, destroying it.
  *
  * In the following example, rows below **Function** represent sequential
  * function calls in that frame, while rows above **Function** represent the
- * World stack at the beginning of each frame, going from the bottom up. 
- * A World item in italics indicates that it is the current World.
+ * world stack at the beginning of each frame, going from the bottom up.
+ * A World item in italics indicates that it is the current world.
  *
  * |      Start        |      Frame 1      |      Frame 2       |    Frame 3        | Frame 4
  * | :---------------: | :---------------: | :----------------: | :----------:      | :-:
  * |        -          |         -         |       *Main*       |       -           |  -
  * |        -          |      *Menu*       |        Menu        |    *Menu*         |  *Main*
- * |   **Function**    |   **Function**    |    **Function**    | **Function**      |  -
- * | makeWorld<Main>() | makeWorld<Main>() |     popWorld()     | makeWorld<Main>() |  -
+ * |   **Function**    |   **Function**    |    **Function**    | **Function**      | **Function**
+ * | makeWorld<Main>() | makeWorld<Main>() |     popWorld()     | makeWorld<Main>() |  popWorld()
  * | makeWorld<Menu>() |         -         |     popWorld()     |   popWorld()      |  -
  *
- * There are some important things to note: 
+ * There are some important things to note:
  *
  *  - only the last makeWorld() call before the next frame will add that world
  *    to the stack; however, all makeWorld calls will *create* a world,
@@ -151,10 +151,10 @@ public:
 
     // TODO work out why Controllers::initialize() doesn't auto-link
     /*!
-     * \brief Initializes the game.
+     * \brief Initializes the Window and game
      *
      * Creates a window of usable size `windowSize` with an OpenGL rendering
-     * context, and calls Controllers::initialize().
+     * context, and detects plugged in controllers.
      *
      * \param windowSize The window canvas size in pixels.
      * \return `true` on success.
@@ -165,7 +165,7 @@ public:
     static void run();
 
     /*!
-     * \brief This removes the current world at the end of the frame.
+     * \brief Removes the current World at the end of the frame.
      *
      * At the beginning of the next frame, one of two things will happen:
      *
@@ -197,15 +197,14 @@ public:
      * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
      *
      * \tparam T The type of world to create.
-     * \tparam Args Inferred - can be ignored.
-     * \param args Arguments here will be passed to T's constructor.
+     * \param args Arguments to pass to T's constructor.
      *
      * \return A pointer of type T to the newly created World.
      */
     template <typename T, typename... Args>
     static observing_ptr<T> makeWorld(Args&&... args);
 
-    /*! \brief Returns a pointer to the active world. */
+    /*! \brief Returns a pointer to the active World. */
     static observing_ptr<World> world()
     {
         return currentWorld_;

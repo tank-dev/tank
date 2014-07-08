@@ -28,7 +28,7 @@ class Game;
  * each class deriving World will represent a different state of the game, *e.g.*
  * Menu, Main, Paused.
  *
- * You should derive from this class to add your own world-specific logic - it 
+ * You should derive from this class to add your own world-specific logic - it
  * is also advised to handle world initialization in World() as opposed
  * to externally (e.g. in main).
  *
@@ -67,7 +67,7 @@ public:
      * This is a factory function which creates an instance of a class deriving
      * from Entity. The entity is constructed immediately, passing the `args`
      * provided. The entity's world pointer is then set, and Entity::onAdded()
-     * is called. At the beginning of the next frame, the entity is added to the 
+     * is called. At the beginning of the next frame, the entity is added to the
      * entity list.
      *
      * Example code:
@@ -200,7 +200,7 @@ public:
      * the world.
      *
      * Equivalent to a call to EventHandler::connect() on the world's
-     * EventHandler, except the returned EventHandler::Connection is stored 
+     * EventHandler, except the returned EventHandler::Connection is stored
      * in a list data member of the world, and an observing_ptr to
      * it is returned instead.
      *
