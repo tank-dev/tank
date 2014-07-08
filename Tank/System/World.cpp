@@ -99,14 +99,13 @@ void World::update()
     // REVIEW: What is this? It's not thread safe or exception safe.
     updating_ = true;
 
-    addEntities();
-    moveEntities();
-    deleteEntities();
-
     for (auto& entity : entities_) {
         entity->update();
     }
 
+    addEntities();
+    moveEntities();
+    deleteEntities();
     updating_ = false;
 }
 
