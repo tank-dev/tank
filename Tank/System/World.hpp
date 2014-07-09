@@ -12,13 +12,13 @@
 
 #include "Camera.hpp"
 #include "EventHandler.hpp"
+#include "Entity.hpp"
 #include "../Utility/Vector.hpp"
 #include "../Utility/observing_ptr.hpp"
 
 namespace tank
 {
 
-class Entity;
 class Game;
 
 /*!
