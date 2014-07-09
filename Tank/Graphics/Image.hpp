@@ -52,9 +52,12 @@ public:
 
     void setSize(Vectorf size);
 
-    // TODO: work out what anstow's doing here
+    virtual void setClip(Vectoru dimensions, unsigned int index);
     virtual void setClip(Vectoru dimensions, unsigned int index,
-                         Rectu clip = {});
+                         Vectori spacing);
+
+    virtual void setClip(Vectoru dimensions, unsigned int index,
+                         Rectu clip);
     //virtual void setClip(Vectoru dimensions, unsigned int index);
 
     /*!

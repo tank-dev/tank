@@ -103,27 +103,50 @@ void Image::setClip(Vectoru dimensions, unsigned int index)
 }
 */
 
-// TODO: work out what anstow's doing here
-void Image::setClip(Vectoru dimensions, unsigned int index, Rectu clip)
+void Image::setClip(Vectoru dimensions, unsigned int index)
 {
     // TODO: This needs testing with rectangular dimensions
-    Rectu new_clip = {0, 0, dimensions.x, dimensions.y};
+    Rectu newClip = {0, 0, dimensions.x, dimensions.y};
 
     const auto textureSize = getTextureSize();
     Vectoru usefulSize = {textureSize.x - (textureSize.x % dimensions.x),
                           textureSize.y - (textureSize.y % dimensions.y)};
 
-    new_clip.x = (dimensions.x * index) % usefulSize.x;
-    new_clip.y = dimensions.y * ((dimensions.x * index) / usefulSize.x);
+    newClip.x = (dimensions.x * index) % usefulSize.x;
+    newClip.y = dimensions.y * ((dimensions.x * index) / usefulSize.x);
+
+    setClip(newClip);
+}
+
+void Image::setClip(Vectoru dimensions, unsigned int index, Vectori spacing)
+{
+    Rectu newClip = {0, 0, dimensions.x, dimensions.y};
+
+    const auto textureSize = getTextureSize();
+    const Vectoru usefulSize = { textureSize.x - (textureSize.x % dimensions.x),
+                           textureSize.y - (textureSize.y % dimensions.y)};
+
+    const Vectori coords = { index % (usefulSize.x / dimensions.x),
+                             index * dimensions.x / usefulSize.x };
+
+    newClip.x = (dimensions.x + spacing.x) * coords.x;
+    newClip.y = (dimensions.y + spacing.y) * coords.y;
+
+    setClip(newClip);
+}
+
+void Image::setClip(Vectoru dimensions, unsigned int index, Rectu clip)
+{
+    setClip(dimensions, index);
+    auto newClip = getClip();
 
     if (clip != Rectu{0, 0, 0, 0}) {
-        new_clip.x += clip.x;
-        new_clip.y += clip.y;
-        new_clip.w = clip.w;
-        new_clip.h = clip.h;
+        newClip.x += clip.x;
+        newClip.y += clip.y;
+        newClip.w = clip.w;
+        newClip.h = clip.h;
     }
-
-    setClip(new_clip);
+    setClip(newClip);
 }
 
 }
