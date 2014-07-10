@@ -103,49 +103,46 @@ void Image::setClip(Vectoru dimensions, unsigned int index)
 }
 */
 
-void Image::setClip(Vectoru dimensions, unsigned int index)
+void Image::setClipByIndex(Vectoru dimensions, unsigned int index,
+                    Vectoru spacing, Rectu subClip)
 {
     // TODO: This needs testing with rectangular dimensions
     Rectu newClip = {0, 0, dimensions.x, dimensions.y};
 
-    const auto textureSize = getTextureSize();
-    Vectoru usefulSize = {textureSize.x - (textureSize.x % dimensions.x),
-                          textureSize.y - (textureSize.y % dimensions.y)};
+    auto textureSize = getTextureSize();
 
-    newClip.x = (dimensions.x * index) % usefulSize.x;
-    newClip.y = dimensions.y * ((dimensions.x * index) / usefulSize.x);
-
-    setClip(newClip);
-}
-
-void Image::setClip(Vectoru dimensions, unsigned int index, Vectori spacing)
-{
-    Rectu newClip = {0, 0, dimensions.x, dimensions.y};
-
-    const auto textureSize = getTextureSize();
-    const Vectoru usefulSize = { textureSize.x - (textureSize.x % dimensions.x),
-                           textureSize.y - (textureSize.y % dimensions.y)};
-
-    const Vectori coords = { index % (usefulSize.x / dimensions.x),
-                             index * dimensions.x / usefulSize.x };
-
-    newClip.x = (dimensions.x + spacing.x) * coords.x;
-    newClip.y = (dimensions.y + spacing.y) * coords.y;
-
-    setClip(newClip);
-}
-
-void Image::setClip(Vectoru dimensions, unsigned int index, Rectu clip)
-{
-    setClip(dimensions, index);
-    auto newClip = getClip();
-
-    if (clip != Rectu{0, 0, 0, 0}) {
-        newClip.x += clip.x;
-        newClip.y += clip.y;
-        newClip.w = clip.w;
-        newClip.h = clip.h;
+    if (subClip.x > textureSize.x or subClip.y > textureSize.y) {
+        throw std::invalid_argument("subClip bounds outside texture");
     }
+
+    textureSize -= Vectoru{subClip.x, subClip.y};
+
+    const auto tileDimensions = dimensions + spacing;
+
+    const Vectoru extraSpace = { textureSize.x % tileDimensions.x,
+                                 textureSize.y % tileDimensions.y};
+
+    const Vectoru usefulSize = { textureSize.x - extraSpace.x,
+                                 textureSize.y - extraSpace.y };
+
+    const unsigned widthInTiles = (usefulSize.x / tileDimensions.x)
+                                  + extraSpace.x / dimensions.x;
+
+    Vectoru tileCoords = { index % widthInTiles, index / widthInTiles };
+
+    newClip.x = tileDimensions.x * tileCoords.x;
+    newClip.y = tileDimensions.y * tileCoords.y;
+
+    newClip.x += subClip.x;
+    newClip.y += subClip.y;
+
+    if (subClip.w != 0) {
+        newClip.w = subClip.w;
+    }
+    if (subClip.h != 0) {
+        newClip.h = subClip.h;
+    }
+
     setClip(newClip);
 }
 

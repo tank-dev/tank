@@ -93,7 +93,7 @@ void FrameList::refresh()
         unsigned int frame = currentAnimation_->frameList[currentFrame_];
 
         // Set clipping rectangle according to current frame
-        image_.setClip(frameDimensions_, frame);
+        image_.setClipByIndex(frameDimensions_, frame);
     }
 }
 

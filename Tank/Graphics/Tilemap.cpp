@@ -31,7 +31,10 @@ void Tilemap::draw(Vectorf parentPos, float parentRot, Vectorf parentOri,
     for (unsigned i = 0; i < tiles_.getWidth(); ++i) {
         for (unsigned j = 0; j < tiles_.getHeight(); ++j) {
             // Select the tile to draw
-            Image::setClip(frameDimensions_, tiles_[Vectoru{i, j}], clipRect_);
+            Image::setClipByIndex(frameDimensions_, 
+                                  tiles_[Vectoru{i, j}],
+                                  {}, 
+                                  clipRect_);
             // Move to the correct place to draw the tile
             setPos(originalPos + Vectoru{i * dims.x, j * dims.y});
             // Draw the tile
@@ -42,8 +45,9 @@ void Tilemap::draw(Vectorf parentPos, float parentRot, Vectorf parentOri,
     setPos(originalPos);
 }
 
-// TODO: work out what anstow's doing here
-void Tilemap::setClip(Vectoru dimensions, unsigned int index, Rectu clip)
+/*
+void Tilemap::setClipByIndex(Vectoru dimensions, unsigned int index,
+                             Vectoru spacing, Rectu clip)
 {
     // TODO: This needs testing with rectangular dimensions
     Rectu new_clip = {0, 0, dimensions.x, dimensions.y};
@@ -64,6 +68,7 @@ void Tilemap::setClip(Vectoru dimensions, unsigned int index, Rectu clip)
 
     setClip(clip);
 }
+*/
 
 Vectoru Tilemap::getTile(const Vectorf& localCoords)
 {

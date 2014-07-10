@@ -52,13 +52,8 @@ public:
 
     void setSize(Vectorf size);
 
-    virtual void setClip(Vectoru dimensions, unsigned int index);
-    virtual void setClip(Vectoru dimensions, unsigned int index,
-                         Vectori spacing);
-
-    virtual void setClip(Vectoru dimensions, unsigned int index,
-                         Rectu clip);
-    //virtual void setClip(Vectoru dimensions, unsigned int index);
+    virtual void setClipByIndex(Vectoru dimensions, unsigned int index,
+                         Vectoru spacing = {}, Rectu subClip = {});
 
     /*!
      * \brief Sets the clip rectangle of the image
