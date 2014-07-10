@@ -10,11 +10,16 @@
 namespace tank
 {
 
-FrameList::FrameList(Image const& i, Vector<unsigned int> frameDims)
+FrameList::FrameList(Image const& i,
+                     Vectoru frameDims,
+                     Vectoru spacing,
+                     Rectu subClip)
     : image_ (i)
-    , frameDimensions_(frameDims)
+    , frameDimensions_ (frameDims)
+    , spacing_ (spacing)
+    , subClip_ (subClip)
 {
-    image_.setClip({0, 0, frameDims.x, frameDims.y});
+    image_.setClipByIndex(frameDimensions_, 0, spacing_, subClip_);
     // image_.setSize(frameDims);
 }
 
@@ -93,7 +98,7 @@ void FrameList::refresh()
         unsigned int frame = currentAnimation_->frameList[currentFrame_];
 
         // Set clipping rectangle according to current frame
-        image_.setClipByIndex(frameDimensions_, frame);
+        image_.setClipByIndex(frameDimensions_, frame, spacing_, subClip_);
     }
 }
 
@@ -138,14 +143,20 @@ void FrameList::draw(Vectorf parentPos,
     image_.draw(parentPos, parentRot, parentOri, cam);
 }
 
-void FrameList::setImage(Image const& image, Vector<unsigned int> frameDims)
+void FrameList::setImage(Image const& image,
+                         Vectoru frameDims,
+                         Vectoru spacing,
+                         Rectu subClip)
 {
-    frameDimensions_ = frameDims;
     image_ = image;
+    frameDimensions_ = frameDims;
+    spacing_ = spacing;
+    subClip_ = subClip;
 }
 
 void addWalkingFrameList(FrameList& anim, std::chrono::milliseconds time)
 {
+    //TODO: add support for rows
     unsigned int xFrames =
             anim.getTextureSize().x / anim.getFrameDimensions().x;
 

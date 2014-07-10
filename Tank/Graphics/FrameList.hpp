@@ -32,26 +32,27 @@ class FrameList final : public Graphic
     };
 
     Image image_;
+    Vectoru frameDimensions_ {0, 0};
+    Vectoru spacing_ {};
+    Rectu subClip_ {};
     Animation* currentAnimation_ {nullptr};
     unsigned int currentFrame_ {0};
     Timer animTimer_;
     bool loop_ {false};
-    Vectoru frameDimensions_ {0, 0};
-    Rectu clipRect_ {0,0,0,0};
-    /*!
-     * \brief This is called when an animation finishes
-     */
+    std::vector<Animation> animations_;
     std::function<void()> callback_ = [] {};
-    std::vector<Animation>  animations_;
 
 public:
     FrameList() = default;
     /*!
      * \brief Construct an Animation with a Texture.
      * \param t Image to give the animation.
-     * \param frameDims size of each image in the Texture.
+     * \param frameDimensions size of each image in the Texture.
      */
-    FrameList(Image const&, Vector<unsigned int> frameDimensions);
+    FrameList(Image const&,
+              Vectoru frameDimensions,
+              Vectoru spacing = {},
+              Rectu subClip = {});
 
     /*!
      * \brief Add an animation
@@ -138,24 +139,23 @@ public:
 
     /*!
      * \brief Set the texture of the FrameList.
-     * \param texture the Texture to set.
-     * \param frameDims the dimensions of each image in the texture.
+     * \param image the Texture to set.
+     * \param frameDimensions the dimensions of the sprite to animate
      */
-    void setImage(Image const&, Vectoru frameDims);
+    void setImage(Image const& image,
+                  Vectoru frameDimensions,
+                  Vectoru spacing = {},
+                  Rectu subClip = {});
 
     virtual void setPos(Vectorf pos) { image_.setPos(pos); }
     virtual Vectorf getPos() const { return image_.getPos(); }
     virtual bool isRelativeToParent() { return image_.isRelativeToParent(); }
-
     virtual void setRotation(float angle) { image_.setRotation(angle); }
     virtual float getRotation() const { return image_.getRotation(); }
-
     void setClip(Rectu clip) { image_.setClip(clip); }
     Rectu getClip() const { return image_.getClip(); }
-
     void setOrigin(Vectorf origin) override { image_.setOrigin(origin); }
     Vectorf getOrigin() const override { return image_.getOrigin(); }
-
     void setSize(Vectorf size) { image_.setSize(size); }
     Vectorf getSize() const override { return image_.getSize(); }
 
