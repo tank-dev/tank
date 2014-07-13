@@ -8,8 +8,10 @@
 
 #include <string>
 #include <memory>
+#include <SFML/Graphics/Image.hpp>
 #include <SFML/Graphics/Sprite.hpp>
 #include "../Utility/Vector.hpp"
+#include "Color.hpp"
 #include "Texture.hpp"
 #include "Graphic.hpp"
 
@@ -19,6 +21,7 @@ class Image : public Graphic
 {
     bool loaded_ {false};
     sf::Sprite sprite_;
+    std::shared_ptr<sf::Image> pixels_;
     std::shared_ptr<Texture> texture_ {nullptr};
 
 public:
@@ -53,7 +56,7 @@ public:
     void setSize(Vectorf size);
 
     virtual void setClipByIndex(Vectoru dimensions, unsigned int index,
-                         Vectoru spacing = {}, Rectu subClip = {});
+                                Vectoru spacing = {}, Rectu subClip = {});
 
     /*!
      * \brief Sets the clip rectangle of the image
@@ -86,6 +89,31 @@ public:
                       float parentRot = 0,
                       Vectorf parentOri = {},
                       Camera const& = Camera()) override;
+
+    // Texture editing functions
+
+    Color getPixel(Vectoru coordinates);
+    void  setPixel(Vectoru coordinates, Color);
+    /*! 
+     * \brief Copies the current texture in memory
+     */
+    void makeUnique();
+
+    /*!
+     * \brief Change a specified color in the image
+     *
+     * \param target The color to change
+     * \param fill The color to set it to
+     */
+    void fillColor(Color target, Color fill);
+
+    /*!
+     * \brief Change a specified color's opacity in the image
+     *
+     * \param target The color to change
+     * \param alpha The desired alpha value (0 = transparent)
+     */
+    void setColorAlpha(Color target, uint8_t alpha = 0);
 };
 
 }

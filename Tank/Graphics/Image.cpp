@@ -22,6 +22,7 @@ void Image::load(std::string file)
         texture_.reset(new Texture());
         texture_->loadFromFile(file);
         sprite_.setTexture(*texture_);
+        pixels_.reset(new sf::Image(texture_->copyToImage()));
     }
 }
 
@@ -144,6 +145,45 @@ void Image::setClipByIndex(Vectoru dimensions, unsigned int index,
     }
 
     setClip(newClip);
+}
+
+void Image::makeUnique()
+{
+    pixels_.reset(new sf::Image(*pixels_));
+    texture_.reset(new Texture(*texture_));
+}
+
+Color Image::getPixel(Vectoru coords)
+{
+    return pixels_->getPixel(coords.x, coords.y);
+}
+
+void Image::setPixel(Vectoru coords, Color c)
+{
+    pixels_->setPixel(coords.x, coords.y, c);
+    texture_->update(*pixels_);
+}
+
+void Image::fillColor(Color target, Color fill)
+{
+    const sf::Vector2u size = pixels_->getSize();
+
+    for (unsigned j = 0; j < size.y; ++j) {
+        for (unsigned i = 0; i < size.x; ++i) {
+            if (pixels_->getPixel(i, j) == target) {
+                pixels_->setPixel(i, j, fill);
+            }
+
+        }
+    }
+
+    texture_->update(*pixels_);
+}
+
+void Image::setColorAlpha(Color target, uint8_t alpha)
+{
+    pixels_->createMaskFromColor(target, alpha);
+    texture_->update(*pixels_);
 }
 
 }
