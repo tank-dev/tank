@@ -29,8 +29,8 @@ class CollisionGrid : public Grid<bool>
             float costSoFar) const;
 
 public:
-    CollisionGrid(const Vectoru& dims);
-    CollisionGrid(const Vectoru& dims, bool intialValue);
+    CollisionGrid(const Vectoru& dims) : Grid(dims) {}
+    CollisionGrid(const Vectoru& dims, bool initialValue) : Grid(dims, initialValue) {}
 
     template <typename T>
     CollisionGrid(const Grid<T>& g, const std::unordered_set<T>& collidable);
