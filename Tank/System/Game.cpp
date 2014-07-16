@@ -60,10 +60,11 @@ void Game::run()
     }
 
     run_ = true;
-    popWorld_ = false;
     log << "Entering game loop" << std::endl;
     while (run_) {
+        popWorld_ = false;
         if (newWorld_) {
+            log << "Adding game world to stack" << std::endl;
             worlds_.push(std::move(newWorld_));
             newWorld_ = nullptr;
         } else if (worlds_.empty()) {

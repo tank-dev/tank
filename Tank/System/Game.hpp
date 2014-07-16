@@ -229,6 +229,7 @@ public:
      * \see Window
      */
     //TODO: check the os will kill the app
+    //TODO: find way of calling from first world's constructor
     static void stop()
     {
         run_ = false;
