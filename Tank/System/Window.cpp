@@ -59,7 +59,7 @@ void Window::flipDisplay()
     window_.clear(backgroundColor_);
 }
 
-void Window::resize(Vector<unsigned int> size)
+void Window::setSize(Vector<unsigned int> size)
 {
     window_.setSize({size.x, size.y});
     size_ = size;

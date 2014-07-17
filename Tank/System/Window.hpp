@@ -46,7 +46,7 @@ public:
         return window_;
     }
 
-    virtual void resize(Vector<unsigned int> size);
+    virtual void setSize(Vector<unsigned int> size);
     virtual void setCaption(std::string caption);
 
     virtual void setBackgroundColor(Color c) { backgroundColor_ = c; }
