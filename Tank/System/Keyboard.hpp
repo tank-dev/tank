@@ -122,16 +122,19 @@ public:
         return stateChange_ and not currentState_[key] and lastState_[key];
     }
 
+    static std::function<bool()> Control;
     static bool control()
     {
         return isKeyDown(Key::LControl) or isKeyDown(Key::RControl);
     }
 
+    static std::function<bool()> Shift;
     static bool shift()
     {
         return isKeyDown(Key::LShift) or isKeyDown(Key::RShift);
     }
 
+    static std::function<bool()> Alt;
     static bool alt()
     {
         return isKeyDown(Key::LAlt) or isKeyDown(Key::RAlt);;

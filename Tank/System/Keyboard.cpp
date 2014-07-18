@@ -19,6 +19,9 @@ std::array<bool, Key::KeyCount> Keyboard::lastState_{};
 bool Keyboard::keyPressed_ {false};
 bool Keyboard::keyReleased_ {false};
 
+std::function<bool()> Keyboard::Control = control;
+std::function<bool()> Keyboard::Shift = shift;
+std::function<bool()> Keyboard::Alt = alt;
 void Keyboard::reset()
 {
     if (stateChange_) {
