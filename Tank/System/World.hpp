@@ -88,6 +88,8 @@ public:
     template <typename T, typename... Args>
     observing_ptr<T> makeEntity(Args&&... args);
 
+    virtual void onAdded() {}
+
     /*!
      * \brief Inserts an Entity into the entity list
      *
