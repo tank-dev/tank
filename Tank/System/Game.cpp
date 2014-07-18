@@ -5,7 +5,9 @@
 
 #include "Game.hpp"
 
+#include <iterator>
 #include <SFML/Window/Event.hpp>
+#include <SFML/System/Utf.hpp>
 #include "Controller.hpp"
 #include "Keyboard.hpp"
 #include "Mouse.hpp"
@@ -15,7 +17,8 @@ namespace tank
 {
 
 Logger Game::log{"log.txt"};
-// TODO allow variable frame rate
+std::stringstream Game::keystream;
+// TODO: allow variable framerate
 unsigned int Game::fps {60};
 bool Game::initialized_ {false};
 bool Game::run_ {false};
@@ -142,6 +145,11 @@ void Game::handleEvents()
             Controllers::setButton(event.joystickButton.joystickId,
                                    event.joystickButton.button, false);
             break;
+        case sf::Event::TextEntered:
+            // TODO: Replace SFML helpers with <locale>?
+            // FIXME: Here I do bad things
+            sf::Utf<32>::encodeAnsi(event.text.unicode,
+                                    std::ostream_iterator<char>(keystream));
         case sf::Event::GainedFocus:
             draw();
             break;

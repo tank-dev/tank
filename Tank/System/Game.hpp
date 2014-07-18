@@ -7,6 +7,7 @@
 #define TANK_GAME_HPP
 
 #include <stack>
+#include <sstream>
 #include <memory>
 #include "../Utility/Timer.hpp"
 #include "../Utility/Logger.hpp"
@@ -90,22 +91,7 @@ namespace tank
  */
 class Game
 {
-    static bool initialized_;
-    static bool run_;
-
-    static bool popWorld_;
-
-    static observing_ptr<World> currentWorld_;
-    static std::unique_ptr<Window> window_;
-
-    static std::stack<std::unique_ptr<World>> worlds_;
-    static Timer frameTimer_;
-    static std::unique_ptr<World> newWorld_;
-
 public:
-
-    Game() = delete;
-    ~Game() = delete;
     /*!
      * \brief A log stream.
      *
@@ -143,12 +129,46 @@ public:
     static Logger log;
 
     /*!
+     * \brief Keyboard input stream
+     *
+     * This stores the ASCII-representable keystrokes entered into the
+     * game window.
+     *
+     * You likely want to clear the stream before using it by emptying it into a
+     * string, or setting its underlying string representation:
+     *
+     *     std::string s;
+     *     tank::Game::keystream >> s;
+     *     
+     *     // or
+     *     tank::game::keystream.str("");
+     *
+     */
+    static std::stringstream keystream;
+
+    /*!
      * \brief Frame-rate of the game (60)
      *
      * \return Value passed to Game::initialize()
      */
     static unsigned int fps;
 
+private:
+    static bool initialized_;
+    static bool run_;
+
+    static bool popWorld_;
+
+    static observing_ptr<World> currentWorld_;
+    static std::unique_ptr<Window> window_;
+
+    static std::stack<std::unique_ptr<World>> worlds_;
+    static Timer frameTimer_;
+    static std::unique_ptr<World> newWorld_;
+
+public:
+    Game() = delete;
+    ~Game() = delete;
     /*!
      * \brief Initializes the Window and game
      *

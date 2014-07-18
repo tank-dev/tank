@@ -58,6 +58,9 @@ class Keyboard
     static std::array<bool, Key::KeyCount> currentState_;
     static std::array<bool, Key::KeyCount> lastState_;
 
+    static bool keyPressed_;
+    static bool keyReleased_;
+
 public:
     /*! \brief Function returning whether the specified Key is currently down */
     static std::function<bool()> KeyDown(Key key)
@@ -71,10 +74,22 @@ public:
         return [key]() { return not isKeyDown(key); };
     }
 
+    /*! \brief Function returning whether a Key has just been pressed */
+    static std::function<bool()> KeyPress()
+    {
+        return []() { return keyPressed_; };
+    }
+
     /*! \brief Function returning whether the specified Key has just been pressed */
     static std::function<bool()> KeyPress(Key key)
     {
         return [key]() { return isKeyPressed(key); };
+    }
+
+    /*! \brief Function returning whether a Key has just been released*/
+    static std::function<bool()> KeyRelease()
+    {
+        return []() { return keyReleased_; };
     }
 
     /*! \brief Function returning whether the specified Key has just been released*/
