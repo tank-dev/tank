@@ -122,6 +122,21 @@ public:
         return stateChange_ and not currentState_[key] and lastState_[key];
     }
 
+    static bool control()
+    {
+        return isKeyDown(Key::LControl) or isKeyDown(Key::RControl);
+    }
+
+    static bool shift()
+    {
+        return isKeyDown(Key::LShift) or isKeyDown(Key::RShift);
+    }
+
+    static bool alt()
+    {
+        return isKeyDown(Key::LAlt) or isKeyDown(Key::RAlt);;
+    }
+
 private:
     static void reset();
 
