@@ -79,6 +79,7 @@ public:
     }
 
     static std::function<bool()> InEntity(Entity const&);
+    static bool isInEntity(Entity const&);
 
     static std::function<bool()> MouseMovement();
 
