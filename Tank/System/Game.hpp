@@ -139,9 +139,11 @@ public:
      *
      *     std::string s;
      *     tank::Game::keystream >> s;
+     *     tank::Game::keystream.clear();
      *     
      *     // or
      *     tank::game::keystream.str("");
+     *     tank::Game::keystream.clear();
      *
      */
     static std::stringstream keystream;
