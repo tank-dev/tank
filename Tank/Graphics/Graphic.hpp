@@ -79,7 +79,7 @@ public:
     {
         return visible_;
     }
-    void setVisibile(bool visibile)
+    void setVisible(bool visibile)
     {
         visible_ = visibile;
     }
