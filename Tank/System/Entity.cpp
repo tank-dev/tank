@@ -29,7 +29,9 @@ Entity::~Entity()
 void Entity::draw(Camera const& cam)
 {
     for (auto& g : graphics_) {
-        g->draw(getPos(), getRotation(), getOrigin(), cam);
+        if (g->isVisible()) {
+            g->draw(getPos(), getRotation(), getOrigin(), cam);
+        }
     }
 }
 
