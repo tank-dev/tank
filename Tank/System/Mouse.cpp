@@ -49,7 +49,7 @@ tank::Vectori Mouse::delta()
 
 bool Mouse::isButtonPressed()
 {
-    for (int i = 0; i < currentState_.size(); ++i) {
+    for (unsigned i = 0; i < currentState_.size(); ++i) {
         if (currentState_[i] and not lastState_[i]) return true;
     }
     return false;
@@ -72,7 +72,7 @@ std::function<bool()> Mouse::ButtonPress(Button button)
 
 bool Mouse::isButtonReleased()
 {
-    for (int i = 0; i < currentState_.size(); ++i) {
+    for (unsigned i = 0; i < currentState_.size(); ++i) {
         if (lastState_[i] and not currentState_[i]) return true;
     }
     return false;
