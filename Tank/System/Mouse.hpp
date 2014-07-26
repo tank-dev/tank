@@ -45,13 +45,19 @@ public:
         return wheelDelta_;
     }
 
+    static bool isButtonPressed();
     static bool isButtonPressed(Button button);
+    static std::function<bool()> ButtonPress();
     static std::function<bool()> ButtonPress(Button button);
 
+    static bool isButtonReleased();
     static bool isButtonReleased(Button button);
+    static std::function<bool()> ButtonRelease();
     static std::function<bool()> ButtonRelease(Button button);
 
+    static bool isButtonDown();
     static bool isButtonDown(Button button);
+    static std::function<bool()> ButtonDown();
     static std::function<bool()> ButtonDown(Button button);
 
     static bool isButtonUp(Button button);

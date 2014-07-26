@@ -47,9 +47,22 @@ tank::Vectori Mouse::delta()
     return currentPos_ - lastPos_;
 }
 
+bool Mouse::isButtonPressed()
+{
+    for (int i = 0; i < currentState_.size(); ++i) {
+        if (currentState_[i] and not lastState_[i]) return true;
+    }
+    return false;
+}
+
 bool Mouse::isButtonPressed(Button button)
 {
     return currentState_[button] and not lastState_[button];
+}
+
+std::function<bool()> Mouse::ButtonPress()
+{
+    return [] { return isButtonPressed(); };
 }
 
 std::function<bool()> Mouse::ButtonPress(Button button)
@@ -57,9 +70,22 @@ std::function<bool()> Mouse::ButtonPress(Button button)
     return [button] { return isButtonPressed(button); };
 }
 
+bool Mouse::isButtonReleased()
+{
+    for (int i = 0; i < currentState_.size(); ++i) {
+        if (lastState_[i] and not currentState_[i]) return true;
+    }
+    return false;
+}
+
 bool Mouse::isButtonReleased(Button button)
 {
     return lastState_[button] and not currentState_[button];
+}
+
+std::function<bool()> Mouse::ButtonRelease()
+{
+    return [] { return isButtonReleased(); };
 }
 
 std::function<bool()> Mouse::ButtonRelease(Button button)
@@ -67,10 +93,22 @@ std::function<bool()> Mouse::ButtonRelease(Button button)
     return [button] { return isButtonReleased(button); };
 }
 
+bool Mouse::isButtonDown()
+{
+    return std::any_of(currentState_.begin(), currentState_.end(),
+                       [](bool const& e) { return e; });
+}
+
 bool Mouse::isButtonDown(Button button)
 {
     return currentState_[button];
 }
+
+std::function<bool()> Mouse::ButtonDown()
+{
+    return [] { return isButtonDown(); };
+}
+
 
 std::function<bool()> Mouse::ButtonDown(Button button)
 {
