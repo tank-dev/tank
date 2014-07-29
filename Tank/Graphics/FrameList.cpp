@@ -68,7 +68,7 @@ void FrameList::refresh()
     // Only play if there is a selected animation
     if (currentAnimation_) {
         // Check if we need to change animation frame
-        bool playNextFrame = animTimer_.getTicks() > currentAnimation_->time;
+        bool playNextFrame = animTimer_.getDuration() > currentAnimation_->time;
 
         if (playNextFrame) {
             ++currentFrame_;

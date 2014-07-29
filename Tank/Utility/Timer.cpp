@@ -61,7 +61,7 @@ bool Timer::isPaused() const
     return paused_;
 }
 
-std::chrono::steady_clock::duration Timer::getTicks() const
+std::chrono::steady_clock::duration Timer::getDuration() const
 {
     if (not started_) {
         return std::chrono::steady_clock::duration::zero();
@@ -72,10 +72,15 @@ std::chrono::steady_clock::duration Timer::getTicks() const
     return std::chrono::steady_clock::now() - startTick_;
 }
 
+unsigned Timer::getTicks() const
+{
+    return std::chrono::duration_cast<std::chrono::milliseconds>(
+            getDuration()).count();
+}
 std::string Timer::getHumanTime() const
 {
     long int millisecs = std::chrono::duration_cast<std::chrono::milliseconds>(
-            getTicks()).count();
+            getDuration()).count();
     // Returns time in H:M:S.uuuuuu
     std::stringstream s;
     s << millisecs / 3600000 << ":" << millisecs / 60000 % 60 << ":"
