@@ -21,35 +21,53 @@ namespace tank
 class Text : public Graphic
 {
     sf::Text text_;
+
 public:
     Text() = default;
     Text(const Text&) = default;
-    Text(Font& f, unsigned size = 30, std::string text = ""):text_(text, f, size) {}
+    Text(Font& f, unsigned size = 30, std::string text = "")
+            : text_(text, f, size)
+    {
+    }
 
     ~Text() = default;
 
-    void setFont(Font& f) { text_.setFont(f); }
+    void setFont(Font& f)
+    {
+        text_.setFont(f);
+    }
 
-    void setFontSize(unsigned s) { text_.setCharacterSize(s); }
-    unsigned getFontSize() const { return text_.getCharacterSize(); }
+    void setFontSize(unsigned s)
+    {
+        text_.setCharacterSize(s);
+    }
+    unsigned getFontSize() const
+    {
+        return text_.getCharacterSize();
+    }
 
-    void setText(std::string s) { text_.setString(s); }
-    std::string getText() const { return text_.getString(); }
+    void setText(std::string s)
+    {
+        text_.setString(s);
+    }
+    std::string getText() const
+    {
+        return text_.getString();
+    }
 
     virtual Vectorf getSize() const
     {
-        return { text_.getLocalBounds().width, text_.getLocalBounds().height };
+        return {text_.getLocalBounds().width, text_.getLocalBounds().height};
     }
 
-    virtual void setColor(const Color& color) {
+    virtual void setColor(const Color& color)
+    {
         text_.setColor(color);
     }
 
-    virtual void draw(Vectorf parentPos = {},
-                      float parentRot = 0,
+    virtual void draw(Vectorf parentPos = {}, float parentRot = 0,
                       Vectorf parentOri = {},
                       Camera const& = Camera()) override;
 };
-
 }
 #endif

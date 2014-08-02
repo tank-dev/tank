@@ -7,7 +7,8 @@
 #define COLOR_HPP
 #include <SFML/Graphics/Color.hpp>
 
-namespace tank {
+namespace tank
+{
 using Color = sf::Color;
 }
 

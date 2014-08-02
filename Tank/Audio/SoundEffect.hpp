@@ -32,10 +32,11 @@ public:
         return loaded_;
     }
 
-    Status getStatus() {return sound_.getStatus();}
-
+    Status getStatus()
+    {
+        return sound_.getStatus();
+    }
 };
-
 }
 
-#endif //TANK_SOUNDEFFECT_HPP
+#endif // TANK_SOUNDEFFECT_HPP

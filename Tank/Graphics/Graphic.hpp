@@ -13,11 +13,11 @@
 
 namespace sf
 {
-    class Shader;
-    class Transformable;
+class Transformable;
 }
 
-namespace tank {
+namespace tank
+{
 
 class Graphic
 {
@@ -27,7 +27,6 @@ class Graphic
     Vectorf scale_ {1.f, 1.f};
     bool relativeToParent_ {true};
     bool visible_ {true};
-    observing_ptr<sf::Shader> shader_ {nullptr};
 
 public:
     Graphic() = default;
@@ -79,7 +78,7 @@ public:
     {
         return visible_;
     }
-    void setVisibile(bool visibile)
+    void setVisible(bool visibile)
     {
         visible_ = visibile;
     }

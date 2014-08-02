@@ -6,7 +6,8 @@
 #include "ConvexShape.hpp"
 #include "../System/Game.hpp"
 
-namespace tank {
+namespace tank
+{
 
 ConvexShape::ConvexShape(std::vector<Vectorf> const& points)
 {
@@ -49,20 +50,16 @@ void ConvexShape::setPoints(std::vector<Vectorf> const& points)
     const unsigned size = points.size();
 
     convexShape_.setPointCount(size);
-    for (unsigned i = 0; i < size; ++i)
-    {
+    for (unsigned i = 0; i < size; ++i) {
         convexShape_.setPoint(i, {points[i].x, points[i].y});
     }
 }
 
-void ConvexShape::draw(Vectorf parentPos,
-                       float parentRot,
-                       Vectorf parentOri,
+void ConvexShape::draw(Vectorf parentPos, float parentRot, Vectorf parentOri,
                        Camera const& cam)
 {
-    Graphic::transform(this, parentPos, parentRot, parentOri,
-                       cam, convexShape_);
+    Graphic::transform(this, parentPos, parentRot, parentOri, cam,
+                       convexShape_);
     tank::Game::window()->SFMLWindow().draw(convexShape_);
 }
-
 }

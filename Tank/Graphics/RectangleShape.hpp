@@ -9,7 +9,8 @@
 #include <SFML/Graphics/RectangleShape.hpp>
 #include "Shape.hpp"
 
-namespace tank {
+namespace tank
+{
 
 class RectangleShape : public Shape
 {
@@ -17,6 +18,7 @@ class RectangleShape : public Shape
 
 public:
     RectangleShape(Vectorf size = {});
+    RectangleShape(Rectf);
 
     virtual void setFillColor(Color colour) override;
     virtual void setOutlineColor(Color colour) override;
@@ -28,12 +30,10 @@ public:
     virtual void setSize(Vectorf);
     virtual Vectorf getSize() const override;
 
-    virtual void draw(Vectorf parentPos = {},
-                      float parentRot = 0,
+    virtual void draw(Vectorf parentPos = {}, float parentRot = 0,
                       Vectorf parentOri = {},
                       Camera const& = Camera()) override;
 };
-
 }
 
 #endif /* TANK_RECTANGLESHAPE_HPP */

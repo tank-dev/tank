@@ -8,7 +8,8 @@
 #include <SFML/Graphics/Shader.hpp>
 #include "Graphic.hpp"
 
-namespace tank {
+namespace tank
+{
 
 void Graphic::attachShader(observing_ptr<sf::Shader> shader)
 {
@@ -49,15 +50,12 @@ void Graphic::transform(Graphic const* g,
     auto modelRot = g->getRotation();
     auto modelOri = g->getOrigin();
 
-    if(g->isRelativeToParent())
-    {
+    if (g->isRelativeToParent()) {
         modelPos = modelPos.rotate(parentRot);
         modelPos += parentPos;
         modelRot += parentRot;
-        //modelOri += parentOri;
+        // modelOri += parentOri;
     }
-
-
 
     /// View ///
     const auto viewScale = cam.getZoom();

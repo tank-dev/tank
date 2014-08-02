@@ -8,7 +8,8 @@
 
 #include <SFML/Graphics/Font.hpp>
 
-namespace tank {
+namespace tank
+{
 
 using Font = sf::Font;
 

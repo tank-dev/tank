@@ -9,9 +9,14 @@
 namespace tank {
 
 RectangleShape::RectangleShape(Vectorf size)
-    : Shape()
-    , rectangleShape_({size.x, size.y})
+    : rectangleShape_({size.x, size.y})
 {
+}
+
+RectangleShape::RectangleShape(Rectf rect)
+    : rectangleShape_({rect.w, rect.h})
+{
+    setPos({rect.x,rect.y});
 }
 
 void RectangleShape::setFillColor(Color c)

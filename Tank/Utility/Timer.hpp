@@ -10,16 +10,17 @@
 #include <cstring>
 #include <string>
 
-namespace tank {
+namespace tank
+{
 
 class Timer
 {
     std::chrono::steady_clock::time_point startTick_;
     std::chrono::steady_clock::duration pausedTick_;
-    bool started_ {false};
-    bool paused_ {false};
+    bool started_{false};
+    bool paused_{false};
 
-public: 
+public:
     Timer() = default;
     Timer(const Timer& orig) = default;
     ~Timer() = default;
@@ -42,6 +43,13 @@ public:
     void resume();
 
     /*!
+     * \brief This Offsets the timer back by the desired amount.
+     *
+     * \param change The duration to change the timer by.
+     */
+    void offset(std::chrono::milliseconds change);
+
+    /*!
      * \brief Get where the timer has been started.
      *
      * \return True if the timer has been started.
@@ -61,7 +69,8 @@ public:
      *
      * \return The chrono::steady_clock::duration since the timer was started.
      */
-    std::chrono::steady_clock::duration getTicks() const;
+    std::chrono::steady_clock::duration getDuration() const;
+    unsigned getTicks() const;
 
     /*!
      * \brief Get the time in a human readable format H:M:S.uuuuuu.
@@ -74,11 +83,12 @@ public:
     /*!
      * \brief Delays the current thread for a numeber of milliseconds.
      *
-     * \param delayTime The chrono::steady_clock::duration to delay the thread for.
+     * \param delayTime The chrono::steady_clock::duration to delay the thread
+     *for.
      */
     static void delay(std::chrono::steady_clock::duration timeDelay);
 };
 
 } // tank
 
-#endif    /* TIMER_H */
+#endif /* TIMER_H */

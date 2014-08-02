@@ -9,7 +9,8 @@
 #include <SFML/Graphics/ConvexShape.hpp>
 #include "Shape.hpp"
 
-namespace tank {
+namespace tank
+{
 
 class ConvexShape : public Shape
 {
@@ -29,12 +30,10 @@ public:
 
     void setPoints(std::vector<Vectorf> const& points);
 
-    virtual void draw(Vectorf parentPos = {},
-                      float parentRot = 0,
+    virtual void draw(Vectorf parentPos = {}, float parentRot = 0,
                       Vectorf parentOri = {},
                       Camera const& = Camera()) override final;
 };
-
 }
 
 #endif /* TANK_CONVEXSHAPE_HPP */

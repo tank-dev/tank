@@ -23,22 +23,21 @@
 #include <iterator>
 #include <cmath>
 
-namespace tank {
+namespace tank
+{
 
 std::vector<Controller> Controllers::controllers_;
 
 void Controllers::initialize()
 {
-    for (int i = 0; i < sf::Joystick::Count; ++i)
-    {
+    for (int i = 0; i < sf::Joystick::Count; ++i) {
         controllers_.emplace_back(i);
     }
 }
 
 void Controllers::reset()
 {
-    for (auto&& c : controllers_)
-    {
+    for (auto&& c : controllers_) {
         c.reset();
     }
 }
@@ -59,7 +58,7 @@ void Controllers::setAxis(unsigned id, unsigned axis, double position)
 }
 
 std::vector<tank::observing_ptr<Controller>>
-Controllers::getConnectedControllers()
+        Controllers::getConnectedControllers()
 {
     std::vector<tank::observing_ptr<Controller>> cs;
     std::copy_if(controllers_.begin(), controllers_.end(),
@@ -72,23 +71,20 @@ std::vector<Controller> const& Controllers::getAllControllers()
     return controllers_;
 }
 
-Controller::Controller(unsigned id)
-    : id_{id}
+Controller::Controller(unsigned id) : id_{id}
 {
     connectedState_ = connectedLast_ = sf::Joystick::isConnected(id);
 }
 
 void Controller::reset()
 {
-    if (connectedState_)
-    {
-        std::copy(axisStates_.begin(),axisStates_.end(), axisLast_.begin());
-        std::copy(buttonStates_.begin(),buttonStates_.end(), buttonLast_.begin());
-    }
-    else if (connectedLast_)
-    {
-        std::fill(axisStates_.begin(),axisStates_.end(), 0.0);
-        std::fill(buttonStates_.begin(),buttonStates_.end(), false);
+    if (connectedState_) {
+        std::copy(axisStates_.begin(), axisStates_.end(), axisLast_.begin());
+        std::copy(buttonStates_.begin(), buttonStates_.end(),
+                  buttonLast_.begin());
+    } else if (connectedLast_) {
+        std::fill(axisStates_.begin(), axisStates_.end(), 0.0);
+        std::fill(buttonStates_.begin(), buttonStates_.end(), false);
     }
     connectedLast_ = connectedState_;
 }
@@ -103,9 +99,7 @@ bool Controller::buttonPressed(Button button) const
 }
 std::function<bool()> Controller::ButtonPress(unsigned button) const
 {
-    return [=] {
-        return buttonPressed(button);
-    };
+    return [=] { return buttonPressed(button); };
 }
 std::function<bool()> Controller::ButtonPress(Button button) const
 {
@@ -122,9 +116,7 @@ bool Controller::buttonReleased(Button button) const
 }
 std::function<bool()> Controller::ButtonRelease(unsigned button) const
 {
-    return [=] {
-        return buttonReleased(button);
-    };
+    return [=] { return buttonReleased(button); };
 }
 std::function<bool()> Controller::ButtonRelease(Button button) const
 {
@@ -141,9 +133,7 @@ bool Controller::buttonDown(Button button) const
 }
 std::function<bool()> Controller::ButtonDown(unsigned button) const
 {
-    return [=] {
-        return buttonDown(button);
-    };
+    return [=] { return buttonDown(button); };
 }
 std::function<bool()> Controller::ButtonDown(Button button) const
 {
@@ -160,20 +150,17 @@ bool Controller::buttonUp(Button button) const
 }
 std::function<bool()> Controller::ButtonUp(unsigned button) const
 {
-    return [=] {
-        return buttonUp(button);
-    };
+    return [=] { return buttonUp(button); };
 }
 std::function<bool()> Controller::ButtonUp(Button button) const
 {
     return ButtonUp(static_cast<unsigned>(button));
 }
 
-std::function<bool()> Controller::AxisMoved(unsigned axis, double threshold) const
+std::function<bool()> Controller::AxisMoved(unsigned axis,
+                                            double threshold) const
 {
-    return [=] {
-        return std::fabs(axisDelta(axis)) > threshold;
-    };
+    return [=] { return std::fabs(axisDelta(axis)) > threshold; };
 }
 std::function<bool()> Controller::AxisMoved(Axis axis, double threshold) const
 {
@@ -182,15 +169,11 @@ std::function<bool()> Controller::AxisMoved(Axis axis, double threshold) const
 
 std::function<bool()> Controller::Connected() const
 {
-    return [&] {
-        return connectedState_ and not connectedLast_;
-    };
+    return [&] { return connectedState_ and not connectedLast_; };
 }
 std::function<bool()> Controller::Disconnected() const
 {
-    return [&] {
-        return connectedLast_ and not connectedState_;
-    };
+    return [&] { return connectedLast_ and not connectedState_; };
 }
 
 double Controller::axisPosition(unsigned axis) const
@@ -213,27 +196,28 @@ double Controller::axisDelta(Axis axis) const
 /* 360 specific */
 Vectord Controller::leftStick() const
 {
-    return {axisPosition(Axis::STICK_LEFT_X),axisPosition(Axis::STICK_LEFT_Y)};
+    return {axisPosition(Axis::STICK_LEFT_X), axisPosition(Axis::STICK_LEFT_Y)};
 }
 Vectord Controller::leftStickDelta() const
 {
-    return {axisDelta(Axis::STICK_LEFT_X),axisDelta(Axis::STICK_LEFT_Y)};
+    return {axisDelta(Axis::STICK_LEFT_X), axisDelta(Axis::STICK_LEFT_Y)};
 }
 Vectord Controller::rightStick() const
 {
-    return {axisPosition(Axis::STICK_RIGHT_X),axisPosition(Axis::STICK_RIGHT_Y)};
+    return {axisPosition(Axis::STICK_RIGHT_X),
+            axisPosition(Axis::STICK_RIGHT_Y)};
 }
 Vectord Controller::rightStickDelta() const
 {
-    return {axisDelta(Axis::STICK_RIGHT_X),axisDelta(Axis::STICK_RIGHT_Y)};
+    return {axisDelta(Axis::STICK_RIGHT_X), axisDelta(Axis::STICK_RIGHT_Y)};
 }
 Vectord Controller::directionPad() const
 {
-    return {axisPosition(Axis::DPAD_X),axisPosition(Axis::DPAD_Y)};
+    return {axisPosition(Axis::DPAD_X), axisPosition(Axis::DPAD_Y)};
 }
 Vectord Controller::directionPadDelta() const
 {
-    return {axisDelta(Axis::DPAD_X),axisDelta(Axis::DPAD_Y)};
+    return {axisDelta(Axis::DPAD_X), axisDelta(Axis::DPAD_Y)};
 }
 double Controller::leftTrigger() const
 {

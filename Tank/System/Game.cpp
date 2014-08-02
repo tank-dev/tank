@@ -5,15 +5,20 @@
 
 #include "Game.hpp"
 
+#include <iterator>
 #include <SFML/Window/Event.hpp>
+#include <SFML/System/Utf.hpp>
 #include "Controller.hpp"
 #include "Keyboard.hpp"
 #include "Mouse.hpp"
 #include "Window.hpp"
 
-namespace tank {
+namespace tank
+{
 
-Logger Game::log {"log.txt"};
+Logger Game::log{"log.txt"};
+std::stringstream Game::keystream;
+// TODO: allow variable framerate
 unsigned int Game::fps {60};
 bool Game::initialized_ {false};
 bool Game::run_ {false};
@@ -22,21 +27,20 @@ observing_ptr<World> Game::currentWorld_ {nullptr};
 std::unique_ptr<Window> Game::window_ {nullptr};
 std::stack<std::unique_ptr<World>> Game::worlds_;
 std::unique_ptr<World> Game::newWorld_ {nullptr};
-//Timer Game::frameTimer_;
+// Timer Game::frameTimer_;
 
 /* ---------------------------- *
  * Initialization
  * ---------------------------- */
 
-//TODO Handle errors with exceptions
-bool Game::initialize(Vector<unsigned int> const& wSize, int fps)
+// TODO Handle errors with exceptions
+bool Game::initialize(Vectoru wSize, int fps)
 {
-    if (not initialized_)
-    {
+    if (not initialized_) {
         initialized_ = true;
 
         // Create window
-		window_.reset(new Window(tank::Vectoru{wSize.x, wSize.y}));
+        window_.reset(new Window(tank::Vectoru{wSize.x, wSize.y}));
 
         // Initialize controllers (should happen after Window)
         Controllers::initialize();
@@ -54,20 +58,20 @@ bool Game::initialize(Vector<unsigned int> const& wSize, int fps)
 
 void Game::run()
 {
-    if (run_) { return; }
+    if (run_) {
+        return;
+    }
 
     run_ = true;
-    log << "Entering main loop" << std::endl;
-    while (run_)
-    {
-        if (newWorld_)
-        {
+    log << "Entering game loop" << std::endl;
+    while (run_) {
+        popWorld_ = false;
+        if (newWorld_) {
+            log << "Adding game world to stack" << std::endl;
             worlds_.push(std::move(newWorld_));
+            worlds_.top()->onAdded();
             newWorld_ = nullptr;
-        }
-
-        if (worlds_.empty())
-        {
+        } else if (worlds_.empty()) {
             log << "No game world" << std::endl;
             run_ = false;
             break;
@@ -78,12 +82,11 @@ void Game::run()
         currentWorld_->update();
         draw();
 
-        if (popWorld_)
-        {
+        if (popWorld_) {
             worlds_.pop();
-            popWorld_ = false;
         }
     }
+    log << "Exiting game loop" << std::endl;
 }
 
 void Game::handleEvents()
@@ -94,16 +97,13 @@ void Game::handleEvents()
 
     sf::Event event;
 
-    while (window_->pollEvent(event))
-    {
-        switch (event.type)
-        {
+    while (window_->pollEvent(event)) {
+        switch (event.type) {
         case sf::Event::KeyPressed:
             Keyboard::setKeyPressed(event.key.code);
             break;
         case sf::Event::KeyReleased:
-            if(event.key.code == sf::Keyboard::Key::F4 && event.key.alt)
-            {
+            if (event.key.code == sf::Keyboard::Key::F4 && event.key.alt) {
                 run_ = false;
                 break;
             }
@@ -146,6 +146,11 @@ void Game::handleEvents()
             Controllers::setButton(event.joystickButton.joystickId,
                                    event.joystickButton.button, false);
             break;
+        case sf::Event::TextEntered:
+            // TODO: Replace SFML helpers with <locale>?
+            // FIXME: Here I do bad things
+            sf::Utf<32>::encodeAnsi(event.text.unicode,
+                                    std::ostream_iterator<char>(keystream));
         case sf::Event::GainedFocus:
             draw();
             break;
@@ -157,7 +162,7 @@ void Game::handleEvents()
         }
     }
 
-    currentWorld_->eventHandler().propagate();
+    currentWorld_->eventHandler.propagate();
 }
 
 /* ----------------------------------- *
@@ -179,11 +184,10 @@ void Game::update()
 
 void Game::draw()
 {
-    //Draw current world
+    // Draw current world
     currentWorld_->draw();
 
-    //Update the screen
+    // Update the screen
     window_->flipDisplay();
 }
-
 }

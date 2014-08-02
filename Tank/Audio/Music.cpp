@@ -9,15 +9,14 @@
 namespace tank
 {
 
-Music::Music (std::string fileName)
+Music::Music(std::string fileName)
 {
     load(fileName);
 }
 
-bool Music::load (std::string fileName)
+bool Music::load(std::string fileName)
 {
-    if (loaded_)
-    {
+    if (loaded_) {
         Game::log << "Music already loaded!" << std::endl;
         return loaded_;
     }
@@ -39,5 +38,4 @@ void Music::stop()
 {
     music_.stop();
 }
-
 }
