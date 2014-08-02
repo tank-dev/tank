@@ -66,11 +66,11 @@ public:
         return scale_;
     }
 
-    void drawRelativeToParent(bool relative)
+    virtual void setRelativeToParent(bool relative)
     {
         relativeToParent_ = relative;
     }
-    bool isRelativeToParent() const
+    virtual bool isRelativeToParent() const
     {
         return relativeToParent_;
     }

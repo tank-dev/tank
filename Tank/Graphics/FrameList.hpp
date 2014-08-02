@@ -149,7 +149,7 @@ public:
 
     virtual void setPos(Vectorf pos) { image_.setPos(pos); }
     virtual Vectorf getPos() const { return image_.getPos(); }
-    virtual bool isRelativeToParent() { return image_.isRelativeToParent(); }
+    virtual bool isRelativeToParent() const override { return image_.isRelativeToParent(); }
     virtual void setRotation(float angle) { image_.setRotation(angle); }
     virtual float getRotation() const { return image_.getRotation(); }
     void setClip(Rectu clip) { image_.setClip(clip); }
@@ -173,9 +173,9 @@ public:
     {
         return image_.getScale();
     }
-    virtual void drawRelativeToParent(bool relative)
+    virtual void setRelativeToParent(bool relative) override
     {
-        image_.drawRelativeToParent(relative);
+        image_.setRelativeToParent(relative);
     }
     virtual Vectoru getTextureSize() const
     {
