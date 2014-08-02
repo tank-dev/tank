@@ -31,6 +31,7 @@ void Tilemap::draw(Vectorf parentPos, float parentRot, Vectorf parentOri,
     for (unsigned i = 0; i < tiles_.getWidth(); ++i) {
         for (unsigned j = 0; j < tiles_.getHeight(); ++j) {
             // Select the tile to draw
+            // FIXME: this is insane
             Image::setClipByIndex(frameDimensions_, 
                                   tiles_[Vectoru{i, j}],
                                   {}, 
