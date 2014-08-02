@@ -4,7 +4,9 @@
 //  http://www.boost.org/LICENSE_1_0.txt)
 
 #include "RectangleShape.hpp"
+
 #include "../System/Game.hpp"
+#include "Shader.hpp"
 
 namespace tank {
 

@@ -4,7 +4,9 @@
 //  http://www.boost.org/LICENSE_1_0.txt)
 
 #include "ConvexShape.hpp"
+
 #include "../System/Game.hpp"
+#include "Shader.hpp"
 
 namespace tank
 {
@@ -60,6 +62,6 @@ void ConvexShape::draw(Vectorf parentPos, float parentRot, Vectorf parentOri,
 {
     Graphic::transform(this, parentPos, parentRot, parentOri, cam,
                        convexShape_);
-    tank::Game::window()->SFMLWindow().draw(convexShape_);
+    tank::Game::window()->SFMLWindow().draw(convexShape_, getShader().get());
 }
 }

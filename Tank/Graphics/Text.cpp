@@ -6,6 +6,7 @@
 #include "Text.hpp"
 
 #include "../System/Game.hpp"
+#include "Shader.hpp"
 
 namespace tank
 {
@@ -13,6 +14,6 @@ void Text::draw(Vectorf parentPos, float parentRot, Vectorf parentOri,
                 Camera const& cam)
 {
     Graphic::transform(this, parentPos, parentRot, parentOri, cam, text_);
-    Game::window()->SFMLWindow().draw(text_);
+    Game::window()->SFMLWindow().draw(text_, getShader().get());
 }
 }

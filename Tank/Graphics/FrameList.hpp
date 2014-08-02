@@ -173,6 +173,22 @@ public:
     {
         return image_.getScale();
     }
+    virtual void attachShader(observing_ptr<Shader> s) override
+    {
+        image_.attachShader(s);
+    }
+    virtual void detachShader() override
+    {
+        image_.detachShader();
+    }
+    virtual void detachShader(observing_ptr<Shader> s) override
+    {
+        image_.detachShader(s);
+    }
+    virtual observing_ptr<Shader> getShader() override
+    {
+        return image_.getShader();
+    }
     virtual void drawRelativeToParent(bool relative)
     {
         image_.drawRelativeToParent(relative);

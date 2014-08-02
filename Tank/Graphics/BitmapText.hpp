@@ -48,6 +48,22 @@ public:
     {
         return font_.getScale();
     }
+    virtual void attachShader(observing_ptr<Shader> s) override
+    {
+        font_.attachShader(s);
+    }
+    virtual void detachShader() override
+    {
+        font_.detachShader();
+    }
+    virtual void detachShader(observing_ptr<Shader> s) override
+    {
+        font_.detachShader(s);
+    }
+    virtual observing_ptr<Shader> getShader() override
+    {
+        return font_.getShader();
+    }
 
     /*!
      * \brief Set the size of each rendered glyph

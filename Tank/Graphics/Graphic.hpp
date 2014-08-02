@@ -14,10 +14,13 @@
 namespace sf
 {
 class Transformable;
+class Shader;
 }
 
 namespace tank
 {
+
+using Shader = sf::Shader;
 
 class Graphic
 {
@@ -27,6 +30,7 @@ class Graphic
     Vectorf scale_ {1.f, 1.f};
     bool relativeToParent_ {true};
     bool visible_ {true};
+    observing_ptr<Shader> shader_;
 
 public:
     Graphic() = default;
@@ -105,10 +109,10 @@ public:
                       Vectorf parentOri = {},
                       Camera const& = Camera()) = 0;
 
-    void attachShader(observing_ptr<sf::Shader>);
-    void detachShader();
-    void detachShader(observing_ptr<sf::Shader>);
-    observing_ptr<sf::Shader> getShader();
+    virtual void attachShader(observing_ptr<Shader>);
+    virtual void detachShader();
+    virtual void detachShader(observing_ptr<Shader>);
+    virtual observing_ptr<Shader> getShader();
 
 protected:
     static void transform(Graphic const* g,

@@ -5,18 +5,18 @@
 
 #include <exception>
 #include <SFML/Graphics/Transformable.hpp>
-#include <SFML/Graphics/Shader.hpp>
+#include "Shader.hpp"
 #include "Graphic.hpp"
 
 namespace tank
 {
 
-void Graphic::attachShader(observing_ptr<sf::Shader> shader)
+void Graphic::attachShader(observing_ptr<Shader> shader)
 {
     shader_ = shader;
 }
 
-void Graphic::detachShader(observing_ptr<sf::Shader> shader)
+void Graphic::detachShader(observing_ptr<Shader> shader)
 {
     if (shader_ == shader) {
         detachShader();
@@ -30,7 +30,7 @@ void Graphic::detachShader()
     shader_ = nullptr;
 }
 
-observing_ptr<sf::Shader> Graphic::getShader()
+observing_ptr<Shader> Graphic::getShader()
 {
     return shader_;
 }

@@ -4,7 +4,9 @@
 //  http://www.boost.org/LICENSE_1_0.txt)
 
 #include "CircleShape.hpp"
+
 #include "../System/Game.hpp"
+#include "Shader.hpp"
 
 namespace tank
 {
@@ -49,6 +51,6 @@ void CircleShape::draw(tank::Vectorf parentPos, float parentRot,
 {
     Graphic::transform(this, parentPos, parentRot, parentOri, cam,
                        circleShape_);
-    Game::window()->SFMLWindow().draw(circleShape_);
+    Game::window()->SFMLWindow().draw(circleShape_, getShader().get());
 }
 }

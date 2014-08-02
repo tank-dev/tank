@@ -8,6 +8,7 @@
 #include <cmath>
 #include <SFML/Graphics/RenderWindow.hpp>
 #include "../System/Game.hpp"
+#include "Shader.hpp"
 
 namespace tank {
 

@@ -7,6 +7,7 @@
 
 #include <cmath>
 #include <iostream>
+#include "Shader.hpp"
 
 namespace tank
 {
