@@ -28,7 +28,7 @@ void Graphic::transform(Graphic const* g, Vectorf parentPos, float parentRot,
     }
 
     /// View ///
-    const auto viewScale = cam.getZoom();
+    const auto viewScale = cam.getScale();
     const auto viewRot = cam.getRotation();
     auto viewPos = cam.getPos();
     viewPos.x *= viewScale.x;

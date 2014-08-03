@@ -15,9 +15,8 @@ public:
     Transformable(Vectorf pos = {},
                   float rotation = 0,
                   Vectorf origin = {},
-                  float zoom = 1.f,
                   Vectorf scale = {1.f, 1.f})
-        : transform_{pos, rotation = 0, origin, zoom, scale}
+        : transform_{pos, rotation = 0, origin, scale}
     {}
     Transformable(Transformable const&) = default;
 
@@ -32,10 +31,6 @@ public:
     virtual Vectorf getOrigin() const
     {
         return transform_.origin;
-    }
-    virtual float getZoom() const
-    {
-        return transform_.zoom;
     }
     virtual Vectorf getScale() const
     {
@@ -57,10 +52,6 @@ public:
     virtual void setOrigin(Vectorf origin)
     {
         transform_.origin = origin;
-    }
-    virtual void setZoom(float zoom)
-    {
-        transform_.zoom = zoom;
     }
     virtual void setScale(float s)
     {

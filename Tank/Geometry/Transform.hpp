@@ -32,16 +32,17 @@ struct Transform
     Vectorf position = {0.0f,0.0f};
     float rotation = 0.0f;
     Vectorf origin = {0.0f,0.0f};
-    float zoom = 1.0f;
-
-    // This is incase a graphic is involved, this is ignored for most purposes.
     Vectorf scale = {1.0f, 1.0f};
 
     Transform(Vectorf position = {},
               float rotation = 0,
               Vectorf origin = {}, 
-              float zoom = 1.f,
-              Vectorf scale = {1.f,1.f});
+              Vectorf scale = {1.f,1.f})
+        : position(position)
+        , rotation(rotation)
+        , origin(origin)
+        , scale(scale)
+    {}
     Transform(Transform const&) = default;
     Transform& operator=(Transform const&) = default;
 

@@ -9,22 +9,10 @@
 namespace tank
 {
 
-Transform::Transform(Vectorf position,
-                     float rotation,
-                     Vectorf origin,
-                     float zoom,
-                     Vectorf scale)
-    : position(position)
-    , rotation(rotation)
-    , origin(origin)
-    , zoom(zoom)
-    , scale(scale)
-{}
-
 void Transform::transform(sf::Transformable& t) const
 {
     // Change the setting of the transformable
-    t.setScale({scale.x * zoom, scale.y * zoom});
+    t.setScale({scale.x, scale.y});
     t.setPosition({position.x, position.y});
     t.setRotation(rotation);
 }
@@ -32,23 +20,31 @@ void Transform::transform(sf::Transformable& t) const
 Vectorf Transform::operator()(Vectorf const& vec) const
 {
     Vectorf rot = vec.rotate(rotation);
-    return {zoom * scale.x * rot.x + position.x,
-            zoom * scale.y * rot.y + position.y};
+    return {scale.x * rot.x + position.x,
+            scale.y * rot.y + position.y};
 }
 
 Transform Transform::operator()(Transform const& t) const
 {
     // This works so that T'(T)(x) =  T'(T(x))
+    auto tPos = t.position.rotate(rotation);
+    return Transform{position + Vectorf{scale.x * tPos.x, scale.y * tPos.y},
+                     rotation + t.rotation,
+                     origin + t.origin, // TODO: check this makes sense
+                     {scale.x * t.scale.x, scale.y * t.scale.y}};
+    /*
     return Transform{position + zoom * t.position.rotate(rotation),
                      rotation + t.rotation,
                      origin + t.origin, // TODO: check this makes sense
                      zoom * t.zoom,
                      {scale.x * t.scale.x, scale.y * t.scale.y}};
+    */
 }
 
 Transform Transform::inverse() const
 {
-    return {-position.rotate(-rotation)/zoom, -rotation, 1/zoom};
+    Vectorf pos = -position.rotate(-rotation);
+    return {{pos.x/scale.x, pos.y/scale.y}, -rotation, {1/scale.x, 1/scale.y}};
 }
 
 } // tank
