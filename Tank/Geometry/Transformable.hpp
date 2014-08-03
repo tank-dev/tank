@@ -21,23 +21,23 @@ public:
     {}
     Transformable(Transformable const&) = default;
 
-    Vectorf getPos() const
+    virtual Vectorf getPos() const
     {
         return transform_.position;
     }
-    float getRotation() const
+    virtual float getRotation() const
     {
         return transform_.rotation;
     }
-    Vectorf getOrigin() const
+    virtual Vectorf getOrigin() const
     {
         return transform_.origin;
     }
-    float getZoom() const
+    virtual float getZoom() const
     {
         return transform_.zoom;
     }
-    Vectorf getScale() const
+    virtual Vectorf getScale() const
     {
         return transform_.scale;
     }
@@ -61,6 +61,10 @@ public:
     virtual void setZoom(float zoom)
     {
         transform_.zoom = zoom;
+    }
+    virtual void setScale(float s)
+    {
+        transform_.scale = {s,s};
     }
     virtual void setScale(Vectorf scale)
     {

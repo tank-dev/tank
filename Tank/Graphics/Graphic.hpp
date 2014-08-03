@@ -10,6 +10,7 @@
 #include "../Utility/Vector.hpp"
 #include "../Utility/Rect.hpp"
 #include "../Geometry/Transform.hpp"
+#include "../Geometry/Transformable.hpp"
 
 namespace sf
 {
@@ -19,54 +20,16 @@ class Transformable;
 namespace tank
 {
 
-class Graphic
+class Graphic : public tank::Transformable
 {
-    Vectorf pos_;
-    float rot_{0.f};
-    Vectorf origin_;
-    Vectorf scale_{1.f, 1.f};
     bool relativeToParent_{true};
     bool visible_{true};
 
 public:
     Graphic() = default;
-    virtual ~Graphic()
-    {
-    }
+    virtual ~Graphic() = default;
 
-    virtual void setPos(Vectorf pos)
-    {
-        pos_ = pos;
-    }
-    virtual Vectorf getPos() const
-    {
-        return pos_;
-    }
-
-    virtual void setRotation(float angle)
-    {
-        rot_ = angle;
-    }
-    virtual float getRotation() const
-    {
-        return rot_;
-    }
-
-    virtual void setScale(float scale)
-    {
-        scale_.x = scale_.y = scale;
-    }
-
-    virtual void setScale(Vectorf scale)
-    {
-        scale_ = scale;
-    }
-
-    virtual Vectorf getScale() const
-    {
-        return scale_;
-    }
-
+    // TODO: move into Transformable, take Transformable const&
     virtual void setRelativeToParent(bool relative)
     {
         relativeToParent_ = relative;
@@ -86,15 +49,6 @@ public:
     }
 
     virtual Vectorf getSize() const = 0;
-
-    virtual void setOrigin(Vectorf o)
-    {
-        origin_ = o;
-    }
-    virtual Vectorf getOrigin() const
-    {
-        return origin_;
-    }
 
     void centreOrigin()
     {
