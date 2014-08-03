@@ -13,7 +13,6 @@ class Transformable
 public:
     Transformable() = default;
     Transformable(Transformable const&) = default;
-    Transformable(Transformable&&);
     virtual ~Transformable() = default;
 
     Vectorf getPos() const

@@ -39,7 +39,7 @@ struct Transform
 
     Transform() = default;
     Transform(Transform const&) = default;
-    Transform(Transform&&) = default;
+    Transform& operator=(Transform const&) = default;
     Transform(Vectorf position = {},
               float rotation = 0,
               Vectorf origin = {}, 
