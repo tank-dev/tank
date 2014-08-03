@@ -20,6 +20,7 @@ BitmapText::BitmapText(Image const& font, Vectoru glyphDimensions,
         , clip_({0, 0, glyphDims_.x, glyphDims_.y})
 {
     font_.setClip(clip_);
+    font_.setParent(this);
     // font_.setSize(glyphDims_);
 }
 
@@ -42,16 +43,9 @@ Vectorf BitmapText::getSize() const
     return size;
 }
 
-void BitmapText::draw(Transform const& parent, Camera const& cam)
+void BitmapText::draw()
 {
-    Vectorf pos = getPos();
-    float rot = getRotation();
-    Vectorf ori = getOrigin();
-    if (isRelativeToParent()) {
-        pos += parent.position;
-        rot += parent.rotation;
-        ori += parent.origin;
-    }
+    const float rot = getRotation();
 
     for (std::size_t stringIndex = 0; text_[stringIndex] != '\0';
          ++stringIndex) {
@@ -69,7 +63,7 @@ void BitmapText::draw(Transform const& parent, Camera const& cam)
         font_.setClip(clip_);
         font_.setPos(displacement);
 
-        font_.draw({pos, rot, ori}, cam);
+        font_.draw();
     }
 }
 }

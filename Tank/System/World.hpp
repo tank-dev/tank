@@ -227,6 +227,7 @@ observing_ptr<T> World::makeEntity(Args&&... args)
 
     std::unique_ptr<T> ent{new T(std::forward<Args>(args)...)};
     ent->setWorld(this);
+    ent->setParent(this->camera);
     ent->onAdded();
     observing_ptr<T> ptr{ent};
     newEntities_.push_back(std::move(ent));

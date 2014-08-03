@@ -55,10 +55,9 @@ Vectorf RectangleShape::getSize() const
     return {rect.width, rect.height};
 }
 
-void RectangleShape::draw(Transform const& parent, Camera const& cam)
+void RectangleShape::draw()
 {
-    Graphic::transform(this, parent.position, parent.rotation, parent.origin,
-                       cam, rectangleShape_);
+    Graphic::transform(this, rectangleShape_);
     Game::window()->SFMLWindow().draw(rectangleShape_);
 }
 

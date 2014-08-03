@@ -52,8 +52,7 @@ public:
      *
      * \param pos Position at which to draw the texture.
      */
-    virtual void draw(Transform const& parent = {},
-                      Camera const& = Camera()) override;
+    virtual void draw() override;
     /*!
      * \brief Set the dimensions of the image in the texture.
      *

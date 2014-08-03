@@ -44,10 +44,9 @@ Vectorf CircleShape::getSize() const
     return {rect.width, rect.height};
 }
 
-void CircleShape::draw(Transform const& parent, Camera const& cam)
+void CircleShape::draw()
 {
-    Graphic::transform(this, parent.position, parent.rotation, parent.origin, cam,
-                       circleShape_);
+    Graphic::transform(this, circleShape_);
     Game::window()->SFMLWindow().draw(circleShape_);
 }
 }

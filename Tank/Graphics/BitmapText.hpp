@@ -72,7 +72,7 @@ public:
         return font_.getTextureSize();
     }
 
-    virtual void draw(Transform const& parent = {}, Camera const& = Camera());
+    virtual void draw();
 };
 }
 

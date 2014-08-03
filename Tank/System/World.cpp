@@ -34,6 +34,7 @@ void World::insertEntity(std::unique_ptr<Entity>&& entity)
     }
 
     entity->setWorld(this);
+    entity->setParent(this->camera);
     entity->onAdded();
     entities_.push_back(std::move(entity));
 }

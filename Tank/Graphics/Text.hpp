@@ -65,8 +65,7 @@ public:
         text_.setColor(color);
     }
 
-    virtual void draw(Transform const& parent = {},
-                      Camera const& = Camera()) override;
+    virtual void draw() override;
 };
 }
 #endif
