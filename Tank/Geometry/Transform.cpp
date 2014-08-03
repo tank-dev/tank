@@ -27,18 +27,17 @@ Vectorf Transform::operator()(Vectorf const& vec) const
 Transform Transform::operator()(Transform const& t) const
 {
     // This works so that T'(T)(x) =  T'(T(x))
-    auto tPos = t.position.rotate(rotation);
-    return Transform{position + Vectorf{scale.x * tPos.x, scale.y * tPos.y},
+    auto tPos = t.position;
+    tPos -= origin;
+    tPos = tPos.rotate(rotation);
+    tPos.x *= scale.x;
+    tPos.y *= scale.y;
+    tPos += origin;
+
+    return Transform{position + tPos,
                      rotation + t.rotation,
-                     origin + t.origin, // TODO: check this makes sense
+                     t.origin,
                      {scale.x * t.scale.x, scale.y * t.scale.y}};
-    /*
-    return Transform{position + zoom * t.position.rotate(rotation),
-                     rotation + t.rotation,
-                     origin + t.origin, // TODO: check this makes sense
-                     zoom * t.zoom,
-                     {scale.x * t.scale.x, scale.y * t.scale.y}};
-    */
 }
 
 Transform Transform::inverse() const
