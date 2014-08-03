@@ -37,14 +37,13 @@ struct Transform
     // This is incase a graphic is involved, this is ignored for most purposes.
     Vectorf scale = {1.0f, 1.0f};
 
-    Transform() = default;
-    Transform(Transform const&) = default;
-    Transform& operator=(Transform const&) = default;
     Transform(Vectorf position = {},
               float rotation = 0,
               Vectorf origin = {}, 
               float zoom = 1.f,
               Vectorf scale = {1.f,1.f});
+    Transform(Transform const&) = default;
+    Transform& operator=(Transform const&) = default;
 
     /*!
      * \brief This applies the transform to a sprite.

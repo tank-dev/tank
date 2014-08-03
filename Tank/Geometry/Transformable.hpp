@@ -11,9 +11,15 @@ class Transformable
     Transform transform_;
 
 public:
-    Transformable() = default;
-    Transformable(Transformable const&) = default;
     virtual ~Transformable() = default;
+    Transformable(Vectorf pos = {},
+                  float rotation = 0,
+                  Vectorf origin = {},
+                  float zoom = 1.f,
+                  Vectorf scale = {1.f, 1.f})
+        : transform_{pos, rotation = 0, origin, zoom, scale}
+    {}
+    Transformable(Transformable const&) = default;
 
     Vectorf getPos() const
     {
