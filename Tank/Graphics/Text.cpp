@@ -9,10 +9,10 @@
 
 namespace tank
 {
-void Text::draw(Vectorf parentPos, float parentRot, Vectorf parentOri,
-                Camera const& cam)
+void Text::draw(Transform const& parent, Camera const& cam)
 {
-    Graphic::transform(this, parentPos, parentRot, parentOri, cam, text_);
+    Graphic::transform(this, parent.position, parent.rotation, parent.origin,
+                       cam, text_);
     Game::window()->SFMLWindow().draw(text_);
 }
 }

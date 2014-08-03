@@ -26,10 +26,7 @@ void Image::load(std::string file)
     }
 }
 
-void Image::draw(Vectorf parentPos,
-                 float parentRot,
-                 Vectorf parentOri,
-                 Camera const& cam)
+void Image::draw(Transform const& parent, Camera const& cam)
 {
     /*
     /// Model ///
@@ -74,7 +71,8 @@ void Image::draw(Vectorf parentPos,
     sprite_.setRotation(modelViewRot);
     */
 
-    Graphic::transform(this, parentPos, parentRot, parentOri, cam, sprite_);
+    Graphic::transform(this, parent.position, parent.rotation, parent.origin,
+                       cam, sprite_);
     Game::window()->SFMLWindow().draw(sprite_);
 
     // setScale(modelScale);

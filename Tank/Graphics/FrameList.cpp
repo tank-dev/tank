@@ -133,14 +133,11 @@ void FrameList::stop()
     currentAnimation_ = nullptr;
 }
 
-void FrameList::draw(Vectorf parentPos,
-                     float parentRot,
-                     Vectorf parentOri,
-                     Camera const& cam)
+void FrameList::draw(Transform const& parent, Camera const& cam)
 {
     // TODO: Move this somewhere else and make draw const
     refresh();
-    image_.draw(parentPos, parentRot, parentOri, cam);
+    image_.draw(parent, cam);
 }
 
 void FrameList::setImage(Image const& image,

@@ -18,11 +18,9 @@ namespace tank
 
 int Entity::numEnts_ = 0;
 
-Entity::Entity(Vectorf pos) : pos_(pos), actorID_(numEnts_++)
-{
-}
-
-Entity::~Entity()
+Entity::Entity(Vectorf pos) 
+    : Transformable(pos)
+    , actorID_(numEnts_++)
 {
 }
 
@@ -30,7 +28,7 @@ void Entity::draw(Camera const& cam)
 {
     for (auto& g : graphics_) {
         if (g->isVisible()) {
-            g->draw(getPos(), getRotation(), getOrigin(), cam);
+            g->draw(getTransform(), cam);
         }
     }
 }
@@ -65,11 +63,11 @@ std::vector<observing_ptr<Entity>>
             Rectd const& A = hitbox_;
             Rectd const& B = ent->getHitbox();
 
-            const double leftA = A.x + pos_.x;
+            const double leftA = A.x + getPos().x;
             const double leftB = B.x + ent->getPos().x;
             const double rightA = leftA + A.w;
             const double rightB = leftB + B.w;
-            const double topA = A.y + pos_.y;
+            const double topA = A.y + getPos().y;
             const double topB = B.y + ent->getPos().y;
             const double bottomA = topA + A.h;
             const double bottomB = topB + B.h;
@@ -125,11 +123,6 @@ void Entity::clearGraphics()
     graphics_.clear();
 }
 
-void Entity::setPos(Vectorf pos)
-{
-    pos_ = pos;
-}
-
 // Note: In hindsight, this isn't such a good idea. The only useful condition
 // will be collision, and this method doesn't handle collision very well.
 bool Entity::moveBy(Vectorf disp, std::function<bool()> cond)
@@ -175,16 +168,6 @@ bool Entity::moveBy(Vectorf disp, std::function<bool()> cond)
 void Entity::moveBy(Vectorf disp)
 {
     setPos(getPos() + disp);
-}
-
-void Entity::setRotation(float rot)
-{
-    rot_ = rot;
-}
-
-void Entity::setOrigin(Vectorf origin)
-{
-    origin_ = origin;
 }
 
 void Entity::setHitbox(Rectd hitbox)
