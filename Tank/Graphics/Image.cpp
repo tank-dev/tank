@@ -28,56 +28,9 @@ void Image::load(std::string file)
     }
 }
 
-void Image::draw(Vectorf parentPos,
-                 float parentRot,
-                 Vectorf parentOri,
-                 Camera const& cam)
+void Image::draw()
 {
-    /*
-    /// Model ///
-    const auto modelScale = getScale();
-    auto modelPos = getPos();
-    auto modelRot = getRotation();
-    if(isRelativeToParent())
-    {
-        modelPos += parentPos;
-        modelRot += parentRot;
-    }
-
-    /// View ///
-    const auto viewScale = cam.getZoom();
-    const auto viewRot = cam.getRotation();
-    auto viewPos = cam.getPos();
-    viewPos.x *= viewScale.x;
-    viewPos.y *= viewScale.y;
-
-    // Move to origin
-    modelPos -= cam.getOrigin();
-
-    Vectorf modelViewPos;
-    // Rotate
-    modelViewPos = modelPos.rotate(viewRot);
-    // Scale
-    modelViewPos.x *= viewScale.x;
-    modelViewPos.y *= viewScale.y;
-    // Translate
-    modelViewPos -= viewPos.rotate(viewRot);
-
-    // Move from origin
-    modelViewPos += cam.getOrigin();
-
-    float modelViewRot = modelRot + viewRot;
-
-    //setScale({modelScale.x*viewScale.x, modelScale.y * viewScale.y});
-    sprite_.setScale({modelScale.x*viewScale.x, modelScale.y * viewScale.y});
-
-    /// Change sprite settings ///
-    sprite_.setPosition({modelViewPos.x, modelViewPos.y});
-    sprite_.setRotation(modelViewRot);
-    */
-
-
-    Graphic::transform(this, parentPos,parentRot, parentOri, cam, sprite_);
+    Graphic::transform(this, sprite_);
     Game::window()->SFMLWindow().draw(sprite_, getShader().get());
 
     // setScale(modelScale);

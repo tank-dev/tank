@@ -52,9 +52,7 @@ public:
      *
      * \param pos Position at which to draw the texture.
      */
-    virtual void draw(Vectorf parentPos = {}, float parentRot = 0,
-                      Vectorf parentOri = {},
-                      Camera const& = Camera()) override;
+    virtual void draw() override;
     /*!
      * \brief Set the dimensions of the image in the texture.
      *

@@ -151,6 +151,7 @@ void Game::handleEvents()
             // FIXME: Here I do bad things
             sf::Utf<32>::encodeAnsi(event.text.unicode,
                                     std::ostream_iterator<char>(keystream));
+            break;
         case sf::Event::GainedFocus:
             draw();
             break;

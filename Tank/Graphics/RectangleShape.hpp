@@ -30,9 +30,7 @@ public:
     virtual void setSize(Vectorf);
     virtual Vectorf getSize() const override;
 
-    virtual void draw(Vectorf parentPos = {}, float parentRot = 0,
-                      Vectorf parentOri = {},
-                      Camera const& = Camera()) override;
+    virtual void draw() override;
 };
 }
 

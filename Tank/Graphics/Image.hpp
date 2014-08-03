@@ -38,21 +38,6 @@ public:
         return {rect.width, rect.height};
     }
 
-    /*
-    virtual void setScale(float scale) override
-    {
-        sprite_.setScale(scale, scale);
-    }
-    virtual void setScale(Vectorf scale) override
-    {
-        sprite_.setScale(scale.x, scale.y);
-    }
-    virtual Vectorf getScale() const override
-    {
-        return {sprite_.getScale().x, sprite_.getScale().y};
-    }
-    */
-
     void setSize(Vectorf size);
 
     virtual void setClipByIndex(Vectoru dimensions, unsigned int index,
@@ -85,10 +70,7 @@ public:
         return {texture_->getSize().x, texture_->getSize().y};
     }
 
-    virtual void draw(Vectorf parentPos = {},
-                      float parentRot = 0,
-                      Vectorf parentOri = {},
-                      Camera const& = Camera()) override;
+    virtual void draw() override;
 
     // Texture editing functions
 

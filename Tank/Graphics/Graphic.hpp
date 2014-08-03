@@ -9,6 +9,8 @@
 #include "../System/Camera.hpp"
 #include "../Utility/Vector.hpp"
 #include "../Utility/Rect.hpp"
+#include "../Geometry/Transform.hpp"
+#include "../Geometry/Transformable.hpp"
 #include "../Utility/observing_ptr.hpp"
 
 namespace sf
@@ -22,61 +24,14 @@ namespace tank
 
 using Shader = sf::Shader;
 
-class Graphic
+class Graphic : public tank::Transformable
 {
-    Vectorf pos_;
-    float rot_ {0.f};
-    Vectorf origin_;
-    Vectorf scale_ {1.f, 1.f};
-    bool relativeToParent_ {true};
     bool visible_ {true};
     observing_ptr<Shader> shader_;
 
 public:
     Graphic() = default;
-    virtual ~Graphic() {}
-
-    virtual void setPos(Vectorf pos)
-    {
-        pos_ = pos;
-    }
-    virtual Vectorf getPos() const
-    {
-        return pos_;
-    }
-
-    virtual void setRotation(float angle)
-    {
-        rot_ = angle;
-    }
-    virtual float getRotation() const
-    {
-        return rot_;
-    }
-
-    virtual void setScale(float scale)
-    {
-        scale_.x = scale_.y = scale;
-    }
-
-    virtual void setScale(Vectorf scale)
-    {
-        scale_ = scale;
-    }
-
-    virtual Vectorf getScale() const
-    {
-        return scale_;
-    }
-
-    void drawRelativeToParent(bool relative)
-    {
-        relativeToParent_ = relative;
-    }
-    bool isRelativeToParent() const
-    {
-        return relativeToParent_;
-    }
+    virtual ~Graphic() = default;
 
     bool isVisible() const
     {
@@ -89,40 +44,49 @@ public:
 
     virtual Vectorf getSize() const = 0;
 
-    virtual void setOrigin(Vectorf o)
-    {
-        origin_ = o;
-    }
-    virtual Vectorf getOrigin() const
-    {
-        return origin_;
-    }
-
     void centreOrigin()
     {
-        setOrigin(getSize()/2);
+        setOrigin(getSize() / 2);
     }
 
-    // TODO: Make const
-    virtual void draw(Vectorf parentPos = {},
-                      float parentRot = 0,
-                      Vectorf parentOri = {},
-                      Camera const& = Camera()) = 0;
-
-    virtual void attachShader(observing_ptr<Shader>);
+	 virtual void attachShader(observing_ptr<Shader>);
     virtual void detachShader();
     virtual void detachShader(observing_ptr<Shader>);
     virtual observing_ptr<Shader> getShader();
+    /*!
+     * \brief Coverts the parent coordinates to local coordinates.
+     *
+     * \param parentCoords The coordinates to convert.
+     *
+     * \return Coordinates local to the graphic
+    Vectorf graphicFromParentCoords(const Vectorf& parentCoords)
+    {
+        return (parentCoords - getOrigin()).rotate(-getRotation()) / getScale();
+    }
+    */
+
+    /*!
+     * \brief Get whether the specified point (in local coordinates) in inside
+     * the bounds of the graphic.
+     *
+     * \param localCoords The point in local coordinates to check.
+     *
+     * \return True if the point is within the area of the graphic
+     */
+    bool getWithin(const Vectorf& localCoords)
+    {
+        Vectorf size = getSize();
+        return (localCoords.x<0 or localCoords.x> size.x or
+                        localCoords.y<0 or localCoords.y> size.y);
+    }
+
+    // TODO: Make const
+    virtual void draw(Vectorf parentPos = {}, float parentRot = 0,
+                      Vectorf parentOri = {}, Camera const& = Camera()) = 0;
 
 protected:
-    static void transform(Graphic const* g,
-                          Vectorf parentPos,
-                          float parentRot,
-                          Vectorf parentOri,
-                          Camera const& cam,
-                          sf::Transformable& t);
+    static void transform(Graphic const* g, sf::Transformable& t);
 };
-
 }
 
 #endif /* TANK_GRAPHIC_HPP */

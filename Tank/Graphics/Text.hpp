@@ -65,9 +65,7 @@ public:
         text_.setColor(color);
     }
 
-    virtual void draw(Vectorf parentPos = {}, float parentRot = 0,
-                      Vectorf parentOri = {},
-                      Camera const& = Camera()) override;
+    virtual void draw() override;
 };
 }
 #endif

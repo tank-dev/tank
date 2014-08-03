@@ -30,9 +30,7 @@ public:
 
     void setPoints(std::vector<Vectorf> const& points);
 
-    virtual void draw(Vectorf parentPos = {}, float parentRot = 0,
-                      Vectorf parentOri = {},
-                      Camera const& = Camera()) override final;
+    virtual void draw() override final;
 };
 }
 

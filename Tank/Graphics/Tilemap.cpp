@@ -21,8 +21,7 @@ Tilemap::Tilemap(std::string file, Vector<unsigned> gridDims,
     Image::setClip({0, 0, frameDims.x, frameDims.y});
 }
 
-void Tilemap::draw(Vectorf parentPos, float parentRot, Vectorf parentOri,
-                   Camera const& cam)
+void Tilemap::draw()
 {
     auto originalPos = getPos();
     Vectorf dims = getTileDimensions();
@@ -38,7 +37,7 @@ void Tilemap::draw(Vectorf parentPos, float parentRot, Vectorf parentOri,
             // Move to the correct place to draw the tile
             setPos(originalPos + Vectoru{i * dims.x, j * dims.y});
             // Draw the tile
-            Image::draw(parentPos, parentRot, parentOri, cam);
+            Image::draw();
         }
     }
     // Move back to the origin

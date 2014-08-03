@@ -3,10 +3,11 @@
 // (See accompanying file LICENSE_1_0.txt or copy at
 //  http://www.boost.org/LICENSE_1_0.txt)
 
+#include "Graphic.hpp"
+
 #include <exception>
 #include <SFML/Graphics/Transformable.hpp>
 #include "Shader.hpp"
-#include "Graphic.hpp"
 
 namespace tank
 {
@@ -35,30 +36,36 @@ observing_ptr<Shader> Graphic::getShader()
     return shader_;
 }
 
-
-void Graphic::transform(Graphic const* g,
-                        Vectorf parentPos,
-                        float parentRot,
-                        Vectorf parentOri,
-                        Camera const& cam,
-                        sf::Transformable& t)
+void Graphic::transform(Graphic const* g, sf::Transformable& t)
 {
-    /// Model ///
+    auto mvp = g->getWorldTransform();
+    const auto modelScale = mvp.scale;
+    auto modelPos = mvp.position;
+    auto modelRot = mvp.rotation;
+    auto modelOri = mvp.origin;
 
+    t.setScale({modelScale.x, modelScale.y});
+    t.setPosition({modelPos.x, modelPos.y});
+    t.setRotation(modelRot);
+    t.setOrigin({modelOri.x, modelOri.y});
+    /* Old code
+    /// Model ///
     const auto modelScale = g->getScale();
     auto modelPos = g->getPos();
     auto modelRot = g->getRotation();
     auto modelOri = g->getOrigin();
 
     if (g->isRelativeToParent()) {
-        modelPos = modelPos.rotate(parentRot);
-        modelPos += parentPos;
-        modelRot += parentRot;
+        modelPos = modelPos.rotate(parent.rotation);
+        modelPos += parent.position;
+        modelRot += parent.rotation;
         // modelOri += parentOri;
     }
+    */
 
     /// View ///
-    const auto viewScale = cam.getZoom();
+    /*
+    const auto viewScale = cam.getScale();
     const auto viewRot = cam.getRotation();
     auto viewPos = cam.getPos();
     viewPos.x *= viewScale.x;
@@ -86,6 +93,7 @@ void Graphic::transform(Graphic const* g,
     t.setPosition({modelViewPos.x, modelViewPos.y});
     t.setRotation(modelViewRot);
     t.setOrigin({modelOri.x, modelOri.y});
+    */
 }
 
 } /* tank */
