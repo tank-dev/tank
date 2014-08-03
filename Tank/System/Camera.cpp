@@ -13,7 +13,7 @@ namespace tank
 Camera::Camera()
 {
     if (Game::window()) {
-        origin_ = Game::window()->getSize() / 2;
+        setOrigin(Game::window()->getSize() / 2);
     }
 }
 

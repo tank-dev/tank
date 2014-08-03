@@ -29,7 +29,7 @@ tank::Vectord Mouse::getRelPos(Camera const& c)
     auto const& cPos = c.getPos();
     const auto cRot = c.getRotation();
     auto const& cOgn = c.getOrigin();
-    auto const& cScale = c.getZoom();
+    auto const& cScale = c.getScale();
 
     tank::Vectord pos = getPos() - cOgn;
     pos = pos.rotate(cRot);
