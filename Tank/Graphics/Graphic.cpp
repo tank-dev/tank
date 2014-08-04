@@ -12,12 +12,12 @@ namespace tank
 void Graphic::transform(Graphic const* g, sf::Transformable& t)
 {
     auto mvp = g->getWorldTransform();
-    const auto modelScale = mvp.scale;
+    const auto modelScale = mvp.zoom;
     auto modelPos = mvp.position;
     auto modelRot = mvp.rotation;
     auto modelOri = mvp.origin;
 
-    t.setScale({modelScale.x, modelScale.y});
+    t.setScale({modelScale, modelScale});
     t.setPosition({modelPos.x, modelPos.y});
     t.setRotation(modelRot);
     t.setOrigin({modelOri.x, modelOri.y});
