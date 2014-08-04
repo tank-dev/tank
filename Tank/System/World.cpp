@@ -91,6 +91,7 @@ std::unique_ptr<Entity> World::releaseEntity(observing_ptr<Entity> entity)
 
     auto ent = std::move(*iter);
     entities_.erase(iter);
+    ent->removeParent();
     ent->onRemoved();
     return ent;
 }
