@@ -151,6 +151,8 @@ public:
         return image_.getTextureSize();
     }
 
+    Vectoru getFrameDimensions() const { return frameDimensions_; }
+
     virtual void attachShader(observing_ptr<Shader> s) override
     {
         image_.attachShader(s);

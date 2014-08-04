@@ -81,8 +81,7 @@ public:
     }
 
     // TODO: Make const
-    virtual void draw(Vectorf parentPos = {}, float parentRot = 0,
-                      Vectorf parentOri = {}, Camera const& = Camera()) = 0;
+    virtual void draw() = 0;
 
 protected:
     static void transform(Graphic const* g, sf::Transformable& t);
