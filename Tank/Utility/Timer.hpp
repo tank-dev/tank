@@ -69,8 +69,13 @@ public:
      *
      * \return The chrono::steady_clock::duration since the timer was started.
      */
-    std::chrono::steady_clock::duration getDuration() const;
-    unsigned getTicks() const;
+    std::chrono::steady_clock::duration getTime() const;
+
+    template <typename D>
+    unsigned getTime() const
+    {
+        return std::chrono::duration_cast<D>(getTime()).count();
+    }
 
     /*!
      * \brief Get the time in a human readable format H:M:S.uuuuuu.
