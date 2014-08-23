@@ -35,7 +35,7 @@ public:
         /*auto rect = getClip();
         return {rect.w, rect.h};*/
         auto rect = sprite_.getGlobalBounds();
-        return {rect.width, rect.height};
+        return tank::Vectorf{rect.width * getScale().x, rect.height * getScale().y};
     }
 
     void setSize(Vectorf size);
