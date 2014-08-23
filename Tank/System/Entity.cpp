@@ -28,7 +28,7 @@ void Entity::draw(Camera const& cam)
 {
     for (auto& g : graphics_) {
         if (g->isVisible()) {
-            g->draw();
+            g->draw(getTransform(), cam);
         }
     }
 }

@@ -22,11 +22,22 @@ namespace tank
 
 class Graphic : public tank::Transformable
 {
+    bool relativeToParent_{true};
     bool visible_{true};
 
 public:
     Graphic() = default;
     virtual ~Graphic() = default;
+
+    // TODO: move into Transformable, take Transformable const&
+    virtual void setRelativeToParent(bool relative)
+    {
+        relativeToParent_ = relative;
+    }
+    virtual bool isRelativeToParent() const
+    {
+        return relativeToParent_;
+    }
 
     bool isVisible() const
     {
@@ -50,11 +61,11 @@ public:
      * \param parentCoords The coordinates to convert.
      *
      * \return Coordinates local to the graphic
+     */
     Vectorf graphicFromParentCoords(const Vectorf& parentCoords)
     {
         return (parentCoords - getOrigin()).rotate(-getRotation()) / getScale();
     }
-     */
 
     /*!
      * \brief Get whether the specified point (in local coordinates) in inside
@@ -67,15 +78,18 @@ public:
     bool getWithin(const Vectorf& localCoords)
     {
         Vectorf size = getSize();
-        return (localCoords.x < 0 or localCoords.x > size.x or
-                localCoords.y < 0 or localCoords.y > size.y);
+        return (localCoords.x<0 or localCoords.x> size.x or
+                        localCoords.y<0 or localCoords.y> size.y);
     }
 
     // TODO: Make const
-    virtual void draw() = 0;
+    virtual void draw(Transform const& parent = Transform(),
+                      Camera const& = Camera()) = 0;
 
 protected:
-    static void transform(Graphic const* g, sf::Transformable& t);
+    static void transform(Graphic const* g, Vectorf parentPos, float parentRot,
+                          Vectorf parentOri, Camera const& cam,
+                          sf::Transformable& t);
 };
 }
 

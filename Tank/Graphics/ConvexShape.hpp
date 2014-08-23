@@ -30,7 +30,8 @@ public:
 
     void setPoints(std::vector<Vectorf> const& points);
 
-    virtual void draw() override final;
+    virtual void draw(Transform const& parent = {},
+                      Camera const& = Camera()) override final;
 };
 }
 

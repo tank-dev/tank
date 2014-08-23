@@ -20,7 +20,6 @@ FrameList::FrameList(Image const& i,
     , subClip_ (subClip)
 {
     image_.setClipByIndex(frameDimensions_, 0, spacing_, subClip_);
-    image_.setParent(this);
     // image_.setSize(frameDims);
 }
 
@@ -134,11 +133,11 @@ void FrameList::stop()
     currentAnimation_ = nullptr;
 }
 
-void FrameList::draw()
+void FrameList::draw(Transform const& parent, Camera const& cam)
 {
     // TODO: Move this somewhere else and make draw const
     refresh();
-    image_.draw();
+    image_.draw(parent, cam);
 }
 
 void FrameList::setImage(Image const& image,

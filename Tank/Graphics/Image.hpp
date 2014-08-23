@@ -70,7 +70,8 @@ public:
         return {texture_->getSize().x, texture_->getSize().y};
     }
 
-    virtual void draw() override;
+    virtual void draw(Transform const& parent = {},
+                      Camera const& = Camera()) override;
 
     // Texture editing functions
 

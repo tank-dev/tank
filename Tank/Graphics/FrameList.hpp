@@ -96,7 +96,8 @@ public:
      *
      * \param pos Position at which to draw the texture.
      */
-    virtual void draw() override;
+    virtual void draw(Transform const& parent = {},
+                      Camera const& = Camera()) override;
 
     /*!
      * \brief Start the animation
@@ -122,8 +123,10 @@ public:
     /*!
      * \return If the animation is playing.
      */
-    bool playing() { return currentAnimation_; }
-
+    bool playing()
+    {
+        return currentAnimation_;
+    }
     std::string currentAnimation()
     {
         if (not playing()) {
@@ -142,16 +145,40 @@ public:
                   Vectoru spacing = {},
                   Rectu subClip = {});
 
-    void setSize(Vectorf size) { image_.setSize(size); }
-    Vectorf getSize() const override { return image_.getSize(); }
+    virtual void setPos(Vectorf pos) { image_.setPos(pos); }
+    virtual Vectorf getPos() const { return image_.getPos(); }
+    virtual bool isRelativeToParent() const override { return image_.isRelativeToParent(); }
+    virtual void setRotation(float angle) { image_.setRotation(angle); }
+    virtual float getRotation() const { return image_.getRotation(); }
     void setClip(Rectu clip) { image_.setClip(clip); }
     Rectu getClip() const { return image_.getClip(); }
+    void setOrigin(Vectorf origin) override { image_.setOrigin(origin); }
+    Vectorf getOrigin() const override { return image_.getOrigin(); }
+    void setSize(Vectorf size) { image_.setSize(size); }
+    Vectorf getSize() const override { return image_.getSize(); }
+
+
+    Vectoru getFrameDimensions() const { return frameDimensions_; }
+    virtual void setScale(float scale) override
+    {
+        image_.setScale(scale);
+    }
+    virtual void setScale(Vectorf scale) override
+    {
+        image_.setScale(scale);
+    }
+    virtual Vectorf getScale() const override
+    {
+        return image_.getScale();
+    }
+    virtual void setRelativeToParent(bool relative) override
+    {
+        image_.setRelativeToParent(relative);
+    }
     virtual Vectoru getTextureSize() const
     {
         return image_.getTextureSize();
     }
-
-    Vectoru getFrameDimensions() const { return frameDimensions_; }
 };
 
 // TODO: Use enum to specify image format
