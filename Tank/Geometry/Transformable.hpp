@@ -9,7 +9,6 @@ namespace tank {
 class Transformable
 {
     Transform transform_;
-    observing_ptr<Transformable> parent_;
 
 public:
     virtual ~Transformable() = default;
@@ -17,7 +16,7 @@ public:
                   float rotation = 0,
                   Vectorf origin = {},
                   Vectorf scale = {1.f, 1.f})
-        : transform_{pos, rotation, origin, scale}
+        : transform_{pos, rotation = 0, origin, scale}
     {}
     Transformable(Transformable const&) = default;
 
@@ -65,25 +64,6 @@ public:
     virtual void setTransform(Transform const& t)
     {
         transform_ = t;
-    }
-
-    virtual void setParent(observing_ptr<Transformable> p)
-    {
-        parent_ = p;
-    }
-    virtual void removeParent()
-    {
-        parent_ = nullptr;
-    }
-
-    virtual Transform getWorldTransform() const
-    {
-        if (not parent_) {
-            return transform_;
-        } else {
-            //return transform_(parent_->getWorldTransform());
-            return parent_->getWorldTransform()(transform_);
-        }
     }
 };
 
