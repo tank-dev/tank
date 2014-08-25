@@ -25,14 +25,14 @@ class Text : public Graphic
 public:
     Text() = default;
     Text(const Text&) = default;
-    Text(const Font& f, unsigned size = 30, std::string text = "")
+    explicit Text(const Font& f, unsigned size = 30, std::string text = "")
             : text_(text, f, size)
     {
     }
 
     ~Text() = default;
 
-    void setFont(Font& f)
+    void setFont(const Font& f)
     {
         text_.setFont(f);
     }
