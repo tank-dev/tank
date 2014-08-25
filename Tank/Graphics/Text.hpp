@@ -25,7 +25,7 @@ class Text : public Graphic
 public:
     Text() = default;
     Text(const Text&) = default;
-    Text(Font& f, unsigned size = 30, std::string text = "")
+    Text(const Font& f, unsigned size = 30, std::string text = "")
             : text_(text, f, size)
     {
     }
