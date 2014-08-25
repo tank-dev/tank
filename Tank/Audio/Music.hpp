@@ -20,6 +20,7 @@ public:
     Music(std::string fileName);
 
     bool load(std::string fileName);
+    bool loadFromFile(std::string fileName) {return load(fileName);}
 
     void play();
     void pause();

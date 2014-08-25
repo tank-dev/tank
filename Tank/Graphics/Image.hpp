@@ -29,6 +29,7 @@ public:
     Image(std::string file);
 
     void load(std::string file);
+    void loadFromFile(std::string file){return load(file);}
 
     virtual Vectorf getSize() const override
     {
