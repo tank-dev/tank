@@ -20,22 +20,22 @@ bool Music::load(std::string fileName)
         Game::log << "Music already loaded!" << std::endl;
         return loaded_;
     }
-    loaded_ = music_.openFromFile(fileName);
+    loaded_ = music_->openFromFile(fileName);
     return loaded_;
 }
 
 void Music::play()
 {
-    music_.play();
+    music_->play();
 }
 
 void Music::pause()
 {
-    music_.pause();
+    music_->pause();
 }
 
 void Music::stop()
 {
-    music_.stop();
+    music_->stop();
 }
 }
