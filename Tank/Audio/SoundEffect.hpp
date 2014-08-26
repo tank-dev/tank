@@ -6,27 +6,42 @@
 #ifndef TANK_SOUNDEFFECT_HPP
 #define TANK_SOUNDEFFECT_HPP
 
+#include <memory>
 #include <string>
 #include <SFML/Audio/Sound.hpp>
 #include <SFML/Audio/SoundBuffer.hpp>
+#include <Tank/Utility/Vector.hpp>
 
 namespace tank
 {
 
 class SoundEffect
 {
-    sf::SoundBuffer buffer_;
+    std::shared_ptr<sf::SoundBuffer> buffer_ = std::make_shared<sf::SoundBuffer>();
     sf::Sound sound_;
-    bool loaded_ = false;
+    bool loaded_ {false};
 
 public:
     using Status = sf::Sound::Status;
+    SoundEffect() = default;
     SoundEffect(std::string fileName);
+    SoundEffect(SoundEffect const&) = default;
+    SoundEffect& operator=(SoundEffect const&) = default;
 
     bool load(std::string fileName);
-    bool loadFromFile(std::string fileName){return load(fileName);}
+    bool loadFromFile(std::string fileName) { return load(fileName); }
 
-    void play();
+    void play() { sound_.play(); }
+    void pause() { sound_.pause(); }
+    void stop() { sound_.stop(); }
+    void setLoop(bool loop) { return sound_.setLoop(loop); }
+    bool getLoop() { return sound_.getLoop(); }
+    void setPosition(Vectorf pos) { sound_.setPosition({pos.x, pos.y,0}); }
+    Vectorf getPosition();
+    void setRelativeToListener(bool rel) { sound_.setRelativeToListener(rel); }
+    bool isRelativeToListener() { return sound_.isRelativeToListener(); }
+    void setVolume(float v) { sound_.setVolume(v); }
+    float getVolume() { return sound_.getVolume(); }
 
     explicit operator bool()
     {

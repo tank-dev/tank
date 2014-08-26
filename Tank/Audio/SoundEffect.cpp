@@ -20,13 +20,14 @@ bool SoundEffect::load(std::string fileName)
         Game::log << "SoundEffect already loaded!" << std::endl;
         return loaded_;
     }
-    loaded_ = buffer_.loadFromFile(fileName);
-    sound_.setBuffer(buffer_);
+    loaded_ = buffer_->loadFromFile(fileName);
+    sound_.setBuffer(*buffer_);
     return loaded_;
 }
 
-void SoundEffect::play()
-{
-    sound_.play();
+Vectorf SoundEffect::getPosition()
+{ 
+    auto pos = sound_.getPosition();
+    return {pos.x, pos.y};
 }
 }
