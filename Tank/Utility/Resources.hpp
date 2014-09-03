@@ -1,7 +1,11 @@
-#pragma once
+#ifndef TANK_RESOURCES_HPP
+#define TANK_RESOURCES_HPP
+
 #include <boost/any.hpp>
 #include <unordered_map>
 #include <string>
+
+namespace tank {
 
 class Resources
 {
@@ -19,3 +23,5 @@ public:
         return boost::any_cast<Res&>(resources[path]);
     }
 };
+}
+#endif /* TANK_RESOURCES_HPP */
