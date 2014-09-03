@@ -150,14 +150,15 @@ std::function<bool()> Mouse::WheelMovement()
 bool Mouse::isInEntity(Entity const& e)
 {
         auto mPos = getRelPos(e.getWorld()->camera);
-        auto ePos = e.getPos();
-        auto hb = e.getHitbox();
-        hb.x += ePos.x;
-        hb.w += ePos.x;
-        hb.y += ePos.y;
-        hb.h += ePos.y;
+        const auto ePos = e.getPos();
+        auto const& hb = e.getHitbox();
 
-        return mPos.x > hb.x and mPos.x<hb.w and mPos.y> hb.y and mPos.y < hb.h;
+        const double left = hb.x + ePos.x;
+        const double right = left + hb.w;
+        const double top = hb.y + ePos.y;
+        const double bottom = top + hb.h;
+
+        return mPos.x>left and mPos.x<right and mPos.y>top and mPos.y<bottom;
 }
 
 std::function<bool()> Mouse::InEntity(Entity const& e)
