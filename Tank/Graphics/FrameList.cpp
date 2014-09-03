@@ -125,7 +125,8 @@ void FrameList::stop()
 {
     // Change appearance to first frame
     currentFrame_ = 0;
-    refresh();
+    unsigned int frame = currentAnimation_->frameList[currentFrame_];
+    image_.setClipByIndex(frameDimensions_, frame, spacing_, subClip_);
 
     // Unset member variables
     animTimer_.stop();
