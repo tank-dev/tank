@@ -65,9 +65,6 @@ public:
      */
     Entity(Vectorf pos = {0, 0});
 
-    Entity(const std::string& path);
-    Entity(Vectorf pos, const std::string& path);
-
     /*!
      * \brief Run entity's per-frame game logic
      */

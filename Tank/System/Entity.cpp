@@ -24,18 +24,6 @@ Entity::Entity(Vectorf pos)
 {
 }
 
-Entity::Entity(const std::string& path)
-    : Entity{}
-{
-    makeGraphic(path);
-}
-
-Entity::Entity(Vectorf pos, const std::string& path)
-    : Entity{pos}
-{
-    makeGraphic(path);
-}
-
 void Entity::draw(Camera const& cam)
 {
     for (auto& g : graphics_) {
