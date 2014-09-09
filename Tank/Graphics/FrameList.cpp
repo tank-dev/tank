@@ -150,6 +150,7 @@ void FrameList::setImage(Image const& image,
     frameDimensions_ = frameDims;
     spacing_ = spacing;
     subClip_ = subClip;
+    image_.setClipByIndex(frameDimensions_, 0, spacing_, subClip_);
 }
 
 void addWalkingFrameList(FrameList& anim, std::chrono::milliseconds time)
