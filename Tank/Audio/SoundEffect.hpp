@@ -35,13 +35,17 @@ public:
     void pause() { sound_.pause(); }
     void stop() { sound_.stop(); }
     void setLoop(bool loop) { return sound_.setLoop(loop); }
-    bool getLoop() { return sound_.getLoop(); }
+    bool getLoop() const { return sound_.getLoop(); }
     void setPosition(Vectorf pos) { sound_.setPosition({pos.x, pos.y,0}); }
-    Vectorf getPosition();
+    Vectorf getPosition() const;
     void setRelativeToListener(bool rel) { sound_.setRelativeToListener(rel); }
-    bool isRelativeToListener() { return sound_.isRelativeToListener(); }
+    bool isRelativeToListener() const { return sound_.isRelativeToListener(); }
     void setVolume(float v) { sound_.setVolume(v); }
-    float getVolume() { return sound_.getVolume(); }
+    float getVolume() const { return sound_.getVolume(); }
+    void setAttenuation(float attenuation) { sound_.setAttenuation(attenuation); }
+    float getAttenuation() const { return sound_.getAttenuation(); }
+    void setMinDistance(float distance) { sound_.setMinDistance(distance); }
+    float getMinDistance() const { return sound_.getMinDistance(); }
 
     explicit operator bool()
     {
