@@ -18,7 +18,7 @@ namespace tank
 
 int Entity::numEnts_ = 0;
 
-Entity::Entity(Vectorf pos) 
+Entity::Entity(Vectorf pos)
     : Transformable(pos)
     , actorID_(numEnts_++)
 {
@@ -127,7 +127,7 @@ void Entity::clearGraphics()
 // will be collision, and this method doesn't handle collision very well.
 bool Entity::moveBy(Vectorf disp, std::function<bool()> cond)
 {
-    while (abs(disp.x) >= 1. || abs(disp.y) >= 1.) {
+    while (std::fabs(disp.x) >= 1. || std::fabs(disp.y) >= 1.) {
         auto oldPos = getPos();
 
         if (disp.x >= 1.) {
