@@ -13,24 +13,24 @@ RectangleShape::RectangleShape(Vectorf size)
 {
 }
 
-void CircleShape::setOpacity(uint8_t a)
+void RectangleShape::setOpacity(uint8_t a)
 {
     setFillOpacity(a);
     setOutlineOpacity(a);
 }
 
-void CircleShape::setFillOpacity(uint8_t a)
+void RectangleShape::setFillOpacity(uint8_t a)
 {
     auto fill = shape_.getFillColor();
     fill.a = a;
     shape_.setFillColor(fill);
 }
 
-void CircleShape::setFillOpacity(uint8_t a)
+void RectangleShape::setOutlineOpacity(uint8_t a)
 {
     auto outline = shape_.getOutlineColor();
     outline.a = a;
-    shape_.setFillColor(outline);
+    shape_.setOutlineColor(outline);
 }
 
 RectangleShape::RectangleShape(Rectf rect)

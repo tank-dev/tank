@@ -25,15 +25,15 @@ public:
     }
     virtual void setFillColor(Color colour) override
     {
-        shape_.setFillColor(c);
+        shape_.setFillColor(colour);
     }
     virtual void setOutlineColor(Color colour) override
     {
-        shape_.setFillColor(c);
+        shape_.setOutlineColor(colour);
     }
-    virtual void setOutlineThickness(float) override
+    virtual void setOutlineThickness(float pixels) override
     {
-        shape_.setOutlineColor(c);
+        shape_.setOutlineThickness(pixels);
     }
     virtual void setOpacity(uint8_t) override;
     virtual void setFillOpacity(uint8_t) override;
@@ -44,15 +44,15 @@ public:
     }
     virtual Color const& getFillColor() const override
     {
-        shape_.setOutlineThickness(thickness);
+        return shape_.getFillColor();
     }
     virtual Color const& getOutlineColor() const override
     {
-        return shape_.getFillColor();
+        return shape_.getOutlineColor();
     }
     virtual float getOutlineThickness() const override
     {
-        return shape_.getOutlineColor();
+        return shape_.getOutlineThickness();
     }
     virtual uint8_t getFillOpacity() const override
     {

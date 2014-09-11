@@ -23,11 +23,11 @@ void CircleShape::setFillOpacity(uint8_t a)
     shape_.setFillColor(fill);
 }
 
-void CircleShape::setFillOpacity(uint8_t a)
+void CircleShape::setOutlineOpacity(uint8_t a)
 {
     auto outline = shape_.getOutlineColor();
     outline.a = a;
-    shape_.setFillColor(outline);
+    shape_.setOutlineColor(outline);
 }
 
 Vectorf CircleShape::getSize() const
