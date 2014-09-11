@@ -34,7 +34,7 @@ void Entity::draw(Camera const& cam)
 }
 
 std::vector<observing_ptr<Entity>>
-        Entity::collide(std::vector<std::string> colTypes)
+        Entity::collide(std::vector<std::string> const& colTypes)
 {
     std::vector<std::unique_ptr<Entity>> const& orig = world_->getEntities();
     std::vector<observing_ptr<Entity>> ents;
@@ -175,13 +175,13 @@ void Entity::setHitbox(Rectd hitbox)
     hitbox_ = hitbox;
 }
 
-void Entity::setType(std::string type)
+void Entity::setType(std::string const& type)
 {
     types_.clear();
     types_.push_back(type);
 }
 
-void Entity::addType(std::string type)
+void Entity::addType(std::string const& type)
 {
     if (type == "")
         return;

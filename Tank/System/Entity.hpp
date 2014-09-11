@@ -9,6 +9,7 @@
 #include <vector>
 #include <string>
 #include <memory>
+#include <boost/range/algorithm_ext.hpp>
 #include "../Graphics/Graphic.hpp"
 #include "../Graphics/Image.hpp"
 #include "../Utility/observing_ptr.hpp"
@@ -90,10 +91,10 @@ public:
      * \see setType()
      */
     std::vector<observing_ptr<Entity>>
-            collide(std::vector<std::string> types =
+            collide(std::vector<std::string> const& types =
                             std::vector<std::string>{});
 
-    std::vector<observing_ptr<Entity>> collide(std::string type)
+    std::vector<observing_ptr<Entity>> collide(std::string const& type)
     {
         return collide(std::vector<std::string>{type});
     }
@@ -112,7 +113,7 @@ public:
         return hitbox_;
     }
 
-    std::string getType(unsigned i = 0) const
+    std::string const& getType(unsigned i = 0) const
     {
         return types_[i];
     }
@@ -126,7 +127,7 @@ public:
         return types_;
     }
 
-    bool isType(std::string type) const
+    bool isType(std::string const& type) const
     {
         return std::find(types_.begin(), types_.end(), type) != types_.end();
     }
@@ -210,14 +211,19 @@ public:
      *
      * \param type The type to add
      */
-    void setType(std::string type);
+    void setType(std::string const& type);
 
     /*!
      * \brief Adds a type to the entity for collision detection, etc.
      *
      * \param type The type to add
      */
-    void addType(std::string type);
+    void addType(std::string const& type);
+
+    void removeType(std::string const& s)
+    {
+        boost::remove_erase(types_, s);
+    }
 
     /*!
      * \brief Sets the entity's z-layer
