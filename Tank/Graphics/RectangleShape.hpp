@@ -14,19 +14,47 @@ namespace tank
 
 class RectangleShape : public Shape
 {
-    sf::RectangleShape rectangleShape_;
+    sf::RectangleShape shape_;
 
 public:
     RectangleShape(Vectorf size = {});
     RectangleShape(Rectf);
 
-    virtual void setFillColor(Color colour) override;
-    virtual void setOutlineColor(Color colour) override;
-    virtual void setOutlineThickness(float) override;
-    virtual Color const& getFillColor() const override;
-    virtual Color const& getOutlineColor() const override;
-    virtual float getOutlineThickness() const override;
-
+    virtual void setFillColor(Color colour) override
+    {
+        shape_.setFillColor(c);
+    }
+    virtual void setOutlineColor(Color colour) override
+    {
+        shape_.setFillColor(c);
+    }
+    virtual void setOutlineThickness(float) override
+    {
+        shape_.setOutlineColor(c);
+    }
+    virtual void setOpacity(uint8_t) override;
+    virtual void setFillOpacity(uint8_t) override;
+    virtual void setOutlineOpacity(uint8_t) override;
+    virtual Color const& getFillColor() const override
+    {
+        shape_.setOutlineThickness(thickness);
+    }
+    virtual Color const& getOutlineColor() const override
+    {
+        return shape_.getFillColor();
+    }
+    virtual float getOutlineThickness() const override
+    {
+        return shape_.getOutlineColor();
+    }
+    virtual uint8_t getFillOpacity() const override
+    {
+        return shape_.getFillColor().a;
+    }
+    virtual uint8_t getOutlineOpacity() const override
+    {
+        return shape_.getOutlineColor().a;
+    }
     virtual void setSize(Vectorf);
     virtual Vectorf getSize() const override;
 

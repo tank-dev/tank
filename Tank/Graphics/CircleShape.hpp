@@ -14,26 +14,54 @@ namespace tank
 
 class CircleShape : public Shape
 {
-    sf::CircleShape circleShape_;
+    sf::CircleShape shape_;
 
 public:
     CircleShape(float radius = 0);
 
     void setRadius(float radius)
     {
-        circleShape_.setRadius(radius);
+        shape_.setRadius(radius);
     }
+    virtual void setFillColor(Color colour) override
+    {
+        shape_.setFillColor(c);
+    }
+    virtual void setOutlineColor(Color colour) override
+    {
+        shape_.setFillColor(c);
+    }
+    virtual void setOutlineThickness(float) override
+    {
+        shape_.setOutlineColor(c);
+    }
+    virtual void setOpacity(uint8_t) override;
+    virtual void setFillOpacity(uint8_t) override;
+    virtual void setOutlineOpacity(uint8_t) override;
     float getRadius() const
     {
-        return circleShape_.getRadius();
+        return shape_.getRadius();
     }
-
-    virtual void setFillColor(Color colour) override;
-    virtual void setOutlineColor(Color colour) override;
-    virtual void setOutlineThickness(float) override;
-    virtual Color const& getFillColor() const override;
-    virtual Color const& getOutlineColor() const override;
-    virtual float getOutlineThickness() const override;
+    virtual Color const& getFillColor() const override
+    {
+        shape_.setOutlineThickness(thickness);
+    }
+    virtual Color const& getOutlineColor() const override
+    {
+        return shape_.getFillColor();
+    }
+    virtual float getOutlineThickness() const override
+    {
+        return shape_.getOutlineColor();
+    }
+    virtual uint8_t getFillOpacity() const override
+    {
+        return shape_.getFillColor().a;
+    }
+    virtual uint8_t getOutlineOpacity() const override
+    {
+        return shape_.getOutlineColor().a;
+    }
 
     virtual Vectorf getSize() const override;
 
