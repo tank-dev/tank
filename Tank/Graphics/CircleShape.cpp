@@ -9,45 +9,37 @@
 namespace tank
 {
 
-CircleShape::CircleShape(float radius) : Shape(), circleShape_(radius)
+CircleShape::CircleShape(float radius):shape_(radius) {}
+void CircleShape::setOpacity(uint8_t a)
 {
+    setFillOpacity(a);
+    setOutlineOpacity(a);
 }
 
-void CircleShape::setFillColor(Color c)
+void CircleShape::setFillOpacity(uint8_t a)
 {
-    circleShape_.setFillColor(c);
+    auto fill = shape_.getFillColor();
+    fill.a = a;
+    shape_.setFillColor(fill);
 }
-void CircleShape::setOutlineColor(Color c)
+
+void CircleShape::setOutlineOpacity(uint8_t a)
 {
-    circleShape_.setOutlineColor(c);
-}
-void CircleShape::setOutlineThickness(float thickness)
-{
-    circleShape_.setOutlineThickness(thickness);
-}
-Color const& CircleShape::getFillColor() const
-{
-    return circleShape_.getFillColor();
-}
-Color const& CircleShape::getOutlineColor() const
-{
-    return circleShape_.getOutlineColor();
-}
-float CircleShape::getOutlineThickness() const
-{
-    return circleShape_.getOutlineThickness();
+    auto outline = shape_.getOutlineColor();
+    outline.a = a;
+    shape_.setOutlineColor(outline);
 }
 
 Vectorf CircleShape::getSize() const
 {
-    auto rect = circleShape_.getGlobalBounds();
+    auto rect = shape_.getGlobalBounds();
     return {rect.width, rect.height};
 }
 
 void CircleShape::draw(Transform const& parent, Camera const& cam)
 {
     Graphic::transform(this, parent.position, parent.rotation, parent.origin, cam,
-                       circleShape_);
-    Game::window()->SFMLWindow().draw(circleShape_);
+                       shape_);
+    Game::window()->SFMLWindow().draw(shape_);
 }
 }
