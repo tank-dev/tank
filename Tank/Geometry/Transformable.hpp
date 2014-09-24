@@ -8,13 +8,15 @@ namespace tank {
 
 template <typename T>
 struct CoordsFromTransformable {
-    std::pair<T,T> operator()(tank::Transformable const& a) {
+    template <typename U>
+    std::pair<T,T> operator()(U const& a) {
         return {a.getPos().x, a.getPos().y};
 }};
 
 template <typename T>
 struct CoordsFromTransformablePtr {
-    std::pair<T,T> operator()(std::unique_ptr<tank::Transformable> const& a) {
+    template <typename U>
+    std::pair<T,T> operator()(U const& a) {
         return {a->getPos().x, a->getPos().y};
 }};
 
