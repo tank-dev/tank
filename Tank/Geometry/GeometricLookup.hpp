@@ -1,4 +1,5 @@
-#pragma once
+#ifndef TANK_GEOMLOOKUP_HPP
+#define TANK_GEOMLOOKUP_HPP
 
 #include <algorithm>
 #include <array>
@@ -12,7 +13,7 @@
 #include <boost/range/algorithm_ext.hpp>
 #include <boost/range/numeric.hpp>
 
-#include <iostream>
+namespace tank {
 
 template <typename T, typename GetCoordinates, typename Key = unsigned>
 class GeometricLookup
@@ -100,32 +101,14 @@ public:
     std::vector<std::reference_wrapper<value_type>>
     within_region(coord_type const& top_left, coord_type const& bottom_right)
     {
-        auto outsideRegion = std::not1(Within{top_left, bottom_right});
-        const auto begin = contents_.lower_bound(hash(top_left));
-        const auto end   = contents_.upper_bound(hash(bottom_right));
-        std::vector<std::reference_wrapper<value_type>> result;
-
-        std::transform(begin, end, std::back_inserter(result),
-            std::mem_fn(&map_type::value_type::second));
-        boost::remove_erase_if(result, std::bind(outsideRegion,
-            std::bind(get_coordinates, std::placeholders::_1)));
-        return result;
+        return within_region<value_type>(top_left, bottom_right);
     }
 
     std::vector<std::reference_wrapper<const value_type>>
     within_region(coord_type const& top_left, coord_type const& bottom_right)
     const
     {
-        auto outsideRegion = std::not1(Within{top_left, bottom_right});
-        const auto begin = contents_.lower_bound(hash(top_left));
-        const auto end   = contents_.upper_bound(hash(bottom_right));
-        std::vector<std::reference_wrapper<const value_type>> result;
-
-        std::transform(begin, end, std::back_inserter(result),
-            std::mem_fn(&map_type::value_type::second));
-        boost::remove_erase_if(result, std::bind(outsideRegion,
-            std::bind(get_coordinates, std::placeholders::_1)));
-        return result;
+        return within_region<const value_type>(top_left, bottom_right);
     }
     /*
     void insert(value_type&& item)
@@ -173,9 +156,7 @@ private:
 
             x -= midX * bitX;
             y -= midY * bitY;
-            std::cout << bitX << bitY;
         }
-        std::cout << std::endl;
 
         return hash;
     }
@@ -191,8 +172,23 @@ private:
             width /= 2;
             height /= 2;
             result[i] = coord_type(width, height);
-            //std::cout << width << ", " << height << std::endl;
         }
+        return result;
+    }
+
+    template <typename U>
+    std::vector<std::reference_wrapper<U>>
+    within_region(coord_type const& top_left, coord_type const& bottom_right)
+    {
+        auto outsideRegion = std::not1(Within{top_left, bottom_right});
+        const auto begin = contents_.lower_bound(hash(top_left));
+        const auto end   = contents_.upper_bound(hash(bottom_right));
+        std::vector<std::reference_wrapper<value_type>> result;
+
+        std::transform(begin, end, std::back_inserter(result),
+            std::mem_fn(&map_type::value_type::second));
+        boost::remove_erase_if(result, std::bind(outsideRegion,
+            std::bind(get_coordinates, std::placeholders::_1)));
         return result;
     }
 
@@ -217,3 +213,5 @@ private:
         }
     };
 };
+} /* tank */
+#endif /* TANK_GEOMLOOKUP_HPP */
