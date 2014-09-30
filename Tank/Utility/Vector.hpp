@@ -434,8 +434,8 @@ constexpr Vectoru operator""_yu(unsigned long long y)
 {
     return Vectoru(0, y);
 }
-}
-}
+} /* literals */
+} /* tank */
 
 namespace std
 {
@@ -450,6 +450,6 @@ struct hash<tank::Vector<T>>
         return std::hash<T>()(v.x) ^ (std::hash<T>()(v.y) << 1);
     }
 };
-}
+} /* std */
 
 #endif
