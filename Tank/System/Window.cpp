@@ -23,11 +23,9 @@ Window::Window(Vector<unsigned int> size, std::string caption)
 
         sf::ContextSettings settings;
         settings.antialiasingLevel = 4;
-        sf::VideoMode vMode = sf::VideoMode::getDesktopMode();
-        vMode.width = size.x;
-        vMode.height = size.y;
-        window_.create(vMode, caption, sf::Style::Close | sf::Style::Titlebar,
-                       settings);
+        //sf::VideoMode vMode = sf::VideoMode::getDesktopMode();
+        sf::VideoMode vMode = sf::VideoMode::getFullscreenModes().front();
+        window_.create(vMode, caption, sf::Style::Fullscreen, settings);
 
         window_.setFramerateLimit(60);
         window_.setVerticalSyncEnabled(true);
@@ -90,7 +88,7 @@ void Window::setCaption(std::string caption)
 
 Vector<unsigned int> Window::getSize()
 {
-    return size_;
+    return {window_.getSize().x, window_.getSize().y};
 }
 
 std::string Window::getCaption()
