@@ -20,7 +20,9 @@ namespace tank
 /*!
  * \brief This stores a transformation. It is stored is 3 componenets; Zoom,
  * Offset and Rotation. They are ordered so that the zoom and rotation are
- * applied first and then the offset. (As this is the way SFML does it.)
+ * applied first and then the offset. (As this is the way SFML does it.
+ * If you had a graphic this corresponds to rotating the graphic then shifting
+ * it.)
  *
  * A scale compenent is also included but this is strictly for working with
  * graphics and full affine transformations aren't supported.
