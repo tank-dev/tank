@@ -6,7 +6,8 @@
 #include <SFML/Graphics/Transformable.hpp>
 #include "Graphic.hpp"
 
-namespace tank {
+namespace tank
+{
 
 void Graphic::draw(observing_ptr<const Camera> cam)
 {
@@ -16,11 +17,8 @@ void Graphic::draw(observing_ptr<const Camera> cam)
 }
 
 /*
-void Graphic::transform(Graphic const* g,
-                        Vectorf parentPos,
-                        float parentRot,
-                        Vectorf parentOri,
-                        Camera const& cam,
+void Graphic::transform(Graphic const* g, Vectorf parentPos, float parentRot,
+                        Vectorf parentOri, Camera const& cam,
                         sf::Transformable& t)
 {
     /// Model ///
@@ -30,18 +28,15 @@ void Graphic::transform(Graphic const* g,
     auto modelRot = g->getRotation();
     auto modelOri = g->getOrigin();
 
-    if(g->isRelativeToParent())
-    {
+    if (g->isRelativeToParent()) {
         modelPos = modelPos.rotate(parentRot);
         modelPos += parentPos;
         modelRot += parentRot;
-        //modelOri += parentOri;
+        // modelOri += parentOri;
     }
 
-
-
     /// View ///
-    const auto viewScale = cam.getZoom();
+    const auto viewScale = cam.getScale();
     const auto viewRot = cam.getRotation();
     auto viewPos = cam.getPos();
     viewPos.x *= viewScale.x;

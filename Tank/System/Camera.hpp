@@ -9,14 +9,16 @@
 #include "../Utility/Vector.hpp"
 #include "../Geometry/CoordinateFrame.hpp"
 
-namespace tank {
+namespace tank
+{
 
 class Camera : public CoordinateFrame
 {
 public:
 
     Camera();
-private:
+    Camera(Camera const&) = default;
+    Camera& operator=(Camera const&) = default;
 };
 
 } /* tank */

@@ -9,13 +9,14 @@ namespace tank
 {
 
 // Retraces the path until we reach the start then reverse it
-inline std::vector<Vectoru> retracePath(const std::unordered_map<Vectoru, std::pair<Vectoru, float>>& cameFrom, Vectoru currentNode)
+inline std::vector<Vectoru> retracePath(
+        const std::unordered_map<Vectoru, std::pair<Vectoru, float>>& cameFrom,
+        Vectoru currentNode)
 {
     std::vector<Vectoru> path{currentNode};
 
     auto nextNode = cameFrom.find(currentNode);
-    while (nextNode->second.first != nextNode->first)
-    {
+    while (nextNode->second.first != nextNode->first) {
         currentNode = nextNode->second.first;
         path.push_back(currentNode);
         nextNode = cameFrom.find(currentNode);
@@ -24,13 +25,14 @@ inline std::vector<Vectoru> retracePath(const std::unordered_map<Vectoru, std::p
     return path;
 }
 
-std::vector<Vectoru> CollisionGrid::getPath(const Vectoru& start, const Vectoru& end) const
+std::vector<Vectoru> CollisionGrid::getPath(const Vectoru& start,
+                                            const Vectoru& end) const
 {
     // This use's the A* algorithm to find a path between to points on the grid.
 
-    if (start == end)
-    {
-        // We are looking for a path to the same place we don't need no algorithm
+    if (start == end) {
+        // We are looking for a path to the same place we don't need no
+        // algorithm
         return std::vector<Vectoru>{start};
     }
     std::unordered_set<Vectoru> closed;
@@ -44,51 +46,48 @@ std::vector<Vectoru> CollisionGrid::getPath(const Vectoru& start, const Vectoru&
 
     auto currentNode = open.upper_bound(-1.0f);
     // Look until we've ran out of places to look
-    while (currentNode != open.end())
-    {
+    while (currentNode != open.end()) {
         // If we've already dealt with this node ignore it.
         // Having this here is to aviod having to search and remove old values
         // for an open point if we find new ones.
-        if (closed.find(currentNode->second) == closed.end())
-        {
+        if (closed.find(currentNode->second) == closed.end()) {
             Vectoru point = currentNode->second;
-            if (point == end)
-            {
+            if (point == end) {
                 // We have found a path so return it.
                 return retracePath(cameFrom, end);
             }
             float costSoFar = cameFrom.find(point)->second.second;
 
-            if (point.y != 0)
-            {
-                checkDirection(closed, open, cameFrom, end, point, Vectoru{0,-1}, costSoFar);
+            if (point.y != 0) {
+                checkDirection(closed, open, cameFrom, end, point,
+                               Vectoru{0, -1}, costSoFar);
             }
-            if (point.y + 1 != getHeight())
-            {
-                checkDirection(closed, open, cameFrom, end, point, Vectoru{0,1}, costSoFar);
+            if (point.y + 1 != getHeight()) {
+                checkDirection(closed, open, cameFrom, end, point,
+                               Vectoru{0, 1}, costSoFar);
             }
-            if (point.x != 0)
-            {
-                checkDirection(closed, open, cameFrom, end, point, Vectoru{-1,0}, costSoFar);
-                if (point.y != 0)
-                {
-                    checkDirection(closed, open, cameFrom, end, point, Vectoru{-1,-1}, costSoFar);
+            if (point.x != 0) {
+                checkDirection(closed, open, cameFrom, end, point,
+                               Vectoru{-1, 0}, costSoFar);
+                if (point.y != 0) {
+                    checkDirection(closed, open, cameFrom, end, point,
+                                   Vectoru{-1, -1}, costSoFar);
                 }
-                if (point.y + 1 != getHeight())
-                {
-                    checkDirection(closed, open, cameFrom, end, point, Vectoru{-1,1}, costSoFar);
+                if (point.y + 1 != getHeight()) {
+                    checkDirection(closed, open, cameFrom, end, point,
+                                   Vectoru{-1, 1}, costSoFar);
                 }
             }
-            if (point.x + 1 != getWidth())
-            {
-                checkDirection(closed, open, cameFrom, end, point, Vectoru{1,0}, costSoFar);
-                if (point.y != 0)
-                {
-                    checkDirection(closed, open, cameFrom, end, point, Vectoru{1,-1}, costSoFar);
+            if (point.x + 1 != getWidth()) {
+                checkDirection(closed, open, cameFrom, end, point,
+                               Vectoru{1, 0}, costSoFar);
+                if (point.y != 0) {
+                    checkDirection(closed, open, cameFrom, end, point,
+                                   Vectoru{1, -1}, costSoFar);
                 }
-                if (point.y + 1 != getHeight())
-                {
-                    checkDirection(closed, open, cameFrom, end, point, Vectoru{1,1}, costSoFar);
+                if (point.y + 1 != getHeight()) {
+                    checkDirection(closed, open, cameFrom, end, point,
+                                   Vectoru{1, 1}, costSoFar);
                 }
             }
 
@@ -105,7 +104,8 @@ std::vector<Vectoru> CollisionGrid::getPath(const Vectoru& start, const Vectoru&
     return std::vector<Vectoru>{};
 }
 
-float CollisionGrid::pathHeuristic(const Vectorf& start, const Vectorf& end) const
+float CollisionGrid::pathHeuristic(const Vectorf& start,
+                                   const Vectorf& end) const
 {
     return (start - end).magnitude();
 }

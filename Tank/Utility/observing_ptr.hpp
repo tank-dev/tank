@@ -15,42 +15,57 @@ template <typename T>
 class observing_ptr
 {
     friend struct std::hash<observing_ptr>;
-    template <typename U> friend class observing_ptr;
-	T* p_ = nullptr;
+    template <typename U>
+    friend class observing_ptr;
+    T* p_ = nullptr;
+
 public:
     observing_ptr() = default;
-    observing_ptr(T& x) : p_(&x) {}
+    observing_ptr(T& x) : p_(&x)
+    {
+    }
 
     template <typename U>
-    observing_ptr(const std::unique_ptr<U>& ptr) : p_{ptr.get()} {}
+    observing_ptr(const std::unique_ptr<U>& ptr)
+            : p_{ptr.get()}
+    {
+    }
 
-    observing_ptr(std::nullptr_t) : p_{nullptr} {}
+    observing_ptr(std::nullptr_t) : p_{nullptr}
+    {
+    }
 
     template <typename U>
-    observing_ptr(const observing_ptr<U>& ptr) : p_{ptr.p_} {}
+    observing_ptr(const observing_ptr<U>& ptr)
+            : p_{ptr.p_}
+    {
+    }
 
     template <typename U>
-    observing_ptr(U* ptr) : p_{ptr} {}
+    observing_ptr(U* ptr)
+            : p_{ptr}
+    {
+    }
 
-    T const& operator* () const
-	{
-		return *p_;
-	}
+    T const& operator*() const
+    {
+        return *p_;
+    }
 
     T const* operator->() const
-	{
-		return p_;
-	}
+    {
+        return p_;
+    }
 
-    T& operator* ()
-	{
-		return *p_;
-	}
+    T& operator*()
+    {
+        return *p_;
+    }
 
     T* operator->()
-	{
-		return p_;
-	}
+    {
+        return p_;
+    }
 
     explicit operator bool() const
     {
@@ -82,17 +97,24 @@ public:
         return p_ != other.get();
     }
 
-    bool operator!= (const T* const other) const
+    bool operator!=(const T* const other) const
     {
         return p_ != other;
     }
 
-    T* get() {
+    T* get()
+    {
         return p_;
     }
 
-    T const* get() const {
-        return p_;
+    operator T&()
+    {
+        return *p_;
+    }
+
+    operator T&() const
+    {
+        return *p_;
     }
 };
 
@@ -107,18 +129,17 @@ bool operator!=(const T& lhs, const observing_ptr<U>& rhs)
 {
     return rhs != lhs;
 }
-
 }
 
 namespace std
 {
-template<typename T>
+template <typename T>
 struct hash<tank::observing_ptr<T>>
 {
-	size_t operator()(const tank::observing_ptr<T>& ptr) const
-	{
-		return std::hash<T>(ptr.p_);
-	}
+    size_t operator()(const tank::observing_ptr<T>& ptr) const
+    {
+        return std::hash<T>(ptr.p_);
+    }
 };
 }
 

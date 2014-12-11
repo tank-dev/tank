@@ -6,6 +6,7 @@
 #define TANK_MUSIC_HPP
 
 #include <string>
+#include <memory>
 #include <SFML/Audio/Music.hpp>
 
 namespace tank
@@ -13,24 +14,32 @@ namespace tank
 
 class Music
 {
-    sf::Music music_;
+    std::shared_ptr<sf::Music> music_ = std::make_shared<sf::Music>();
     bool loaded_ = false;
 
 public:
+    Music() = default;
     Music(std::string fileName);
+    Music(Music const&) = default;
+    Music& operator=(Music const&) = default;
 
     bool load(std::string fileName);
+    bool loadFromFile(std::string fileName) {return load(fileName);}
 
     void play();
     void pause();
     void stop();
+
+    void setVolume(float v) { music_->setVolume(v); }
+    float getVolume() { return music_->getVolume(); }
+    void setLoop(bool loop) { music_->setLoop(loop); }
+    bool getLoop() { return music_->getLoop(); }
 
     explicit operator bool()
     {
         return loaded_;
     }
 };
-
 }
 
-#endif //TANK_MUSIC_HPP
+#endif // TANK_MUSIC_HPP

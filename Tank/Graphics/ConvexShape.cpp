@@ -6,59 +6,55 @@
 #include "ConvexShape.hpp"
 #include "../System/Game.hpp"
 
-namespace tank {
+namespace tank
+{
 
 ConvexShape::ConvexShape(std::vector<Vectorf> const& points)
 {
     setPoints(points);
 }
 
-Vectorf ConvexShape::getSize() const
+void ConvexShape::setOpacity(uint8_t a)
 {
-    auto rect = convexShape_.getGlobalBounds();
-    return {rect.width, rect.height};
+    setFillOpacity(a);
+    setOutlineOpacity(a);
 }
 
-void ConvexShape::setFillColor(Color c)
+void ConvexShape::setFillOpacity(uint8_t a)
 {
-    convexShape_.setFillColor(c);
+    auto fill = shape_.getFillColor();
+    fill.a = a;
+    shape_.setFillColor(fill);
 }
-void ConvexShape::setOutlineColor(Color c)
+
+void ConvexShape::setOutlineOpacity(uint8_t a)
 {
-    convexShape_.setOutlineColor(c);
+    auto outline = shape_.getOutlineColor();
+    outline.a = a;
+    shape_.setOutlineColor(outline);
 }
-void ConvexShape::setOutlineThickness(float thickness)
+
+
+Vectorf ConvexShape::getSize() const
 {
-    convexShape_.setOutlineThickness(thickness);
-}
-Color const& ConvexShape::getFillColor() const
-{
-    return convexShape_.getFillColor();
-}
-Color const& ConvexShape::getOutlineColor() const
-{
-    return convexShape_.getOutlineColor();
-}
-float ConvexShape::getOutlineThickness() const
-{
-    return convexShape_.getOutlineThickness();
+    auto rect = shape_.getGlobalBounds();
+    return {rect.width, rect.height};
 }
 
 void ConvexShape::setPoints(std::vector<Vectorf> const& points)
 {
     const unsigned size = points.size();
 
-    convexShape_.setPointCount(size);
-    for (unsigned i = 0; i < size; ++i)
-    {
-        convexShape_.setPoint(i, {points[i].x, points[i].y});
+    shape_.setPointCount(size);
+    for (unsigned i = 0; i < size; ++i) {
+        shape_.setPoint(i, {points[i].x, points[i].y});
     }
 }
 
 void ConvexShape::draw(Transform const& t)
 {
-    t.transform(convexShape_);
-    tank::Game::window()->SFMLWindow().draw(convexShape_);
+    t.transform(shape_);
+    tank::Game::window()->SFMLWindow().draw(shape_);
 }
 
 }

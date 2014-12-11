@@ -7,7 +7,8 @@
 
 #include "Game.hpp"
 
-namespace tank {
+namespace tank
+{
 
 Camera::Camera()
 {

@@ -23,10 +23,11 @@ namespace tank
 /*!
  * \brief This is a tilemap.
  */
-class Tilemap final : public Image
+class Tilemap final : public Graphic
 {
-    Vectoru frameDimensions_ {0, 0};
-    Rectu clipRect_ {0,0,0,0};
+    Image image_;
+    Vectoru frameDimensions_{0, 0};
+    Rectu clipRect_{0, 0, 0, 0};
     Grid<unsigned> tiles_;
 
 public:
@@ -42,9 +43,28 @@ public:
      * \param gridDims size of the grid.
      * \param frameDims size of each image in the Texture.
      */
-    Tilemap(std::string file, Vector<unsigned> gridDims,
+    Tilemap(Image const& img,
+            Vector<unsigned> gridDims,
             Vector<unsigned int> frameDims);
 
+    /*!
+     * \brief Draw the animation.
+     *
+     * Trying to draw an animation without a texture will crash the game!
+     *
+     * \param pos Position at which to draw the texture.
+     */
+    virtual void draw(Transform const& t) override;
+
+    /*!
+     * \brief Set the texture of the Tilemap.
+     * \param image the Texture to set.
+     * \param frameDimensions the dimensions of the sprite to animate
+     */
+    void setImage(Image const& image,
+                  Vectoru frameDimensions,
+                  Vectoru spacing = {},
+                  Rectu subClip = {});
     /*!
      * \brief Set the dimensions of the image in the texture.
      *
@@ -53,14 +73,16 @@ public:
     void setFrameDimensions(Vectoru frameDims)
     {
         frameDimensions_ = frameDims;
-        clipRect_ = {0,0,frameDims.x,frameDims.y};
+        clipRect_ = {0, 0, frameDims.x, frameDims.y};
     }
 
-    Vectoru getFrameDimensions() const { return frameDimensions_; }
-
+    Vectoru getFrameDimensions() const
+    {
+        return frameDimensions_;
+    }
     Vectorf getTileDimensions() const
     {
-        return { clipRect_.w * getZoom() * getScale().x, clipRect_.h * getZoom() * getScale().y};
+        return { getClip().w * getZoom() * getScale().x, getClip().h * getZoom() * getScale().y};
     }
 
     virtual Vectorf getSize() const override
@@ -79,20 +101,39 @@ public:
      * \param clip An optional parameter for additional clipping within the
      * designated area.
      */
-    virtual void setClip(Vectoru dimensions, unsigned int index, Rectu clip = {0,0,0,0}) override;
+    /*
+    // TODO: work out what anstow's doing here
+    //
+    // anstow: Was the description above not sufficient?
+    virtual void setClipByIndex(Vectoru dimensions, unsigned int index,
+                         Vectoru spacong = {}, Rectu subClip = {}) override;
+     */
 
     /*!
      * \brief Sets an internal clip rectangle for each tile
      *
-     * \param clip The rectangle to clip each tile to
+     * \param clip The rectangle to clip each tile to, defaults to using the
+     * entire frame
      */
-    virtual void setClip(Rectu clip) override
+    // TODO: work out what anstow's doing here
+    //
+    // anstow: If I rememeber correctly this was to allow an internal clip
+    // rectangle, I believe this is superceeded by your subClip or perhaps used
+    // with it? Assuming I've understood it correctly.
+    virtual void setClip(Rectu clip = {})
     {
         clipRect_ = clip;
     }
     virtual Rectu getClip() const
     {
-        return clipRect_;
+        if (clipRect_ == Rectu{})
+        {
+            return image_.getClip();
+        }
+        else 
+        {
+            return clipRect_;
+        }
     }
 
     /*!
@@ -107,7 +148,8 @@ public:
      */
     Vectoru getTile(const Vectorf& localCoords);
 
-    CollisionGrid getCollisionGrid(const std::unordered_set<unsigned>& collidable)
+    CollisionGrid
+            getCollisionGrid(const std::unordered_set<unsigned>& collidable)
     {
         return CollisionGrid(tiles_, collidable);
     }
@@ -131,7 +173,7 @@ public:
      */
     void setLine(const Vectoru& start, const Vectoru& end, unsigned value)
     {
-        tiles_.setLine(start,end,value);
+        tiles_.setLine(start, end, value);
     }
     /*!
      * \brief This fills a box in the Tilemap with the specifed value
@@ -142,7 +184,7 @@ public:
      */
     void fillBox(const Vectoru& start, const Vectoru& end, unsigned value)
     {
-        tiles_.fillBox(start,end,value);
+        tiles_.fillBox(start, end, value);
     }
     /*!
      * \brief This outlines a box in the Tilemap with the specifed value
@@ -153,10 +195,8 @@ public:
      */
     void outlineBox(const Vectoru& start, const Vectoru& end, unsigned value)
     {
-        tiles_.outlineBox(start,end,value);
+        tiles_.outlineBox(start, end, value);
     }
-
-    virtual void draw(Transform const& t) override;
 };
 
 } // tank

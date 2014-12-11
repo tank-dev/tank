@@ -28,15 +28,12 @@ World::~World()
 
 void World::insertEntity(std::unique_ptr<Entity>&& entity)
 {
-    if (not entity)
-    {
+    if (not entity) {
         throw std::runtime_error("Warning: You can't add a null entity.");
     }
 
     // Stops an entity being added several times
-
-    if (boost::find(entities_, entity) != std::end(entities_))
-    {
+    if (boost::find(entities_, entity) != std::end(entities_)) {
         throw std::invalid_argument("Entity already added");
     }
 
@@ -47,58 +44,66 @@ void World::insertEntity(std::unique_ptr<Entity>&& entity)
 
 void World::moveEntity(observing_ptr<World> world, observing_ptr<Entity> entity)
 {
-    if (not entity)
-    {
+    if (not entity) {
         Game::log << "Warning: attempted to move null entity." << std::endl;
         return;
     }
 
-    if (not world)
-    {
+    if (not world) {
         Game::log << "Warning: attempted to move entity to null world."
                   << std::endl;
         return;
     }
 
-    if (entity->isRemoved())
-    {
+    // REVIEW: Shouldn't you warn somehow that you haven't actually moved
+    //         this entity? AFAICT this is just aborting if the entity was
+    //         going to be deleted this frame but won't attempt the move again?
+    //
+    // Response: if there are various events that could trigger an entity
+    //           moving, and this coincides with an entity being removed, it's
+    //           unlikely you want the entity to persist. It
+    //           would be unpleasant to warn about this in an obstreperous
+    //           manner. Could log to log.txt though.
+    //           How could it attempt to move it again if it's been deleted?
+    if (entity->isRemoved()) {
         // Don't let an entity escape deletion
         return;
     }
 
     toMove_.emplace_back(world, entity);
 
-    if(not updating_)
-    {
+    // REVIEW: Ok so here's where updating_ is being checked!
+    //         But, is this actually necessary? moveEntities() is going to get
+    //         called at the end of a frame anyway...
+    //
+    // Response: Maybe not. Should look at this a bit more later.
+    if (!updating_) {
         moveEntities();
     }
 }
 
 std::unique_ptr<Entity> World::releaseEntity(observing_ptr<Entity> entity)
 {
-    auto it = boost::range::find_if(entities_,
-        [&entity](std::unique_ptr<Entity>& ent)
-        {
-            return entity == ent.get();
-        }
-    );
+    auto iter = boost::find(entities_, entity);
 
-    if (it == end(entities_))
-    {
+    // REVIEW: Shouldn't this throw an exception?
+    //         (Possibly std::invalid_argument)
+    if (iter == end(entities_)) {
         return nullptr;
     }
 
-    auto ent = std::move(*it);
-    entities_.erase(it);
+    auto ent = std::move(*iter);
+    entities_.erase(iter);
     ent->onRemoved();
     return ent;
 }
 
 void World::update()
 {
+    // REVIEW: What is this? It's not thread safe or exception safe.
     updating_ = true;
-    for (auto& entity : entities_)
-    {
+
+    for (auto& entity : entities_) {
         entity->update();
     }
 
@@ -110,15 +115,12 @@ void World::update()
 
 void World::draw()
 {
-    boost::range::stable_sort(entities_,
-                     [](std::unique_ptr<Entity> const& e1,
-                        std::unique_ptr<Entity> const& e2) {
+    boost::stable_sort(entities_, [](std::unique_ptr<Entity> const& e1,
+                                     std::unique_ptr<Entity> const& e2) {
         return e1->getLayer() < e2->getLayer();
     });
 
-
-    for (auto& entity : entities_)
-    {
+    for (auto& entity : entities_) {
         entity->draw(camera());
     }
 }
@@ -132,15 +134,13 @@ void World::addEntities()
 
 void World::moveEntities()
 {
-    while (not toMove_.empty())
-    {
+    while (!toMove_.empty()) {
         observing_ptr<World> world = std::get<0>(toMove_.back());
         observing_ptr<Entity> entity = std::get<1>(toMove_.back());
         toMove_.pop_back();
 
         std::unique_ptr<Entity> entPtr = releaseEntity(entity);
-        if (not entPtr.get())
-        {
+        if (!entPtr.get()) {
             Game::log << "Entity not found in move operation" << std::endl;
             continue;
         }
@@ -151,25 +151,21 @@ void World::moveEntities()
 
 void World::deleteEntities()
 {
-    boost::remove_erase_if(entities_,
-        [](const std::unique_ptr<Entity>& ent)
-        {
-            if (ent->isRemoved()) {
-                ent->onRemoved();
-                return true;
-            }
-            return false;
+    boost::remove_erase_if(entities_, [](const std::unique_ptr<Entity>& ent) {
+        if (ent->isRemoved()) {
+            ent->onRemoved();
+            return true;
         }
-    );
+        return false;
+    });
 }
 
-tank::observing_ptr<tank::EventHandler::Connection> World::connect(
-                                       EventHandler::Condition condition,
-                                       EventHandler::Effect effect)
+tank::observing_ptr<tank::EventHandler::Connection>
+        World::connect(EventHandler::Condition condition,
+                       EventHandler::Effect effect)
 {
-    auto cond = eventHandler_.connect(condition, effect);
+    auto cond = eventHandler.connect(condition, effect);
     connections_.push_back(std::move(cond));
     return connections_.back();
 }
-
 }

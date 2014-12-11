@@ -8,20 +8,21 @@
 #include "../System/World.hpp"
 #include "../System/Game.hpp"
 
-namespace tank {
+namespace tank
+{
 
-bool Mouse::stateChange_ {false};
+bool Mouse::stateChange_{false};
 Vectori Mouse::currentPos_;
 Vectori Mouse::lastPos_;
 // TODO: Could set this at Game::initialize?
-Vectori Mouse::lockPos_ {5,5};
-int Mouse::wheelDelta_ {};
-bool Mouse::hasEntered_ {false};
-bool Mouse::hasLeft_ {false};
-bool Mouse::visible_ {true};
-bool Mouse::locked_ {false};
-std::array<bool, Mouse::Button::ButtonCount> Mouse::currentState_ {};
-std::array<bool, Mouse::Button::ButtonCount> Mouse::lastState_ {};
+Vectori Mouse::lockPos_{5, 5};
+int Mouse::wheelDelta_{};
+bool Mouse::hasEntered_{false};
+bool Mouse::hasLeft_{false};
+bool Mouse::visible_{true};
+bool Mouse::locked_{false};
+std::array<bool, Mouse::Button::ButtonCount> Mouse::currentState_{};
+std::array<bool, Mouse::Button::ButtonCount> Mouse::lastState_{};
 
 tank::Vectord Mouse::getRelPos(observing_ptr<const Camera> c)
 {
@@ -29,8 +30,7 @@ tank::Vectord Mouse::getRelPos(observing_ptr<const Camera> c)
     auto const& cPos = c.getPos();
     const auto cRot = c.getRotation();
     auto const& cOgn = c.getOrigin();
-    auto const& cScale = c.getZoom();
-
+    auto const& cScale = c.getScale();
 
     tank::Vectord pos = getPos() - cOgn;
     pos = pos.rotate(cRot);
@@ -44,18 +44,40 @@ tank::Vectord Mouse::getRelPos(observing_ptr<const Camera> c)
     return c->getTransform()(getPos());
 }
 
-tank::Vectori Mouse::delta() { return currentPos_ - lastPos_; }
+tank::Vectori Mouse::delta()
+{
+    return currentPos_ - lastPos_;
+}
+
+bool Mouse::isButtonPressed()
+{
+    for (unsigned i = 0; i < currentState_.size(); ++i) {
+        if (currentState_[i] and not lastState_[i]) return true;
+    }
+    return false;
+}
 
 bool Mouse::isButtonPressed(Button button)
 {
     return currentState_[button] and not lastState_[button];
 }
 
+std::function<bool()> Mouse::ButtonPress()
+{
+    return [] { return isButtonPressed(); };
+}
+
 std::function<bool()> Mouse::ButtonPress(Button button)
 {
-    return [button] {
-        return isButtonPressed(button);
-    };
+    return [button] { return isButtonPressed(button); };
+}
+
+bool Mouse::isButtonReleased()
+{
+    for (unsigned i = 0; i < currentState_.size(); ++i) {
+        if (lastState_[i] and not currentState_[i]) return true;
+    }
+    return false;
 }
 
 bool Mouse::isButtonReleased(Button button)
@@ -63,11 +85,20 @@ bool Mouse::isButtonReleased(Button button)
     return lastState_[button] and not currentState_[button];
 }
 
+std::function<bool()> Mouse::ButtonRelease()
+{
+    return [] { return isButtonReleased(); };
+}
+
 std::function<bool()> Mouse::ButtonRelease(Button button)
 {
-    return [button] {
-        return isButtonReleased(button);
-    };
+    return [button] { return isButtonReleased(button); };
+}
+
+bool Mouse::isButtonDown()
+{
+    return std::any_of(currentState_.begin(), currentState_.end(),
+                       [](bool const& e) { return e; });
 }
 
 bool Mouse::isButtonDown(Button button)
@@ -75,11 +106,15 @@ bool Mouse::isButtonDown(Button button)
     return currentState_[button];
 }
 
+std::function<bool()> Mouse::ButtonDown()
+{
+    return [] { return isButtonDown(); };
+}
+
+
 std::function<bool()> Mouse::ButtonDown(Button button)
 {
-    return [button] {
-        return isButtonDown(button);
-    };
+    return [button] { return isButtonDown(button); };
 }
 
 bool Mouse::isButtonUp(Button button)
@@ -89,9 +124,7 @@ bool Mouse::isButtonUp(Button button)
 
 std::function<bool()> Mouse::ButtonUp(Button button)
 {
-    return [button] {
-        return isButtonUp(button);
-    };
+    return [button] { return isButtonUp(button); };
 }
 
 std::function<bool()> Mouse::MouseMovement()
@@ -104,40 +137,38 @@ std::function<bool()> Mouse::MouseMovement()
 
 std::function<bool()> Mouse::WheelUp()
 {
-    return [] {
-        return wheelDelta() > 0;
-    };
+    return [] { return wheelDelta() > 0; };
 }
 
 std::function<bool()> Mouse::WheelDown()
 {
-    return [] {
-        return wheelDelta() < 0;
-    };
+    return [] { return wheelDelta() < 0; };
 }
 std::function<bool()> Mouse::WheelMovement()
 {
-    return [] {
-        return wheelDelta() != 0;
-    };
+    return [] { return wheelDelta() != 0; };
+}
+
+bool Mouse::isInEntity(Entity const& e)
+{
+        auto mPos = getRelPos(e.getWorld()->camera());
+        const auto ePos = e.getPos();
+        auto const& hb = e.getHitbox();
+
+        const double left = hb.x + ePos.x;
+        const double right = left + hb.w;
+        const double top = hb.y + ePos.y;
+        const double bottom = top + hb.h;
+
+        return mPos.x>left and mPos.x<right and mPos.y>top and mPos.y<bottom;
 }
 
 std::function<bool()> Mouse::InEntity(Entity const& e)
 {
     return [&e] {
-        auto mPos = getRelPos(e.getWorld()->camera().get());
-        auto ePos = e.getPos();
-        auto hb = e.getHitbox();
-        hb.x += ePos.x;
-        hb.w += ePos.x;
-        hb.y += ePos.y;
-        hb.h += ePos.y;
-
-        return mPos.x > hb.x and mPos.x < hb.w and
-               mPos.y > hb.y and mPos.y < hb.h;
+        return isInEntity(e);
     };
 }
-
 
 void Mouse::setButtonPressed(Button button)
 {
@@ -176,13 +207,14 @@ void Mouse::setEntered()
 
 void Mouse::reset()
 {
-    if (not stateChange_) return;
+    if (not stateChange_)
+        return;
 
     std::copy(currentState_.begin(), currentState_.end(), lastState_.begin());
 
-    if (locked_)
-    {
-        sf::Mouse::setPosition({lockPos_.x, lockPos_.y}, Game::window()->SFMLWindow());
+    if (locked_) {
+        sf::Mouse::setPosition({lockPos_.x, lockPos_.y},
+                               Game::window()->SFMLWindow());
         currentPos_ = lockPos_;
     }
 
@@ -199,5 +231,4 @@ void Mouse::setVisibility(bool visible)
     Game::window()->SFMLWindow().setMouseCursorVisible(visible);
     visible_ = visible;
 }
-
 }

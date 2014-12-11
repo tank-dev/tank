@@ -8,8 +8,10 @@
 
 #include <string>
 #include <memory>
+#include <SFML/Graphics/Image.hpp>
 #include <SFML/Graphics/Sprite.hpp>
 #include "../Utility/Vector.hpp"
+#include "Color.hpp"
 #include "Texture.hpp"
 #include "Graphic.hpp"
 
@@ -19,6 +21,7 @@ class Image : public Graphic
 {
     bool loaded_ {false};
     sf::Sprite sprite_;
+    std::shared_ptr<sf::Image> pixels_;
     std::shared_ptr<Texture> texture_ {nullptr};
 
 public:
@@ -26,43 +29,20 @@ public:
     Image(std::string file);
 
     void load(std::string file);
+    void loadFromFile(std::string file){return load(file);}
 
     virtual Vectorf getSize() const override
     {
         /*auto rect = getClip();
         return {rect.w, rect.h};*/
         auto rect = sprite_.getGlobalBounds();
-        return {rect.width, rect.height};
+        return tank::Vectorf{rect.width, rect.height};
     }
-
-    /*
-    virtual void setScale(float scale) override
-    {
-        sprite_.setScale(scale, scale);
-    }
-    virtual void setScale(Vectorf scale) override
-    {
-        sprite_.setScale(scale.x, scale.y);
-    }
-    virtual Vectorf getScale() const override
-    {
-        return {sprite_.getScale().x, sprite_.getScale().y};
-    }
-    */
 
     void setSize(Vectorf size);
 
-    /*!
-     * \brief This sets the clip rectangle by tiling the region and selecting
-     * the tile designated by index. It has an option of setting an additional
-     * clip within that area.
-     *
-     * \param dimensions The dimensions of the tile.
-     * \param index The index of the tile to select.
-     * \param clip An optional parameter for additional clipping within the
-     * designated area.
-     */
-    virtual void setClip(Vectoru dimensions, unsigned int index, Rectu clip = {0,0,0,0});
+    virtual void setClipByIndex(Vectoru dimensions, unsigned int index,
+                                Vectoru spacing = {}, Rectu subClip = {});
 
     /*!
      * \brief Sets the clip rectangle of the image
@@ -76,6 +56,7 @@ public:
                                 static_cast<int>(clip.w),
                                 static_cast<int>(clip.h)});
     }
+
     virtual Rectu getClip() const
     {
         auto clip = sprite_.getTextureRect();
@@ -87,10 +68,35 @@ public:
 
     virtual Vectoru getTextureSize() const
     {
-        return { texture_->getSize().x, texture_->getSize().y };
+        return {texture_->getSize().x, texture_->getSize().y};
     }
 
     virtual void draw(Transform const& t) override;
+
+    // Texture editing functions
+
+    Color getPixel(Vectoru coordinates);
+    void  setPixel(Vectoru coordinates, Color);
+    /*! 
+     * \brief Copies the current texture in memory
+     */
+    void makeUnique();
+
+    /*!
+     * \brief Change a specified color in the image
+     *
+     * \param target The color to change
+     * \param fill The color to set it to
+     */
+    void fillColor(Color target, Color fill);
+
+    /*!
+     * \brief Change a specified color's opacity in the image
+     *
+     * \param target The color to change
+     * \param alpha The desired alpha value (0 = transparent)
+     */
+    void setColorAlpha(Color target, uint8_t alpha = 0);
 };
 
 }

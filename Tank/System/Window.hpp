@@ -7,34 +7,50 @@
 #define TANK_WINDOW_HPP
 
 #include <SFML/Graphics/RenderWindow.hpp>
-#include <SFML/Graphics/Color.hpp>
+#include "../Graphics/Color.hpp"
 #include "../Utility/Vector.hpp"
 
-namespace sf
-{
-    class Event;
+namespace sf {
+class Event;
 }
 
 namespace tank {
 
 class Window
 {
+    sf::RenderWindow window_;
+    std::string caption_;
+    Vector<unsigned int> size_;
+
+    // Is this window instance the current window?
+    bool valid_;
+
+    Color backgroundColor_;
+
+    // Unfortunately we can only have one window right now
+    static bool windowExists_;
+
 public:
-    Window(Vector<unsigned int> const& size, std::string caption = "");
+    Window(Vector<unsigned int> size, std::string caption = "");
+    Window(Window const&) = delete;
+    Window& operator=(Window const&) = delete;
     virtual ~Window();
 
-    virtual Vector<unsigned int> const& getSize();
+    virtual Vector<unsigned int> getSize();
     virtual std::string getCaption();
 
     virtual void flipDisplay();
 
-    virtual sf::RenderWindow& SFMLWindow() { return window_; }
+    virtual sf::RenderWindow& SFMLWindow()
+    {
+        return window_;
+    }
 
-    virtual void resize(Vector<unsigned int> const& size);
+    virtual void setSize(Vectoru size);
     virtual void setCaption(std::string caption);
 
-    virtual void setBackgroundColor(float r, float g, float b,
-                                    float a = 1.f);
+    virtual void setBackgroundColor(Color c) { backgroundColor_ = c; }
+    virtual void setBackgroundColor(float r, float g, float b, float a = 1.f);
 
     /*!
      * \brief SFML-specific polling code (temporary)
@@ -45,20 +61,7 @@ public:
      * \brief Not implemented
      */
     virtual void setIcon(std::string path);
-private:
-    sf::RenderWindow window_;
-    std::string caption_;
-    Vector<unsigned int> size_;
-
-    //Is this window instance the current window?
-    bool valid_;
-
-    sf::Color backgroundColor_;
-
-    //Unfortunately we can only have one window right now
-    static bool windowExists_;
 };
-
 }
 
 #endif /* WINDOW_H */

@@ -9,52 +9,50 @@
 namespace tank {
 
 RectangleShape::RectangleShape(Vectorf size)
-    : Shape()
-    , rectangleShape_({size.x, size.y})
+    : shape_({size.x, size.y})
 {
 }
 
-void RectangleShape::setFillColor(Color c)
+void RectangleShape::setOpacity(uint8_t a)
 {
-    rectangleShape_.setFillColor(c);
-}
-void RectangleShape::setOutlineColor(Color c)
-{
-    rectangleShape_.setOutlineColor(c);
-}
-void RectangleShape::setOutlineThickness(float thickness)
-{
-    rectangleShape_.setOutlineThickness(thickness);
-}
-Color const& RectangleShape::getFillColor() const
-{
-    return rectangleShape_.getFillColor();
-}
-Color const& RectangleShape::getOutlineColor() const
-{
-    return rectangleShape_.getOutlineColor();
-}
-float RectangleShape::getOutlineThickness() const
-{
-    return rectangleShape_.getOutlineThickness();
+    setFillOpacity(a);
+    setOutlineOpacity(a);
 }
 
+void RectangleShape::setFillOpacity(uint8_t a)
+{
+    auto fill = shape_.getFillColor();
+    fill.a = a;
+    shape_.setFillColor(fill);
+}
+
+void RectangleShape::setOutlineOpacity(uint8_t a)
+{
+    auto outline = shape_.getOutlineColor();
+    outline.a = a;
+    shape_.setOutlineColor(outline);
+}
+
+RectangleShape::RectangleShape(Rectf rect)
+    : shape_({rect.w, rect.h})
+{
+    setPos({rect.x,rect.y});
+}
 void RectangleShape::setSize(Vectorf size)
 {
-    rectangleShape_.setSize({size.x, size.y});
+    shape_.setSize({size.x, size.y});
 }
 
 Vectorf RectangleShape::getSize() const
 {
-    auto rect = rectangleShape_.getGlobalBounds();
+    auto rect = shape_.getGlobalBounds();
     return {rect.width, rect.height};
 }
 
 void RectangleShape::draw(Transform const& t)
 {
-    t.transform(rectangleShape_);
-    Game::window()->SFMLWindow().draw(rectangleShape_);
+    t.transform(shape_);
+    Game::window()->SFMLWindow().draw(shape_);
 }
-
 
 }

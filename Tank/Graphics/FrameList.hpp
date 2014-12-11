@@ -22,7 +22,7 @@ namespace tank
  * \brief Represents an image with multiple frames and stores animations for
  * that image.
  */
-class FrameList final : public Image
+class FrameList final : public Graphic
 {
     struct Animation
     {
@@ -31,26 +31,29 @@ class FrameList final : public Image
         std::chrono::milliseconds time;
     };
 
+    Image image_;
+    Vectoru frameDimensions_ {0, 0};
+    Vectoru spacing_ {};
+    Rectu subClip_ {};
     Animation* currentAnimation_ {nullptr};
     unsigned int currentFrame_ {0};
     Timer animTimer_;
     bool loop_ {false};
-    Vectoru frameDimensions_ {0, 0};
-    Rectu clipRect_ {0,0,0,0};
-    /*!
-     * \brief This is called when an animation finishes
-     */
-    std::function<void()> callback_ = []{};
-    std::vector<Animation>  animations_;
+    std::vector<Animation> animations_;
+
+    std::function<void()> callback_ = [] {};
 
 public:
     FrameList() = default;
     /*!
      * \brief Construct an Animation with a Texture.
-     * \param file the file to load the texture from.
-     * \param frameDims size of each image in the Texture.
+     * \param t Image to give the animation.
+     * \param frameDimensions size of each image in the Texture.
      */
-    FrameList(std::string file, Vector<unsigned int> frameDimensions);
+    FrameList(Image const&,
+              Vectoru frameDimensions,
+              Vectoru spacing = {},
+              Rectu subClip = {});
 
     /*!
      * \brief Add an animation
@@ -80,12 +83,23 @@ public:
      * \param callback A function to be called when the animation finishes.
      */
     void select(std::string name, bool loop = true,
-                std::function<void()> callback = []{});
+                std::function<void()> callback = [] {});
 
     /*!
      * \brief Update the animation to the current frame. Called by draw
      */
     void refresh();
+
+    // We are not overriding draw(Transform) as at that point there is no way
+    // to call refresh
+    /*!
+     * \brief Draw the animation.
+     *
+     * Trying to draw an animation without a texture will crash the game!
+     *
+     * \param pos Position at which to draw the texture.
+     */
+    virtual void draw(observing_ptr<const Camera> cam = nullptr) override;
 
     /*!
      * \brief Start the animation
@@ -117,61 +131,51 @@ public:
     }
     std::string currentAnimation()
     {
-        if (not playing())
-        {
+        if (not playing()) {
             return "";
         }
         return currentAnimation_->name;
     }
 
     /*!
-     * \brief Set the dimensions of the image in the texture.
-     *
-     * \param frameDims the dimensions of each image in the texture.
+     * \brief Set the texture of the FrameList.
+     * \param image the Texture to set.
+     * \param frameDimensions the dimensions of the sprite to animate
      */
-    void setFrameDimensions(Vectoru frameDims)
-    {
-        frameDimensions_ = frameDims;
-    }
+    void setImage(Image const& image,
+                  Vectoru frameDimensions,
+                  Vectoru spacing = {},
+                  Rectu subClip = {});
+
+    virtual void setPos(Vectorf pos) { image_.setPos(pos); }
+    virtual Vectorf getPos() const { return image_.getPos(); }
+    virtual void setRotation(float angle) { image_.setRotation(angle); }
+    virtual float getRotation() const { return image_.getRotation(); }
+    void setClip(Rectu clip) { image_.setClip(clip); }
+    Rectu getClip() const { return image_.getClip(); }
+    void setOrigin(Vectorf origin) { image_.setOrigin(origin); }
+    Vectorf getOrigin() const { return image_.getOrigin(); }
+    void setSize(Vectorf size) { image_.setSize(size); }
+    Vectorf getSize() const override { return image_.getSize(); }
+
 
     Vectoru getFrameDimensions() const { return frameDimensions_; }
-
-    /*!
-     * \brief This sets the clip rectangle by tiling the region and selecting
-     * the tile designated by index. It has an option of setting an additional
-     * clip within that area.
-     *
-     * \param dimensions The dimensions of the tile.
-     * \param index The index of the tile to select.
-     * \param clip An optional parameter for additional clipping within the
-     * designated area.
-     */
-    virtual void setClip(Vectoru dimensions, unsigned int index, Rectu clip = {0,0,0,0}) override;
-
-    /*!
-     * \brief Sets the clip rectangle of the image
-     *
-     * \param clip The rectangle to clip the image to
-     */
-    virtual void setClip(Rectu clip) override
+    virtual void setScale(float scale) 
     {
-        clipRect_ = clip;
+        image_.setScale(scale);
     }
-    virtual Rectu getClip() const
+    virtual void setScale(Vectorf scale)
     {
-        return clipRect_;
+        image_.setScale(scale);
     }
-
-    // We are not overriding draw(Transform) as at that point there is no way
-    // to call refresh
-    /*!
-     * \brief Draw the animation.
-     *
-     * Trying to draw an animation without a texture will crash the game!
-     *
-     * \param pos Position at which to draw the texture.
-     */
-    virtual void draw(observing_ptr<const Camera> cam = nullptr) override;
+    virtual Vectorf getScale() const
+    {
+        return image_.getScale();
+    }
+    virtual Vectoru getTextureSize() const
+    {
+        return image_.getTextureSize();
+    }
 };
 
 // TODO: Use enum to specify image format

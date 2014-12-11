@@ -21,7 +21,7 @@ class BitmapText final : public Graphic
     char asciiOffset_;
     unsigned int rowWidth_;
     Rectu clip_;
-    std::string text_ {""};
+    std::string text_;
 
 public:
     BitmapText(Image const& font, Vectoru glyphDimensions,

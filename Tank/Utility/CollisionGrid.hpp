@@ -29,39 +29,42 @@ class CollisionGrid : public Grid<bool>
             float costSoFar) const;
 
 public:
-    CollisionGrid(const Vectoru& dims);
-    CollisionGrid(const Vectoru& dims, bool intialValue);
+    CollisionGrid(const Vectoru& dims) : Grid(dims) {}
+    CollisionGrid(const Vectoru& dims, bool initialValue) : Grid(dims, initialValue) {}
 
-    template<typename T>
+    template <typename T>
     CollisionGrid(const Grid<T>& g, const std::unordered_set<T>& collidable);
 
-    template<typename T>
-    void loadFromGrid(const Grid<T>& g, const std::unordered_set<T>& collidable);
+    template <typename T>
+    void loadFromGrid(const Grid<T>& g,
+                      const std::unordered_set<T>& collidable);
 
-    std::vector<Vectoru> getPath(const Vectoru& start, const Vectoru& end) const;
+    std::vector<Vectoru> getPath(const Vectoru& start,
+                                 const Vectoru& end) const;
 
     float pathHeuristic(const Vectorf& start, const Vectorf& end) const;
     float getCost(const Vectorf& start, const Vectorf& end) const;
 };
 
-template<typename T>
-CollisionGrid::CollisionGrid(const Grid<T>& g, const std::unordered_set<T>& collidable)
-    : Grid(g.getDimensions())
+template <typename T>
+CollisionGrid::CollisionGrid(const Grid<T>& g,
+                             const std::unordered_set<T>& collidable)
+        : Grid(g.getDimensions())
 {
     loadFromGrid(g, collidable);
 }
 
-template<typename T>
-void CollisionGrid::loadFromGrid(const Grid<T>& g, const std::unordered_set<T>& collidable)
+template <typename T>
+void CollisionGrid::loadFromGrid(const Grid<T>& g,
+                                 const std::unordered_set<T>& collidable)
 {
-    if (getDimensions() != g.getDimensions())
-    {
-        throw std::out_of_range("The grid must be the same size as the collision grid.");
+    if (getDimensions() != g.getDimensions()) {
+        throw std::out_of_range(
+                "The grid must be the same size as the collision grid.");
     }
 
     size_t size = getWidth() * getHeight();
-    for (size_t i = 0; i < size; ++i)
-    {
+    for (size_t i = 0; i < size; ++i) {
         operator[](i) = collidable.find(g[i]) == collidable.end();
     }
 }
@@ -76,23 +79,23 @@ inline void CollisionGrid::checkDirection(
 {
     Vectoru checkPoint = point + direction;
     // check that the point isn't closed and we can travel through
-    if (closed.find(checkPoint) == closed.end() and operator[](checkPoint))
-    {
+    if (closed.find(checkPoint) == closed.end() and operator[](checkPoint)) {
         float newCostSoFar = costSoFar + getCost(point, checkPoint);
         // Add the point to the open points
         auto pre = cameFrom.find(checkPoint);
-        if (pre == cameFrom.end())
-        {
+        if (pre == cameFrom.end()) {
             // If we don't already have a path for the point add one
-            cameFrom.insert(std::make_pair(checkPoint, std::make_pair(point, newCostSoFar)));
-            open.insert(std::make_pair(newCostSoFar + pathHeuristic(checkPoint, end), checkPoint));
-        }
-        else if (pre->second.second >= newCostSoFar)
-        {
-            // If the new path is shorter than the previously found path replace it
+            cameFrom.insert(std::make_pair(
+                    checkPoint, std::make_pair(point, newCostSoFar)));
+            open.insert(std::make_pair(
+                    newCostSoFar + pathHeuristic(checkPoint, end), checkPoint));
+        } else if (pre->second.second >= newCostSoFar) {
+            // If the new path is shorter than the previously found path replace
+            // it
             pre->second.first = point;
             pre->second.second = newCostSoFar;
-            open.insert(std::make_pair(newCostSoFar + pathHeuristic(checkPoint, end), checkPoint));
+            open.insert(std::make_pair(
+                    newCostSoFar + pathHeuristic(checkPoint, end), checkPoint));
         }
     }
 };

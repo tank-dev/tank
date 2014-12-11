@@ -13,10 +13,11 @@
 
 namespace sf
 {
-    class Transformable;
+class Transformable;
 }
 
-namespace tank {
+namespace tank
+{
 
 class Graphic : public CoordinateFrame
 {
@@ -31,7 +32,7 @@ public:
     {
         return visible_;
     }
-    void setVisibile(bool visibile)
+    void setVisible(bool visibile)
     {
         visible_ = visibile;
     }
@@ -50,7 +51,7 @@ public:
 
     void centreOrigin()
     {
-        setOrigin(getSize()/2);
+        setOrigin(getSize() / 2);
     }
 
     /*!

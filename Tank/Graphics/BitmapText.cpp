@@ -5,22 +5,22 @@
 
 #include "BitmapText.hpp"
 
-#include  <cmath>
-#include  <iostream>
+#include <cmath>
+#include <iostream>
 
 namespace tank
 {
 
 BitmapText::BitmapText(Image const& font, Vectoru glyphDimensions,
                        char asciiOffset, unsigned int rowWidth)
-    : font_(font)
-    , glyphDims_(glyphDimensions)
-    , asciiOffset_(asciiOffset)
-    , rowWidth_(rowWidth)
-    , clip_({0, 0, glyphDims_.x, glyphDims_.y})
+        : font_(font)
+        , glyphDims_(glyphDimensions)
+        , asciiOffset_(asciiOffset)
+        , rowWidth_(rowWidth)
+        , clip_({0, 0, glyphDims_.x, glyphDims_.y})
 {
     font_.setClip(clip_);
-    //font_.setSize(glyphDims_);
+    // font_.setSize(glyphDims_);
 }
 
 void BitmapText::setGlyphSize(Vectorf size)
@@ -44,10 +44,10 @@ Vectorf BitmapText::getSize() const
 
 void BitmapText::draw(Transform const& t)
 {
-    for (unsigned int stringIndex = 0; text_[stringIndex] != '\0'; ++stringIndex)
-    {
-        unsigned int clipIndex = static_cast<unsigned int>(text_[stringIndex]
-                                                           - asciiOffset_);
+    for (std::size_t stringIndex = 0; text_[stringIndex] != '\0';
+         ++stringIndex) {
+        auto clipIndex =
+                static_cast<unsigned int>(text_[stringIndex] - asciiOffset_);
         clip_.x = (clipIndex % rowWidth_) * glyphDims_.x;
         clip_.y = (clipIndex / rowWidth_) * glyphDims_.y;
 
