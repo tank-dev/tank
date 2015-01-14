@@ -10,6 +10,11 @@
         <meta name="generator" content="Doxygen $doxygenversion"/>
 
         <script type="text/javascript" src="jquery-2.1.3.min.js"></script>
+        <script>
+          $(function(){
+            $("td.memSeparator").remove();
+          })
+        </script>
 
         <!--BEGIN PROJECT_NAME--><title>$projectname: $title</title><!--END PROJECT_NAME-->
         <!--BEGIN !PROJECT_NAME--><title>$title</title><!--END !PROJECT_NAME-->

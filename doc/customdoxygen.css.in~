@@ -253,3 +253,6 @@ blockquote {
     padding: 0 12px 0 16px;
 }
 
+td.memSeparator {
+    display: none !important;
+}

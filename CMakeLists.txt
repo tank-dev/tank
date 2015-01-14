@@ -50,7 +50,7 @@ find_package(Doxygen)
 if(DOXYGEN_FOUND)
     configure_file(${CMAKE_CURRENT_SOURCE_DIR}/doc/Doxyfile.in
         ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile @ONLY)
-    configure_file(${CMAKE_CURRENT_SOURCE_DIR}/doc/doxygen.css.in
+    configure_file(${CMAKE_CURRENT_SOURCE_DIR}/doc/customdoxygen.css.in
       ${CMAKE_CURRENT_BINARY_DIR}/doxygen.css)
     configure_file(${CMAKE_CURRENT_SOURCE_DIR}/doc/header.html.in
       ${CMAKE_CURRENT_BINARY_DIR}/header.html)
