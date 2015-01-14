@@ -1207,7 +1207,7 @@ USE_MATHJAX            = NO
 # SVG. The default value is HTML-CSS, which is slower, but has the best 
 # compatibility.
 
-MATHJAX_FORMAT         = HTML-CSS
+MATHJAX_FORMAT         = SVG
 
 # When MathJax is enabled you need to specify the location relative to the 
 # HTML output directory using the MATHJAX_RELPATH option. The destination 
@@ -1830,7 +1830,7 @@ DOT_IMAGE_FORMAT       = svg
 # need to set HTML_FILE_EXTENSION to xhtml in order to make the SVG files 
 # visible. Older versions of IE do not have SVG support.
 
-INTERACTIVE_SVG        = YES
+INTERACTIVE_SVG        = NO
 
 # The tag DOT_PATH can be used to specify the path where the dot tool can be 
 # found. If left blank, it is assumed the dot tool can be found in the path.
