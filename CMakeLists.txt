@@ -50,8 +50,23 @@ find_package(Doxygen)
 if(DOXYGEN_FOUND)
     configure_file(${CMAKE_CURRENT_SOURCE_DIR}/doc/Doxyfile.in
         ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile @ONLY)
+    configure_file(${CMAKE_CURRENT_SOURCE_DIR}/doc/doxygen.css.in
+      ${CMAKE_CURRENT_BINARY_DIR}/doxygen.css)
+    configure_file(${CMAKE_CURRENT_SOURCE_DIR}/doc/header.html.in
+      ${CMAKE_CURRENT_BINARY_DIR}/header.html)
+    configure_file(${CMAKE_CURRENT_SOURCE_DIR}/doc/footer.html.in
+      ${CMAKE_CURRENT_BINARY_DIR}/footer.html)
     add_custom_target(doc
         ${DOXYGEN_EXECUTABLE} ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile
+        COMMAND ${CMAKE_COMMAND} -E copy_directory
+            ${CMAKE_CURRENT_SOURCE_DIR}/doc/bootstrap3
+            ${CMAKE_CURRENT_BINARY_DIR}/doc/html/bootstrap3
+        COMMAND ${CMAKE_COMMAND} -E copy
+            ${CMAKE_CURRENT_SOURCE_DIR}/doc/jquery-2.1.3.min.js
+            ${CMAKE_CURRENT_BINARY_DIR}/doc/html
+        COMMAND ${CMAKE_COMMAND} -E copy
+            ${CMAKE_CURRENT_SOURCE_DIR}/doc/doxy-boot.js
+            ${CMAKE_CURRENT_BINARY_DIR}/doc/html
         WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
         COMMENT "Generating API documentation" VERBATIM
     )
