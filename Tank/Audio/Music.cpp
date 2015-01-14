@@ -26,16 +26,28 @@ bool Music::load(std::string fileName)
 
 void Music::play()
 {
-    music_->play();
+    if (music_) {
+        music_->play();
+    } else {
+        Game::log << "Attempt to play empty music" << std::endl;
+    }
 }
 
 void Music::pause()
 {
-    music_->pause();
+    if (music_) {
+        music_->pause();
+    } else {
+        Game::log << "Attempt to pause empty music" << std::endl;
+    }
 }
 
 void Music::stop()
 {
-    music_->stop();
+    if (music_) {
+        music_->stop();
+    } else {
+        Game::log << "Attempt to stop empty music" << std::endl;
+    }
 }
 }
