@@ -11,7 +11,7 @@
 
 namespace sf
 {
-    class Transformable;
+class Transformable;
 }
 
 namespace tank
@@ -25,24 +25,19 @@ namespace tank
  * A scale compenent is also included but this is strictly for working with
  * graphics and full affine transformations aren't supported.
  */
-struct Transform
-{
+struct Transform {
     // Order of operations on vector x is O(Z(R(x))), Z-zoom, O-position,
     // R-rotation
-    Vectorf position = {0.0f,0.0f};
+    Vectorf position = {0.0f, 0.0f};
     float rotation = 0.0f;
-    Vectorf origin = {0.0f,0.0f};
+    Vectorf origin = {0.0f, 0.0f};
     Vectorf scale = {1.0f, 1.0f};
 
-    Transform(Vectorf position = {},
-              float rotation = 0,
-              Vectorf origin = {}, 
-              Vectorf scale = {1.f,1.f})
-        : position(position)
-        , rotation(rotation)
-        , origin(origin)
-        , scale(scale)
-    {}
+    Transform(Vectorf position = {}, float rotation = 0, Vectorf origin = {},
+              Vectorf scale = {1.f, 1.f})
+        : position(position), rotation(rotation), origin(origin), scale(scale)
+    {
+    }
     Transform(Transform const&) = default;
     Transform& operator=(Transform const&) = default;
 

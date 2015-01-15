@@ -14,7 +14,7 @@ namespace tank
 bool Window::windowExists_ = false;
 
 Window::Window(Vector<unsigned int> size, std::string caption)
-        : caption_(caption), size_(size), valid_(false)
+    : caption_(caption), size_(size), valid_(false)
 {
     if (!windowExists_) {
         valid_ = true;

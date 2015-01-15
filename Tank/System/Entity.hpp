@@ -69,9 +69,7 @@ public:
     /*!
      * \brief Run entity's per-frame game logic
      */
-    virtual void update()
-    {
-    }
+    virtual void update() {}
 
     /*!
      * \brief Render the entity
@@ -91,8 +89,7 @@ public:
      * \see setType()
      */
     std::vector<observing_ptr<Entity>>
-            collide(std::vector<std::string> const& types =
-                            std::vector<std::string>{});
+    collide(std::vector<std::string> const& types = std::vector<std::string>{});
 
     std::vector<observing_ptr<Entity>> collide(std::string const& type)
     {
@@ -108,24 +105,15 @@ public:
      *
      * \return Entity's hitbox
      */
-    Rectd const& getHitbox() const
-    {
-        return hitbox_;
-    }
+    Rectd const& getHitbox() const { return hitbox_; }
 
-    std::string const& getType(unsigned i = 0) const
-    {
-        return types_[i];
-    }
+    std::string const& getType(unsigned i = 0) const { return types_[i]; }
     /*!
      * \brief Returns the entity's types
      *
      * \return A list of the entity's types
      */
-    std::vector<std::string> const& getTypes() const
-    {
-        return types_;
-    }
+    std::vector<std::string> const& getTypes() const { return types_; }
 
     bool isType(std::string const& type) const
     {
@@ -137,10 +125,7 @@ public:
      *
      * \return Entity's z-layer
      */
-    int getLayer() const
-    {
-        return layer_;
-    }
+    int getLayer() const { return layer_; }
 
     /*!
      * \brief Returns a Graphic from the Entity's graphic list
@@ -170,7 +155,7 @@ public:
     {
         if (world_ == nullptr) {
             throw std::runtime_error(
-                    "Entity World pointer is null (try Entity::onAdded)");
+                "Entity World pointer is null (try Entity::onAdded)");
         }
         return world_;
     }
@@ -180,10 +165,7 @@ public:
      *
      * \return Entity ID
      */
-    int getActorID() const
-    {
-        return actorID_;
-    }
+    int getActorID() const { return actorID_; }
 
     /*!
      * \brief Moves the entity pixel by pixel while cond is false
@@ -220,10 +202,7 @@ public:
      */
     void addType(std::string const& type);
 
-    void removeType(std::string const& s)
-    {
-        boost::remove_erase(types_, s);
-    }
+    void removeType(std::string const& s) { boost::remove_erase(types_, s); }
 
     /*!
      * \brief Sets the entity's z-layer
@@ -267,32 +246,22 @@ public:
     /*!
      * \brief Remove the entity from the world.
      */
-    void remove()
-    {
-        removed_ = true;
-    }
+    void remove() { removed_ = true; }
 
     /*!
      * \return if the entity has been removed.
      */
-    bool isRemoved()
-    {
-        return removed_;
-    }
+    bool isRemoved() { return removed_; }
 
     /*!
      * \brief Called when the entitiy is added to a World
      */
-    virtual void onAdded()
-    {
-    }
+    virtual void onAdded() {}
 
     /*!
      * \brief Called when the entity is removed from a World
      */
-    virtual void onRemoved()
-    {
-    }
+    virtual void onRemoved() {}
 
     /*!
      * \brief Determine if entity is off the screen.
@@ -332,7 +301,7 @@ public:
     }
 
     static std::function<bool()>
-            partOffScreen(const tank::observing_ptr<Entity> e)
+    partOffScreen(const tank::observing_ptr<Entity> e)
     {
         return [e] { return e->partOffScreen(); };
     }
@@ -340,39 +309,33 @@ public:
     /*!
      * \brief Virtal destructor for Entity.
      *
-     * NB: Any class intended to be used as a base class needs a virtual 
+     * NB: Any class intended to be used as a base class needs a virtual
      * destructor.
      */
     virtual ~Entity() = default;
 
     tank::observing_ptr<tank::EventHandler::Connection>
-            connect(tank::EventHandler::Condition condition,
-                    tank::EventHandler::Effect effect);
+    connect(tank::EventHandler::Condition condition,
+            tank::EventHandler::Effect effect);
 
     template <typename T, typename... Args>
     tank::observing_ptr<tank::EventHandler::Connection>
-            connect(tank::EventHandler::Condition condition,
-                    void (T::*effect)(Args...), T* ptr, Args&&... args);
+    connect(tank::EventHandler::Condition condition, void (T::*effect)(Args...),
+            T* ptr, Args&&... args);
 
     template <typename T, typename... Args>
     tank::observing_ptr<tank::EventHandler::Connection>
-            connect(tank::EventHandler::Condition condition,
-                    void (T::*effect)(Args...), Args&&... args);
+    connect(tank::EventHandler::Condition condition, void (T::*effect)(Args...),
+            Args&&... args);
 
-    void clearConnections()
-    {
-        connections_.clear();
-    }
+    void clearConnections() { connections_.clear(); }
 
     /*!
      * \brief Returns the number of entities (deprecated)
      *
      * \return The number of entities that have been constructed
      */
-    static int getNumEnts()
-    {
-        return numEnts_;
-    }
+    static int getNumEnts() { return numEnts_; }
 };
 
 template <typename T, typename... Args>
@@ -396,8 +359,8 @@ observing_ptr<T> Entity::makeGraphic(Args&&... args)
 
 template <typename T, typename... Args>
 tank::observing_ptr<tank::EventHandler::Connection>
-        Entity::connect(tank::EventHandler::Condition condition,
-                        void (T::*effect)(Args...), T* ptr, Args&&... args)
+Entity::connect(tank::EventHandler::Condition condition,
+                void (T::*effect)(Args...), T* ptr, Args&&... args)
 {
     return connect(condition,
                    std::bind(effect, ptr, std::forward<Args>(args)...));
@@ -405,8 +368,8 @@ tank::observing_ptr<tank::EventHandler::Connection>
 
 template <typename T, typename... Args>
 tank::observing_ptr<tank::EventHandler::Connection>
-        Entity::connect(tank::EventHandler::Condition condition,
-                        void (T::*effect)(Args...), Args&&... args)
+Entity::connect(tank::EventHandler::Condition condition,
+                void (T::*effect)(Args...), Args&&... args)
 {
     return connect(condition, std::bind(effect, static_cast<T*>(this),
                                         std::forward<Args>(args)...));

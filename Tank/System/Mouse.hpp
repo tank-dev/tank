@@ -34,16 +34,10 @@ class Mouse
 
 public:
     using Button = sf::Mouse::Button;
-    static tank::Vectori const& getPos()
-    {
-        return currentPos_;
-    }
+    static tank::Vectori const& getPos() { return currentPos_; }
     static tank::Vectord getRelPos(Camera const&);
     static tank::Vectori delta();
-    static int const& wheelDelta()
-    {
-        return wheelDelta_;
-    }
+    static int const& wheelDelta() { return wheelDelta_; }
 
     static bool isButtonPressed();
     static bool isButtonPressed(Button button);
@@ -89,36 +83,15 @@ public:
 
     static std::function<bool()> MouseMovement();
 
-    static bool isLocked()
-    {
-        return locked_;
-    }
-    static void setLock(bool lock)
-    {
-        locked_ = lock;
-    }
-    static void toggleLock()
-    {
-        setLock(!locked_);
-    }
-    static void setLockPosition(Vectorf pos)
-    {
-        lockPos_ = pos;
-    }
-    static Vectori const& getLockPosition()
-    {
-        return lockPos_;
-    }
+    static bool isLocked() { return locked_; }
+    static void setLock(bool lock) { locked_ = lock; }
+    static void toggleLock() { setLock(!locked_); }
+    static void setLockPosition(Vectorf pos) { lockPos_ = pos; }
+    static Vectori const& getLockPosition() { return lockPos_; }
 
-    static bool isVisible()
-    {
-        return visible_;
-    }
+    static bool isVisible() { return visible_; }
     static void setVisibility(bool);
-    static void toggleVisibility()
-    {
-        setVisibility(!visible_);
-    }
+    static void toggleVisibility() { setVisibility(!visible_); }
 
 private:
     static void setButtonPressed(Button);

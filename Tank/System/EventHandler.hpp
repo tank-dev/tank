@@ -47,7 +47,7 @@ private:
         Effect effect;
 
         ConnectedPair(Condition condition, Effect effect)
-                : uid{counter}, condition{condition}, effect{effect}
+            : uid{counter}, condition{condition}, effect{effect}
         {
             ++counter;
         }
@@ -100,7 +100,7 @@ public:
      *         auto& eh = getWorld().eventHandler;
      *         a = eh.connect(Kbd::KeyDown(Key::Left), moveLeft);
      *         b = eh.connect(Kbd::KeyDown(Key::Right), moveRight);
-     *         c = eh.connect(Kbd::KeyDown(Key::Space) || 
+     *         c = eh.connect(Kbd::KeyDown(Key::Space) ||
      *                        Kbd::KeyDown(Key::Enter),
      *                        jump);
      *     }
@@ -162,14 +162,11 @@ class EventHandler::Connection
 
 public:
     Connection(EventHandler& events, ConnectedPairList::iterator iterator)
-            : events(events), iterator(iterator)
+        : events(events), iterator(iterator)
     {
     }
 
-    ~Connection()
-    {
-        disconnect();
-    }
+    ~Connection() { disconnect(); }
 
     void disconnect()
     {
@@ -180,15 +177,9 @@ public:
         events.disconnect(*this);
     }
 
-    ConnectedPairList::iterator getIterator()
-    {
-        return iterator;
-    }
+    ConnectedPairList::iterator getIterator() { return iterator; }
 
-    bool isConnected() const
-    {
-        return connected;
-    }
+    bool isConnected() const { return connected; }
 };
 
 inline std::function<bool()> fnot(std::function<bool()> f)

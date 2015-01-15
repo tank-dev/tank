@@ -13,32 +13,33 @@
 #include <boost/range/algorithm_ext.hpp>
 #include <boost/range/numeric.hpp>
 
-namespace tank {
+namespace tank
+{
 
 template <typename T, typename GetCoordinates, typename Key = unsigned>
 class GeometricLookup
 {
     using coord_type = decltype(GetCoordinates{}(std::declval<T>()));
-    //FIXME: this is invariably void
+    // FIXME: this is invariably void
     using ordinate_type = decltype(std::get<1>(std::declval<coord_type>()));
     using map_type = std::multimap<Key, T>;
     static constexpr std::size_t depth = sizeof(Key) * 8 / 2;
 
     map_type contents_;
-    std::function<coord_type(T const&)> get_coordinates = GetCoordinates{};
+    std::function<coord_type(T const&) > get_coordinates = GetCoordinates{};
     const coord_type top_left;
     std::array<coord_type, depth> midpoints_;
 
 public:
-    using key_type               = Key;
-    using value_type             = T;
-    using size_type              = typename map_type::size_type;
-    using difference_type        = typename map_type::difference_type;
-    using reference              = value_type&;
-    using const_reference        = value_type const&;
-    using iterator               = typename map_type::iterator;
-    using const_iterator         = typename map_type::const_iterator;
-    using reverse_iterator       = typename map_type::reverse_iterator;
+    using key_type = Key;
+    using value_type = T;
+    using size_type = typename map_type::size_type;
+    using difference_type = typename map_type::difference_type;
+    using reference = value_type&;
+    using const_reference = value_type const&;
+    using iterator = typename map_type::iterator;
+    using const_iterator = typename map_type::const_iterator;
+    using reverse_iterator = typename map_type::reverse_iterator;
     using const_reverse_iterator = typename map_type::const_reverse_iterator;
     /*
     using allocator_type = Allocator;
@@ -46,8 +47,7 @@ public:
     using const_pointer = T const*;
     */
 
-    GeometricLookup(coord_type const& bottom_right)
-        : top_left(0,0)
+    GeometricLookup(coord_type const& bottom_right) : top_left(0, 0)
     {
         midpoints_ = gen_midpoints(this->top_left, bottom_right);
     }
@@ -65,33 +65,24 @@ public:
         // however, current impl prevents empty nodes
     }
 
-    std::size_t size() const
-    {
-        return contents_.size();
-    }
-    std::size_t max_size() const
-    {
-        return contents_.max_size();
-    }
+    std::size_t size() const { return contents_.size(); }
+    std::size_t max_size() const { return contents_.max_size(); }
 
-    void clear()
-    {
-        contents_.clear();
-    }
+    void clear() { contents_.clear(); }
 
     void insert(const_reference item)
     {
         key_type key = hash(get_coordinates(item));
-        contents_.emplace(key,item);
+        contents_.emplace(key, item);
     }
 
     void insert(value_type&& item)
     {
         key_type key = hash(get_coordinates(item));
-        contents_.emplace(key,std::move(item));
+        contents_.emplace(key, std::move(item));
     }
 
-    template <typename ...Args>
+    template <typename... Args>
     void emplace(Args&&... args)
     {
         // FIXME: this isn't actually emplacing and that might be nasty?
@@ -105,8 +96,8 @@ public:
     }
 
     std::vector<std::reference_wrapper<const value_type>>
-    within_region(coord_type const& top_left, coord_type const& bottom_right)
-    const
+    within_region(coord_type const& top_left,
+                  coord_type const& bottom_right) const
     {
         return within_region<const value_type>(top_left, bottom_right);
     }
@@ -117,18 +108,18 @@ public:
     }
     */
 
-    iterator begin()                        { return contents_.begin(); }
-    iterator begin() const                  { return cbegin(); }
-    iterator end()                          { return contents_.end(); }
-    iterator end() const                    { return cend(); }
-    const_iterator cbegin() const           { return contents_.cbegin(); }
-    const_iterator cend() const             { return contents_.cend(); }
-    reverse_iterator rbegin()               { return contents_.rbegin(); }
-    reverse_iterator rbegin() const         { return crbegin(); }
-    reverse_iterator rend()                 { return contents_.rend(); }
-    reverse_iterator rend() const           { return crend(); }
-    const_reverse_iterator crbegin() const  { return contents_.crbegin(); }
-    const_reverse_iterator crend() const    { return contents_.crend(); }
+    iterator begin() { return contents_.begin(); }
+    iterator begin() const { return cbegin(); }
+    iterator end() { return contents_.end(); }
+    iterator end() const { return cend(); }
+    const_iterator cbegin() const { return contents_.cbegin(); }
+    const_iterator cend() const { return contents_.cend(); }
+    reverse_iterator rbegin() { return contents_.rbegin(); }
+    reverse_iterator rbegin() const { return crbegin(); }
+    reverse_iterator rend() { return contents_.rend(); }
+    reverse_iterator rend() const { return crend(); }
+    const_reverse_iterator crbegin() const { return contents_.crbegin(); }
+    const_reverse_iterator crend() const { return contents_.crend(); }
 
 private:
     key_type hash(coord_type const& coords) const
@@ -151,8 +142,10 @@ private:
             const bool bitX = (x > midX);
             const bool bitY = (y > midY);
 
-            hash <<= 1; hash += bitX;
-            hash <<= 1; hash += bitY;
+            hash <<= 1;
+            hash += bitX;
+            hash <<= 1;
+            hash += bitY;
 
             x -= midX * bitX;
             y -= midY * bitY;
@@ -161,13 +154,13 @@ private:
         return hash;
     }
 
-    std::array<coord_type,depth>
-    gen_midpoints(coord_type const& p1, coord_type const& p2)
+    std::array<coord_type, depth> gen_midpoints(coord_type const& p1,
+                                                coord_type const& p2)
     {
         auto width = std::get<0>(p2) - std::get<0>(p1);
         auto height = std::get<1>(p2) - std::get<1>(p1);
 
-        std::array<coord_type,depth> result;
+        std::array<coord_type, depth> result;
         for (unsigned i = 0; i < depth; ++i) {
             width /= 2;
             height /= 2;
@@ -182,27 +175,28 @@ private:
     {
         auto outsideRegion = std::not1(Within{top_left, bottom_right});
         const auto begin = contents_.lower_bound(hash(top_left));
-        const auto end   = contents_.upper_bound(hash(bottom_right));
+        const auto end = contents_.upper_bound(hash(bottom_right));
         std::vector<std::reference_wrapper<value_type>> result;
 
         std::transform(begin, end, std::back_inserter(result),
-            std::mem_fn(&map_type::value_type::second));
-        boost::remove_erase_if(result, std::bind(outsideRegion,
-            std::bind(get_coordinates, std::placeholders::_1)));
+                       std::mem_fn(&map_type::value_type::second));
+        boost::remove_erase_if(
+            result, std::bind(outsideRegion, std::bind(get_coordinates,
+                                                       std::placeholders::_1)));
         return result;
     }
 
-    struct Within
-    {
+    struct Within {
         using argument_type = coord_type const&;
         coord_type top_left, bottom_right;
 
         Within(argument_type top_left, argument_type bottom_right)
-            : top_left(top_left)
-            , bottom_right(bottom_right)
-            {}
+            : top_left(top_left), bottom_right(bottom_right)
+        {
+        }
 
-        bool operator()(argument_type coord) const {
+        bool operator()(argument_type coord) const
+        {
             const auto top = std::get<1>(top_left);
             const auto left = std::get<0>(top_left);
             const auto bottom = std::get<1>(bottom_right);

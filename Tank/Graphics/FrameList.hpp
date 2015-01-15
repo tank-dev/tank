@@ -24,21 +24,20 @@ namespace tank
  */
 class FrameList final : public Graphic
 {
-    struct Animation
-    {
+    struct Animation {
         std::string name;
         std::vector<unsigned int> frameList;
         std::chrono::milliseconds time;
     };
 
     Image image_;
-    Vectoru frameDimensions_ {0, 0};
-    Vectoru spacing_ {};
-    Rectu subClip_ {};
-    Animation* currentAnimation_ {nullptr};
-    unsigned int currentFrame_ {0};
+    Vectoru frameDimensions_{0, 0};
+    Vectoru spacing_{};
+    Rectu subClip_{};
+    Animation* currentAnimation_{nullptr};
+    unsigned int currentFrame_{0};
     Timer animTimer_;
-    bool loop_ {false};
+    bool loop_{false};
     std::vector<Animation> animations_;
     std::function<void()> callback_ = [] {};
 
@@ -49,9 +48,7 @@ public:
      * \param t Image to give the animation.
      * \param frameDimensions size of each image in the Texture.
      */
-    FrameList(Image const&,
-              Vectoru frameDimensions,
-              Vectoru spacing = {},
+    FrameList(Image const&, Vectoru frameDimensions, Vectoru spacing = {},
               Rectu subClip = {});
 
     /*!
@@ -123,10 +120,7 @@ public:
     /*!
      * \return If the animation is playing.
      */
-    bool playing()
-    {
-        return currentAnimation_;
-    }
+    bool playing() { return currentAnimation_; }
     std::string currentAnimation()
     {
         if (not playing()) {
@@ -140,14 +134,15 @@ public:
      * \param image the Texture to set.
      * \param frameDimensions the dimensions of the sprite to animate
      */
-    void setImage(Image const& image,
-                  Vectoru frameDimensions,
-                  Vectoru spacing = {},
-                  Rectu subClip = {});
+    void setImage(Image const& image, Vectoru frameDimensions,
+                  Vectoru spacing = {}, Rectu subClip = {});
 
     virtual void setPos(Vectorf pos) { image_.setPos(pos); }
     virtual Vectorf getPos() const { return image_.getPos(); }
-    virtual bool isRelativeToParent() const override { return image_.isRelativeToParent(); }
+    virtual bool isRelativeToParent() const override
+    {
+        return image_.isRelativeToParent();
+    }
     virtual void setRotation(float angle) { image_.setRotation(angle); }
     virtual float getRotation() const { return image_.getRotation(); }
     void setClip(Rectu clip) { image_.setClip(clip); }
@@ -159,26 +154,14 @@ public:
 
 
     Vectoru getFrameDimensions() const { return frameDimensions_; }
-    virtual void setScale(float scale) override
-    {
-        image_.setScale(scale);
-    }
-    virtual void setScale(Vectorf scale) override
-    {
-        image_.setScale(scale);
-    }
-    virtual Vectorf getScale() const override
-    {
-        return image_.getScale();
-    }
+    virtual void setScale(float scale) override { image_.setScale(scale); }
+    virtual void setScale(Vectorf scale) override { image_.setScale(scale); }
+    virtual Vectorf getScale() const override { return image_.getScale(); }
     virtual void setRelativeToParent(bool relative) override
     {
         image_.setRelativeToParent(relative);
     }
-    virtual Vectoru getTextureSize() const
-    {
-        return image_.getTextureSize();
-    }
+    virtual Vectoru getTextureSize() const { return image_.getTextureSize(); }
 };
 
 // TODO: Use enum to specify image format

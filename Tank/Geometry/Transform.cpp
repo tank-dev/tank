@@ -20,8 +20,7 @@ void Transform::transform(sf::Transformable& t) const
 Vectorf Transform::operator()(Vectorf const& vec) const
 {
     Vectorf rot = vec.rotate(rotation);
-    return {scale.x * rot.x + position.x,
-            scale.y * rot.y + position.y};
+    return {scale.x * rot.x + position.x, scale.y * rot.y + position.y};
 }
 
 Transform Transform::operator()(Transform const& t) const
@@ -43,7 +42,9 @@ Transform Transform::operator()(Transform const& t) const
 Transform Transform::inverse() const
 {
     Vectorf pos = -position.rotate(-rotation);
-    return {{pos.x/scale.x, pos.y/scale.y}, -rotation, {1/scale.x, 1/scale.y}};
+    return {{pos.x / scale.x, pos.y / scale.y},
+            -rotation,
+            {1 / scale.x, 1 / scale.y}};
 }
 
 } // tank

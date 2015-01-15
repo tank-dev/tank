@@ -26,44 +26,26 @@ public:
     Text() = default;
     Text(const Text&) = default;
     explicit Text(const Font& f, unsigned size = 30, std::string text = "")
-            : text_(text, f, size)
+        : text_(text, f, size)
     {
     }
 
     ~Text() = default;
 
-    void setFont(const Font& f)
-    {
-        text_.setFont(f);
-    }
+    void setFont(const Font& f) { text_.setFont(f); }
 
-    void setFontSize(unsigned s)
-    {
-        text_.setCharacterSize(s);
-    }
-    unsigned getFontSize() const
-    {
-        return text_.getCharacterSize();
-    }
+    void setFontSize(unsigned s) { text_.setCharacterSize(s); }
+    unsigned getFontSize() const { return text_.getCharacterSize(); }
 
-    void setText(std::string s)
-    {
-        text_.setString(s);
-    }
-    std::string getText() const
-    {
-        return text_.getString();
-    }
+    void setText(std::string s) { text_.setString(s); }
+    std::string getText() const { return text_.getString(); }
 
     virtual Vectorf getSize() const
     {
         return {text_.getLocalBounds().width, text_.getLocalBounds().height};
     }
 
-    virtual void setColor(const Color& color)
-    {
-        text_.setColor(color);
-    }
+    virtual void setColor(const Color& color) { text_.setColor(color); }
 
     virtual void draw(Transform const& parent = {},
                       Camera const& = Camera()) override;

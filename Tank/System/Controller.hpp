@@ -69,10 +69,7 @@ public:
                                     double threshold = 0.05) const;
     std::function<bool()> AxisMoved(Axis axis, double threshold = 0.05) const;
 
-    bool isConnected() const
-    {
-        return connectedState_;
-    }
+    bool isConnected() const { return connectedState_; }
     std::function<bool()> Connected() const;
     std::function<bool()> Disconnected() const;
 
@@ -94,10 +91,7 @@ public:
 
 private:
     void reset();
-    void setStatus(bool connected)
-    {
-        connectedState_ = connected;
-    }
+    void setStatus(bool connected) { connectedState_ = connected; }
 };
 
 enum class Controller::Button {
@@ -132,7 +126,7 @@ class Controllers
 
 public:
     static std::vector<tank::observing_ptr<Controller>>
-            getConnectedControllers();
+    getConnectedControllers();
 
     static std::vector<Controller> const& getAllControllers();
 

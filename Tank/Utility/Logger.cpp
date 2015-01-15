@@ -17,10 +17,10 @@ void Logger::log(const std::string& s)
 }
 
 Logger::Logger(std::string file)
-        : std::ostream(&buf_)
-        , fileName_{file}
-        , logFile_{fileName_}
-        , buf_{[this](const std::string& s) { log(s); }}
+    : std::ostream(&buf_)
+    , fileName_{file}
+    , logFile_{fileName_}
+    , buf_{[this](const std::string& s) { log(s); }}
 {
     timer_.start();
     *this << "Log file created" << std::endl;

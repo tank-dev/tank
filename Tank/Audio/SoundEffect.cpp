@@ -26,7 +26,7 @@ bool SoundEffect::load(std::string fileName)
 }
 
 Vectorf SoundEffect::getPosition() const
-{ 
+{
     auto pos = sound_.getPosition();
     return {pos.x, pos.y};
 }

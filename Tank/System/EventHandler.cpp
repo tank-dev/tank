@@ -20,7 +20,7 @@ void EventHandler::propagate()
 }
 
 std::unique_ptr<EventHandler::Connection>
-        EventHandler::connect(Condition condition, Effect effect)
+EventHandler::connect(Condition condition, Effect effect)
 {
     auto iter = this->connections.emplace(condition, effect);
     return std::unique_ptr<Connection>(new Connection{*this, iter.first});

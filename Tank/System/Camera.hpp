@@ -18,7 +18,7 @@ public:
     Vectorf worldFromScreenCoords(Vectorf const& screenCoords)
     {
         Vectorf coords = (screenCoords - getOrigin()).rotate(-getRotation());
-        return  {coords.x / getScale().x, coords.y / getScale().y};
+        return {coords.x / getScale().x, coords.y / getScale().y};
     }
 
     Camera();

@@ -19,10 +19,7 @@ class CircleShape : public Shape
 public:
     CircleShape(float radius = 0);
 
-    void setRadius(float radius)
-    {
-        shape_.setRadius(radius);
-    }
+    void setRadius(float radius) { shape_.setRadius(radius); }
     virtual void setFillColor(Color colour) override
     {
         shape_.setFillColor(colour);
@@ -38,10 +35,7 @@ public:
     virtual void setOpacity(uint8_t) override;
     virtual void setFillOpacity(uint8_t) override;
     virtual void setOutlineOpacity(uint8_t) override;
-    float getRadius() const
-    {
-        return shape_.getRadius();
-    }
+    float getRadius() const { return shape_.getRadius(); }
     virtual Color const& getFillColor() const override
     {
         return shape_.getFillColor();

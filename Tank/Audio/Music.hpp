@@ -81,7 +81,7 @@ public:
     /*!
      * \brief See: Music::load()
      */
-    bool loadFromFile(std::string fileName) {return load(fileName);}
+    bool loadFromFile(std::string fileName) { return load(fileName); }
 
     /*!
      * \brief Play the contained music.
@@ -145,10 +145,7 @@ public:
      *
      * \return `true` if music is loaded, `false` otherwise.
      */
-    explicit operator bool()
-    {
-        return loaded_;
-    }
+    explicit operator bool() { return loaded_; }
 };
 }
 

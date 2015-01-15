@@ -19,14 +19,14 @@ namespace tank
 Logger Game::log{"log.txt"};
 std::stringstream Game::keystream;
 // TODO: allow variable framerate
-unsigned int Game::fps {60};
-bool Game::initialized_ {false};
-bool Game::run_ {false};
-bool Game::popWorld_ {false};
-observing_ptr<World> Game::currentWorld_ {nullptr};
-std::unique_ptr<Window> Game::window_ {nullptr};
+unsigned int Game::fps{60};
+bool Game::initialized_{false};
+bool Game::run_{false};
+bool Game::popWorld_{false};
+observing_ptr<World> Game::currentWorld_{nullptr};
+std::unique_ptr<Window> Game::window_{nullptr};
 std::stack<std::unique_ptr<World>> Game::worlds_;
-std::unique_ptr<World> Game::newWorld_ {nullptr};
+std::unique_ptr<World> Game::newWorld_{nullptr};
 // Timer Game::frameTimer_;
 
 /* ---------------------------- *
@@ -121,12 +121,8 @@ void Game::handleEvents()
         case sf::Event::MouseWheelMoved:
             Mouse::setWheelDelta(event.mouseWheel.delta);
             break;
-        case sf::Event::MouseLeft:
-            Mouse::setLeft();
-            break;
-        case sf::Event::MouseEntered:
-            Mouse::setEntered();
-            break;
+        case sf::Event::MouseLeft: Mouse::setLeft(); break;
+        case sf::Event::MouseEntered: Mouse::setEntered(); break;
         case sf::Event::JoystickConnected:
             Controllers::setStatus(event.joystickConnect.joystickId, true);
             break;
@@ -152,14 +148,9 @@ void Game::handleEvents()
             sf::Utf<32>::encodeAnsi(event.text.unicode,
                                     std::ostream_iterator<char>(keystream));
             break;
-        case sf::Event::GainedFocus:
-            draw();
-            break;
-        case sf::Event::Closed:
-            run_ = false;
-            break;
-        default:
-            break;
+        case sf::Event::GainedFocus: draw(); break;
+        case sf::Event::Closed: run_ = false; break;
+        default: break;
         }
     }
 

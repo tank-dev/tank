@@ -10,11 +10,13 @@
 #include "../Graphics/Color.hpp"
 #include "../Utility/Vector.hpp"
 
-namespace sf {
+namespace sf
+{
 class Event;
 }
 
-namespace tank {
+namespace tank
+{
 
 class Window
 {
@@ -41,10 +43,7 @@ public:
 
     virtual void flipDisplay();
 
-    virtual sf::RenderWindow& SFMLWindow()
-    {
-        return window_;
-    }
+    virtual sf::RenderWindow& SFMLWindow() { return window_; }
 
     virtual void setSize(Vectoru size);
     virtual void setCaption(std::string caption);

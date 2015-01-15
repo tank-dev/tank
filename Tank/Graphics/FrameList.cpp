@@ -10,21 +10,18 @@
 namespace tank
 {
 
-FrameList::FrameList(Image const& i,
-                     Vectoru frameDims,
-                     Vectoru spacing,
+FrameList::FrameList(Image const& i, Vectoru frameDims, Vectoru spacing,
                      Rectu subClip)
-    : image_ (i)
-    , frameDimensions_ (frameDims)
-    , spacing_ (spacing)
-    , subClip_ (subClip)
+    : image_(i)
+    , frameDimensions_(frameDims)
+    , spacing_(spacing)
+    , subClip_(subClip)
 {
     image_.setClipByIndex(frameDimensions_, 0, spacing_, subClip_);
     // image_.setSize(frameDims);
 }
 
-void FrameList::add(std::string name,
-                    std::vector<unsigned int> const& frames,
+void FrameList::add(std::string name, std::vector<unsigned int> const& frames,
                     std::chrono::milliseconds time)
 {
     // TODO: validate arguments
@@ -35,10 +32,9 @@ void FrameList::add(std::string name,
 void FrameList::remove(std::string name)
 {
     // Find the animation by name
-    auto iter = std::find_if_not(animations_.begin(), animations_.end(),
-            [&name](Animation& anim) {
-                return anim.name == (name);
-            });
+    auto iter = std::find_if_not(
+        animations_.begin(), animations_.end(),
+        [&name](Animation& anim) { return anim.name == (name); });
 
     // Remove the animation from the animations list
     if (iter != animations_.end()) {
@@ -47,7 +43,7 @@ void FrameList::remove(std::string name)
 }
 
 void FrameList::select(std::string name, bool loop,
-        std::function<void()> callback)
+                       std::function<void()> callback)
 {
     // Check that the requested animation is not already playing
     if (not currentAnimation_ || currentAnimation_->name != name) {
@@ -141,9 +137,7 @@ void FrameList::draw(Transform const& parent, Camera const& cam)
     image_.draw(parent, cam);
 }
 
-void FrameList::setImage(Image const& image,
-                         Vectoru frameDims,
-                         Vectoru spacing,
+void FrameList::setImage(Image const& image, Vectoru frameDims, Vectoru spacing,
                          Rectu subClip)
 {
     image_ = image;
@@ -155,9 +149,9 @@ void FrameList::setImage(Image const& image,
 
 void addWalkingFrameList(FrameList& anim, std::chrono::milliseconds time)
 {
-    //TODO: add support for rows
+    // TODO: add support for rows
     unsigned int xFrames =
-            anim.getTextureSize().x / anim.getFrameDimensions().x;
+        anim.getTextureSize().x / anim.getFrameDimensions().x;
 
     std::vector<unsigned int> up;
     std::vector<unsigned int> right;
@@ -175,5 +169,4 @@ void addWalkingFrameList(FrameList& anim, std::chrono::milliseconds time)
     anim.add("walk_down", down, time);
     anim.add("walk_left", left, time);
 }
-
 }

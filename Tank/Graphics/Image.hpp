@@ -15,21 +15,22 @@
 #include "Texture.hpp"
 #include "Graphic.hpp"
 
-namespace tank {
+namespace tank
+{
 
 class Image : public Graphic
 {
-    bool loaded_ {false};
+    bool loaded_{false};
     sf::Sprite sprite_;
     std::shared_ptr<sf::Image> pixels_;
-    std::shared_ptr<Texture> texture_ {nullptr};
+    std::shared_ptr<Texture> texture_{nullptr};
 
 public:
     Image() = default;
     Image(std::string file);
 
     void load(std::string file);
-    void loadFromFile(std::string file){return load(file);}
+    void loadFromFile(std::string file) { return load(file); }
 
     virtual Vectorf getSize() const override
     {
@@ -51,10 +52,9 @@ public:
      */
     virtual void setClip(Rectu clip)
     {
-        sprite_.setTextureRect({static_cast<int>(clip.x),
-                                static_cast<int>(clip.y),
-                                static_cast<int>(clip.w),
-                                static_cast<int>(clip.h)});
+        sprite_.setTextureRect(
+            {static_cast<int>(clip.x), static_cast<int>(clip.y),
+             static_cast<int>(clip.w), static_cast<int>(clip.h)});
     }
 
     virtual Rectu getClip() const
@@ -77,8 +77,8 @@ public:
     // Texture editing functions
 
     Color getPixel(Vectoru coordinates);
-    void  setPixel(Vectoru coordinates, Color);
-    /*! 
+    void setPixel(Vectoru coordinates, Color);
+    /*!
      * \brief Copies the current texture in memory
      */
     void makeUnique();
@@ -99,6 +99,5 @@ public:
      */
     void setColorAlpha(Color target, uint8_t alpha = 0);
 };
-
 }
 #endif /* TANK_IMAGE_HPP */

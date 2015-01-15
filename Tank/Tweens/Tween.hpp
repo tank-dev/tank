@@ -163,12 +163,11 @@ public:
 
 template <typename T>
 Tween<T>::Tween(T const& initalValue)
-        : tweenFunction_{new SteadyFunc<T>()}
+    : tweenFunction_{new SteadyFunc<T>()}
 {
     tweenFunction_->setValue(initalValue);
-    tweenFunction_->setCallback([this](std::chrono::milliseconds const &
-                                       overrun)
-                                        ->T { return tweenEnd(overrun); });
+    tweenFunction_->setCallback([this](std::chrono::milliseconds const& overrun)
+                                    -> T { return tweenEnd(overrun); });
 }
 
 template <typename T>
@@ -200,9 +199,8 @@ void Tween<T>::useWithValue(T const& value, Args... args)
 
     tweenFunction_.reset(new S(std::forward<Args>(args)...));
     tweenFunction_->setValue(value);
-    tweenFunction_->setCallback([this](std::chrono::milliseconds const &
-                                       overrun)
-                                        ->T { return tweenEnd(overrun); });
+    tweenFunction_->setCallback([this](std::chrono::milliseconds const& overrun)
+                                    -> T { return tweenEnd(overrun); });
     inberTween_ = false;
 }
 

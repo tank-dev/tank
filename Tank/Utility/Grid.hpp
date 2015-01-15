@@ -41,14 +41,8 @@ public:
         return data[dimensions.x * location.y + location.x];
     }
 
-    ref operator[](size_t pos)
-    {
-        return data[pos];
-    }
-    const_ref operator[](size_t pos) const
-    {
-        return data[pos];
-    }
+    ref operator[](size_t pos) { return data[pos]; }
+    const_ref operator[](size_t pos) const { return data[pos]; }
 
     ref at(const Vectoru& location)
     {
@@ -67,20 +61,11 @@ public:
         }
     }
 
-    unsigned getWidth() const
-    {
-        return dimensions.x;
-    }
+    unsigned getWidth() const { return dimensions.x; }
 
-    unsigned getHeight() const
-    {
-        return dimensions.y;
-    }
+    unsigned getHeight() const { return dimensions.y; }
 
-    const Vectoru& getDimensions() const
-    {
-        return dimensions;
-    }
+    const Vectoru& getDimensions() const { return dimensions; }
 
     void setLine(const Vectoru& start, const Vectoru& end, T value);
     void fillBox(const Vectoru& start, const Vectoru& end, T value);
@@ -89,13 +74,13 @@ public:
 
 template <typename T>
 Grid<T>::Grid(const Vectoru& dims)
-        : data(dims.x * dims.y), dimensions(dims)
+    : data(dims.x * dims.y), dimensions(dims)
 {
 }
 
 template <typename T>
 Grid<T>::Grid(const Vectoru& dims, T intialValue)
-        : data(dims.x * dims.y, intialValue), dimensions(dims)
+    : data(dims.x * dims.y, intialValue), dimensions(dims)
 {
 }
 

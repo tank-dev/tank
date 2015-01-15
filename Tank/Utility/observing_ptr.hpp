@@ -21,101 +21,61 @@ class observing_ptr
 
 public:
     observing_ptr() = default;
-    observing_ptr(T& x) : p_(&x)
-    {
-    }
+    observing_ptr(T& x) : p_(&x) {}
 
     template <typename U>
     observing_ptr(const std::unique_ptr<U>& ptr)
-            : p_{ptr.get()}
+        : p_{ptr.get()}
     {
     }
 
-    observing_ptr(std::nullptr_t) : p_{nullptr}
-    {
-    }
+    observing_ptr(std::nullptr_t) : p_{nullptr} {}
 
     template <typename U>
     observing_ptr(const observing_ptr<U>& ptr)
-            : p_{ptr.p_}
+        : p_{ptr.p_}
     {
     }
 
     template <typename U>
     observing_ptr(U* ptr)
-            : p_{ptr}
+        : p_{ptr}
     {
     }
 
-    T const& operator*() const
-    {
-        return *p_;
-    }
+    T const& operator*() const { return *p_; }
 
-    T const* operator->() const
-    {
-        return p_;
-    }
+    T const* operator->() const { return p_; }
 
-    T& operator*()
-    {
-        return *p_;
-    }
+    T& operator*() { return *p_; }
 
-    T* operator->()
-    {
-        return p_;
-    }
+    T* operator->() { return p_; }
 
-    explicit operator bool() const
-    {
-        return p_;
-    }
+    explicit operator bool() const { return p_; }
 
-    bool operator==(const observing_ptr& other) const
-    {
-        return p_ == other.p_;
-    }
+    bool operator==(const observing_ptr& other) const { return p_ == other.p_; }
 
     bool operator==(const std::unique_ptr<T>& other) const
     {
         return p_ == other.get();
     }
 
-    bool operator==(const T* const other) const
-    {
-        return p_ == other;
-    }
+    bool operator==(const T* const other) const { return p_ == other; }
 
-    bool operator!=(const observing_ptr& other) const
-    {
-        return p_ != other.p_;
-    }
+    bool operator!=(const observing_ptr& other) const { return p_ != other.p_; }
 
     bool operator!=(const std::unique_ptr<T>& other) const
     {
         return p_ != other.get();
     }
 
-    bool operator!=(const T* const other) const
-    {
-        return p_ != other;
-    }
+    bool operator!=(const T* const other) const { return p_ != other; }
 
-    T* get()
-    {
-        return p_;
-    }
+    T* get() { return p_; }
 
-    operator T&()
-    {
-        return *p_;
-    }
+    operator T&() { return *p_; }
 
-    operator T&() const
-    {
-        return *p_;
-    }
+    operator T&() const { return *p_; }
 };
 
 template <typename T, typename U>
@@ -134,8 +94,7 @@ bool operator!=(const T& lhs, const observing_ptr<U>& rhs)
 namespace std
 {
 template <typename T>
-struct hash<tank::observing_ptr<T>>
-{
+struct hash<tank::observing_ptr<T>> {
     size_t operator()(const tank::observing_ptr<T>& ptr) const
     {
         return std::hash<T>(ptr.p_);

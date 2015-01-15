@@ -80,35 +80,31 @@ public:
         return []() { return keyPressed_; };
     }
 
-    /*! \brief Function returning whether the specified Key has just been pressed */
+    /*! \brief Function returning whether the specified Key has just been
+     * pressed */
     static std::function<bool()> KeyPress(Key key)
     {
         return [key]() { return isKeyPressed(key); };
     }
 
-    /*! \brief Function returning whether a Key has just been released*/
+    /*! \brief Function returning whether a Key has just been released */
     static std::function<bool()> KeyRelease()
     {
         return []() { return keyReleased_; };
     }
 
-    /*! \brief Function returning whether the specified Key has just been released*/
+    /*! \brief Function returning whether the specified Key has just been
+     * released */
     static std::function<bool()> KeyRelease(Key key)
     {
         return [key]() { return isKeyReleased(key); };
     }
 
     /*! \brief returns whether the specified Key is currently down */
-    static bool isKeyDown(Key key)
-    {
-        return currentState_[key];
-    }
+    static bool isKeyDown(Key key) { return currentState_[key]; }
 
     /*! \brief returns whether the specified Key is currently up */
-    static bool isKeyUp(Key key)
-    {
-        return not isKeyDown(key);
-    }
+    static bool isKeyUp(Key key) { return not isKeyDown(key); }
 
     /*! \brief returns whether the specified Key has just been pressed */
     static bool isKeyPressed(Key key)
@@ -135,10 +131,7 @@ public:
     }
 
     static std::function<bool()> Alt;
-    static bool alt()
-    {
-        return isKeyDown(Key::LAlt) or isKeyDown(Key::RAlt);;
-    }
+    static bool alt() { return isKeyDown(Key::LAlt) or isKeyDown(Key::RAlt); }
 
 private:
     static void reset();

@@ -9,7 +9,8 @@
 #include <SFML/Graphics/RenderWindow.hpp>
 #include "../System/Game.hpp"
 
-namespace tank {
+namespace tank
+{
 
 Image::Image(std::string file) : Image()
 {
@@ -103,7 +104,7 @@ void Image::setClip(Vectoru dimensions, unsigned int index)
 */
 
 void Image::setClipByIndex(Vectoru dimensions, unsigned int index,
-                    Vectoru spacing, Rectu subClip)
+                           Vectoru spacing, Rectu subClip)
 {
     // TODO: This needs testing with rectangular dimensions
     Rectu newClip = {0, 0, dimensions.x, dimensions.y};
@@ -118,16 +119,16 @@ void Image::setClipByIndex(Vectoru dimensions, unsigned int index,
 
     const auto tileDimensions = dimensions + spacing;
 
-    const Vectoru extraSpace = { textureSize.x % tileDimensions.x,
-                                 textureSize.y % tileDimensions.y};
+    const Vectoru extraSpace = {textureSize.x % tileDimensions.x,
+                                textureSize.y % tileDimensions.y};
 
-    const Vectoru usefulSize = { textureSize.x - extraSpace.x,
-                                 textureSize.y - extraSpace.y };
+    const Vectoru usefulSize = {textureSize.x - extraSpace.x,
+                                textureSize.y - extraSpace.y};
 
-    const unsigned widthInTiles = (usefulSize.x / tileDimensions.x)
-                                  + extraSpace.x / dimensions.x;
+    const unsigned widthInTiles =
+        (usefulSize.x / tileDimensions.x) + extraSpace.x / dimensions.x;
 
-    Vectoru tileCoords = { index % widthInTiles, index / widthInTiles };
+    Vectoru tileCoords = {index % widthInTiles, index / widthInTiles};
 
     newClip.x = tileDimensions.x * tileCoords.x;
     newClip.y = tileDimensions.y * tileCoords.y;
@@ -171,7 +172,6 @@ void Image::fillColor(Color target, Color fill)
             if (pixels_->getPixel(i, j) == target) {
                 pixels_->setPixel(i, j, fill);
             }
-
         }
     }
 
@@ -183,5 +183,4 @@ void Image::setColorAlpha(Color target, uint8_t alpha)
     pixels_->createMaskFromColor(target, alpha);
     texture_->update(*pixels_);
 }
-
 }

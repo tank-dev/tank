@@ -20,10 +20,10 @@ class Logger;
 
 class Logger_buf : public std::stringbuf
 {
-    std::function<void(const std::string&)> log_fn;
+    std::function<void(const std::string&) > log_fn;
 
 public:
-    Logger_buf(std::function<void(const std::string&)> log_fn) : log_fn(log_fn)
+    Logger_buf(std::function<void(const std::string&) > log_fn) : log_fn(log_fn)
     {
     }
     int sync() override

@@ -9,4 +9,4 @@ public:
     MainWorld();
 };
 
-#endif //MAINWORLD_HPP
+#endif // MAINWORLD_HPP

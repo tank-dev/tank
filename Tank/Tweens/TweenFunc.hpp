@@ -71,7 +71,7 @@ class Tween;
 template <typename T>
 class TweenFunc
 {
-    std::function<T(std::chrono::milliseconds const&)> finishedCallback_;
+    std::function<T(std::chrono::milliseconds const&) > finishedCallback_;
 
     /*!
      * \brief This sets up a tween function and so needs access to do it.
@@ -90,8 +90,8 @@ class TweenFunc
      *
      * \param finishedCallback The callback.
      */
-    void setCallback(std::function<T(std::chrono::milliseconds const&)>
-                             finishedCallback);
+    void setCallback(
+        std::function<T(std::chrono::milliseconds const&) > finishedCallback);
 
 protected:
     /*!
@@ -144,7 +144,7 @@ public:
 
 template <typename T>
 void TweenFunc<T>::setCallback(
-        std::function<T(std::chrono::milliseconds const&)> finishedCallback)
+    std::function<T(std::chrono::milliseconds const&) > finishedCallback)
 {
     finishedCallback_ = finishedCallback;
 }

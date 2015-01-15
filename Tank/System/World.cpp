@@ -157,8 +157,7 @@ void World::deleteEntities()
 }
 
 tank::observing_ptr<tank::EventHandler::Connection>
-        World::connect(EventHandler::Condition condition,
-                       EventHandler::Effect effect)
+World::connect(EventHandler::Condition condition, EventHandler::Effect effect)
 {
     auto cond = eventHandler.connect(condition, effect);
     connections_.push_back(std::move(cond));

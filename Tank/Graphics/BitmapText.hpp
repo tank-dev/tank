@@ -27,14 +27,8 @@ public:
     BitmapText(Image const& font, Vectoru glyphDimensions,
                char asciiOffset = 32, unsigned int rowWidth = UINT_MAX);
 
-    void setText(std::string text)
-    {
-        text_ = text;
-    }
-    std::string getText()
-    {
-        return text_;
-    }
+    void setText(std::string text) { text_ = text; }
+    std::string getText() { return text_; }
 
     /*!
      * \brief Set the size of each rendered glyph

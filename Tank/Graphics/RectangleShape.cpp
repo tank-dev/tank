@@ -6,10 +6,10 @@
 #include "RectangleShape.hpp"
 #include "../System/Game.hpp"
 
-namespace tank {
+namespace tank
+{
 
-RectangleShape::RectangleShape(Vectorf size)
-    : shape_({size.x, size.y})
+RectangleShape::RectangleShape(Vectorf size) : shape_({size.x, size.y})
 {
 }
 
@@ -33,10 +33,9 @@ void RectangleShape::setOutlineOpacity(uint8_t a)
     shape_.setOutlineColor(outline);
 }
 
-RectangleShape::RectangleShape(Rectf rect)
-    : shape_({rect.w, rect.h})
+RectangleShape::RectangleShape(Rectf rect) : shape_({rect.w, rect.h})
 {
-    setPos({rect.x,rect.y});
+    setPos({rect.x, rect.y});
 }
 void RectangleShape::setSize(Vectorf size)
 {
@@ -55,5 +54,4 @@ void RectangleShape::draw(Transform const& parent, Camera const& cam)
                        cam, shape_);
     Game::window()->SFMLWindow().draw(shape_);
 }
-
 }

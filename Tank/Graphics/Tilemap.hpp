@@ -65,14 +65,8 @@ public:
         clipRect_ = {0, 0, frameDims.x, frameDims.y};
     }
 
-    Vectoru getFrameDimensions() const
-    {
-        return frameDimensions_;
-    }
-    Vectorf getTileDimensions() const
-    {
-        return Image::getSize();
-    }
+    Vectoru getFrameDimensions() const { return frameDimensions_; }
+    Vectorf getTileDimensions() const { return Image::getSize(); }
 
     virtual Vectorf getSize() const override
     {
@@ -102,14 +96,8 @@ public:
      * \param clip The rectangle to clip each tile to
      */
     // TODO: work out what anstow's doing here
-    virtual void setClip(Rectu clip) override
-    {
-        clipRect_ = clip;
-    }
-    virtual Rectu getClip() const
-    {
-        return clipRect_;
-    }
+    virtual void setClip(Rectu clip) override { clipRect_ = clip; }
+    virtual Rectu getClip() const { return clipRect_; }
 
     /*!
      * \brief This gets the tile position from the local coordinates.
@@ -124,7 +112,7 @@ public:
     Vectoru getTile(const Vectorf& localCoords);
 
     CollisionGrid
-            getCollisionGrid(const std::unordered_set<unsigned>& collidable)
+    getCollisionGrid(const std::unordered_set<unsigned>& collidable)
     {
         return CollisionGrid(tiles_, collidable);
     }
@@ -134,10 +122,7 @@ public:
      *
      * \param grid The grid to be used for the tilemap.
      */
-    void setGrid(Grid<unsigned> const& grid)
-    {
-        tiles_ = grid;
-    }
+    void setGrid(Grid<unsigned> const& grid) { tiles_ = grid; }
 
     /*!
      * \brief This sets a line in the Tilemap

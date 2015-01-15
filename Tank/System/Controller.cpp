@@ -58,7 +58,7 @@ void Controllers::setAxis(unsigned id, unsigned axis, double position)
 }
 
 std::vector<tank::observing_ptr<Controller>>
-        Controllers::getConnectedControllers()
+Controllers::getConnectedControllers()
 {
     std::vector<tank::observing_ptr<Controller>> cs;
     std::copy_if(controllers_.begin(), controllers_.end(),

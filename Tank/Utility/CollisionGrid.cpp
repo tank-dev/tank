@@ -10,8 +10,8 @@ namespace tank
 
 // Retraces the path until we reach the start then reverse it
 inline std::vector<Vectoru> retracePath(
-        const std::unordered_map<Vectoru, std::pair<Vectoru, float>>& cameFrom,
-        Vectoru currentNode)
+    const std::unordered_map<Vectoru, std::pair<Vectoru, float>>& cameFrom,
+    Vectoru currentNode)
 {
     std::vector<Vectoru> path{currentNode};
 

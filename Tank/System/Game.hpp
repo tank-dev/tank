@@ -67,13 +67,19 @@ namespace tank
  * world stack at the beginning of each frame, going from the bottom up.
  * A World item in italics indicates that it is the current world.
  *
- * |      Start        |      Frame 1      |      Frame 2       |    Frame 3        | Frame 4
- * | :---------------: | :---------------: | :----------------: | :----------:      | :-:
- * |        -          |         -         |       *Main*       |       -           |  -
- * |        -          |      *Menu*       |        Menu        |    *Menu*         |  *Main*
- * |   **Function**    |   **Function**    |    **Function**    | **Function**      | **Function**
- * | makeWorld<Main>() | makeWorld<Main>() |     popWorld()     | makeWorld<Main>() |  popWorld()
- * | makeWorld<Menu>() |         -         |     popWorld()     |   popWorld()      |  -
+ * |      Start        |      Frame 1      |      Frame 2       |    Frame 3
+ *| Frame 4
+ * | :---------------: | :---------------: | :----------------: | :----------:
+ *| :-:
+ * |        -          |         -         |       *Main*       |       - |  -
+ * |        -          |      *Menu*       |        Menu        |    *Menu*
+ *|  *Main*
+ * |   **Function**    |   **Function**    |    **Function**    | **Function**
+ *| **Function**
+ * | makeWorld<Main>() | makeWorld<Main>() |     popWorld()     |
+ *makeWorld<Main>() |  popWorld()
+ * | makeWorld<Menu>() |         -         |     popWorld()     |   popWorld()
+ *|  -
  *
  * There are some important things to note:
  *
@@ -140,7 +146,7 @@ public:
      *     std::string s;
      *     tank::Game::keystream >> s;
      *     tank::Game::keystream.clear();
-     *     
+     *
      *     // or
      *     tank::game::keystream.str("");
      *     tank::Game::keystream.clear();
@@ -226,36 +232,27 @@ public:
     static observing_ptr<T> makeWorld(Args&&... args);
 
     /*! \brief Returns a pointer to the active World. */
-    static observing_ptr<World> world()
-    {
-        return currentWorld_;
-    }
+    static observing_ptr<World> world() { return currentWorld_; }
 
     /*! \brief Returns a `const unique_ptr&` to the Window. */
-    static std::unique_ptr<Window> const& window()
-    {
-        return window_;
-    };
+    static std::unique_ptr<Window> const& window() { return window_; };
 
     /*!
      * \brief Stops the game loop
      *
-     * This exits the game loop, but does not close the Window. This will effectively freeze your
-     * window application, and may result in it being killed by the operating
-     * system. The loop can be restarted (continuing the game where it left off)
-     * by calling Game::run() again.
+     * This exits the game loop, but does not close the Window. This will
+     * effectively freeze your window application, and may result in it being
+     * killed by the operating system. The loop can be restarted (continuing the
+     * game where it left off) by calling Game::run() again.
      *
      * You can avoid your application being killed by polling its events
      * manually with `Game::window.pollEvent()`.
      *
      * \see Window
      */
-    //TODO: check the os will kill the app
-    //TODO: find way of calling from first world's constructor
-    static void stop()
-    {
-        run_ = false;
-    }
+    // TODO: check the os will kill the app
+    // TODO: find way of calling from first world's constructor
+    static void stop() { run_ = false; }
 
 private:
     static void handleEvents();
@@ -269,8 +266,8 @@ observing_ptr<T> Game::makeWorld(Args&&... args)
     static_assert(std::is_base_of<World, T>::value,
                   "Class must derive from World");
 
-    std::unique_ptr<T> world {new T(std::forward<Args>(args)...)};
-    observing_ptr<T> ptr {world};
+    std::unique_ptr<T> world{new T(std::forward<Args>(args)...)};
+    observing_ptr<T> ptr{world};
     // worlds_.push(std::move(world));
     newWorld_.reset(world.release());
     return ptr;

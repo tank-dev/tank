@@ -5,15 +5,17 @@
 #include <unordered_map>
 #include <string>
 
-namespace tank {
+namespace tank
+{
 
 class Resources
 {
     static std::unordered_map<std::string, boost::any> resources;
-    
+
 public:
-    template<typename Res>
-    static Res& get(const std::string& path) {
+    template <typename Res>
+    static Res& get(const std::string& path)
+    {
         if (resources.count(path) == 0) {
             resources.emplace(std::make_pair(path, Res()));
             Res& res = boost::any_cast<Res&>(resources[path]);

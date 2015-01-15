@@ -13,10 +13,10 @@ namespace tank
 
 Tilemap::Tilemap(std::string file, Vector<unsigned> gridDims,
                  Vector<unsigned int> frameDims)
-        : Image(file)
-        , frameDimensions_(frameDims)
-        , clipRect_{0, 0, frameDims.x, frameDims.y}
-        , tiles_(gridDims)
+    : Image(file)
+    , frameDimensions_(frameDims)
+    , clipRect_{0, 0, frameDims.x, frameDims.y}
+    , tiles_(gridDims)
 {
     Image::setClip({0, 0, frameDims.x, frameDims.y});
 }
@@ -30,9 +30,7 @@ void Tilemap::draw(Transform const& parent, Camera const& cam)
     for (unsigned i = 0; i < tiles_.getWidth(); ++i) {
         for (unsigned j = 0; j < tiles_.getHeight(); ++j) {
             // Select the tile to draw
-            Image::setClipByIndex(frameDimensions_, 
-                                  tiles_[Vectoru{i, j}],
-                                  {}, 
+            Image::setClipByIndex(frameDimensions_, tiles_[Vectoru{i, j}], {},
                                   clipRect_);
             // Move to the correct place to draw the tile
             setPos(originalPos + Vectoru{i * dims.x, j * dims.y});

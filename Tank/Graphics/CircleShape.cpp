@@ -9,7 +9,9 @@
 namespace tank
 {
 
-CircleShape::CircleShape(float radius):shape_(radius) {}
+CircleShape::CircleShape(float radius) : shape_(radius)
+{
+}
 void CircleShape::setOpacity(uint8_t a)
 {
     setFillOpacity(a);
@@ -38,8 +40,8 @@ Vectorf CircleShape::getSize() const
 
 void CircleShape::draw(Transform const& parent, Camera const& cam)
 {
-    Graphic::transform(this, parent.position, parent.rotation, parent.origin, cam,
-                       shape_);
+    Graphic::transform(this, parent.position, parent.rotation, parent.origin,
+                       cam, shape_);
     Game::window()->SFMLWindow().draw(shape_);
 }
 }

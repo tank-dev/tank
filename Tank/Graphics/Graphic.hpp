@@ -34,26 +34,14 @@ public:
     {
         relativeToParent_ = relative;
     }
-    virtual bool isRelativeToParent() const
-    {
-        return relativeToParent_;
-    }
+    virtual bool isRelativeToParent() const { return relativeToParent_; }
 
-    bool isVisible() const
-    {
-        return visible_;
-    }
-    void setVisible(bool visibile)
-    {
-        visible_ = visibile;
-    }
+    bool isVisible() const { return visible_; }
+    void setVisible(bool visibile) { visible_ = visibile; }
 
     virtual Vectorf getSize() const = 0;
 
-    void centreOrigin()
-    {
-        setOrigin(getSize() / 2);
-    }
+    void centreOrigin() { setOrigin(getSize() / 2); }
 
     /*!
      * \brief Coverts the parent coordinates to local coordinates.
@@ -78,8 +66,8 @@ public:
     bool getWithin(const Vectorf& localCoords)
     {
         Vectorf size = getSize();
-        return (localCoords.x<0 or localCoords.x> size.x or
-                        localCoords.y<0 or localCoords.y> size.y);
+        return (localCoords.x < 0 or localCoords.x > size.x or
+                localCoords.y < 0 or localCoords.y > size.y);
     }
 
     // TODO: Make const

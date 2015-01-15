@@ -29,9 +29,10 @@ namespace tank
  */
 class SoundEffect
 {
-    std::shared_ptr<sf::SoundBuffer> buffer_ = std::make_shared<sf::SoundBuffer>();
+    std::shared_ptr<sf::SoundBuffer> buffer_ =
+        std::make_shared<sf::SoundBuffer>();
     sf::Sound sound_;
-    bool loaded_ {false};
+    bool loaded_{false};
 
 public:
     using Status = sf::Sound::Status;
@@ -48,26 +49,23 @@ public:
     void stop() { sound_.stop(); }
     void setLoop(bool loop) { return sound_.setLoop(loop); }
     bool getLoop() const { return sound_.getLoop(); }
-    void setPosition(Vectorf pos) { sound_.setPosition({pos.x, pos.y,0}); }
+    void setPosition(Vectorf pos) { sound_.setPosition({pos.x, pos.y, 0}); }
     Vectorf getPosition() const;
     void setRelativeToListener(bool rel) { sound_.setRelativeToListener(rel); }
     bool isRelativeToListener() const { return sound_.isRelativeToListener(); }
     void setVolume(float v) { sound_.setVolume(v); }
     float getVolume() const { return sound_.getVolume(); }
-    void setAttenuation(float attenuation) { sound_.setAttenuation(attenuation); }
+    void setAttenuation(float attenuation)
+    {
+        sound_.setAttenuation(attenuation);
+    }
     float getAttenuation() const { return sound_.getAttenuation(); }
     void setMinDistance(float distance) { sound_.setMinDistance(distance); }
     float getMinDistance() const { return sound_.getMinDistance(); }
 
-    explicit operator bool()
-    {
-        return loaded_;
-    }
+    explicit operator bool() { return loaded_; }
 
-    Status getStatus()
-    {
-        return sound_.getStatus();
-    }
+    Status getStatus() { return sound_.getStatus(); }
 };
 }
 

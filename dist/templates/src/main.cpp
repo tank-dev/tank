@@ -3,8 +3,7 @@
 
 int main()
 {
-    tank::Game::initialize({800,600});
+    tank::Game::initialize({800, 600});
     tank::Game::makeWorld<MainWorld>();
     tank::Game::run();
 }
-

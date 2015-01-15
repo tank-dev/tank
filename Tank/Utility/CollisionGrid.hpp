@@ -22,15 +22,18 @@ namespace tank
 class CollisionGrid : public Grid<bool>
 {
     void checkDirection(
-            const std::unordered_set<Vectoru>& closed,
-            std::multimap<float, Vectoru>& open,
-            std::unordered_map<Vectoru, std::pair<Vectoru, float>>& cameFrom,
-            Vectoru const& end, const Vectoru& point, const Vectoru& direction,
-            float costSoFar) const;
+        const std::unordered_set<Vectoru>& closed,
+        std::multimap<float, Vectoru>& open,
+        std::unordered_map<Vectoru, std::pair<Vectoru, float>>& cameFrom,
+        Vectoru const& end, const Vectoru& point, const Vectoru& direction,
+        float costSoFar) const;
 
 public:
     CollisionGrid(const Vectoru& dims) : Grid(dims) {}
-    CollisionGrid(const Vectoru& dims, bool initialValue) : Grid(dims, initialValue) {}
+    CollisionGrid(const Vectoru& dims, bool initialValue)
+        : Grid(dims, initialValue)
+    {
+    }
 
     template <typename T>
     CollisionGrid(const Grid<T>& g, const std::unordered_set<T>& collidable);
@@ -49,7 +52,7 @@ public:
 template <typename T>
 CollisionGrid::CollisionGrid(const Grid<T>& g,
                              const std::unordered_set<T>& collidable)
-        : Grid(g.getDimensions())
+    : Grid(g.getDimensions())
 {
     loadFromGrid(g, collidable);
 }
@@ -60,7 +63,7 @@ void CollisionGrid::loadFromGrid(const Grid<T>& g,
 {
     if (getDimensions() != g.getDimensions()) {
         throw std::out_of_range(
-                "The grid must be the same size as the collision grid.");
+            "The grid must be the same size as the collision grid.");
     }
 
     size_t size = getWidth() * getHeight();
@@ -71,31 +74,31 @@ void CollisionGrid::loadFromGrid(const Grid<T>& g,
 
 // This is run on every node to add new points to the open set.
 inline void CollisionGrid::checkDirection(
-        const std::unordered_set<Vectoru>& closed,
-        std::multimap<float, Vectoru>& open,
-        std::unordered_map<Vectoru, std::pair<Vectoru, float>>& cameFrom,
-        Vectoru const& end, const Vectoru& point, const Vectoru& direction,
-        float costSoFar) const
+    const std::unordered_set<Vectoru>& closed,
+    std::multimap<float, Vectoru>& open,
+    std::unordered_map<Vectoru, std::pair<Vectoru, float>>& cameFrom,
+    Vectoru const& end, const Vectoru& point, const Vectoru& direction,
+    float costSoFar) const
 {
     Vectoru checkPoint = point + direction;
     // check that the point isn't closed and we can travel through
-    if (closed.find(checkPoint) == closed.end() and operator[](checkPoint)) {
+    if (closed.find(checkPoint) == closed.end() && (*this)[checkPoint]) {
         float newCostSoFar = costSoFar + getCost(point, checkPoint);
         // Add the point to the open points
         auto pre = cameFrom.find(checkPoint);
         if (pre == cameFrom.end()) {
             // If we don't already have a path for the point add one
             cameFrom.insert(std::make_pair(
-                    checkPoint, std::make_pair(point, newCostSoFar)));
+                checkPoint, std::make_pair(point, newCostSoFar)));
             open.insert(std::make_pair(
-                    newCostSoFar + pathHeuristic(checkPoint, end), checkPoint));
+                newCostSoFar + pathHeuristic(checkPoint, end), checkPoint));
         } else if (pre->second.second >= newCostSoFar) {
             // If the new path is shorter than the previously found path replace
             // it
             pre->second.first = point;
             pre->second.second = newCostSoFar;
             open.insert(std::make_pair(
-                    newCostSoFar + pathHeuristic(checkPoint, end), checkPoint));
+                newCostSoFar + pathHeuristic(checkPoint, end), checkPoint));
         }
     }
 };

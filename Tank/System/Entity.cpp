@@ -18,9 +18,7 @@ namespace tank
 
 int Entity::numEnts_ = 0;
 
-Entity::Entity(Vectorf pos)
-    : Transformable(pos)
-    , actorID_(numEnts_++)
+Entity::Entity(Vectorf pos) : Transformable(pos), actorID_(numEnts_++)
 {
 }
 
@@ -34,7 +32,7 @@ void Entity::draw(Camera const& cam)
 }
 
 std::vector<observing_ptr<Entity>>
-        Entity::collide(std::vector<std::string> const& colTypes)
+Entity::collide(std::vector<std::string> const& colTypes)
 {
     std::vector<std::unique_ptr<Entity>> const& orig = world_->getEntities();
     std::vector<observing_ptr<Entity>> ents;
@@ -48,14 +46,14 @@ std::vector<observing_ptr<Entity>>
 
     if (not colTypes.empty()) {
         ents.erase(
-                std::remove_if(ents.begin(), ents.end(),
-                               [&colTypes](observing_ptr<Entity> const& ent) {
-                    auto& entTypes = ent->getTypes();
-                    return std::find_first_of(entTypes.begin(), entTypes.end(),
-                                              colTypes.begin(),
-                                              colTypes.end()) == entTypes.end();
-                }),
-                ents.end());
+            std::remove_if(ents.begin(), ents.end(),
+                           [&colTypes](observing_ptr<Entity> const& ent) {
+                auto& entTypes = ent->getTypes();
+                return std::find_first_of(entTypes.begin(), entTypes.end(),
+                                          colTypes.begin(),
+                                          colTypes.end()) == entTypes.end();
+            }),
+            ents.end());
     }
 
     for (auto& ent : ents) {
@@ -72,8 +70,8 @@ std::vector<observing_ptr<Entity>>
             const double bottomA = topA + A.h;
             const double bottomB = topB + B.h;
 
-            if (leftA > rightB or topA > bottomB or rightA < leftB or bottomA <
-                topB) {
+            if (leftA > rightB or topA > bottomB or rightA < leftB or
+                bottomA < topB) {
                 continue;
             }
 
@@ -101,9 +99,9 @@ void Entity::insertGraphic(std::unique_ptr<Graphic>&& graphic)
 
     // Stops an entity being added several times
     auto entityIter = boost::range::find_if(
-            graphics_, [&graphic](std::unique_ptr<Graphic>& existing) {
-                return graphic.get() == existing.get();
-            });
+        graphics_, [&graphic](std::unique_ptr<Graphic>& existing) {
+            return graphic.get() == existing.get();
+        });
 
     if (entityIter != end(graphics_)) {
         throw std::invalid_argument("Entity already added");
@@ -183,8 +181,7 @@ void Entity::setType(std::string const& type)
 
 void Entity::addType(std::string const& type)
 {
-    if (type == "")
-        return;
+    if (type == "") return;
     if (std::find(types_.begin(), types_.end(), type) == types_.end()) {
         types_.push_back(type);
     }
@@ -201,8 +198,7 @@ void Entity::setWorld(const observing_ptr<World> world)
 }
 
 observing_ptr<EventHandler::Connection>
-        Entity::connect(EventHandler::Condition condition,
-                        EventHandler::Effect effect)
+Entity::connect(EventHandler::Condition condition, EventHandler::Effect effect)
 {
     auto cond = getWorld()->eventHandler.connect(condition, effect);
     connections_.push_back(std::move(cond));

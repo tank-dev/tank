@@ -149,23 +149,22 @@ std::function<bool()> Mouse::WheelMovement()
 
 bool Mouse::isInEntity(Entity const& e)
 {
-        auto mPos = getRelPos(e.getWorld()->camera);
-        const auto ePos = e.getPos();
-        auto const& hb = e.getHitbox();
+    auto mPos = getRelPos(e.getWorld()->camera);
+    const auto ePos = e.getPos();
+    auto const& hb = e.getHitbox();
 
-        const double left = hb.x + ePos.x;
-        const double right = left + hb.w;
-        const double top = hb.y + ePos.y;
-        const double bottom = top + hb.h;
+    const double left = hb.x + ePos.x;
+    const double right = left + hb.w;
+    const double top = hb.y + ePos.y;
+    const double bottom = top + hb.h;
 
-        return mPos.x>left and mPos.x<right and mPos.y>top and mPos.y<bottom;
+    return mPos.x > left and mPos.x < right and mPos.y > top and
+           mPos.y < bottom;
 }
 
 std::function<bool()> Mouse::InEntity(Entity const& e)
 {
-    return [&e] {
-        return isInEntity(e);
-    };
+    return [&e] { return isInEntity(e); };
 }
 
 void Mouse::setButtonPressed(Button button)
@@ -205,8 +204,7 @@ void Mouse::setEntered()
 
 void Mouse::reset()
 {
-    if (not stateChange_)
-        return;
+    if (not stateChange_) return;
 
     std::copy(currentState_.begin(), currentState_.end(), lastState_.begin());
 

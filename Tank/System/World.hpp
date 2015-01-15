@@ -25,8 +25,8 @@ class Game;
  * \brief Class for managing entities, encapsulating game states.
  *
  * Worlds handle Entity creation, destruction, rendering and updating. Often
- * each class deriving World will represent a different state of the game, *e.g.*
- * Menu, Main, Paused.
+ * each class deriving World will represent a different state of the game,
+ * *e.g.* Menu, Main, Paused.
  *
  * You should derive from this class to add your own world-specific logic - it
  * is also advised to handle world initialization in World() as opposed
@@ -51,9 +51,9 @@ public:
     Camera camera;
 
 private:
-    bool updating_ {false};
+    bool updating_{false};
     std::vector<std::tuple<observing_ptr<World>, observing_ptr<Entity>>>
-            toMove_;
+        toMove_;
     std::vector<std::unique_ptr<Entity>> newEntities_;
     std::vector<std::unique_ptr<EventHandler::Connection>> connections_;
 
@@ -126,7 +126,8 @@ public:
     /*!
      * \brief Update all Entity instances in the entity list
      *
-     * Game calls this on the current world once per frame, before calling draw().
+     * Game calls this on the current world once per frame, before calling
+     *draw().
      *
      * Override this to add frame logic specific to the world, but be sure to
      * update the entity list by calling World.update().
@@ -177,7 +178,7 @@ public:
         return entities_;
     }
 
-    //TODO Finish documentation
+    // TODO Finish documentation
     /*!
      * In derived classes, the constructor is where you should create and load
      * resources such as music, graphics and entities specific to the world.
@@ -203,8 +204,8 @@ public:
      * \see EventHandler
      */
     tank::observing_ptr<tank::EventHandler::Connection>
-            connect(tank::EventHandler::Condition condition,
-                    tank::EventHandler::Effect effect);
+    connect(tank::EventHandler::Condition condition,
+            tank::EventHandler::Effect effect);
 
 protected:
     /*! \brief list of Entity instances in the World */

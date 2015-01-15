@@ -60,7 +60,7 @@ public:
 template <typename T>
 LinearFunc<T>::LinearFunc(T const& target,
                           std::chrono::milliseconds const& duration)
-        : target_(target), duration_(duration)
+    : target_(target), duration_(duration)
 {
     timer_.start();
 }
@@ -69,8 +69,8 @@ template <typename T>
 T LinearFunc<T>::getValue() const
 {
     std::chrono::milliseconds currentTime =
-            std::chrono::duration_cast<std::chrono::milliseconds>(
-                    timer_.getTicks());
+        std::chrono::duration_cast<std::chrono::milliseconds>(
+            timer_.getTicks());
     if (duration_ > currentTime) {
         return value_ +
                currentTime.count() * (target_ - value_) / duration_.count();
