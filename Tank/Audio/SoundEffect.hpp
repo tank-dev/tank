@@ -15,6 +15,18 @@
 namespace tank
 {
 
+/*!
+ * \brief Store and play a sound effect.
+ *
+ * This is intended for playing in-game sound effects. It stores the sound file
+ * in memory after loading, allowing the effect to be played quickly when needed
+ * at the cost of memory. As such, if you have a large sound file, for example
+ * background music, you should use tank::Music.
+ *
+ * The sound system supports the following file formats: ogg, wav, flac, aiff,
+ * au, raw, paf, svx, nist, voc, ircam, w64, mat4, mat5 pvf, htk, sds, avr, sd2,
+ * caf, wve, mpc2k, rf64.
+ */
 class SoundEffect
 {
     std::shared_ptr<sf::SoundBuffer> buffer_ = std::make_shared<sf::SoundBuffer>();

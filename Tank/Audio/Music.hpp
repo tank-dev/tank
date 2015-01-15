@@ -15,8 +15,10 @@ namespace tank
 /*!
  * \brief Store and play a music file.
  *
- * This is intended for storing and playing background music. If you want to
- * store and play a sound effect then see tank::SoundEffect.
+ * This is intended for playing background music. It reads the file from disk
+ * whilst playing it, instead of storing it in memory.
+ * This saves memory at the cost of being slower to initially start playing. As
+ * such if you want to store and play a sound effect then use tank::SoundEffect.
  *
  * The sound system supports the following file formats: ogg, wav, flac, aiff,
  * au, raw, paf, svx, nist, voc, ircam, w64, mat4, mat5 pvf, htk, sds, avr, sd2,
