@@ -12,6 +12,16 @@
 namespace tank
 {
 
+/*!
+ * \brief Store and play a music file.
+ *
+ * This is intended for storing and playing background music. If you want to
+ * store and play a sound effect then see tank::SoundEffect.
+ *
+ * The sound system supports the following file formats: ogg, wav, flac, aiff,
+ * au, raw, paf, svx, nist, voc, ircam, w64, mat4, mat5 pvf, htk, sds, avr, sd2,
+ * caf, wve, mpc2k, rf64.
+ */
 class Music
 {
     std::shared_ptr<sf::Music> music_ = std::make_shared<sf::Music>();
