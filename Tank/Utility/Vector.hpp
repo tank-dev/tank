@@ -55,7 +55,7 @@ struct Vector {
      */
     constexpr T magnitudeSquared() const { return x * x + y * y; }
 
-    Vector rotate(double angle) const
+    constexpr Vector rotate(double angle) const
     {
         constexpr float toRad = 3.14159265 / 180;
         angle *= toRad;
@@ -64,7 +64,7 @@ struct Vector {
                 y * cos(angle) + x * sin(angle)};
     }
 
-    Vector rotateAbout(Vector p, double angle) const
+    constexpr Vector rotateAbout(Vector p, double angle) const
     {
         Vector ans = *this - p;
         ans = ans.rotate(angle);
@@ -79,7 +79,7 @@ struct Vector {
      *
      * \return The angle between the vectors.
      */
-    float getAngle(const Vector& vec) const
+    constexpr float getAngle(const Vector& vec) const
     {
         constexpr double radToDeg = 180 / 3.14159265;
         return radToDeg * std::atan2(x * vec.y - y * vec.x, dot(vec));
@@ -90,7 +90,7 @@ struct Vector {
      *
      * \return The normalised vector.
      */
-    Vector unit() const
+    constexpr Vector unit() const
     {
         // TODO: this can be improved
         const T mag = magnitude();
@@ -107,7 +107,7 @@ struct Vector {
      * \return Returns a referance to itself.
      */
     template <typename U>
-    Vector& operator*=(U const& f)
+    constexpr Vector& operator*=(U const& f)
     {
         x *= f;
         y *= f;
@@ -123,7 +123,7 @@ struct Vector {
      * \return Returns a referance to itself.
      */
     template <typename U>
-    Vector& operator/=(U const& f)
+    constexpr Vector& operator/=(U const& f)
     {
         x /= f;
         y /= f;
@@ -139,7 +139,7 @@ struct Vector {
      * \return A reference to itself.
      */
     template <typename U>
-    Vector& operator+=(Vector<U> const& rhs)
+    constexpr Vector& operator+=(Vector<U> const& rhs)
     {
         x += rhs.x;
         y += rhs.y;
@@ -155,7 +155,7 @@ struct Vector {
      * \return A reference to the vector.
      */
     template <typename U>
-    Vector& operator+=(U const& f)
+    constexpr Vector& operator+=(U const& f)
     {
         x += f;
         y += f;
@@ -171,7 +171,7 @@ struct Vector {
      * \return A reference to the vector.
      */
     template <typename U>
-    Vector& operator-=(Vector<U> const& vect)
+    constexpr Vector& operator-=(Vector<U> const& vect)
     {
         x -= vect.x;
         y -= vect.y;
@@ -187,7 +187,7 @@ struct Vector {
      * \return A reference to the vector.
      */
     template <typename U>
-    Vector& operator-=(U const& f)
+    constexpr Vector& operator-=(U const& f)
     {
         x -= f;
         y -= f;
