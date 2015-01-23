@@ -1,7 +1,10 @@
-cmake_minimum_required(VERSION 2.8.11)
+cmake_minimum_required(VERSION 3.1.0 FATAL_ERROR)
 if (NOT DEFINED PROJECT_NAME)
     project (Tank)
 endif()
+
+# Use only standard C++.
+set(CMAKE_CXX_EXTENSIONS OFF)
 
 enable_testing()
 
@@ -21,25 +24,11 @@ if (${PROJECT_NAME} STREQUAL "Tank")
     set(TANK_INCLUDE_DIRS ${CMAKE_CURRENT_SOURCE_DIR})
     include_directories(${TANK_INCLUDE_DIRS})
 else()
-    set(TANK_INCLUDE_DIRS ${CMAKE_CURRENT_SOURCE_DIR} ${SFML_INCLUDE_DIR} 
+    set(TANK_INCLUDE_DIRS ${CMAKE_CURRENT_SOURCE_DIR} ${SFML_INCLUDE_DIR}
         ${Boost_INCLUDE_DIR} PARENT_SCOPE)
 endif()
 
 include_directories(${TANK_INCLUDE_DIRS})
-
-if (MSVC)
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /W0")
-else()
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
-endif()
-
-option(WARN "Compile using all warnings" ON)
-
-if(WARN)
-    if (NOT MSVC)
-        set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Werror -Wno-mismatched-tags")
-    endif(NOT MSVC)
-endif(WARN)
 
 add_subdirectory(Tank/Audio)
 add_subdirectory(Tank/Graphics)
@@ -74,4 +63,19 @@ if(DOXYGEN_FOUND)
 endif(DOXYGEN_FOUND)
 
 add_library(tank ${audio_src} ${gfx_src} ${geom_src} ${sys_src} ${util_src})
+# Required C++14 features.
+target_compile_features(tank PUBLIC cxx_alias_templates cxx_auto_type
+  cxx_constexpr cxx_relaxed_constexpr cxx_decltype
+  cxx_default_function_template_args cxx_defaulted_functions
+  cxx_defaulted_move_initializers cxx_delegating_constructors
+  cxx_deleted_functions cxx_explicit_conversions
+  cxx_final cxx_generalized_initializers cxx_generic_lambdas
+  cxx_inheriting_constructors cxx_lambdas cxx_lambda_init_captures
+  cxx_local_type_template_args cxx_long_long_type cxx_noexcept
+  cxx_nonstatic_member_init cxx_nullptr cxx_override cxx_range_for
+  cxx_raw_string_literals cxx_return_type_deduction cxx_right_angle_brackets
+  cxx_rvalue_references cxx_static_assert cxx_strong_enums
+  cxx_trailing_return_types cxx_uniform_initialization cxx_user_literals
+  cxx_variable_templates cxx_variadic_templates)
+
 target_link_libraries(tank ${SFML_LIBRARIES} ${CMAKE_THREAD_LIBS_INIT})
