@@ -50,7 +50,7 @@ add_library(tank ${audio_src} ${gfx_src} ${geom_src} ${sys_src} ${util_src})
 set(CMAKE_CXX_EXTENSIONS OFF)
 # Required C++14 features.
 target_compile_features(tank PUBLIC cxx_alias_templates cxx_auto_type
-  cxx_constexpr cxx_relaxed_constexpr cxx_decltype
+  cxx_constexpr cxx_decltype
   cxx_default_function_template_args cxx_defaulted_functions
   cxx_defaulted_move_initializers cxx_delegating_constructors
   cxx_deleted_functions cxx_explicit_conversions
@@ -61,9 +61,12 @@ target_compile_features(tank PUBLIC cxx_alias_templates cxx_auto_type
   cxx_raw_string_literals cxx_return_type_deduction cxx_right_angle_brackets
   cxx_rvalue_references cxx_static_assert cxx_strong_enums
   cxx_trailing_return_types cxx_uniform_initialization cxx_user_literals
-  cxx_variable_templates cxx_variadic_templates)
+  cxx_variadic_templates)
 
 target_include_directories(tank PUBLIC ${SFML_INCLUDE_DIR} ${Boost_INCLUDE_DIR}
   ${TANK_INCLUDE_DIR})
 
 target_link_libraries(tank ${SFML_LIBRARIES} ${CMAKE_THREAD_LIBS_INIT})
+
+include(CTest)
+add_subdirectory(tests)

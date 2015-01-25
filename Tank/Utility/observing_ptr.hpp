@@ -11,6 +11,13 @@
 namespace tank
 {
 
+/*! \brief Dumb pointer class.
+ *
+ * This class exists to protect memory that is owned by the game engine from
+ * being modified by users. Although a raw pointer could be used here, using a
+ * dumb pointer class makes it clear that the user is not expected to manage the
+ * memory.
+ */
 template <typename T>
 class observing_ptr
 {
@@ -20,11 +27,23 @@ class observing_ptr
     T* p_ = nullptr;
 
 public:
+    /*! \brief Default constructor
+     *
+     * Sets the pointer to null.
+     */
     observing_ptr() = default;
+
+    /// TODO: Why does this exist?
     observing_ptr(T& x) : p_(&x) {}
 
-    template <typename U>
-    observing_ptr(const std::unique_ptr<U>& ptr)
+    /*! \brief Construct from a unique_ptr.
+     *
+     * This allows construction from a unique pointer, setting the observing_ptr
+     * to the same address. This does not perform a copy. The reason this does
+     * not break unique_ptr's uniqueness contract is that observing_ptr is not
+     * an owning smart pointer and cannot delete its internal pointer.
+     */
+    observing_ptr(const std::unique_ptr<T>& ptr)
         : p_{ptr.get()}
     {
     }
@@ -51,7 +70,7 @@ public:
 
     T* operator->() { return p_; }
 
-    explicit operator bool() const { return p_; }
+    explicit operator bool() const { return p_ != nullptr; }
 
     bool operator==(const observing_ptr& other) const { return p_ == other.p_; }
 
@@ -73,9 +92,9 @@ public:
 
     T* get() { return p_; }
 
-    operator T&() { return *p_; }
+    explicit operator T&() { return *p_; }
 
-    operator T&() const { return *p_; }
+    explicit operator T&() const { return *p_; }
 };
 
 template <typename T, typename U>
