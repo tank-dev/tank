@@ -3,8 +3,6 @@ if (NOT DEFINED PROJECT_NAME)
     project (Tank)
 endif()
 
-enable_testing()
-
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH}
   "${CMAKE_CURRENT_SOURCE_DIR}/cmake/modules")
 
