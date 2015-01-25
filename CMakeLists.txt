@@ -3,32 +3,16 @@ if (NOT DEFINED PROJECT_NAME)
     project (Tank)
 endif()
 
-# Use only standard C++.
-set(CMAKE_CXX_EXTENSIONS OFF)
-
 enable_testing()
 
-set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_CURRENT_SOURCE_DIR}/cmake/modules")
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH}
+  "${CMAKE_CURRENT_SOURCE_DIR}/cmake/modules")
 
 find_package(SFML 2.0 REQUIRED system window graphics audio)
 find_package(Threads REQUIRED)
 find_package(Boost 1.53.0 REQUIRED)
 
-include_directories(${Boost_INCLUDE_DIR})
-include_directories(${SFML_INCLUDE_DIR})
-
-set(EXECUTABLE_OUTPUT_PATH ${CMAKE_BINARY_DIR})
-set(TANK_INCLUDE_DIRS ${CMAKE_CURRENT_SOURCE_DIR})
-
-if (${PROJECT_NAME} STREQUAL "Tank")
-    set(TANK_INCLUDE_DIRS ${CMAKE_CURRENT_SOURCE_DIR})
-    include_directories(${TANK_INCLUDE_DIRS})
-else()
-    set(TANK_INCLUDE_DIRS ${CMAKE_CURRENT_SOURCE_DIR} ${SFML_INCLUDE_DIR}
-        ${Boost_INCLUDE_DIR} PARENT_SCOPE)
-endif()
-
-include_directories(${TANK_INCLUDE_DIRS})
+set(TANK_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR})
 
 add_subdirectory(Tank/Audio)
 add_subdirectory(Tank/Graphics)
@@ -63,6 +47,9 @@ if(DOXYGEN_FOUND)
 endif(DOXYGEN_FOUND)
 
 add_library(tank ${audio_src} ${gfx_src} ${geom_src} ${sys_src} ${util_src})
+
+# Use only standard C++.
+set(CMAKE_CXX_EXTENSIONS OFF)
 # Required C++14 features.
 target_compile_features(tank PUBLIC cxx_alias_templates cxx_auto_type
   cxx_constexpr cxx_relaxed_constexpr cxx_decltype
@@ -77,5 +64,8 @@ target_compile_features(tank PUBLIC cxx_alias_templates cxx_auto_type
   cxx_rvalue_references cxx_static_assert cxx_strong_enums
   cxx_trailing_return_types cxx_uniform_initialization cxx_user_literals
   cxx_variable_templates cxx_variadic_templates)
+
+target_include_directories(tank PUBLIC ${SFML_INCLUDE_DIR} ${Boost_INCLUDE_DIR}
+  ${TANK_INCLUDE_DIR})
 
 target_link_libraries(tank ${SFML_LIBRARIES} ${CMAKE_THREAD_LIBS_INIT})
