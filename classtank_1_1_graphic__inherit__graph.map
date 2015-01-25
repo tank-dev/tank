@@ -1,0 +1,12 @@
+<map id="tank::Graphic" name="tank::Graphic">
+<area shape="rect" id="node3" href="$classtank_1_1_bitmap_text.html" title="tank::BitmapText" alt="" coords="5,152,125,177"/>
+<area shape="rect" id="node4" href="$classtank_1_1_frame_list.html" title="Represents an image with multiple frames and stores animations for that image. " alt="" coords="149,152,262,177"/>
+<area shape="rect" id="node5" href="$classtank_1_1_image.html" title="tank::Image" alt="" coords="286,152,377,177"/>
+<area shape="rect" id="node7" href="$classtank_1_1_shape.html" title="tank::Shape" alt="" coords="402,152,494,177"/>
+<area shape="rect" id="node11" href="$classtank_1_1_text.html" title="tank::Text" alt="" coords="518,152,596,177"/>
+<area shape="rect" id="node2" href="$classtank_1_1_transformable.html" title="tank::Transformable" alt="" coords="262,5,402,31"/>
+<area shape="rect" id="node6" href="$classtank_1_1_tilemap.html" title="This is a tilemap. " alt="" coords="183,225,284,251"/>
+<area shape="rect" id="node8" href="$classtank_1_1_circle_shape.html" title="tank::CircleShape" alt="" coords="307,225,434,251"/>
+<area shape="rect" id="node9" href="$classtank_1_1_convex_shape.html" title="tank::ConvexShape" alt="" coords="458,225,595,251"/>
+<area shape="rect" id="node10" href="$classtank_1_1_rectangle_shape.html" title="tank::RectangleShape" alt="" coords="620,225,772,251"/>
+</map>

@@ -1,0 +1,5 @@
+<map id="tank::RectangleShape" name="tank::RectangleShape">
+<area shape="rect" id="node2" href="$classtank_1_1_shape.html" title="tank::Shape" alt="" coords="35,152,128,177"/>
+<area shape="rect" id="node3" href="$classtank_1_1_graphic.html" title="tank::Graphic" alt="" coords="31,79,132,104"/>
+<area shape="rect" id="node4" href="$classtank_1_1_transformable.html" title="tank::Transformable" alt="" coords="12,5,151,31"/>
+</map>

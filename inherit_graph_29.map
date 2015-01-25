@@ -1,0 +1,5 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="node1" href="$classtank_1_1_tween_func.html" title="This is a template class for the tween functions. " alt="" coords="5,31,159,56"/>
+<area shape="rect" id="node2" href="$classtank_1_1_linear_func.html" title="tank::LinearFunc\&lt; T \&gt;" alt="" coords="209,5,360,31"/>
+<area shape="rect" id="node3" href="$classtank_1_1_steady_func.html" title="tank::SteadyFunc\&lt; T \&gt;" alt="" coords="207,55,363,80"/>
+</map>

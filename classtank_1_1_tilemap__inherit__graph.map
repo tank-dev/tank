@@ -1,0 +1,5 @@
+<map id="tank::Tilemap" name="tank::Tilemap">
+<area shape="rect" id="node2" href="$classtank_1_1_image.html" title="tank::Image" alt="" coords="30,152,121,177"/>
+<area shape="rect" id="node3" href="$classtank_1_1_graphic.html" title="tank::Graphic" alt="" coords="25,79,125,104"/>
+<area shape="rect" id="node4" href="$classtank_1_1_transformable.html" title="tank::Transformable" alt="" coords="5,5,145,31"/>
+</map>

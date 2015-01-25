@@ -1,0 +1,7 @@
+<map id="tank::Shape" name="tank::Shape">
+<area shape="rect" id="node4" href="$classtank_1_1_circle_shape.html" title="tank::CircleShape" alt="" coords="5,225,132,251"/>
+<area shape="rect" id="node5" href="$classtank_1_1_convex_shape.html" title="tank::ConvexShape" alt="" coords="156,225,293,251"/>
+<area shape="rect" id="node6" href="$classtank_1_1_rectangle_shape.html" title="tank::RectangleShape" alt="" coords="318,225,470,251"/>
+<area shape="rect" id="node2" href="$classtank_1_1_graphic.html" title="tank::Graphic" alt="" coords="174,79,275,104"/>
+<area shape="rect" id="node3" href="$classtank_1_1_transformable.html" title="tank::Transformable" alt="" coords="155,5,294,31"/>
+</map>
