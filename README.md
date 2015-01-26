@@ -1,5 +1,6 @@
 Tank
 ====
+[![Build Status](https://travis-ci.org/tank-dev/tank.svg?branch=testing)](https://travis-ci.org/tank-dev/tank)
 
 A 2D C++ game engine taking inspiration from [FlashPunk](http://useflashpunk.net).
 

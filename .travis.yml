@@ -6,6 +6,8 @@ compiler:
   - gcc
   - clang
 
+cache: apt
+
 install: source .travis-deps-ubuntu.sh
 
 env:
