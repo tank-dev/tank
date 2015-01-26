@@ -1,6 +1,6 @@
 language: cpp
 
-script: mkdir build && cd build && cmake .. && make && make Continuous
+script: mkdir build && cd build && cmake .. && make && make Experimental
 
 compiler:
   - gcc
