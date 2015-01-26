@@ -7,6 +7,11 @@ compiler:
 
 cache: apt
 
+branches:
+  only:
+    - master
+    - dev
+
 install: source .travis-deps-ubuntu.sh
 
 env:
