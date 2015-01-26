@@ -90,6 +90,8 @@ public:
 
     bool operator!=(const T* const other) const { return p_ != other; }
 
+    /*! \brief Return the contained pointer.
+     */
     T* get() { return p_; }
 
     explicit operator T&() { return *p_; }

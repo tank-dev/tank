@@ -1,0 +1,25 @@
+language: cpp
+
+script: mkdir build && cd build && cmake .. && make && make Continuous
+
+compiler:
+  - gcc
+  - clang
+
+cache: apt
+
+install: source .travis-deps-ubuntu.sh
+
+env:
+  global:
+    secure: opJfi3qT54216hX8gxqwO9dIC+YWkkQHQR9kHWLIeHHtPGqM1pMKECRHPfPQn+y1yXRBTPFGYrmO6o3B6/AuWtLA677nqWKC6hlwMsr3m+4oIe/nb4hIkje+3Y6HLo6w3mP/aiwj1fIDznBSCx3qKVFjPYM6BVorA5H0mi6OSbs=
+
+after_success:
+  - git config --global user.name "${GIT_NAME}"
+  - git config --global user.email "${GIT_EMAIL}"
+  - git clone -b gh-pages https://github.com/tank-dev/tank.git gh-docs
+  - make doc
+  - cp -fr doc/html/* gh-docs
+  - cd gh-docs
+  - git commit -a -m "Updated doxygen documentation"
+  - git push https://${GH_TOKEN}@github.com/tank-dev/tank gh-pages

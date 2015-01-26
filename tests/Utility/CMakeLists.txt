@@ -1,0 +1,1 @@
+add_tank_test(observing_ptr observing_ptr_test observing_ptr_test.cpp)
