@@ -4,7 +4,6 @@ script: mkdir build && cd build && cmake .. && make && make Experimental
 
 compiler:
   - gcc
-  - clang
 
 cache: apt
 
