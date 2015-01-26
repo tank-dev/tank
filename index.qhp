@@ -6,6 +6,7 @@
     <filterAttribute>doxygen</filterAttribute>
     <toc>
       <section title="Tank" ref="index.html">
+        <section title="Deprecated List" ref="deprecated.html" />
         <section title="Classes">
           <section title="Class List" ref="annotated.html">
             <section title="std">
@@ -373,26 +374,23 @@
               </section>
               <section title="observing_ptr" ref="classtank_1_1observing__ptr.html">
                 <section title="observing_ptr" ref="classtank_1_1observing__ptr.html#a705b848c6e20c5db995890a73fcc35fa" />
-                <section title="observing_ptr" ref="classtank_1_1observing__ptr.html#a3f5dc8650f318ef7bafcc334a82e3b10" />
-                <section title="observing_ptr" ref="classtank_1_1observing__ptr.html#a6a105da27f83c9c5ea39776b811f0715" />
-                <section title="observing_ptr" ref="classtank_1_1observing__ptr.html#a9e52c24781c04bcb60fc2d0672b42101" />
                 <section title="observing_ptr" ref="classtank_1_1observing__ptr.html#aebafe969291244a6b970c6e69754e81f" />
+                <section title="observing_ptr" ref="classtank_1_1observing__ptr.html#a9e52c24781c04bcb60fc2d0672b42101" />
+                <section title="observing_ptr" ref="classtank_1_1observing__ptr.html#ae0801ce93220e31c46cb49d5fd56fce5" />
                 <section title="observing_ptr" ref="classtank_1_1observing__ptr.html#a0b7034052a97abe284bce073d5db720a" />
+                <section title="observing_ptr" ref="classtank_1_1observing__ptr.html#a92ac7200eed606a36ca53e50ffcd8c2a" />
                 <section title="get" ref="classtank_1_1observing__ptr.html#a3513b299b2734fd1bb11ffecbc52895d" />
                 <section title="operator bool" ref="classtank_1_1observing__ptr.html#ad1a7d54421b85143d27172c56eac3760" />
-                <section title="operator T &amp;" ref="classtank_1_1observing__ptr.html#a99d1bd973602888c183e08751facced1" />
-                <section title="operator T &amp;" ref="classtank_1_1observing__ptr.html#a68b687c6084704a127161e1beea76165" />
-                <section title="operator!=" ref="classtank_1_1observing__ptr.html#a985b9cead7b641e9e9aeae5a9e179dc0" />
+                <section title="operator const not_bool_convertible&lt; U &gt; &amp;" ref="classtank_1_1observing__ptr.html#a587f43f0e9e12160331abf54e627ca1b" />
+                <section title="operator not_bool_convertible&lt; U &gt; &amp;" ref="classtank_1_1observing__ptr.html#a231ab0756183dcb5679b856488afe96d" />
                 <section title="operator!=" ref="classtank_1_1observing__ptr.html#a6560ce45eff094b5978221337d5074eb" />
                 <section title="operator!=" ref="classtank_1_1observing__ptr.html#acdb98562da4da3a8e78897715ce904ae" />
-                <section title="operator*" ref="classtank_1_1observing__ptr.html#abc2f34b37b639ea11e56ce2dd8c7d057" />
-                <section title="operator*" ref="classtank_1_1observing__ptr.html#ac3cf07bf8be1d9bf1dfd654c7b0e4753" />
-                <section title="operator-&gt;" ref="classtank_1_1observing__ptr.html#a09004f4eb90441bf3d71048af8807cd4" />
-                <section title="operator-&gt;" ref="classtank_1_1observing__ptr.html#ae56e5ac7e9252eb2cbc0de7dddf649b3" />
-                <section title="operator==" ref="classtank_1_1observing__ptr.html#aa180b5bc5dbd57017137b6be4a6ca8e5" />
+                <section title="operator!=" ref="classtank_1_1observing__ptr.html#a0f8acaf463fb04d830a7e57a647ebd5e" />
+                <section title="operator*" ref="classtank_1_1observing__ptr.html#a61be232ab9cbac795cc77b01c573e184" />
+                <section title="operator-&gt;" ref="classtank_1_1observing__ptr.html#a398d9b877c6b379074c20bb53f8caf6e" />
                 <section title="operator==" ref="classtank_1_1observing__ptr.html#a51223e75df1e6e95ddc1628730e2c712" />
                 <section title="operator==" ref="classtank_1_1observing__ptr.html#a2907848ce1a73473d24ac0d800e1c738" />
-                <section title="observing_ptr" ref="classtank_1_1observing__ptr.html#abd9f19c50ce8c9c8f1d68692714e615a" />
+                <section title="operator==" ref="classtank_1_1observing__ptr.html#a29b57c5ce38a5dc732e78aa5edc38db2" />
                 <section title="std::hash&lt; observing_ptr &gt;" ref="classtank_1_1observing__ptr.html#aa09ebd84bcf2d257b262c799abdeb0d5" />
               </section>
               <section title="Rect" ref="structtank_1_1_rect.html">
@@ -701,6 +699,7 @@
       </section>
     </toc>
     <keywords>
+      <keyword name="Deprecated List" id="Deprecated List" ref="deprecated.html" />
       <keyword name="std::hash&lt; tank::observing_ptr&lt; T &gt; &gt;" id="std::hash&lt; tank::observing_ptr&lt; T &gt; &gt;" ref="structstd_1_1hash_3_01tank_1_1observing__ptr_3_01_t_01_4_01_4.html" />
       <keyword name="operator()" id="std::hash&lt; tank::observing_ptr&lt; T &gt; &gt;::operator()" ref="structstd_1_1hash_3_01tank_1_1observing__ptr_3_01_t_01_4_01_4.html#a24f0fe90ab5e84171ecfe6b07d701c4c" />
       <keyword name="std::hash&lt; tank::Vector&lt; T &gt; &gt;" id="std::hash&lt; tank::Vector&lt; T &gt; &gt;" ref="structstd_1_1hash_3_01tank_1_1_vector_3_01_t_01_4_01_4.html" />
@@ -1221,27 +1220,24 @@
       <keyword name="operator bool" id="tank::Music::operator bool" ref="classtank_1_1_music.html#a8f1e04d4cdc9646ea04c9c3df7e03ba4" />
       <keyword name="tank::observing_ptr" id="tank::observing_ptr" ref="classtank_1_1observing__ptr.html" />
       <keyword name="observing_ptr" id="tank::observing_ptr::observing_ptr" ref="classtank_1_1observing__ptr.html#a705b848c6e20c5db995890a73fcc35fa" />
-      <keyword name="observing_ptr" id="tank::observing_ptr::observing_ptr" ref="classtank_1_1observing__ptr.html#a3f5dc8650f318ef7bafcc334a82e3b10" />
-      <keyword name="observing_ptr" id="tank::observing_ptr::observing_ptr" ref="classtank_1_1observing__ptr.html#a6a105da27f83c9c5ea39776b811f0715" />
-      <keyword name="observing_ptr" id="tank::observing_ptr::observing_ptr" ref="classtank_1_1observing__ptr.html#a9e52c24781c04bcb60fc2d0672b42101" />
       <keyword name="observing_ptr" id="tank::observing_ptr::observing_ptr" ref="classtank_1_1observing__ptr.html#aebafe969291244a6b970c6e69754e81f" />
+      <keyword name="observing_ptr" id="tank::observing_ptr::observing_ptr" ref="classtank_1_1observing__ptr.html#a9e52c24781c04bcb60fc2d0672b42101" />
+      <keyword name="observing_ptr" id="tank::observing_ptr::observing_ptr" ref="classtank_1_1observing__ptr.html#ae0801ce93220e31c46cb49d5fd56fce5" />
       <keyword name="observing_ptr" id="tank::observing_ptr::observing_ptr" ref="classtank_1_1observing__ptr.html#a0b7034052a97abe284bce073d5db720a" />
-      <keyword name="operator*" id="tank::observing_ptr::operator*" ref="classtank_1_1observing__ptr.html#abc2f34b37b639ea11e56ce2dd8c7d057" />
-      <keyword name="operator-&gt;" id="tank::observing_ptr::operator-&gt;" ref="classtank_1_1observing__ptr.html#a09004f4eb90441bf3d71048af8807cd4" />
-      <keyword name="operator*" id="tank::observing_ptr::operator*" ref="classtank_1_1observing__ptr.html#ac3cf07bf8be1d9bf1dfd654c7b0e4753" />
-      <keyword name="operator-&gt;" id="tank::observing_ptr::operator-&gt;" ref="classtank_1_1observing__ptr.html#ae56e5ac7e9252eb2cbc0de7dddf649b3" />
+      <keyword name="observing_ptr" id="tank::observing_ptr::observing_ptr" ref="classtank_1_1observing__ptr.html#a92ac7200eed606a36ca53e50ffcd8c2a" />
+      <keyword name="operator*" id="tank::observing_ptr::operator*" ref="classtank_1_1observing__ptr.html#a61be232ab9cbac795cc77b01c573e184" />
+      <keyword name="operator-&gt;" id="tank::observing_ptr::operator-&gt;" ref="classtank_1_1observing__ptr.html#a398d9b877c6b379074c20bb53f8caf6e" />
       <keyword name="operator bool" id="tank::observing_ptr::operator bool" ref="classtank_1_1observing__ptr.html#ad1a7d54421b85143d27172c56eac3760" />
-      <keyword name="operator==" id="tank::observing_ptr::operator==" ref="classtank_1_1observing__ptr.html#aa180b5bc5dbd57017137b6be4a6ca8e5" />
       <keyword name="operator==" id="tank::observing_ptr::operator==" ref="classtank_1_1observing__ptr.html#a51223e75df1e6e95ddc1628730e2c712" />
-      <keyword name="operator==" id="tank::observing_ptr::operator==" ref="classtank_1_1observing__ptr.html#a2907848ce1a73473d24ac0d800e1c738" />
-      <keyword name="operator!=" id="tank::observing_ptr::operator!=" ref="classtank_1_1observing__ptr.html#a985b9cead7b641e9e9aeae5a9e179dc0" />
       <keyword name="operator!=" id="tank::observing_ptr::operator!=" ref="classtank_1_1observing__ptr.html#a6560ce45eff094b5978221337d5074eb" />
+      <keyword name="operator==" id="tank::observing_ptr::operator==" ref="classtank_1_1observing__ptr.html#a2907848ce1a73473d24ac0d800e1c738" />
       <keyword name="operator!=" id="tank::observing_ptr::operator!=" ref="classtank_1_1observing__ptr.html#acdb98562da4da3a8e78897715ce904ae" />
+      <keyword name="operator==" id="tank::observing_ptr::operator==" ref="classtank_1_1observing__ptr.html#a29b57c5ce38a5dc732e78aa5edc38db2" />
+      <keyword name="operator!=" id="tank::observing_ptr::operator!=" ref="classtank_1_1observing__ptr.html#a0f8acaf463fb04d830a7e57a647ebd5e" />
       <keyword name="get" id="tank::observing_ptr::get" ref="classtank_1_1observing__ptr.html#a3513b299b2734fd1bb11ffecbc52895d" />
-      <keyword name="operator T &amp;" id="tank::observing_ptr::operator T &amp;" ref="classtank_1_1observing__ptr.html#a99d1bd973602888c183e08751facced1" />
-      <keyword name="operator T &amp;" id="tank::observing_ptr::operator T &amp;" ref="classtank_1_1observing__ptr.html#a68b687c6084704a127161e1beea76165" />
+      <keyword name="operator not_bool_convertible&lt; U &gt; &amp;" id="tank::observing_ptr::operator not_bool_convertible&lt; U &gt; &amp;" ref="classtank_1_1observing__ptr.html#a231ab0756183dcb5679b856488afe96d" />
+      <keyword name="operator const not_bool_convertible&lt; U &gt; &amp;" id="tank::observing_ptr::operator const not_bool_convertible&lt; U &gt; &amp;" ref="classtank_1_1observing__ptr.html#a587f43f0e9e12160331abf54e627ca1b" />
       <keyword name="std::hash&lt; observing_ptr &gt;" id="tank::observing_ptr::std::hash&lt; observing_ptr &gt;" ref="classtank_1_1observing__ptr.html#aa09ebd84bcf2d257b262c799abdeb0d5" />
-      <keyword name="observing_ptr" id="tank::observing_ptr::observing_ptr" ref="classtank_1_1observing__ptr.html#abd9f19c50ce8c9c8f1d68692714e615a" />
       <keyword name="tank::Rect" id="tank::Rect" ref="structtank_1_1_rect.html" />
       <keyword name="Rect" id="tank::Rect::Rect" ref="structtank_1_1_rect.html#a2447ae671d8d1f3544434fbf0bc670fd" />
       <keyword name="Rect" id="tank::Rect::Rect" ref="structtank_1_1_rect.html#a525e02d2e67ed1be062ba8cd2992eddd" />
@@ -1585,6 +1581,7 @@
       <file>/search/close.png</file>
       <file>search/search.css</file>
       <file>search/search.js</file>
+      <file>deprecated.html</file>
       <file>structstd_1_1hash_3_01tank_1_1observing__ptr_3_01_t_01_4_01_4.html</file>
       <file>structstd_1_1hash_3_01tank_1_1observing__ptr_3_01_t_01_4_01_4-members.html</file>
       <file>structstd_1_1hash_3_01tank_1_1_vector_3_01_t_01_4_01_4.html</file>
@@ -1741,6 +1738,7 @@
       <file>dir_c16eedbd6c67372c52a1866e68ecba17_dep.svg</file>
       <file>dir_c16eedbd6c67372c52a1866e68ecba17_dep.svg</file>
       <file>index.html</file>
+      <file>pages.html</file>
       <file>annotated.html</file>
       <file>classes.html</file>
       <file>hierarchy.html</file>
