@@ -141,4 +141,16 @@ TEST_CASE("Observing Pointer Class", "[utility][observing_ptr]")
         REQUIRE(x != p);
     }
 
+    SECTION("Hash function works as expected") {
+        auto up1 = std::make_unique<int>(4);
+        auto up2 = std::make_unique<int>(4);
+        tank::observing_ptr<int> p1 {up1};
+        tank::observing_ptr<int> p2 {up2};
+
+        auto hash = std::hash<tank::observing_ptr<int>>{};
+
+        REQUIRE(hash(p1) == hash(p1));
+        REQUIRE(hash(p1) != hash(p2));
+    }
+
 }

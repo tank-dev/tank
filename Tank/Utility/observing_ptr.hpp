@@ -310,11 +310,16 @@ bool operator!=(const T* const lhs, const observing_ptr<U>& rhs)
 
 namespace std
 {
+/*! \brief Hash function on observing_ptr.
+ *
+ * This allows the observing_ptr to be stored in std::unordered_set and
+ * std::unordered_map. It simply returns the hash of the internal pointer.
+ */
 template <typename T>
 struct hash<tank::observing_ptr<T>> {
     size_t operator()(const tank::observing_ptr<T>& ptr) const
     {
-        return std::hash<T>(ptr.p_);
+        return std::hash<T*>{}(ptr.p_);
     }
 };
 }
