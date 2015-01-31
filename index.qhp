@@ -407,6 +407,8 @@
                 <section title="Rect" ref="structtank_1_1_rect.html#a465c1893fa9f6ee48d578790c1ce099f" />
                 <section title="intersects" ref="structtank_1_1_rect.html#a216e211419d1b1a7b9fbfb11a089eb11" />
                 <section title="intersects" ref="structtank_1_1_rect.html#aef995751011e462d7cbbddcea41e8784" />
+                <section title="operator!=" ref="structtank_1_1_rect.html#a15d88340f3b1eb66ca320aff9ff42d0b" />
+                <section title="operator==" ref="structtank_1_1_rect.html#ad5624d14136155a651ace4b9d971b195" />
                 <section title="h" ref="structtank_1_1_rect.html#a29df439aeeebd7e1f7b6529dcca5b91c" />
                 <section title="w" ref="structtank_1_1_rect.html#af3edb0440d0778b23b0a992ad77b10db" />
                 <section title="x" ref="structtank_1_1_rect.html#a60e7557664e8baef28f5d26041e4a853" />
@@ -1264,6 +1266,8 @@
       <keyword name="y" id="tank::Rect::y" ref="structtank_1_1_rect.html#a0494ba1bc752c5ee86cada506189d0b4" />
       <keyword name="w" id="tank::Rect::w" ref="structtank_1_1_rect.html#af3edb0440d0778b23b0a992ad77b10db" />
       <keyword name="h" id="tank::Rect::h" ref="structtank_1_1_rect.html#a29df439aeeebd7e1f7b6529dcca5b91c" />
+      <keyword name="operator==" id="tank::Rect::operator==" ref="structtank_1_1_rect.html#ad5624d14136155a651ace4b9d971b195" />
+      <keyword name="operator!=" id="tank::Rect::operator!=" ref="structtank_1_1_rect.html#a15d88340f3b1eb66ca320aff9ff42d0b" />
       <keyword name="tank::RectangleShape" id="tank::RectangleShape" ref="classtank_1_1_rectangle_shape.html" />
       <keyword name="RectangleShape" id="tank::RectangleShape::RectangleShape" ref="classtank_1_1_rectangle_shape.html#a17e58b62cb068f703af73a0d2f080595" />
       <keyword name="RectangleShape" id="tank::RectangleShape::RectangleShape" ref="classtank_1_1_rectangle_shape.html#a383917fd052fcaf48548f447e0a4bd79" />
@@ -1812,6 +1816,9 @@
       <file>functions.html</file>
       <file>functions.html</file>
       <file>functions.html</file>
+      <file>functions.html</file>
+      <file>functions.html</file>
+      <file>functions.html</file>
       <file>functions_func.html</file>
       <file>functions_func.html</file>
       <file>functions_func.html</file>
@@ -1830,6 +1837,10 @@
       <file>functions_func.html</file>
       <file>functions_func.html</file>
       <file>functions_func.html</file>
+      <file>functions_vars.html</file>
+      <file>functions_vars.html</file>
+      <file>functions_vars.html</file>
+      <file>functions_vars.html</file>
       <file>functions_vars.html</file>
       <file>functions_vars.html</file>
       <file>functions_vars.html</file>

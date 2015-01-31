@@ -1,6 +1,7 @@
 var searchData=
 [
   ['rect',['Rect',['../structtank_1_1_rect.html',1,'tank']]],
+  ['rect',['Rect',['../structtank_1_1_rect.html#a2447ae671d8d1f3544434fbf0bc670fd',1,'tank::Rect::Rect(T x=0, T y=0, T w=0, T h=0)'],['../structtank_1_1_rect.html#a525e02d2e67ed1be062ba8cd2992eddd',1,'tank::Rect::Rect(U x, U y, U w, U h)'],['../structtank_1_1_rect.html#a465c1893fa9f6ee48d578790c1ce099f',1,'tank::Rect::Rect(const Rect&lt; U &gt; &amp;rect)']]],
   ['rect_3c_20double_20_3e',['Rect&lt; double &gt;',['../structtank_1_1_rect.html',1,'tank']]],
   ['rect_3c_20unsigned_20int_20_3e',['Rect&lt; unsigned int &gt;',['../structtank_1_1_rect.html',1,'tank']]],
   ['rectangleshape',['RectangleShape',['../classtank_1_1_rectangle_shape.html',1,'tank']]],
