@@ -18,7 +18,9 @@ set(CATCH_INCLUDE_DIR ${source_dir}/include)
 
 enable_testing(true)
 
-function(add_tank_test test_name exe_name sources)
+function(add_tank_test test_name)
+  set(exe_name "${test_name}_test")
+  set(sources "${exe_name}.cpp")
   add_executable(${exe_name} ${sources})
   target_include_directories(${exe_name} PRIVATE ${CATCH_INCLUDE_DIR})
   target_link_libraries(${exe_name} tank)

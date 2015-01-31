@@ -1,1 +1,2 @@
-add_tank_test(observing_ptr observing_ptr_test observing_ptr_test.cpp)
+add_tank_test(observing_ptr)
+add_tank_test(Rect)
