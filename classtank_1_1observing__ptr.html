@@ -99,6 +99,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="#friends">Friends</a> &#124;
+<a href="#related">Related Functions</a> &#124;
 <a href="classtank_1_1observing__ptr-members.html">List of all members</a>  </div>
   <div class="headertitle">
 <div class="title">tank::observing_ptr&lt; T &gt; Class Template Reference</div>  </div>
@@ -128,10 +129,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a9e52c24781c04bcb60fc2d0672b42101"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtank_1_1observing__ptr.html#a9e52c24781c04bcb60fc2d0672b42101">observing_ptr</a> (std::nullptr_t)</td></tr>
 <tr class="memdesc:a9e52c24781c04bcb60fc2d0672b42101"><td class="mdescLeft">&#160;</td><td class="mdescRight">Construct from a nullptr.  <a href="#a9e52c24781c04bcb60fc2d0672b42101">More...</a><br /></td></tr>
 <tr class="separator:a9e52c24781c04bcb60fc2d0672b42101"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae0801ce93220e31c46cb49d5fd56fce5"><td class="memTemplParams" colspan="2">template&lt;typename U &gt; </td></tr>
-<tr class="memitem:ae0801ce93220e31c46cb49d5fd56fce5"><td class="memTemplItemLeft" align="right" valign="top">&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classtank_1_1observing__ptr.html#ae0801ce93220e31c46cb49d5fd56fce5">observing_ptr</a> (const std::unique_ptr&lt; U &gt; &amp;ptr)</td></tr>
-<tr class="memdesc:ae0801ce93220e31c46cb49d5fd56fce5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Construct from a unique_ptr.  <a href="#ae0801ce93220e31c46cb49d5fd56fce5">More...</a><br /></td></tr>
-<tr class="separator:ae0801ce93220e31c46cb49d5fd56fce5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6a105da27f83c9c5ea39776b811f0715"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtank_1_1observing__ptr.html#a6a105da27f83c9c5ea39776b811f0715">observing_ptr</a> (const std::unique_ptr&lt; T &gt; &amp;ptr)</td></tr>
+<tr class="memdesc:a6a105da27f83c9c5ea39776b811f0715"><td class="mdescLeft">&#160;</td><td class="mdescRight">Construct from a unique_ptr.  <a href="#a6a105da27f83c9c5ea39776b811f0715">More...</a><br /></td></tr>
+<tr class="separator:a6a105da27f83c9c5ea39776b811f0715"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0b7034052a97abe284bce073d5db720a"><td class="memTemplParams" colspan="2">template&lt;typename U &gt; </td></tr>
 <tr class="memitem:a0b7034052a97abe284bce073d5db720a"><td class="memTemplItemLeft" align="right" valign="top">&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classtank_1_1observing__ptr.html#a0b7034052a97abe284bce073d5db720a">observing_ptr</a> (U *ptr)</td></tr>
 <tr class="memdesc:a0b7034052a97abe284bce073d5db720a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor from a raw pointer.  <a href="#a0b7034052a97abe284bce073d5db720a">More...</a><br /></td></tr>
@@ -148,6 +148,12 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:ad1a7d54421b85143d27172c56eac3760"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtank_1_1observing__ptr.html#ad1a7d54421b85143d27172c56eac3760">operator bool</a> () const </td></tr>
 <tr class="memdesc:ad1a7d54421b85143d27172c56eac3760"><td class="mdescLeft">&#160;</td><td class="mdescRight">Explicit bool conversion operator.  <a href="#ad1a7d54421b85143d27172c56eac3760">More...</a><br /></td></tr>
 <tr class="separator:ad1a7d54421b85143d27172c56eac3760"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2786aa4fc927fda8bdd6843907ae4339"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtank_1_1observing__ptr.html#a2786aa4fc927fda8bdd6843907ae4339">operator==</a> (const <a class="el" href="classtank_1_1observing__ptr.html">observing_ptr</a>&lt; T &gt; &amp;other) const </td></tr>
+<tr class="memdesc:a2786aa4fc927fda8bdd6843907ae4339"><td class="mdescLeft">&#160;</td><td class="mdescRight">Equality comparison with <a class="el" href="classtank_1_1observing__ptr.html" title="Dumb pointer class. ">observing_ptr</a>.  <a href="#a2786aa4fc927fda8bdd6843907ae4339">More...</a><br /></td></tr>
+<tr class="separator:a2786aa4fc927fda8bdd6843907ae4339"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4ba031e1a2e1dc3038e31392a3b8bc43"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtank_1_1observing__ptr.html#a4ba031e1a2e1dc3038e31392a3b8bc43">operator!=</a> (const <a class="el" href="classtank_1_1observing__ptr.html">observing_ptr</a>&lt; T &gt; &amp;other) const </td></tr>
+<tr class="memdesc:a4ba031e1a2e1dc3038e31392a3b8bc43"><td class="mdescLeft">&#160;</td><td class="mdescRight">Inequality comparison with <a class="el" href="classtank_1_1observing__ptr.html" title="Dumb pointer class. ">observing_ptr</a>.  <a href="#a4ba031e1a2e1dc3038e31392a3b8bc43">More...</a><br /></td></tr>
+<tr class="separator:a4ba031e1a2e1dc3038e31392a3b8bc43"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a51223e75df1e6e95ddc1628730e2c712"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtank_1_1observing__ptr.html#a51223e75df1e6e95ddc1628730e2c712">operator==</a> (const std::unique_ptr&lt; T &gt; &amp;other) const </td></tr>
 <tr class="memdesc:a51223e75df1e6e95ddc1628730e2c712"><td class="mdescLeft">&#160;</td><td class="mdescRight">Equality comparison with unique_ptr.  <a href="#a51223e75df1e6e95ddc1628730e2c712">More...</a><br /></td></tr>
 <tr class="separator:a51223e75df1e6e95ddc1628730e2c712"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -169,13 +175,13 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a3513b299b2734fd1bb11ffecbc52895d"><td class="memItemLeft" align="right" valign="top">T *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classtank_1_1observing__ptr.html#a3513b299b2734fd1bb11ffecbc52895d">get</a> ()</td></tr>
 <tr class="memdesc:a3513b299b2734fd1bb11ffecbc52895d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the contained pointer.  <a href="#a3513b299b2734fd1bb11ffecbc52895d">More...</a><br /></td></tr>
 <tr class="separator:a3513b299b2734fd1bb11ffecbc52895d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a231ab0756183dcb5679b856488afe96d"><td class="memTemplParams" colspan="2"><a class="anchor" id="a231ab0756183dcb5679b856488afe96d"></a>
-template&lt;typename U  = T&gt; </td></tr>
-<tr class="memitem:a231ab0756183dcb5679b856488afe96d"><td class="memTemplItemLeft" align="right" valign="top">&#160;</td><td class="memTemplItemRight" valign="bottom"><b>operator not_bool_convertible&lt; U &gt; &amp;</b> ()</td></tr>
+<tr class="memitem:a231ab0756183dcb5679b856488afe96d"><td class="memTemplParams" colspan="2">template&lt;typename U  = T&gt; </td></tr>
+<tr class="memitem:a231ab0756183dcb5679b856488afe96d"><td class="memTemplItemLeft" align="right" valign="top">&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classtank_1_1observing__ptr.html#a231ab0756183dcb5679b856488afe96d">operator not_bool_convertible&lt; U &gt; &amp;</a> ()</td></tr>
+<tr class="memdesc:a231ab0756183dcb5679b856488afe96d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Implicit conversion to reference.  <a href="#a231ab0756183dcb5679b856488afe96d">More...</a><br /></td></tr>
 <tr class="separator:a231ab0756183dcb5679b856488afe96d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a587f43f0e9e12160331abf54e627ca1b"><td class="memTemplParams" colspan="2"><a class="anchor" id="a587f43f0e9e12160331abf54e627ca1b"></a>
-template&lt;typename U  = T&gt; </td></tr>
-<tr class="memitem:a587f43f0e9e12160331abf54e627ca1b"><td class="memTemplItemLeft" align="right" valign="top">&#160;</td><td class="memTemplItemRight" valign="bottom"><b>operator const not_bool_convertible&lt; U &gt; &amp;</b> () const </td></tr>
+<tr class="memitem:a587f43f0e9e12160331abf54e627ca1b"><td class="memTemplParams" colspan="2">template&lt;typename U  = T&gt; </td></tr>
+<tr class="memitem:a587f43f0e9e12160331abf54e627ca1b"><td class="memTemplItemLeft" align="right" valign="top">&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classtank_1_1observing__ptr.html#a587f43f0e9e12160331abf54e627ca1b">operator const not_bool_convertible&lt; U &gt; &amp;</a> () const </td></tr>
+<tr class="memdesc:a587f43f0e9e12160331abf54e627ca1b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Implicit conversion to const reference.  <a href="#a587f43f0e9e12160331abf54e627ca1b">More...</a><br /></td></tr>
 <tr class="separator:a587f43f0e9e12160331abf54e627ca1b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="friends"></a>
@@ -183,6 +189,35 @@ Friends</h2></td></tr>
 <tr class="memitem:aa09ebd84bcf2d257b262c799abdeb0d5"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aa09ebd84bcf2d257b262c799abdeb0d5"></a>
 struct&#160;</td><td class="memItemRight" valign="bottom"><b>std::hash&lt; observing_ptr &gt;</b></td></tr>
 <tr class="separator:aa09ebd84bcf2d257b262c799abdeb0d5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="related"></a>
+Related Functions</h2></td></tr>
+<tr><td class="ititle" colspan="2"><p>(Note that these are not member functions.) </p>
+</td></tr>
+<tr class="memitem:a44870eaef47a37431a14d4e9cd09b1d7"><td class="memTemplParams" colspan="2">template&lt;typename T , typename U &gt; </td></tr>
+<tr class="memitem:a44870eaef47a37431a14d4e9cd09b1d7"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classtank_1_1observing__ptr.html#a44870eaef47a37431a14d4e9cd09b1d7">operator==</a> (const T &amp;lhs, const <a class="el" href="classtank_1_1observing__ptr.html">observing_ptr</a>&lt; U &gt; &amp;rhs)</td></tr>
+<tr class="memdesc:a44870eaef47a37431a14d4e9cd09b1d7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Equality comparison with reference.  <a href="#a44870eaef47a37431a14d4e9cd09b1d7">More...</a><br /></td></tr>
+<tr class="separator:a44870eaef47a37431a14d4e9cd09b1d7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5364dc3a5c43bd6484b0fc2c13da6400"><td class="memTemplParams" colspan="2">template&lt;typename T , typename U &gt; </td></tr>
+<tr class="memitem:a5364dc3a5c43bd6484b0fc2c13da6400"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classtank_1_1observing__ptr.html#a5364dc3a5c43bd6484b0fc2c13da6400">operator!=</a> (const T &amp;lhs, const <a class="el" href="classtank_1_1observing__ptr.html">observing_ptr</a>&lt; U &gt; &amp;rhs)</td></tr>
+<tr class="memdesc:a5364dc3a5c43bd6484b0fc2c13da6400"><td class="mdescLeft">&#160;</td><td class="mdescRight">Inequality comparison with reference.  <a href="#a5364dc3a5c43bd6484b0fc2c13da6400">More...</a><br /></td></tr>
+<tr class="separator:a5364dc3a5c43bd6484b0fc2c13da6400"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a22357d33af28963b69dbf029e5591d6e"><td class="memTemplParams" colspan="2">template&lt;typename T , typename U &gt; </td></tr>
+<tr class="memitem:a22357d33af28963b69dbf029e5591d6e"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classtank_1_1observing__ptr.html#a22357d33af28963b69dbf029e5591d6e">operator==</a> (const std::unique_ptr&lt; T &gt; &amp;lhs, const <a class="el" href="classtank_1_1observing__ptr.html">observing_ptr</a>&lt; U &gt; &amp;rhs)</td></tr>
+<tr class="memdesc:a22357d33af28963b69dbf029e5591d6e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Equality comparison with unique_ptr.  <a href="#a22357d33af28963b69dbf029e5591d6e">More...</a><br /></td></tr>
+<tr class="separator:a22357d33af28963b69dbf029e5591d6e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a20907eb404899ffd64880e3673a76592"><td class="memTemplParams" colspan="2">template&lt;typename T , typename U &gt; </td></tr>
+<tr class="memitem:a20907eb404899ffd64880e3673a76592"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classtank_1_1observing__ptr.html#a20907eb404899ffd64880e3673a76592">operator!=</a> (const std::unique_ptr&lt; T &gt; &amp;lhs, const <a class="el" href="classtank_1_1observing__ptr.html">observing_ptr</a>&lt; U &gt; &amp;rhs)</td></tr>
+<tr class="memdesc:a20907eb404899ffd64880e3673a76592"><td class="mdescLeft">&#160;</td><td class="mdescRight">Inequality comparison with unique_ptr.  <a href="#a20907eb404899ffd64880e3673a76592">More...</a><br /></td></tr>
+<tr class="separator:a20907eb404899ffd64880e3673a76592"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a04481b9eca5f11fef7c38228a491e2f8"><td class="memTemplParams" colspan="2">template&lt;typename T , typename U &gt; </td></tr>
+<tr class="memitem:a04481b9eca5f11fef7c38228a491e2f8"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classtank_1_1observing__ptr.html#a04481b9eca5f11fef7c38228a491e2f8">operator==</a> (const T *const lhs, const <a class="el" href="classtank_1_1observing__ptr.html">observing_ptr</a>&lt; U &gt; &amp;rhs)</td></tr>
+<tr class="memdesc:a04481b9eca5f11fef7c38228a491e2f8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Equality comparison with raw pointer.  <a href="#a04481b9eca5f11fef7c38228a491e2f8">More...</a><br /></td></tr>
+<tr class="separator:a04481b9eca5f11fef7c38228a491e2f8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a13ddd322ff5c72a0028779377fcec8ed"><td class="memTemplParams" colspan="2">template&lt;typename T , typename U &gt; </td></tr>
+<tr class="memitem:a13ddd322ff5c72a0028779377fcec8ed"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classtank_1_1observing__ptr.html#a13ddd322ff5c72a0028779377fcec8ed">operator!=</a> (const T *const lhs, const <a class="el" href="classtank_1_1observing__ptr.html">observing_ptr</a>&lt; U &gt; &amp;rhs)</td></tr>
+<tr class="memdesc:a13ddd322ff5c72a0028779377fcec8ed"><td class="mdescLeft">&#160;</td><td class="mdescRight">Inequality comparison with raw pointer.  <a href="#a13ddd322ff5c72a0028779377fcec8ed">More...</a><br /></td></tr>
+<tr class="separator:a13ddd322ff5c72a0028779377fcec8ed"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><h3>template&lt;typename T&gt;<br />
@@ -279,13 +314,11 @@ template&lt;typename T&gt; </div>
 
 </div>
 </div>
-<a class="anchor" id="ae0801ce93220e31c46cb49d5fd56fce5"></a>
+<a class="anchor" id="a6a105da27f83c9c5ea39776b811f0715"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
 template&lt;typename T&gt; </div>
-<div class="memtemplate">
-template&lt;typename U &gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
@@ -293,7 +326,7 @@ template&lt;typename U &gt; </div>
         <tr>
           <td class="memname"><a class="el" href="classtank_1_1observing__ptr.html">tank::observing_ptr</a>&lt; T &gt;::<a class="el" href="classtank_1_1observing__ptr.html">observing_ptr</a> </td>
           <td>(</td>
-          <td class="paramtype">const std::unique_ptr&lt; U &gt; &amp;&#160;</td>
+          <td class="paramtype">const std::unique_ptr&lt; T &gt; &amp;&#160;</td>
           <td class="paramname"><em>ptr</em></td><td>)</td>
           <td></td>
         </tr>
@@ -427,6 +460,100 @@ template&lt;typename T&gt; </div>
 
 <p>Explicit bool conversion operator. </p>
 <dl class="section return"><dt>Returns</dt><dd>Whether the pointer is null. </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a587f43f0e9e12160331abf54e627ca1b"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T&gt; </div>
+<div class="memtemplate">
+template&lt;typename U  = T&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classtank_1_1observing__ptr.html">tank::observing_ptr</a>&lt; T &gt;::operator const not_bool_convertible&lt; U &gt; &amp; </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implicit conversion to const reference. </p>
+<p>This allows users to use references as opposed to observing_ptrs if they don't require the reference to be rebindable, for example for an entity in a world that will always exist.</p>
+<dl class="section note"><dt>Note</dt><dd>For normal usage the return type of this function can be considered to be const T&amp;. This function is only available when the class is not convertible to bool. This is due to issues with overload resolution, and is the reason that the type is more complex than a normal conversion operator.</dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>A reference to the contained object. </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a231ab0756183dcb5679b856488afe96d"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T&gt; </div>
+<div class="memtemplate">
+template&lt;typename U  = T&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classtank_1_1observing__ptr.html">tank::observing_ptr</a>&lt; T &gt;::operator not_bool_convertible&lt; U &gt; &amp; </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implicit conversion to reference. </p>
+<p>This allows users to use references as opposed to observing_ptrs if they don't require the reference to be rebindable, for example for an entity in a world that will always exist.</p>
+<dl class="section note"><dt>Note</dt><dd>For normal usage the return type of this function can be considered to be T&amp;. This function is only available when the class is not convertible to bool. This is due to issues with overload resolution, and is the reason that the type is more complex than a normal conversion operator.</dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>A reference to the contained object. </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a4ba031e1a2e1dc3038e31392a3b8bc43"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool <a class="el" href="classtank_1_1observing__ptr.html">tank::observing_ptr</a>&lt; T &gt;::operator!= </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classtank_1_1observing__ptr.html">observing_ptr</a>&lt; T &gt; &amp;&#160;</td>
+          <td class="paramname"><em>other</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Inequality comparison with <a class="el" href="classtank_1_1observing__ptr.html" title="Dumb pointer class. ">observing_ptr</a>. </p>
+<dl class="section note"><dt>Note</dt><dd>This performs a pointer comparison, not an object comparison.</dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>Whether the pointers are not equal. </dd></dl>
 
 </div>
 </div>
@@ -577,6 +704,36 @@ template&lt;typename T&gt; </div>
 
 </div>
 </div>
+<a class="anchor" id="a2786aa4fc927fda8bdd6843907ae4339"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool <a class="el" href="classtank_1_1observing__ptr.html">tank::observing_ptr</a>&lt; T &gt;::operator== </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classtank_1_1observing__ptr.html">observing_ptr</a>&lt; T &gt; &amp;&#160;</td>
+          <td class="paramname"><em>other</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Equality comparison with <a class="el" href="classtank_1_1observing__ptr.html" title="Dumb pointer class. ">observing_ptr</a>. </p>
+<dl class="section note"><dt>Note</dt><dd>This performs a pointer comparison, not an object comparison.</dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>Whether the pointers are equal. </dd></dl>
+
+</div>
+</div>
 <a class="anchor" id="a51223e75df1e6e95ddc1628730e2c712"></a>
 <div class="memitem">
 <div class="memproto">
@@ -663,6 +820,245 @@ template&lt;typename T&gt; </div>
 
 <p>Equality comparison with reference. </p>
 <dl class="deprecated"><dt><b><a class="el" href="deprecated.html#_deprecated000002">Deprecated:</a></b></dt><dd>This is quite an odd function to have, and doesn't really match the behaviour of the others. It may be removed once uses of it are removed from the rest of the engine.</dd></dl>
+
+</div>
+</div>
+<h2 class="groupheader">Friends And Related Function Documentation</h2>
+<a class="anchor" id="a5364dc3a5c43bd6484b0fc2c13da6400"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T , typename U &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool operator!= </td>
+          <td>(</td>
+          <td class="paramtype">const T &amp;&#160;</td>
+          <td class="paramname"><em>lhs</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="classtank_1_1observing__ptr.html">observing_ptr</a>&lt; U &gt; &amp;&#160;</td>
+          <td class="paramname"><em>rhs</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">related</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Inequality comparison with reference. </p>
+<dl class="deprecated"><dt><b><a class="el" href="deprecated.html#_deprecated000003">Deprecated:</a></b></dt><dd>This is quite an odd function to have, and doesn't really match the behaviour of the others. It may be removed once uses of it are removed from the rest of the engine.</dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a20907eb404899ffd64880e3673a76592"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T , typename U &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool operator!= </td>
+          <td>(</td>
+          <td class="paramtype">const std::unique_ptr&lt; T &gt; &amp;&#160;</td>
+          <td class="paramname"><em>lhs</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="classtank_1_1observing__ptr.html">observing_ptr</a>&lt; U &gt; &amp;&#160;</td>
+          <td class="paramname"><em>rhs</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">related</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Inequality comparison with unique_ptr. </p>
+<dl class="section note"><dt>Note</dt><dd>This performs a pointer comparison, not an object comparison.</dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>Whether the pointers are not equal. </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a13ddd322ff5c72a0028779377fcec8ed"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T , typename U &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool operator!= </td>
+          <td>(</td>
+          <td class="paramtype">const T *const&#160;</td>
+          <td class="paramname"><em>lhs</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="classtank_1_1observing__ptr.html">observing_ptr</a>&lt; U &gt; &amp;&#160;</td>
+          <td class="paramname"><em>rhs</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">related</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Inequality comparison with raw pointer. </p>
+<dl class="section note"><dt>Note</dt><dd>This performs a pointer comparison, not an object comparison.</dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>Whether the pointers are not equal. </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a44870eaef47a37431a14d4e9cd09b1d7"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T , typename U &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool operator== </td>
+          <td>(</td>
+          <td class="paramtype">const T &amp;&#160;</td>
+          <td class="paramname"><em>lhs</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="classtank_1_1observing__ptr.html">observing_ptr</a>&lt; U &gt; &amp;&#160;</td>
+          <td class="paramname"><em>rhs</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">related</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Equality comparison with reference. </p>
+<dl class="deprecated"><dt><b><a class="el" href="deprecated.html#_deprecated000002">Deprecated:</a></b></dt><dd>This is quite an odd function to have, and doesn't really match the behaviour of the others. It may be removed once uses of it are removed from the rest of the engine.</dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a22357d33af28963b69dbf029e5591d6e"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T , typename U &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool operator== </td>
+          <td>(</td>
+          <td class="paramtype">const std::unique_ptr&lt; T &gt; &amp;&#160;</td>
+          <td class="paramname"><em>lhs</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="classtank_1_1observing__ptr.html">observing_ptr</a>&lt; U &gt; &amp;&#160;</td>
+          <td class="paramname"><em>rhs</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">related</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Equality comparison with unique_ptr. </p>
+<dl class="section note"><dt>Note</dt><dd>This performs a pointer comparison, not an object comparison.</dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>Whether the pointers are equal. </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a04481b9eca5f11fef7c38228a491e2f8"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T , typename U &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool operator== </td>
+          <td>(</td>
+          <td class="paramtype">const T *const&#160;</td>
+          <td class="paramname"><em>lhs</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="classtank_1_1observing__ptr.html">observing_ptr</a>&lt; U &gt; &amp;&#160;</td>
+          <td class="paramname"><em>rhs</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">related</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Equality comparison with raw pointer. </p>
+<dl class="section note"><dt>Note</dt><dd>This performs a pointer comparison, not an object comparison.</dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>Whether the pointers are equal. </dd></dl>
 
 </div>
 </div>
