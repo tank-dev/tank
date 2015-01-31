@@ -8,7 +8,6 @@
 #include <memory>
 #include <functional>
 #include <type_traits>
-#include <boost/operators.hpp>
 
 namespace tank
 {
@@ -66,8 +65,8 @@ public:
      * This takes a unique_ptr of type U to allow conversion from a unique_ptr
      * to a derived type to an observing_ptr of base type.
      */
-    template <typename U>
-    observing_ptr(const std::unique_ptr<U>& ptr)
+    //template <typename U>
+    observing_ptr(const std::unique_ptr<T>& ptr)
         : p_{ptr.get()}
     {
     }
@@ -121,6 +120,28 @@ public:
      */
     explicit operator bool() const { return p_ != nullptr; }
 
+    /*! \brief Equality comparison with observing_ptr.
+     *
+     * \note This performs a pointer comparison, not an object comparison.
+     *
+     * \return Whether the pointers are equal.
+     */
+    bool operator==(const observing_ptr<T>& other) const
+    {
+        return p_ == other.p_;
+    }
+
+    /*! \brief Inequality comparison with observing_ptr.
+     *
+     * \note This performs a pointer comparison, not an object comparison.
+     *
+     * \return Whether the pointers are not equal.
+     */
+    bool operator!=(const observing_ptr<T>& other) const
+    {
+        return !(*this == other);
+    }
+
     /*! \brief Equality comparison with unique_ptr.
      *
      * \note This performs a pointer comparison, not an object comparison.
@@ -142,7 +163,7 @@ public:
      */
     bool operator!=(const std::unique_ptr<T>& other) const
     {
-        return p_ != other.get();
+        return !(*this == other);
     }
 
     /*! \brief Equality comparison with raw pointer.
@@ -161,7 +182,7 @@ public:
      * \return Whether the pointers are not equal.
      *
      */
-    bool operator!=(const T* const other) const { return p_ != other; }
+    bool operator!=(const T* const other) const { return !(*this == other); }
 
     /*! \brief Equality comparison with reference.
      *
@@ -188,44 +209,98 @@ public:
      */
     T* get() { return p_; }
 
+    /*! \brief Implicit conversion to reference.
+     *
+     * This allows users to use references as opposed to observing_ptrs if they
+     * don't require the reference to be rebindable, for example for an entity
+     * in a world that will always exist.
+     *
+     * \note For normal usage the return type of this function can be considered
+     *       to be T&.
+     *       This function is only available when the class is not convertible
+     *       to bool. This is due to issues with overload resolution, and is the
+     *       reason that the type is more complex than a normal conversion
+     *       operator.
+
+     * \return A reference to the contained object.
+     */
     template <typename U = T>
     operator not_bool_convertible<U>& () { return *p_; }
 
+    /*! \brief Implicit conversion to const reference.
+     *
+     * This allows users to use references as opposed to observing_ptrs if they
+     * don't require the reference to be rebindable, for example for an entity
+     * in a world that will always exist.
+     *
+     * \note For normal usage the return type of this function can be considered
+     *       to be const T&.
+     *       This function is only available when the class is not convertible
+     *       to bool. This is due to issues with overload resolution, and is the
+     *       reason that the type is more complex than a normal conversion
+     *       operator.
+     *
+     * \return A reference to the contained object.
+     */
     template <typename U = T>
     operator const not_bool_convertible<U>&() const { return *p_; }
 };
 
+/*! \copydoc observing_ptr::operator==(const T&) const
+ *
+ * \relates observing_ptr
+ */
 template <typename T, typename U>
 bool operator==(const T& lhs, const observing_ptr<U>& rhs)
 {
     return rhs == lhs;
 }
 
+/*! \copydoc observing_ptr::operator!=(const T&) const
+ *
+ * \relates observing_ptr
+ */
 template <typename T, typename U>
 bool operator!=(const T& lhs, const observing_ptr<U>& rhs)
 {
     return rhs != lhs;
 }
 
+
+/*! \copydoc observing_ptr::operator==(const std::unique_ptr<T>&) const
+ *
+ * \relates observing_ptr
+ */
 template <typename T, typename U>
 bool operator==(const std::unique_ptr<T>& lhs, const observing_ptr<U>& rhs)
 {
     return rhs == lhs;
 }
 
+/*! \copydoc observing_ptr::operator!=(const std::unique_ptr<T>&) const
+ *
+ * \relates observing_ptr
+ */
 template <typename T, typename U>
 bool operator!=(const std::unique_ptr<T>& lhs, const observing_ptr<U>& rhs)
 {
     return rhs != lhs;
 }
 
+/*! \copydoc observing_ptr::operator==(const T* const) const
+ *
+ * \relates observing_ptr
+ */
 template <typename T, typename U>
 bool operator==(const T* const lhs, const observing_ptr<U>& rhs)
 {
     return rhs == lhs;
 }
 
-
+/*! \copydoc observing_ptr::operator!=(const T* const) const
+ *
+ * \relates observing_ptr
+ */
 template <typename T, typename U>
 bool operator!=(const T* const lhs, const observing_ptr<U>& rhs)
 {

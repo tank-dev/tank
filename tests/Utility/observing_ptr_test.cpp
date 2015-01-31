@@ -78,24 +78,67 @@ TEST_CASE("Observing Pointer Class", "[utility][observing_ptr]")
         tank::observing_ptr<int> p1{x};
         tank::observing_ptr<int> p2{nullptr};
 
-        REQUIRE(bool(p1));
-        REQUIRE(!bool(p2));
+        REQUIRE(p1);
+        REQUIRE(!p2);
     }
 
-    SECTION("Equality comparison operators") {
+    SECTION("Equality comparison on observing pointers") {
+        auto up = std::make_unique<int>(4);
+        tank::observing_ptr<int> p1 {up};
+        tank::observing_ptr<int> p2 {up};
+        tank::observing_ptr<int> p3;
+
+        REQUIRE(p1 == p2);
+        REQUIRE(p2 == p1);
+
+        REQUIRE(p1 != p3);
+        REQUIRE(p3 != p1);
+    }
+
+    SECTION("Equality comparison on unique pointers") {
         auto eq_unique = std::make_unique<int>(4);
-        tank::observing_ptr<int> p1 {eq_unique};
-        REQUIRE(p1 == eq_unique);
-        REQUIRE(eq_unique == p1);
+        tank::observing_ptr<int> p {eq_unique};
+        REQUIRE(p == eq_unique);
+        REQUIRE(eq_unique == p);
 
         auto not_eq_unique = std::make_unique<int>(4);
-        REQUIRE(p1 != not_eq_unique);
-        REQUIRE(not_eq_unique != p1);
+        REQUIRE(p != not_eq_unique);
+        REQUIRE(not_eq_unique != p);
+    }
 
+    SECTION("Equality comparison on raw pointers") {
         int* raw_ptr = new int(4);
-        tank::observing_ptr<int> p2 {raw_ptr};
-        REQUIRE(p2 == raw_ptr);
-        REQUIRE(raw_ptr == p2);
+        tank::observing_ptr<int> p {raw_ptr};
+        REQUIRE(p == raw_ptr);
+        REQUIRE(raw_ptr == p);
+
+        int* raw_ptr2 = new int(4);
+        REQUIRE(p != raw_ptr2);
+        REQUIRE(raw_ptr2 != p);
+    }
+
+    SECTION ("Equality comparison on null pointers") {
+        tank::observing_ptr<int> p;
+        REQUIRE(p == nullptr);
+        REQUIRE(nullptr == p);
+
+        auto up = std::make_unique<int>(4);
+        tank::observing_ptr<int> p1 {up};
+        REQUIRE(p1 != nullptr);
+        REQUIRE(nullptr != p1);
+    }
+
+    SECTION("Equality comparison on references") {
+        auto up = std::make_unique<int>(4);
+        tank::observing_ptr<int> p {up};
+        int x = 4;
+
+        REQUIRE(p == x);
+        REQUIRE(x == p);
+
+        x = 5;
+        REQUIRE(p != x);
+        REQUIRE(x != p);
     }
 
 }
