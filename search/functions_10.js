@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['window',['window',['../classtank_1_1_game.html#ab76b39a80bb613bbbb2eac7ef49749d5',1,'tank::Game']]],
-  ['world',['World',['../classtank_1_1_world.html#adbb6132929b1fed48ff937453d6d5729',1,'tank::World::World()'],['../classtank_1_1_game.html#a96a5c05c94009a47adba2761b0ec63de',1,'tank::Game::world()']]]
+  ['vector',['Vector',['../structtank_1_1_vector.html#ae021fe054457baee3694dd34dfdd7efa',1,'tank::Vector']]]
 ];

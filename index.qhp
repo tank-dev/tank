@@ -700,7 +700,30 @@
             <section title="tank::World" ref="classtank_1_1_world.html" />
           </section>
           <section title="Class Members" ref="functions.html">
-            <section title="All" ref="functions.html" />
+            <section title="All" ref="functions.html">
+              <section title="a" ref="functions.html" />
+              <section title="c" ref="functions_c.html" />
+              <section title="d" ref="functions_d.html" />
+              <section title="e" ref="functions_e.html" />
+              <section title="f" ref="functions_f.html" />
+              <section title="g" ref="functions_g.html" />
+              <section title="h" ref="functions_h.html" />
+              <section title="i" ref="functions_i.html" />
+              <section title="k" ref="functions_k.html" />
+              <section title="l" ref="functions_l.html" />
+              <section title="m" ref="functions_m.html" />
+              <section title="o" ref="functions_o.html" />
+              <section title="p" ref="functions_p.html" />
+              <section title="r" ref="functions_r.html" />
+              <section title="s" ref="functions_s.html" />
+              <section title="t" ref="functions_t.html" />
+              <section title="u" ref="functions_u.html" />
+              <section title="v" ref="functions_v.html" />
+              <section title="w" ref="functions_w.html" />
+              <section title="x" ref="functions_x.html" />
+              <section title="y" ref="functions_y.html" />
+              <section title="~" ref="functions_~.html" />
+            </section>
             <section title="Functions" ref="functions_func.html" />
             <section title="Variables" ref="functions_vars.html" />
             <section title="Related Functions" ref="functions_rela.html" />
@@ -1799,26 +1822,28 @@
       <file>inherit_graph_33.svg</file>
       <file>inherit_graph_34.svg</file>
       <file>functions.html</file>
-      <file>functions.html</file>
-      <file>functions.html</file>
-      <file>functions.html</file>
-      <file>functions.html</file>
-      <file>functions.html</file>
-      <file>functions.html</file>
-      <file>functions.html</file>
-      <file>functions.html</file>
-      <file>functions.html</file>
-      <file>functions.html</file>
-      <file>functions.html</file>
-      <file>functions.html</file>
-      <file>functions.html</file>
-      <file>functions.html</file>
-      <file>functions.html</file>
-      <file>functions.html</file>
-      <file>functions.html</file>
-      <file>functions.html</file>
-      <file>functions.html</file>
-      <file>functions.html</file>
+      <file>functions_c.html</file>
+      <file>functions_d.html</file>
+      <file>functions_e.html</file>
+      <file>functions_f.html</file>
+      <file>functions_g.html</file>
+      <file>functions_h.html</file>
+      <file>functions_i.html</file>
+      <file>functions_k.html</file>
+      <file>functions_l.html</file>
+      <file>functions_m.html</file>
+      <file>functions_o.html</file>
+      <file>functions_p.html</file>
+      <file>functions_r.html</file>
+      <file>functions_s.html</file>
+      <file>functions_t.html</file>
+      <file>functions_u.html</file>
+      <file>functions_v.html</file>
+      <file>functions_w.html</file>
+      <file>functions_x.html</file>
+      <file>functions_y.html</file>
+      <file>functions_~.html</file>
+      <file>functions_func.html</file>
       <file>functions_func.html</file>
       <file>functions_func.html</file>
       <file>functions_func.html</file>
