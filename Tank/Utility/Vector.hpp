@@ -14,8 +14,14 @@ namespace tank
 
 template <typename T>
 struct Vector {
-    T x, y;
+    //! x value of Vector.
+    T x;
 
+    //! y value of Vector.
+    T y;
+
+    /*! \brief Construct a Vector with the given values.
+     */
     constexpr Vector(T x = 0, T y = 0) : x{x}, y{y} {}
     constexpr Vector(const Vector& vec) : x{vec.x}, y{vec.y} {}
     template <typename U>
