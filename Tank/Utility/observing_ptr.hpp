@@ -61,11 +61,8 @@ public:
      * This takes a unique_ptr of type U to allow conversion from a unique_ptr
      * to a derived type to an observing_ptr of base type.
      */
-    //template <typename U>
-    observing_ptr(const std::unique_ptr<T>& ptr)
-        : p_{ptr.get()}
-    {
-    }
+    // template <typename U>
+    observing_ptr(const std::unique_ptr<T>& ptr) : p_{ptr.get()} {}
 
     /*! \brief Constructor from a raw pointer.
      *
@@ -184,7 +181,7 @@ public:
      *
      * \return A reference to the contained object.
      */
-    explicit operator T& () { return *p_; }
+    explicit operator T&() { return *p_; }
 
     /*! \brief Implicit conversion to const reference.
      *
@@ -194,7 +191,7 @@ public:
      *
      * \return A reference to the contained object.
      */
-    explicit operator const T&() const {return *p_;}
+    explicit operator const T&() const { return *p_; }
 };
 
 /*! \copydoc observing_ptr::operator==(const T&) const

@@ -4,35 +4,40 @@
 
 TEST_CASE("Observing Pointer Class", "[utility][observing_ptr]")
 {
-    SECTION("Default observing_ptr is null") {
+    SECTION("Default observing_ptr is null")
+    {
         tank::observing_ptr<int> p;
         REQUIRE(p.get() == nullptr);
     }
 
-    SECTION("Constructing an observing_ptr from a unique_ptr makes them equal"){
+    SECTION("Constructing an observing_ptr from a unique_ptr makes them equal")
+    {
         auto u = std::make_unique<int>(4);
-        tank::observing_ptr<int> p {u};
+        tank::observing_ptr<int> p{u};
         REQUIRE(p.get() == u.get());
         REQUIRE(*p == *u);
     }
 
-    SECTION("Constructing an observing_ptr from a null pointer makes it null") {
-        tank::observing_ptr<int> p1 {nullptr};
+    SECTION("Constructing an observing_ptr from a null pointer makes it null")
+    {
+        tank::observing_ptr<int> p1{nullptr};
         REQUIRE(p1.get() == nullptr);
 
-        tank::observing_ptr<int> p2 {NULL};
+        tank::observing_ptr<int> p2{NULL};
         REQUIRE(p2.get() == nullptr);
     }
 
-    SECTION("Constructing from another observing_ptr makes them equal") {
+    SECTION("Constructing from another observing_ptr makes them equal")
+    {
         auto u = std::make_unique<int>(4);
-        tank::observing_ptr<int> p1 {u};
-        tank::observing_ptr<int> p2 {p1};
+        tank::observing_ptr<int> p1{u};
+        tank::observing_ptr<int> p2{p1};
         REQUIRE(p1.get() == p2.get());
         REQUIRE(*p1 == *p2);
     }
 
-    SECTION("Constructing an observing_ptr from a raw pointer makes them equal") {
+    SECTION("Constructing an observing_ptr from a raw pointer makes them equal")
+    {
         int* x = new int(5);
         tank::observing_ptr<int> p{x};
         REQUIRE(*p == *x);
@@ -40,18 +45,20 @@ TEST_CASE("Observing Pointer Class", "[utility][observing_ptr]")
         delete x;
     }
 
-    SECTION("Dereference operator gives the contained value") {
+    SECTION("Dereference operator gives the contained value")
+    {
         auto u = std::make_unique<int>(4);
-        tank::observing_ptr<int> p1 {u};
+        tank::observing_ptr<int> p1{u};
         REQUIRE(*p1 == 4);
 
-        const tank::observing_ptr<int> p2 {u};
+        const tank::observing_ptr<int> p2{u};
         REQUIRE(*p2 == 4);
     }
 
-    SECTION("Call through operator allowes values and functions to be accessed") {
+    SECTION("Call through operator allowes values and functions to be accessed")
+    {
         struct S {
-            bool f() {return true;}
+            bool f() { return true; }
             int b = true;
         };
 
@@ -60,13 +67,14 @@ TEST_CASE("Observing Pointer Class", "[utility][observing_ptr]")
         REQUIRE(p1->b);
         REQUIRE(p1->f());
 
-        const tank::observing_ptr<S> p2 {u};
+        const tank::observing_ptr<S> p2{u};
         REQUIRE(p2->b);
         REQUIRE(p2->f());
     }
 
 
-    SECTION("Usage in boolean expressions allows implicit boolean conversion") {
+    SECTION("Usage in boolean expressions allows implicit boolean conversion")
+    {
         auto x = std::make_unique<int>(10);
         tank::observing_ptr<int> p1{x};
         tank::observing_ptr<int> p2{nullptr};
@@ -75,10 +83,11 @@ TEST_CASE("Observing Pointer Class", "[utility][observing_ptr]")
         REQUIRE(!p2);
     }
 
-    SECTION("Equality comparison on observing pointers") {
+    SECTION("Equality comparison on observing pointers")
+    {
         auto up = std::make_unique<int>(4);
-        tank::observing_ptr<int> p1 {up};
-        tank::observing_ptr<int> p2 {up};
+        tank::observing_ptr<int> p1{up};
+        tank::observing_ptr<int> p2{up};
         tank::observing_ptr<int> p3;
 
         REQUIRE(p1 == p2);
@@ -88,9 +97,10 @@ TEST_CASE("Observing Pointer Class", "[utility][observing_ptr]")
         REQUIRE(p3 != p1);
     }
 
-    SECTION("Equality comparison on unique pointers") {
+    SECTION("Equality comparison on unique pointers")
+    {
         auto eq_unique = std::make_unique<int>(4);
-        tank::observing_ptr<int> p {eq_unique};
+        tank::observing_ptr<int> p{eq_unique};
         REQUIRE(p == eq_unique);
         REQUIRE(eq_unique == p);
 
@@ -99,9 +109,10 @@ TEST_CASE("Observing Pointer Class", "[utility][observing_ptr]")
         REQUIRE(not_eq_unique != p);
     }
 
-    SECTION("Equality comparison on raw pointers") {
+    SECTION("Equality comparison on raw pointers")
+    {
         int* raw_ptr = new int(4);
-        tank::observing_ptr<int> p {raw_ptr};
+        tank::observing_ptr<int> p{raw_ptr};
         REQUIRE(p == raw_ptr);
         REQUIRE(raw_ptr == p);
 
@@ -110,27 +121,28 @@ TEST_CASE("Observing Pointer Class", "[utility][observing_ptr]")
         REQUIRE(raw_ptr2 != p);
     }
 
-    SECTION ("Equality comparison on null pointers") {
+    SECTION("Equality comparison on null pointers")
+    {
         tank::observing_ptr<int> p;
         REQUIRE(p == nullptr);
         REQUIRE(nullptr == p);
 
         auto up = std::make_unique<int>(4);
-        tank::observing_ptr<int> p1 {up};
+        tank::observing_ptr<int> p1{up};
         REQUIRE(p1 != nullptr);
         REQUIRE(nullptr != p1);
     }
 
-    SECTION("Hash function works as expected") {
+    SECTION("Hash function works as expected")
+    {
         auto up1 = std::make_unique<int>(4);
         auto up2 = std::make_unique<int>(4);
-        tank::observing_ptr<int> p1 {up1};
-        tank::observing_ptr<int> p2 {up2};
+        tank::observing_ptr<int> p1{up1};
+        tank::observing_ptr<int> p2{up2};
 
         auto hash = std::hash<tank::observing_ptr<int>>{};
 
         REQUIRE(hash(p1) == hash(p1));
         REQUIRE(hash(p1) != hash(p2));
     }
-
 }

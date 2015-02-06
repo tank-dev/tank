@@ -4,7 +4,8 @@
 
 TEST_CASE("Vector struct", "[utility][Vector]")
 {
-    SECTION("Default constructor sets values to 0") {
+    SECTION("Default constructor sets values to 0")
+    {
         tank::Vectoru v;
         REQUIRE(v.x == 0);
         REQUIRE(v.y == 0);

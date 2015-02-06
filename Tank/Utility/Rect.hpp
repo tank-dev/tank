@@ -41,7 +41,8 @@ struct Rect {
      * Implicitly converts the parameters to the type of the rectangle.
      */
     template <typename U>
-    constexpr Rect(U x, U y, U w, U h) : x(x), y(y), w(w), h(h)
+    constexpr Rect(U x, U y, U w, U h)
+        : x(x), y(y), w(w), h(h)
     {
     }
 
@@ -62,8 +63,8 @@ struct Rect {
     template <typename U>
     bool intersects(Rect<U> const& rect) const
     {
-        return !(rect.x + rect.w < x || rect.y + rect.h < y ||
-                 rect.x > x + y || rect.y > x + h);
+        return !(rect.x + rect.w < x || rect.y + rect.h < y || rect.x > x + y ||
+                 rect.y > x + h);
     }
 
     /*! \brief Calculate intersection of rectangle and point.
@@ -73,8 +74,8 @@ struct Rect {
     template <typename U>
     bool intersects(Vector<U> const& point) const
     {
-        return !(point.x < x || point.x > x + w ||
-                 point.y < y || point.y > y + h);
+        return !(point.x < x || point.x > x + w || point.y < y ||
+                 point.y > y + h);
     }
 };
 
@@ -88,7 +89,7 @@ template <typename T, typename U>
 constexpr inline bool operator==(const Rect<T>& lhs, const Rect<U>& rhs)
 {
     return lhs.x == rhs.x and lhs.y == rhs.y and lhs.w == rhs.w and
-        lhs.h == rhs.h;
+           lhs.h == rhs.h;
 }
 
 /*! \brief Inequality comparison for Rects

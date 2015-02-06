@@ -65,10 +65,10 @@ Controllers::getConnectedControllers()
 {
     using namespace boost::adaptors;
     std::vector<tank::observing_ptr<Controller>> cs;
-    auto ref = [](auto& a) {return &a;};
+    auto ref = [](auto& a) { return &a; };
     boost::push_back(cs, controllers_ |
-                     filtered(boost::mem_fn(&Controller::isConnected)) |
-                     transformed(ref));
+                             filtered(boost::mem_fn(&Controller::isConnected)) |
+                             transformed(ref));
     return cs;
 }
 
@@ -78,125 +78,125 @@ std::vector<Controller> const& Controllers::getAllControllers()
 }
 
 Controller::Controller(unsigned id) : id_{id}
-    {
-        connectedState_ = connectedLast_ = sf::Joystick::isConnected(id);
-    }
+{
+    connectedState_ = connectedLast_ = sf::Joystick::isConnected(id);
+}
 
-    void Controller::reset()
-    {
-        if (connectedState_) {
-            axisLast_ = axisStates_;
-            buttonLast_ = buttonStates_;
-        } else if (connectedLast_) {
-            boost::fill(axisStates_, 0.);
-            boost::fill(buttonStates_, false);
-        }
-        connectedLast_ = connectedState_;
+void Controller::reset()
+{
+    if (connectedState_) {
+        axisLast_ = axisStates_;
+        buttonLast_ = buttonStates_;
+    } else if (connectedLast_) {
+        boost::fill(axisStates_, 0.);
+        boost::fill(buttonStates_, false);
     }
+    connectedLast_ = connectedState_;
+}
 
-    bool Controller::buttonPressed(unsigned button) const
-    {
-        return buttonStates_[button] and not buttonLast_[button];
-    }
-    bool Controller::buttonPressed(Button button) const
-    {
-        return buttonPressed(static_cast<unsigned>(button));
-    }
-    std::function<bool()> Controller::ButtonPress(unsigned button) const
-    {
-        return [=] { return buttonPressed(button); };
-    }
-    std::function<bool()> Controller::ButtonPress(Button button) const
-    {
-        return ButtonPress(static_cast<unsigned>(button));
-    }
+bool Controller::buttonPressed(unsigned button) const
+{
+    return buttonStates_[button] and not buttonLast_[button];
+}
+bool Controller::buttonPressed(Button button) const
+{
+    return buttonPressed(static_cast<unsigned>(button));
+}
+std::function<bool()> Controller::ButtonPress(unsigned button) const
+{
+    return [=] { return buttonPressed(button); };
+}
+std::function<bool()> Controller::ButtonPress(Button button) const
+{
+    return ButtonPress(static_cast<unsigned>(button));
+}
 
-    bool Controller::buttonReleased(unsigned button) const
-    {
-        return buttonLast_[button] and not buttonStates_[button];
-    }
-    bool Controller::buttonReleased(Button button) const
-    {
-        return buttonReleased(static_cast<unsigned>(button));
-    }
-    std::function<bool()> Controller::ButtonRelease(unsigned button) const
-    {
-        return [=] { return buttonReleased(button); };
-    }
-    std::function<bool()> Controller::ButtonRelease(Button button) const
-    {
-        return ButtonRelease(static_cast<unsigned>(button));
-    }
+bool Controller::buttonReleased(unsigned button) const
+{
+    return buttonLast_[button] and not buttonStates_[button];
+}
+bool Controller::buttonReleased(Button button) const
+{
+    return buttonReleased(static_cast<unsigned>(button));
+}
+std::function<bool()> Controller::ButtonRelease(unsigned button) const
+{
+    return [=] { return buttonReleased(button); };
+}
+std::function<bool()> Controller::ButtonRelease(Button button) const
+{
+    return ButtonRelease(static_cast<unsigned>(button));
+}
 
-    bool Controller::buttonDown(unsigned button) const
-    {
-        return buttonStates_[button];
-    }
-    bool Controller::buttonDown(Button button) const
-    {
-        return buttonDown(static_cast<unsigned>(button));
-    }
-    std::function<bool()> Controller::ButtonDown(unsigned button) const
-    {
-        return [=] { return buttonDown(button); };
-    }
-    std::function<bool()> Controller::ButtonDown(Button button) const
-    {
-        return ButtonDown(static_cast<unsigned>(button));
-    }
+bool Controller::buttonDown(unsigned button) const
+{
+    return buttonStates_[button];
+}
+bool Controller::buttonDown(Button button) const
+{
+    return buttonDown(static_cast<unsigned>(button));
+}
+std::function<bool()> Controller::ButtonDown(unsigned button) const
+{
+    return [=] { return buttonDown(button); };
+}
+std::function<bool()> Controller::ButtonDown(Button button) const
+{
+    return ButtonDown(static_cast<unsigned>(button));
+}
 
-    bool Controller::buttonUp(unsigned button) const
-    {
-        return not buttonDown(button);
-    }
-    bool Controller::buttonUp(Button button) const
-    {
-        return buttonUp(static_cast<unsigned>(button));
-    }
-    std::function<bool()> Controller::ButtonUp(unsigned button) const
-    {
-        return [=] { return buttonUp(button); };
-    }
-    std::function<bool()> Controller::ButtonUp(Button button) const
-    {
-        return ButtonUp(static_cast<unsigned>(button));
-    }
+bool Controller::buttonUp(unsigned button) const
+{
+    return not buttonDown(button);
+}
+bool Controller::buttonUp(Button button) const
+{
+    return buttonUp(static_cast<unsigned>(button));
+}
+std::function<bool()> Controller::ButtonUp(unsigned button) const
+{
+    return [=] { return buttonUp(button); };
+}
+std::function<bool()> Controller::ButtonUp(Button button) const
+{
+    return ButtonUp(static_cast<unsigned>(button));
+}
 
-    std::function<bool()> Controller::AxisMoved(unsigned axis,
-                                                double threshold) const
-    {
-        return [=] { return std::fabs(axisDelta(axis)) > threshold; };
-    }
-    std::function<bool()> Controller::AxisMoved(Axis axis, double threshold) const
-    {
-        return AxisMoved(static_cast<unsigned>(axis), threshold);
-    }
+std::function<bool()> Controller::AxisMoved(unsigned axis,
+                                            double threshold) const
+{
+    return [=] { return std::fabs(axisDelta(axis)) > threshold; };
+}
+std::function<bool()> Controller::AxisMoved(Axis axis, double threshold) const
+{
+    return AxisMoved(static_cast<unsigned>(axis), threshold);
+}
 
-    std::function<bool()> Controller::Connected() const
-    {
-        return [&] { return connectedState_ and not connectedLast_; };
-    }
-    std::function<bool()> Controller::Disconnected() const
-    {
-        return [&] { return connectedLast_ and not connectedState_; };
-    }
+std::function<bool()> Controller::Connected() const
+{
+    return [&] { return connectedState_ and not connectedLast_; };
+}
+std::function<bool()> Controller::Disconnected() const
+{
+    return [&] { return connectedLast_ and not connectedState_; };
+}
 
-    double Controller::axisPosition(unsigned axis) const
-    {
-        return axisStates_[axis] / 100.;
-    }
-    double Controller::axisPosition(Axis axis) const
-    {
-        return axisPosition(static_cast<unsigned>(axis));
-    }
-    double Controller::axisDelta(unsigned axis) const
-    {
-        return axisPosition(axis) - axisLast_[axis] / 100.;
-    }
-    double Controller::axisDelta(Axis axis) const
-    {
-        return axisDelta(static_cast<unsigned>(axis));
-    }
+double Controller::axisPosition(unsigned axis) const
+{
+    return axisStates_[axis] / 100.;
+}
+double Controller::axisPosition(Axis axis) const
+{
+    return axisPosition(static_cast<unsigned>(axis));
+}
+double Controller::axisDelta(unsigned axis) const
+{
+    return axisPosition(axis) - axisLast_[axis] / 100.;
+}
+double Controller::axisDelta(Axis axis) const
+{
+    return axisDelta(static_cast<unsigned>(axis));
+}
 
 /* 360 specific */
 Vectord Controller::leftStick() const
