@@ -9,13 +9,6 @@ TEST_CASE("Observing Pointer Class", "[utility][observing_ptr]")
         REQUIRE(p.get() == nullptr);
     }
 
-    SECTION("Constructing an observing_ptr from a reference makes them equal") {
-        int y = 10;
-        tank::observing_ptr<int> p {y};
-        REQUIRE(*p == y);
-        REQUIRE(p == &y);
-    }
-
     SECTION("Constructing an observing_ptr from a unique_ptr makes them equal"){
         auto u = std::make_unique<int>(4);
         tank::observing_ptr<int> p {u};
@@ -74,7 +67,7 @@ TEST_CASE("Observing Pointer Class", "[utility][observing_ptr]")
 
 
     SECTION("Usage in boolean expressions allows implicit boolean conversion") {
-        int x = 10;
+        auto x = std::make_unique<int>(10);
         tank::observing_ptr<int> p1{x};
         tank::observing_ptr<int> p2{nullptr};
 
@@ -126,19 +119,6 @@ TEST_CASE("Observing Pointer Class", "[utility][observing_ptr]")
         tank::observing_ptr<int> p1 {up};
         REQUIRE(p1 != nullptr);
         REQUIRE(nullptr != p1);
-    }
-
-    SECTION("Equality comparison on references") {
-        auto up = std::make_unique<int>(4);
-        tank::observing_ptr<int> p {up};
-        int x = 4;
-
-        REQUIRE(p == x);
-        REQUIRE(x == p);
-
-        x = 5;
-        REQUIRE(p != x);
-        REQUIRE(x != p);
     }
 
     SECTION("Hash function works as expected") {

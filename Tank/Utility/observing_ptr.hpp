@@ -23,10 +23,6 @@ template <typename T>
 class observing_ptr
 {
     friend struct std::hash<observing_ptr>;
-
-    template <typename U> using not_bool_convertible =
-        std::enable_if_t<!std::is_convertible<U, bool>::value, T>;
-
     T* p_ = nullptr;
 
 public:
@@ -85,17 +81,6 @@ public:
         : p_{ptr}
     {
     }
-
-    /*! \brief Constructor from a reference.
-     *
-     * This constructor exists to aid the use of certain STL algorithms.
-     *
-     * \deprecated This is hacky and doesn't fit well with other constructors
-     *             for this class. It will probably be removed once uses of it
-     *             in the engine itself are removed.
-     *
-     */
-    observing_ptr(T& ref) : p_{&ref} {}
 
     /*! \brief Dereference operator.
      *
@@ -184,24 +169,6 @@ public:
      */
     bool operator!=(const T* const other) const { return !(*this == other); }
 
-    /*! \brief Equality comparison with reference.
-     *
-     * \deprecated This is quite an odd function to have, and doesn't really
-     *             match the behaviour of the others. It may be removed once
-     *             uses of it are removed from the rest of the engine.
-     *
-     */
-    bool operator==(const T& other) const { return *p_ == other; }
-
-    /*! \brief Inequality comparison with reference.
-     *
-     * \deprecated This is quite an odd function to have, and doesn't really
-     *             match the behaviour of the others. It may be removed once
-     *             uses of it are removed from the rest of the engine.
-     *
-     */
-    bool operator!=(const T& other) const { return *p_ != other; }
-
     /*! \brief Return the contained pointer.
      *
      * This doesn't check for null, so it will return a null pointer if the
@@ -215,17 +182,9 @@ public:
      * don't require the reference to be rebindable, for example for an entity
      * in a world that will always exist.
      *
-     * \note For normal usage the return type of this function can be considered
-     *       to be T&.
-     *       This function is only available when the class is not convertible
-     *       to bool. This is due to issues with overload resolution, and is the
-     *       reason that the type is more complex than a normal conversion
-     *       operator.
-
      * \return A reference to the contained object.
      */
-    template <typename U = T>
-    operator not_bool_convertible<U>& () { return *p_; }
+    explicit operator T& () { return *p_; }
 
     /*! \brief Implicit conversion to const reference.
      *
@@ -233,17 +192,9 @@ public:
      * don't require the reference to be rebindable, for example for an entity
      * in a world that will always exist.
      *
-     * \note For normal usage the return type of this function can be considered
-     *       to be const T&.
-     *       This function is only available when the class is not convertible
-     *       to bool. This is due to issues with overload resolution, and is the
-     *       reason that the type is more complex than a normal conversion
-     *       operator.
-     *
      * \return A reference to the contained object.
      */
-    template <typename U = T>
-    operator const not_bool_convertible<U>&() const { return *p_; }
+    explicit operator const T&() const {return *p_;}
 };
 
 /*! \copydoc observing_ptr::operator==(const T&) const
