@@ -4,9 +4,7 @@
 //  http://www.boost.org/LICENSE_1_0.txt)
 
 #include "Tilemap.hpp"
-
-#include <algorithm>
-#include <stdexcept>
+#include <cmath>
 
 namespace tank
 {
@@ -41,31 +39,6 @@ void Tilemap::draw(Transform const& parent, Camera const& cam)
     // Move back to the origin
     setPos(originalPos);
 }
-
-/*
-void Tilemap::setClipByIndex(Vectoru dimensions, unsigned int index,
-                             Vectoru spacing, Rectu clip)
-{
-    // TODO: This needs testing with rectangular dimensions
-    Rectu new_clip = {0, 0, dimensions.x, dimensions.y};
-
-    Vectoru usefulSize = {
-            frameDimensions_.x - (frameDimensions_.x % dimensions.x),
-            frameDimensions_.y - (frameDimensions_.y % dimensions.y)};
-
-    new_clip.x = (dimensions.x * index) % usefulSize.x;
-    new_clip.y = dimensions.y * ((dimensions.x * index) / usefulSize.x);
-
-    if (clip != Rectu{0, 0, 0, 0}) {
-        new_clip.x += clip.x;
-        new_clip.y += clip.y;
-        new_clip.w = clip.w;
-        new_clip.h = clip.h;
-    }
-
-    setClip(clip);
-}
-*/
 
 Vectoru Tilemap::getTile(const Vectorf& localCoords)
 {
