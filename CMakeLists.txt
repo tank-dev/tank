@@ -68,5 +68,7 @@ target_include_directories(tank PUBLIC ${SFML_INCLUDE_DIR} ${Boost_INCLUDE_DIR}
 
 target_link_libraries(tank ${SFML_LIBRARIES} ${CMAKE_THREAD_LIBS_INIT})
 
-include(CTest)
-add_subdirectory(tests)
+if (${PROJECT_NAME} STREQUAL "Tank")
+    include(CTest)
+    add_subdirectory(tests)
+endif(${PROJECT_NAME} STREQUAL "Tank")
