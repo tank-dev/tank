@@ -374,52 +374,52 @@ using Vectoru = Vector<unsigned int>;
 
 namespace literals
 {
-constexpr Vectorf operator""_x(long double x)
+constexpr Vectorf operator"" _x(long double x)
 {
     return Vectorf(x, 0);
 }
 
-constexpr Vectorf operator""_y(long double y)
+constexpr Vectorf operator"" _y(long double y)
 {
     return Vectorf(0, y);
 }
 
-constexpr Vectorf operator""_x(unsigned long long x)
+constexpr Vectorf operator"" _x(unsigned long long x)
 {
     return Vectorf(x, 0);
 }
 
-constexpr Vectorf operator""_y(unsigned long long y)
+constexpr Vectorf operator"" _y(unsigned long long y)
 {
     return Vectorf(0, y);
 }
 
-constexpr Vectord operator""_xd(long double x)
+constexpr Vectord operator"" _xd(long double x)
 {
     return Vectord(x, 0);
 }
 
-constexpr Vectord operator""_yd(long double y)
+constexpr Vectord operator"" _yd(long double y)
 {
     return Vectord(0, y);
 }
 
-constexpr Vectori operator""_xi(unsigned long long x)
+constexpr Vectori operator"" _xi(unsigned long long x)
 {
     return Vectori(x, 0);
 }
 
-constexpr Vectori operator""_yi(unsigned long long y)
+constexpr Vectori operator"" _yi(unsigned long long y)
 {
     return Vectori(0, y);
 }
 
-constexpr Vectoru operator""_xu(unsigned long long x)
+constexpr Vectoru operator"" _xu(unsigned long long x)
 {
     return Vectori(x, 0);
 }
 
-constexpr Vectoru operator""_yu(unsigned long long y)
+constexpr Vectoru operator"" _yu(unsigned long long y)
 {
     return Vectoru(0, y);
 }
