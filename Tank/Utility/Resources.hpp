@@ -19,7 +19,7 @@ public:
         if (resources.count(path) == 0) {
             resources.emplace(std::make_pair(path, Res()));
             Res& res = boost::any_cast<Res&>(resources[path]);
-            res.load(path);
+            res.loadFromFile(path);
             return res;
         }
         return boost::any_cast<Res&>(resources[path]);
