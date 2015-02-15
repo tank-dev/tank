@@ -200,6 +200,39 @@ struct Vector {
 
         return *this;
     }
+
+    /*!
+     * \brief Round the vector.
+     *
+     * \return A vector with the values rounded. Halves round away from zero.
+     */
+    template <typename U = T>
+    std::enable_if_t<std::is_floating_point<U>::value, Vector> round()
+    {
+        return {std::round(x),std::round(y)};
+    }
+
+     /*!
+     * \brief Ceiling the vector.
+     *
+     * \return A vector with the values ceilinged.
+     */
+    template <typename U = T>
+    std::enable_if_t<std::is_floating_point<U>::value, Vector> ceil()
+    {
+        return {std::ceil(x),std::ceil(y)};
+    }
+
+    /*!
+     * \brief Floor the vector.
+     *
+     * \return A vector with the values floored.
+     */
+    template <typename U = T>
+    std::enable_if_t<std::is_floating_point<U>::value, Vector> floor()
+    {
+        return {std::floor(x),std::floor(y)};
+    }
 };
 
 template <typename T>

@@ -40,9 +40,9 @@ public:
      */
     template <typename U>
     observing_ptr(const observing_ptr<U>& ptr)
-        : p_{ptr.p_}
-    {
-    }
+        : p_{ptr.get()}
+        {
+        }
 
     /*! \brief Construct from a nullptr.
      *
@@ -171,7 +171,7 @@ public:
      * This doesn't check for null, so it will return a null pointer if the
      * observing_ptr is null.
      */
-    T* get() { return p_; }
+    T* get() const { return p_; }
 
     /*! \brief Implicit conversion to reference.
      *

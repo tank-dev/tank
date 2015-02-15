@@ -45,6 +45,8 @@ public:
         return {text_.getLocalBounds().width, text_.getLocalBounds().height};
     }
 
+    void setPos(tank::Vectorf pos) override {Graphic::setPos(pos.round());}
+
     virtual void setColor(const Color& color) { text_.setColor(color); }
 
     virtual void draw(Transform const& parent = {},
