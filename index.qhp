@@ -377,7 +377,7 @@
                 <section title="observing_ptr" ref="classtank_1_1observing__ptr.html#a9e52c24781c04bcb60fc2d0672b42101" />
                 <section title="observing_ptr" ref="classtank_1_1observing__ptr.html#a6a105da27f83c9c5ea39776b811f0715" />
                 <section title="observing_ptr" ref="classtank_1_1observing__ptr.html#a0b7034052a97abe284bce073d5db720a" />
-                <section title="get" ref="classtank_1_1observing__ptr.html#a3513b299b2734fd1bb11ffecbc52895d" />
+                <section title="get" ref="classtank_1_1observing__ptr.html#aa0d51f18c5f1dd9011ee2e0fe9b5e1e3" />
                 <section title="operator bool" ref="classtank_1_1observing__ptr.html#ad1a7d54421b85143d27172c56eac3760" />
                 <section title="operator const T &amp;" ref="classtank_1_1observing__ptr.html#ab49beed7dc73a20f501fa4740a2f4e7b" />
                 <section title="operator T &amp;" ref="classtank_1_1observing__ptr.html#a99d1bd973602888c183e08751facced1" />
@@ -489,6 +489,7 @@
                 <section title="setColor" ref="classtank_1_1_text.html#ad9aeb3874a91be7044f6e2541be3c1a1" />
                 <section title="setFont" ref="classtank_1_1_text.html#a839b0c5fe54a266820c57ab18ae6085c" />
                 <section title="setFontSize" ref="classtank_1_1_text.html#ad6ff3331bf68b04c717dd83036d72f5f" />
+                <section title="setPos" ref="classtank_1_1_text.html#a8d64513187ce68614d323377d5acc442" />
                 <section title="setText" ref="classtank_1_1_text.html#ab07b45444e555de2daaa604fbf5415d1" />
               </section>
               <section title="Tilemap" ref="classtank_1_1_tilemap.html">
@@ -578,7 +579,9 @@
                 <section title="Vector" ref="structtank_1_1_vector.html#a66632f8cef8d392aa90bba659acaec41" />
                 <section title="Vector" ref="structtank_1_1_vector.html#a7be93b5bcfd124f5f6c45667d0e31eb4" />
                 <section title="Vector" ref="structtank_1_1_vector.html#ad4f02d8a8cc63d8ae26141f6ff3f5f29" />
+                <section title="ceil" ref="structtank_1_1_vector.html#a03efd27f933aff5013b83f11924096fe" />
                 <section title="dot" ref="structtank_1_1_vector.html#a34acc14eafac41063b22d6582f3dc28d" />
+                <section title="floor" ref="structtank_1_1_vector.html#ad74e9d8e2f9e77448a5d253ff100c807" />
                 <section title="getAngle" ref="structtank_1_1_vector.html#a2b8121427d76f8394a69a13f4eeec0eb" />
                 <section title="magnitude" ref="structtank_1_1_vector.html#a504f0ded19f5215f4e71d22400b3341e" />
                 <section title="magnitudeSquared" ref="structtank_1_1_vector.html#a5268f2ecae119901c2ebfe01b5e46774" />
@@ -591,6 +594,7 @@
                 <section title="operator/=" ref="structtank_1_1_vector.html#ac7989faa3bb8e1ea4a90ee4380bec06e" />
                 <section title="rotate" ref="structtank_1_1_vector.html#a6fc144a2c34325f76853e053835e46e4" />
                 <section title="rotateAbout" ref="structtank_1_1_vector.html#a7822fb55ab05aadd99891444c635e50e" />
+                <section title="round" ref="structtank_1_1_vector.html#a458e4cd30952ea462791e07fd223e994" />
                 <section title="unit" ref="structtank_1_1_vector.html#aa6c9b8eb6464a190cacbdc4e02f7df77" />
                 <section title="x" ref="structtank_1_1_vector.html#ac1a9f8f75b101f9334537c2ec4f16507" />
                 <section title="y" ref="structtank_1_1_vector.html#a91c83a6cca2258210a831d77e37da972" />
@@ -696,7 +700,30 @@
             <section title="tank::World" ref="classtank_1_1_world.html" />
           </section>
           <section title="Class Members" ref="functions.html">
-            <section title="All" ref="functions.html" />
+            <section title="All" ref="functions.html">
+              <section title="a" ref="functions.html" />
+              <section title="c" ref="functions_c.html" />
+              <section title="d" ref="functions_d.html" />
+              <section title="e" ref="functions_e.html" />
+              <section title="f" ref="functions_f.html" />
+              <section title="g" ref="functions_g.html" />
+              <section title="h" ref="functions_h.html" />
+              <section title="i" ref="functions_i.html" />
+              <section title="k" ref="functions_k.html" />
+              <section title="l" ref="functions_l.html" />
+              <section title="m" ref="functions_m.html" />
+              <section title="o" ref="functions_o.html" />
+              <section title="p" ref="functions_p.html" />
+              <section title="r" ref="functions_r.html" />
+              <section title="s" ref="functions_s.html" />
+              <section title="t" ref="functions_t.html" />
+              <section title="u" ref="functions_u.html" />
+              <section title="v" ref="functions_v.html" />
+              <section title="w" ref="functions_w.html" />
+              <section title="x" ref="functions_x.html" />
+              <section title="y" ref="functions_y.html" />
+              <section title="~" ref="functions_~.html" />
+            </section>
             <section title="Functions" ref="functions_func.html" />
             <section title="Variables" ref="functions_vars.html" />
             <section title="Related Functions" ref="functions_rela.html" />
@@ -1238,7 +1265,7 @@
       <keyword name="operator!=" id="tank::observing_ptr::operator!=" ref="classtank_1_1observing__ptr.html#a6560ce45eff094b5978221337d5074eb" />
       <keyword name="operator==" id="tank::observing_ptr::operator==" ref="classtank_1_1observing__ptr.html#a2907848ce1a73473d24ac0d800e1c738" />
       <keyword name="operator!=" id="tank::observing_ptr::operator!=" ref="classtank_1_1observing__ptr.html#acdb98562da4da3a8e78897715ce904ae" />
-      <keyword name="get" id="tank::observing_ptr::get" ref="classtank_1_1observing__ptr.html#a3513b299b2734fd1bb11ffecbc52895d" />
+      <keyword name="get" id="tank::observing_ptr::get" ref="classtank_1_1observing__ptr.html#aa0d51f18c5f1dd9011ee2e0fe9b5e1e3" />
       <keyword name="operator T &amp;" id="tank::observing_ptr::operator T &amp;" ref="classtank_1_1observing__ptr.html#a99d1bd973602888c183e08751facced1" />
       <keyword name="operator const T &amp;" id="tank::observing_ptr::operator const T &amp;" ref="classtank_1_1observing__ptr.html#ab49beed7dc73a20f501fa4740a2f4e7b" />
       <keyword name="std::hash&lt; observing_ptr &gt;" id="tank::observing_ptr::std::hash&lt; observing_ptr &gt;" ref="classtank_1_1observing__ptr.html#aa09ebd84bcf2d257b262c799abdeb0d5" />
@@ -1376,6 +1403,7 @@
       <keyword name="setText" id="tank::Text::setText" ref="classtank_1_1_text.html#ab07b45444e555de2daaa604fbf5415d1" />
       <keyword name="getText" id="tank::Text::getText" ref="classtank_1_1_text.html#a9bb056621c7162ad34249f0fe164ffbe" />
       <keyword name="getSize" id="tank::Text::getSize" ref="classtank_1_1_text.html#ae22172c254977f7d15cccbd754fe235f" />
+      <keyword name="setPos" id="tank::Text::setPos" ref="classtank_1_1_text.html#a8d64513187ce68614d323377d5acc442" />
       <keyword name="setColor" id="tank::Text::setColor" ref="classtank_1_1_text.html#ad9aeb3874a91be7044f6e2541be3c1a1" />
       <keyword name="draw" id="tank::Text::draw" ref="classtank_1_1_text.html#ad93a41fae5c232d716267b08c39a95b5" />
       <keyword name="setRelativeToParent" id="tank::Graphic::setRelativeToParent" ref="classtank_1_1_graphic.html#a417e940303c561b775ea4b8a7b69703d" />
@@ -1392,7 +1420,6 @@
       <keyword name="getOrigin" id="tank::Transformable::getOrigin" ref="classtank_1_1_transformable.html#a4702b826cd2ecd4050feff195ddccbae" />
       <keyword name="getScale" id="tank::Transformable::getScale" ref="classtank_1_1_transformable.html#a0ba3e4d7a4ab8b986426e542f154ef0d" />
       <keyword name="getTransform" id="tank::Transformable::getTransform" ref="classtank_1_1_transformable.html#aba44d70f2e6988f0d80e8fb6efef5a9c" />
-      <keyword name="setPos" id="tank::Transformable::setPos" ref="classtank_1_1_transformable.html#adbb74246ca6b6fa9474512188592da0d" />
       <keyword name="setRotation" id="tank::Transformable::setRotation" ref="classtank_1_1_transformable.html#aa4b41067c197854d01575ef92b5d3661" />
       <keyword name="setOrigin" id="tank::Transformable::setOrigin" ref="classtank_1_1_transformable.html#a2936693355558de4a95f9c7b0f8c8c2e" />
       <keyword name="setScale" id="tank::Transformable::setScale" ref="classtank_1_1_transformable.html#ad12f6fc118f00cad747c3d128367288b" />
@@ -1523,6 +1550,9 @@
       <keyword name="operator+=" id="tank::Vector::operator+=" ref="structtank_1_1_vector.html#a6b805a34d89073a86163cfb8f5f94fa1" />
       <keyword name="operator-=" id="tank::Vector::operator-=" ref="structtank_1_1_vector.html#a5113e7f94ee2a01ccf5f815ad25cf462" />
       <keyword name="operator-=" id="tank::Vector::operator-=" ref="structtank_1_1_vector.html#a548ee878e7ae0e5c711d32bc27d3b688" />
+      <keyword name="round" id="tank::Vector::round" ref="structtank_1_1_vector.html#a458e4cd30952ea462791e07fd223e994" />
+      <keyword name="ceil" id="tank::Vector::ceil" ref="structtank_1_1_vector.html#a03efd27f933aff5013b83f11924096fe" />
+      <keyword name="floor" id="tank::Vector::floor" ref="structtank_1_1_vector.html#ad74e9d8e2f9e77448a5d253ff100c807" />
       <keyword name="x" id="tank::Vector::x" ref="structtank_1_1_vector.html#ac1a9f8f75b101f9334537c2ec4f16507" />
       <keyword name="y" id="tank::Vector::y" ref="structtank_1_1_vector.html#a91c83a6cca2258210a831d77e37da972" />
       <keyword name="tank::Window" id="tank::Window" ref="classtank_1_1_window.html" />
@@ -1789,27 +1819,27 @@
       <file>inherit_graph_33.svg</file>
       <file>inherit_graph_34.svg</file>
       <file>functions.html</file>
-      <file>functions.html</file>
-      <file>functions.html</file>
-      <file>functions.html</file>
-      <file>functions.html</file>
-      <file>functions.html</file>
-      <file>functions.html</file>
-      <file>functions.html</file>
-      <file>functions.html</file>
-      <file>functions.html</file>
-      <file>functions.html</file>
-      <file>functions.html</file>
-      <file>functions.html</file>
-      <file>functions.html</file>
-      <file>functions.html</file>
-      <file>functions.html</file>
-      <file>functions.html</file>
-      <file>functions.html</file>
-      <file>functions.html</file>
-      <file>functions.html</file>
-      <file>functions.html</file>
-      <file>functions.html</file>
+      <file>functions_c.html</file>
+      <file>functions_d.html</file>
+      <file>functions_e.html</file>
+      <file>functions_f.html</file>
+      <file>functions_g.html</file>
+      <file>functions_h.html</file>
+      <file>functions_i.html</file>
+      <file>functions_k.html</file>
+      <file>functions_l.html</file>
+      <file>functions_m.html</file>
+      <file>functions_o.html</file>
+      <file>functions_p.html</file>
+      <file>functions_r.html</file>
+      <file>functions_s.html</file>
+      <file>functions_t.html</file>
+      <file>functions_u.html</file>
+      <file>functions_v.html</file>
+      <file>functions_w.html</file>
+      <file>functions_x.html</file>
+      <file>functions_y.html</file>
+      <file>functions_~.html</file>
       <file>functions_func.html</file>
       <file>functions_func.html</file>
       <file>functions_func.html</file>

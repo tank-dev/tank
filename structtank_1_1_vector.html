@@ -175,6 +175,24 @@ constexpr <a class="el" href="structtank_1_1_vector.html">Vector</a>&#160;</td><
 <tr class="memitem:a548ee878e7ae0e5c711d32bc27d3b688"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="structtank_1_1_vector.html">Vector</a> &amp;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structtank_1_1_vector.html#a548ee878e7ae0e5c711d32bc27d3b688">operator-=</a> (U const &amp;f)</td></tr>
 <tr class="memdesc:a548ee878e7ae0e5c711d32bc27d3b688"><td class="mdescLeft">&#160;</td><td class="mdescRight">Subtracts a scalar times the vector (1, 1) from the vector.  <a href="#a548ee878e7ae0e5c711d32bc27d3b688">More...</a><br /></td></tr>
 <tr class="separator:a548ee878e7ae0e5c711d32bc27d3b688"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a458e4cd30952ea462791e07fd223e994"><td class="memTemplParams" colspan="2">template&lt;typename U  = T&gt; </td></tr>
+<tr class="memitem:a458e4cd30952ea462791e07fd223e994"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if_t<br class="typebreak" />
+&lt; std::is_floating_point&lt; U &gt;<br class="typebreak" />
+::value, <a class="el" href="structtank_1_1_vector.html">Vector</a> &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structtank_1_1_vector.html#a458e4cd30952ea462791e07fd223e994">round</a> ()</td></tr>
+<tr class="memdesc:a458e4cd30952ea462791e07fd223e994"><td class="mdescLeft">&#160;</td><td class="mdescRight">Round the vector.  <a href="#a458e4cd30952ea462791e07fd223e994">More...</a><br /></td></tr>
+<tr class="separator:a458e4cd30952ea462791e07fd223e994"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a03efd27f933aff5013b83f11924096fe"><td class="memTemplParams" colspan="2">template&lt;typename U  = T&gt; </td></tr>
+<tr class="memitem:a03efd27f933aff5013b83f11924096fe"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if_t<br class="typebreak" />
+&lt; std::is_floating_point&lt; U &gt;<br class="typebreak" />
+::value, <a class="el" href="structtank_1_1_vector.html">Vector</a> &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structtank_1_1_vector.html#a03efd27f933aff5013b83f11924096fe">ceil</a> ()</td></tr>
+<tr class="memdesc:a03efd27f933aff5013b83f11924096fe"><td class="mdescLeft">&#160;</td><td class="mdescRight">Ceiling the vector.  <a href="#a03efd27f933aff5013b83f11924096fe">More...</a><br /></td></tr>
+<tr class="separator:a03efd27f933aff5013b83f11924096fe"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad74e9d8e2f9e77448a5d253ff100c807"><td class="memTemplParams" colspan="2">template&lt;typename U  = T&gt; </td></tr>
+<tr class="memitem:ad74e9d8e2f9e77448a5d253ff100c807"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if_t<br class="typebreak" />
+&lt; std::is_floating_point&lt; U &gt;<br class="typebreak" />
+::value, <a class="el" href="structtank_1_1_vector.html">Vector</a> &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structtank_1_1_vector.html#ad74e9d8e2f9e77448a5d253ff100c807">floor</a> ()</td></tr>
+<tr class="memdesc:ad74e9d8e2f9e77448a5d253ff100c807"><td class="mdescLeft">&#160;</td><td class="mdescRight">Floor the vector.  <a href="#ad74e9d8e2f9e77448a5d253ff100c807">More...</a><br /></td></tr>
+<tr class="separator:ad74e9d8e2f9e77448a5d253ff100c807"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
@@ -188,6 +206,36 @@ T&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structt
 <tr class="separator:a91c83a6cca2258210a831d77e37da972"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Member Function Documentation</h2>
+<a class="anchor" id="a03efd27f933aff5013b83f11924096fe"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T&gt; </div>
+<div class="memtemplate">
+template&lt;typename U  = T&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::enable_if_t&lt;std::is_floating_point&lt;U&gt;::value, <a class="el" href="structtank_1_1_vector.html">Vector</a>&gt; <a class="el" href="structtank_1_1_vector.html">tank::Vector</a>&lt; T &gt;::ceil </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Ceiling the vector. </p>
+<dl class="section return"><dt>Returns</dt><dd>A vector with the values ceilinged. </dd></dl>
+
+</div>
+</div>
 <a class="anchor" id="a34acc14eafac41063b22d6582f3dc28d"></a>
 <div class="memitem">
 <div class="memproto">
@@ -220,6 +268,36 @@ template&lt;typename T&gt; </div>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The result of the dot product. </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="ad74e9d8e2f9e77448a5d253ff100c807"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T&gt; </div>
+<div class="memtemplate">
+template&lt;typename U  = T&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::enable_if_t&lt;std::is_floating_point&lt;U&gt;::value, <a class="el" href="structtank_1_1_vector.html">Vector</a>&gt; <a class="el" href="structtank_1_1_vector.html">tank::Vector</a>&lt; T &gt;::floor </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Floor the vector. </p>
+<dl class="section return"><dt>Returns</dt><dd>A vector with the values floored. </dd></dl>
 
 </div>
 </div>
@@ -534,6 +612,36 @@ template&lt;typename U &gt; </div>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Returns a referance to itself. </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a458e4cd30952ea462791e07fd223e994"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T&gt; </div>
+<div class="memtemplate">
+template&lt;typename U  = T&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::enable_if_t&lt;std::is_floating_point&lt;U&gt;::value, <a class="el" href="structtank_1_1_vector.html">Vector</a>&gt; <a class="el" href="structtank_1_1_vector.html">tank::Vector</a>&lt; T &gt;::round </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Round the vector. </p>
+<dl class="section return"><dt>Returns</dt><dd>A vector with the values rounded. Halves round away from zero. </dd></dl>
 
 </div>
 </div>
