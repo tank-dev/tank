@@ -41,7 +41,7 @@ void Timer::resume()
     }
 }
 
-void Timer::offset(std::chrono::milliseconds change)
+void Timer::offset(std::chrono::steady_clock::duration change)
 {
     if (started_ && not paused_) {
         startTick_ -= change;

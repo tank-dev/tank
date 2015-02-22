@@ -47,7 +47,7 @@ public:
      *
      * \param change The duration to change the timer by.
      */
-    void offset(std::chrono::milliseconds change);
+    void offset(std::chrono::steady_clock::duration change);
 
     /*!
      * \brief Get where the timer has been started.
