@@ -518,7 +518,7 @@
                 <section title="getTime" ref="classtank_1_1_timer.html#aeb51996bab6e84d7b151a9e7aafc4656" />
                 <section title="isPaused" ref="classtank_1_1_timer.html#a114c13e748701dd663b84a46f84c8900" />
                 <section title="isStarted" ref="classtank_1_1_timer.html#aa6673fd22340e137cfe0fa432780432b" />
-                <section title="offset" ref="classtank_1_1_timer.html#aa26f71f90e8e8463a6dda10f822809bd" />
+                <section title="offset" ref="classtank_1_1_timer.html#a0b26d9d61b4d4bd0d2b8b6ed1d136165" />
                 <section title="pause" ref="classtank_1_1_timer.html#acf278e69b95492f831f7e77fa537a372" />
                 <section title="resume" ref="classtank_1_1_timer.html#af22b2d4d497b582d8b8c6c6b6077d412" />
                 <section title="start" ref="classtank_1_1_timer.html#a33ce345bc838f684524b8f8520e3d122" />
@@ -1480,7 +1480,7 @@
       <keyword name="stop" id="tank::Timer::stop" ref="classtank_1_1_timer.html#aa293dfbbf6a71e74d69c2dc9962e5065" />
       <keyword name="pause" id="tank::Timer::pause" ref="classtank_1_1_timer.html#acf278e69b95492f831f7e77fa537a372" />
       <keyword name="resume" id="tank::Timer::resume" ref="classtank_1_1_timer.html#af22b2d4d497b582d8b8c6c6b6077d412" />
-      <keyword name="offset" id="tank::Timer::offset" ref="classtank_1_1_timer.html#aa26f71f90e8e8463a6dda10f822809bd" />
+      <keyword name="offset" id="tank::Timer::offset" ref="classtank_1_1_timer.html#a0b26d9d61b4d4bd0d2b8b6ed1d136165" />
       <keyword name="isStarted" id="tank::Timer::isStarted" ref="classtank_1_1_timer.html#aa6673fd22340e137cfe0fa432780432b" />
       <keyword name="isPaused" id="tank::Timer::isPaused" ref="classtank_1_1_timer.html#a114c13e748701dd663b84a46f84c8900" />
       <keyword name="getTime" id="tank::Timer::getTime" ref="classtank_1_1_timer.html#a84dca5cf70ac793150d8735dcc4acd02" />
