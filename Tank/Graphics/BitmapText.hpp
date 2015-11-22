@@ -88,7 +88,7 @@ public:
         return font_.getTextureSize();
     }
 
-    virtual void draw();
+    virtual void draw() override;
 };
 }
 

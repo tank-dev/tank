@@ -105,7 +105,7 @@ public:
     {
         clipRect_ = clip;
     }
-    virtual Rectu getClip() const
+    virtual Rectu getClip() const override
     {
         return clipRect_;
     }
