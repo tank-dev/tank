@@ -40,7 +40,7 @@ public:
     void setText(std::string s) { text_.setString(s); }
     std::string getText() const { return text_.getString(); }
 
-    virtual Vectorf getSize() const
+    virtual Vectorf getSize() const override
     {
         return {text_.getLocalBounds().width, text_.getLocalBounds().height};
     }

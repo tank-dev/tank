@@ -137,14 +137,14 @@ public:
     void setImage(Image const& image, Vectoru frameDimensions,
                   Vectoru spacing = {}, Rectu subClip = {});
 
-    virtual void setPos(Vectorf pos) { image_.setPos(pos); }
-    virtual Vectorf getPos() const { return image_.getPos(); }
+    virtual void setPos(Vectorf pos) override { image_.setPos(pos); }
+    virtual Vectorf getPos() const override { return image_.getPos(); }
     virtual bool isRelativeToParent() const override
     {
         return image_.isRelativeToParent();
     }
-    virtual void setRotation(float angle) { image_.setRotation(angle); }
-    virtual float getRotation() const { return image_.getRotation(); }
+    virtual void setRotation(float angle) override { image_.setRotation(angle); }
+    virtual float getRotation() const override { return image_.getRotation(); }
     void setClip(Rectu clip) { image_.setClip(clip); }
     Rectu getClip() const { return image_.getClip(); }
     void setOrigin(Vectorf origin) override { image_.setOrigin(origin); }

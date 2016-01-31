@@ -97,7 +97,7 @@ public:
      */
     // TODO: work out what anstow's doing here
     virtual void setClip(Rectu clip) override { clipRect_ = clip; }
-    virtual Rectu getClip() const { return clipRect_; }
+    virtual Rectu getClip() const override { return clipRect_; }
 
     /*!
      * \brief This gets the tile position from the local coordinates.
